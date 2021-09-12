@@ -40,6 +40,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnMinimizedSize = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnTarifas = new System.Windows.Forms.Button();
+            this.btnConsumos = new System.Windows.Forms.Button();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
@@ -137,6 +139,8 @@
             // gradientPanel1
             // 
             this.gradientPanel1.angle = 90F;
+            this.gradientPanel1.Controls.Add(this.btnConsumos);
+            this.gradientPanel1.Controls.Add(this.btnTarifas);
             this.gradientPanel1.Controls.Add(this.lblPosition);
             this.gradientPanel1.Controls.Add(this.btnReportes);
             this.gradientPanel1.Controls.Add(this.lblUsername);
@@ -169,7 +173,7 @@
             this.btnMinimized.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMinimized.Image = global::Ambar.Properties.Resources.Minimized_Button_Logo;
-            this.btnMinimized.Location = new System.Drawing.Point(1178, 12);
+            this.btnMinimized.Location = new System.Drawing.Point(1212, 12);
             this.btnMinimized.Name = "btnMinimized";
             this.btnMinimized.Size = new System.Drawing.Size(25, 25);
             this.btnMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -182,12 +186,13 @@
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox1.Image = global::Ambar.Properties.Resources.Maximized_Button_Logo;
-            this.pictureBox1.Location = new System.Drawing.Point(1209, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(1031, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(25, 25);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // btnMinimizedSize
@@ -195,7 +200,7 @@
             this.btnMinimizedSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMinimizedSize.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMinimizedSize.Image = global::Ambar.Properties.Resources.Minimized_Size_Button_Logo;
-            this.btnMinimizedSize.Location = new System.Drawing.Point(1209, 12);
+            this.btnMinimizedSize.Location = new System.Drawing.Point(1062, 12);
             this.btnMinimizedSize.Name = "btnMinimizedSize";
             this.btnMinimizedSize.Size = new System.Drawing.Size(25, 25);
             this.btnMinimizedSize.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -210,6 +215,38 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(962, 665);
             this.panel1.TabIndex = 8;
+            // 
+            // btnTarifas
+            // 
+            this.btnTarifas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnTarifas.FlatAppearance.BorderSize = 0;
+            this.btnTarifas.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnTarifas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnTarifas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTarifas.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTarifas.ForeColor = System.Drawing.Color.White;
+            this.btnTarifas.Location = new System.Drawing.Point(0, 335);
+            this.btnTarifas.Name = "btnTarifas";
+            this.btnTarifas.Size = new System.Drawing.Size(300, 50);
+            this.btnTarifas.TabIndex = 3;
+            this.btnTarifas.Text = "Tarifas";
+            this.btnTarifas.UseVisualStyleBackColor = false;
+            // 
+            // btnConsumos
+            // 
+            this.btnConsumos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnConsumos.FlatAppearance.BorderSize = 0;
+            this.btnConsumos.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnConsumos.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnConsumos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConsumos.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConsumos.ForeColor = System.Drawing.Color.White;
+            this.btnConsumos.Location = new System.Drawing.Point(0, 391);
+            this.btnConsumos.Name = "btnConsumos";
+            this.btnConsumos.Size = new System.Drawing.Size(300, 50);
+            this.btnConsumos.TabIndex = 4;
+            this.btnConsumos.Text = "Consumos";
+            this.btnConsumos.UseVisualStyleBackColor = false;
             // 
             // AmbarMenu
             // 
@@ -250,5 +287,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox btnMinimizedSize;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnConsumos;
+        private System.Windows.Forms.Button btnTarifas;
     }
 }
