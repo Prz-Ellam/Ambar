@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Ambar.ViewController
 {
-    public partial class Client : Form
+    public partial class Clients : Form
     {
-        public Client()
+        public Clients()
         {
             InitializeComponent();
         }

@@ -41,9 +41,33 @@ namespace Ambar.ViewController
             btnMinimizedSize.Visible = false;
         }
 
+        private void openFormChild(object son)
+        {
+            if (panelStorage.Controls.Count != 0)
+            {
+                panelStorage.Controls.RemoveAt(0);
+            }
+            Form fh = son as Form;
+            fh.TopLevel = false;
+            fh.Dock = DockStyle.Fill;
+            panelStorage.Controls.Add(fh);
+            panelStorage.Tag = fh;
+            fh.Show();
+        }
+
         private void btnEmpleados_Click(object sender, EventArgs e)
         {
-            
+            openFormChild(new Empleados());
+        }
+
+        private void btnClientes_Click(object sender, EventArgs e)
+        {
+            openFormChild(new Clients());
+        }
+
+        private void btnTarifas_Click(object sender, EventArgs e)
+        {
+            openFormChild(new Tarifas());
         }
     }
 }

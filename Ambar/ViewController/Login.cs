@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ambar.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -30,6 +31,7 @@ namespace Ambar.ViewController
             InitializeComponent();
             SendMessage(txtUsername.Handle, EM_SETCUEBANNER, 0, "USUARIO");
             SendMessage(txtPassword.Handle, EM_SETCUEBANNER, 0, "CONTRASEÑA");
+
         }
 
         private void btnClose_Click(object sender, EventArgs e)
