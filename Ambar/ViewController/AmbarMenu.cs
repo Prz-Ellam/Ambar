@@ -27,11 +27,6 @@ namespace Ambar.ViewController
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void btnEmpleados_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
@@ -44,6 +39,11 @@ namespace Ambar.ViewController
             this.WindowState = FormWindowState.Normal;
             pictureBox1.Visible = true;
             btnMinimizedSize.Visible = false;
+        }
+
+        private void btnEmpleados_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

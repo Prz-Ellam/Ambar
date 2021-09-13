@@ -28,8 +28,8 @@ namespace Ambar.ViewController
         public Login()
         {
             InitializeComponent();
-            SendMessage(txtUsername.Handle, EM_SETCUEBANNER, 0, "USERNAME");
-            SendMessage(txtPassword.Handle, EM_SETCUEBANNER, 0, "PASSWORD");
+            SendMessage(txtUsername.Handle, EM_SETCUEBANNER, 0, "USUARIO");
+            SendMessage(txtPassword.Handle, EM_SETCUEBANNER, 0, "CONTRASEÑA");
         }
 
         private void btnClose_Click(object sender, EventArgs e)

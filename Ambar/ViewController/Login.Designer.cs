@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.lblLogin = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -35,11 +36,17 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.chkRemember = new System.Windows.Forms.CheckBox();
+            this.gradientPanel = new Ambar.Utils.GradientPanel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.btnMinimized = new System.Windows.Forms.PictureBox();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pbUsername = new System.Windows.Forms.PictureBox();
-            this.gradientPanel = new Ambar.Utils.GradientPanel();
+            this.lblError = new System.Windows.Forms.Label();
+            this.gradientPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -76,9 +83,9 @@
             this.txtPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.txtPassword.Location = new System.Drawing.Point(340, 190);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(430, 25);
             this.txtPassword.TabIndex = 3;
+            this.txtPassword.UseSystemPasswordChar = true;
             // 
             // btnAceptar
             // 
@@ -92,7 +99,7 @@
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(490, 48);
             this.btnAceptar.TabIndex = 4;
-            this.btnAceptar.Text = "LOGIN";
+            this.btnAceptar.Text = "ACCEDER";
             this.btnAceptar.UseVisualStyleBackColor = false;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
@@ -119,12 +126,46 @@
             this.chkRemember.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkRemember.Font = new System.Drawing.Font("Montserrat", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkRemember.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.chkRemember.Location = new System.Drawing.Point(340, 244);
+            this.chkRemember.Location = new System.Drawing.Point(339, 239);
             this.chkRemember.Name = "chkRemember";
-            this.chkRemember.Size = new System.Drawing.Size(173, 27);
+            this.chkRemember.Size = new System.Drawing.Size(152, 27);
             this.chkRemember.TabIndex = 7;
-            this.chkRemember.Text = "Remember me";
+            this.chkRemember.Text = "Recuérdame";
             this.chkRemember.UseVisualStyleBackColor = true;
+            // 
+            // gradientPanel
+            // 
+            this.gradientPanel.angle = 90F;
+            this.gradientPanel.Controls.Add(this.pictureBox2);
+            this.gradientPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.gradientPanel.first = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.gradientPanel.Location = new System.Drawing.Point(0, 0);
+            this.gradientPanel.Name = "gradientPanel";
+            this.gradientPanel.second = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            this.gradientPanel.Size = new System.Drawing.Size(250, 400);
+            this.gradientPanel.TabIndex = 0;
+            this.gradientPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gradientPanel_MouseDown);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.pictureBox2.Image = global::Ambar.Properties.Resources.Ambar_Logo;
+            this.pictureBox2.Location = new System.Drawing.Point(38, 111);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(174, 162);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 14;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pbWarningIcon
+            // 
+            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
+            this.pbWarningIcon.Location = new System.Drawing.Point(298, 277);
+            this.pbWarningIcon.Name = "pbWarningIcon";
+            this.pbWarningIcon.Size = new System.Drawing.Size(30, 30);
+            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbWarningIcon.TabIndex = 12;
+            this.pbWarningIcon.TabStop = false;
             // 
             // btnMinimized
             // 
@@ -170,17 +211,16 @@
             this.pbUsername.TabIndex = 8;
             this.pbUsername.TabStop = false;
             // 
-            // gradientPanel
+            // lblError
             // 
-            this.gradientPanel.angle = 90F;
-            this.gradientPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gradientPanel.first = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            this.gradientPanel.Location = new System.Drawing.Point(0, 0);
-            this.gradientPanel.Name = "gradientPanel";
-            this.gradientPanel.second = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            this.gradientPanel.Size = new System.Drawing.Size(250, 400);
-            this.gradientPanel.TabIndex = 0;
-            this.gradientPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gradientPanel_MouseDown);
+            this.lblError.AutoSize = true;
+            this.lblError.Font = new System.Drawing.Font("Montserrat", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblError.Location = new System.Drawing.Point(337, 284);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(97, 18);
+            this.lblError.TabIndex = 13;
+            this.lblError.Text = "ERROR TEXT";
             // 
             // Login
             // 
@@ -188,6 +228,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(800, 400);
+            this.Controls.Add(this.lblError);
+            this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.btnMinimized);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.pictureBox1);
@@ -201,10 +243,14 @@
             this.Controls.Add(this.lblLogin);
             this.Controls.Add(this.gradientPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Login_MouseDown);
+            this.gradientPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -228,5 +274,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox btnClose;
         private System.Windows.Forms.PictureBox btnMinimized;
+        private System.Windows.Forms.PictureBox pbWarningIcon;
+        private System.Windows.Forms.Label lblError;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

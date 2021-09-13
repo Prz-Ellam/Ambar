@@ -63,6 +63,16 @@ namespace Ambar.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Ambar_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Ambar_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Close_Button_Logo {
             get {
                 object obj = ResourceManager.GetObject("Close_Button_Logo", resourceCulture);
@@ -116,6 +126,26 @@ namespace Ambar.Properties {
         internal static System.Drawing.Bitmap Username_Logo {
             get {
                 object obj = ResourceManager.GetObject("Username_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Warning_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Warning_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Warning_Icon1 {
+            get {
+                object obj = ResourceManager.GetObject("Warning_Icon1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

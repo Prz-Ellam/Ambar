@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AmbarMenu));
             this.btnEmpleados = new System.Windows.Forms.Button();
             this.btnClientes = new System.Windows.Forms.Button();
             this.btnContratos = new System.Windows.Forms.Button();
@@ -35,13 +36,13 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblPosition = new System.Windows.Forms.Label();
             this.gradientPanel1 = new Ambar.Utils.GradientPanel();
+            this.btnConsumos = new System.Windows.Forms.Button();
+            this.btnTarifas = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.btnMinimized = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnMinimizedSize = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnTarifas = new System.Windows.Forms.Button();
-            this.btnConsumos = new System.Windows.Forms.Button();
+            this.actualForm = new System.Windows.Forms.Panel();
             this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
@@ -155,6 +156,38 @@
             this.gradientPanel1.Size = new System.Drawing.Size(300, 720);
             this.gradientPanel1.TabIndex = 3;
             // 
+            // btnConsumos
+            // 
+            this.btnConsumos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnConsumos.FlatAppearance.BorderSize = 0;
+            this.btnConsumos.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnConsumos.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnConsumos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConsumos.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConsumos.ForeColor = System.Drawing.Color.White;
+            this.btnConsumos.Location = new System.Drawing.Point(0, 391);
+            this.btnConsumos.Name = "btnConsumos";
+            this.btnConsumos.Size = new System.Drawing.Size(300, 50);
+            this.btnConsumos.TabIndex = 4;
+            this.btnConsumos.Text = "Consumos";
+            this.btnConsumos.UseVisualStyleBackColor = false;
+            // 
+            // btnTarifas
+            // 
+            this.btnTarifas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnTarifas.FlatAppearance.BorderSize = 0;
+            this.btnTarifas.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnTarifas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnTarifas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTarifas.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTarifas.ForeColor = System.Drawing.Color.White;
+            this.btnTarifas.Location = new System.Drawing.Point(0, 335);
+            this.btnTarifas.Name = "btnTarifas";
+            this.btnTarifas.Size = new System.Drawing.Size(300, 50);
+            this.btnTarifas.TabIndex = 3;
+            this.btnTarifas.Text = "Tarifas";
+            this.btnTarifas.UseVisualStyleBackColor = false;
+            // 
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -209,44 +242,12 @@
             this.btnMinimizedSize.Visible = false;
             this.btnMinimizedSize.Click += new System.EventHandler(this.btnMinimizedSize_Click);
             // 
-            // panel1
+            // actualForm
             // 
-            this.panel1.Location = new System.Drawing.Point(306, 43);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(962, 665);
-            this.panel1.TabIndex = 8;
-            // 
-            // btnTarifas
-            // 
-            this.btnTarifas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnTarifas.FlatAppearance.BorderSize = 0;
-            this.btnTarifas.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnTarifas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnTarifas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTarifas.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTarifas.ForeColor = System.Drawing.Color.White;
-            this.btnTarifas.Location = new System.Drawing.Point(0, 335);
-            this.btnTarifas.Name = "btnTarifas";
-            this.btnTarifas.Size = new System.Drawing.Size(300, 50);
-            this.btnTarifas.TabIndex = 3;
-            this.btnTarifas.Text = "Tarifas";
-            this.btnTarifas.UseVisualStyleBackColor = false;
-            // 
-            // btnConsumos
-            // 
-            this.btnConsumos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnConsumos.FlatAppearance.BorderSize = 0;
-            this.btnConsumos.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnConsumos.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnConsumos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConsumos.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConsumos.ForeColor = System.Drawing.Color.White;
-            this.btnConsumos.Location = new System.Drawing.Point(0, 391);
-            this.btnConsumos.Name = "btnConsumos";
-            this.btnConsumos.Size = new System.Drawing.Size(300, 50);
-            this.btnConsumos.TabIndex = 4;
-            this.btnConsumos.Text = "Consumos";
-            this.btnConsumos.UseVisualStyleBackColor = false;
+            this.actualForm.Location = new System.Drawing.Point(306, 43);
+            this.actualForm.Name = "actualForm";
+            this.actualForm.Size = new System.Drawing.Size(962, 665);
+            this.actualForm.TabIndex = 8;
             // 
             // AmbarMenu
             // 
@@ -254,13 +255,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1280, 720);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.actualForm);
             this.Controls.Add(this.btnMinimizedSize);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnMinimized);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.gradientPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AmbarMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
@@ -286,7 +288,7 @@
         private System.Windows.Forms.PictureBox btnMinimized;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox btnMinimizedSize;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel actualForm;
         private System.Windows.Forms.Button btnConsumos;
         private System.Windows.Forms.Button btnTarifas;
     }
