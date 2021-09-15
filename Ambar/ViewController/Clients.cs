@@ -41,5 +41,10 @@ namespace Ambar.ViewController
         {
 
         }
+
+        private void lblClientes_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

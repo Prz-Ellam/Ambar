@@ -69,5 +69,17 @@ namespace Ambar.ViewController
         {
             openFormChild(new Tarifas());
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form login = new Login();
+            login.Show();
+            this.Hide();
+        }
+
+        private void btnContratos_Click(object sender, EventArgs e)
+        {
+            openFormChild(new Contratos());
+        }
     }
 }

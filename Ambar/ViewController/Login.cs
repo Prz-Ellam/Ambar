@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Ambar.Domain;
 
 namespace Ambar.ViewController
 {
@@ -56,17 +57,40 @@ namespace Ambar.ViewController
             SendMessage(this.Handle, WM_SYSCOMMAND, 0xf012, 0);
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private void btnAccept_Click(object sender, EventArgs e)
         {
             // Logica para verificar usuario
-            AmbarMenu menu = new AmbarMenu();
-            menu.Show();
-            this.Hide();
+            if (txtUsername.Text == "" || txtPassword.Text == "")
+            {
+                pbWarningIcon.Visible = true;
+                lblError.Text = "TODOS LOS CAMPOS SON OBLIGATORIOS";
+                lblError.Visible = true;
+                return;
+            }
+            else
+            {
+                UserModel user = new UserModel();
+                bool userExist = user.Login(txtUsername.Text, txtPassword.Text);
+
+                if (userExist)
+                {
+                    AmbarMenu menu = new AmbarMenu();
+                    menu.Show();
+                    this.Hide();
+                }
+                else {
+                    pbWarningIcon.Visible = true;
+                    lblError.Text = "SUS CREDENCIALES NO COINCIDEN";
+                    lblError.Visible = true;
+                    txtUsername.Clear();
+                    txtPassword.Clear();
+                    txtUsername.Focus();
+                    return;
+                }
+                
+            }
+
         }
 
-        private void gradientPanel1_MouseDown(object sender, MouseEventArgs e)
-        {
-
-        }
     }
 }

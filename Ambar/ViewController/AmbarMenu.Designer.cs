@@ -35,6 +35,7 @@
             this.btnMinimizedSize = new System.Windows.Forms.PictureBox();
             this.panelStorage = new System.Windows.Forms.Panel();
             this.gradientPanel1 = new Ambar.Utils.GradientPanel();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnConsumos = new System.Windows.Forms.Button();
             this.btnTarifas = new System.Windows.Forms.Button();
             this.lblPosition = new System.Windows.Forms.Label();
@@ -114,6 +115,7 @@
             // gradientPanel1
             // 
             this.gradientPanel1.angle = 90F;
+            this.gradientPanel1.Controls.Add(this.button1);
             this.gradientPanel1.Controls.Add(this.btnConsumos);
             this.gradientPanel1.Controls.Add(this.btnTarifas);
             this.gradientPanel1.Controls.Add(this.lblPosition);
@@ -129,6 +131,23 @@
             this.gradientPanel1.second = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.gradientPanel1.Size = new System.Drawing.Size(300, 720);
             this.gradientPanel1.TabIndex = 3;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button1.Location = new System.Drawing.Point(0, 600);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(300, 60);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "CERRAR SESIÓN";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnConsumos
             // 
@@ -233,6 +252,7 @@
             this.btnContratos.TabIndex = 1;
             this.btnContratos.Text = "Contratos";
             this.btnContratos.UseVisualStyleBackColor = false;
+            this.btnContratos.Click += new System.EventHandler(this.btnContratos_Click);
             // 
             // btnClientes
             // 
@@ -293,5 +313,6 @@
         private System.Windows.Forms.Panel panelStorage;
         private System.Windows.Forms.Button btnConsumos;
         private System.Windows.Forms.Button btnTarifas;
+        private System.Windows.Forms.Button button1;
     }
 }

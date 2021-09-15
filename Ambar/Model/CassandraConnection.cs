@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Ambar.Model
 {
-    class CassandraConnection
+    public abstract class CassandraConnection
     {
-        private static string dbServer { get; set;} 
-        private static string dbKeyspace { get; set; }
-        private static Cluster cluster { get; set; }
-        private static ISession session { get; set; }
-        private static void Connect()
+        protected static string dbServer { get; set;} 
+        protected static string dbKeyspace { get; set; }
+        protected static Cluster cluster { get; set; }
+        protected static ISession session { get; set; }
+        protected static void Connect()
         {
             if (dbServer == null)
             {
@@ -29,7 +29,7 @@ namespace Ambar.Model
             session = cluster.Connect();
         }
 
-        private static void Disconnect()
+        protected static void Disconnect()
         {
             cluster.Dispose();
         }
