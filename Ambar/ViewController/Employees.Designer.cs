@@ -1,6 +1,6 @@
 ﻿namespace Ambar.ViewController
 {
-    partial class Empleados
+    partial class Employees
     {
         /// <summary>
         /// Required designer variable.
@@ -48,6 +48,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblEmpleados = new System.Windows.Forms.Label();
+            this.dgvEmpleados = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEmpleados)).BeginInit();
             this.SuspendLayout();
             // 
             // txtNames
@@ -216,7 +218,7 @@
             this.btnAccept.BackColor = System.Drawing.Color.White;
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAccept.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAccept.Location = new System.Drawing.Point(201, 413);
+            this.btnAccept.Location = new System.Drawing.Point(710, 101);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(152, 52);
             this.btnAccept.TabIndex = 16;
@@ -255,12 +257,23 @@
             this.lblEmpleados.TabIndex = 19;
             this.lblEmpleados.Text = "EMPLEADOS";
             // 
-            // Empleados
+            // dgvEmpleados
+            // 
+            this.dgvEmpleados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEmpleados.Location = new System.Drawing.Point(64, 406);
+            this.dgvEmpleados.Name = "dgvEmpleados";
+            this.dgvEmpleados.RowHeadersWidth = 51;
+            this.dgvEmpleados.RowTemplate.Height = 24;
+            this.dgvEmpleados.Size = new System.Drawing.Size(860, 185);
+            this.dgvEmpleados.TabIndex = 20;
+            // 
+            // Employees
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(883, 543);
+            this.ClientSize = new System.Drawing.Size(1059, 618);
+            this.Controls.Add(this.dgvEmpleados);
             this.Controls.Add(this.lblEmpleados);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.textBox1);
@@ -282,10 +295,11 @@
             this.Controls.Add(this.txtFatherLastName);
             this.Controls.Add(this.txtNames);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Empleados";
+            this.Name = "Employees";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Empleados";
             this.Load += new System.EventHandler(this.Empleados_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEmpleados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -313,5 +327,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label lblEmpleados;
+        private System.Windows.Forms.DataGridView dgvEmpleados;
     }
 }

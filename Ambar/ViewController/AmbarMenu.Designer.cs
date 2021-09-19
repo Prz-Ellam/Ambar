@@ -31,11 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AmbarMenu));
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.btnMinimized = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnMinimizedSize = new System.Windows.Forms.PictureBox();
             this.panelStorage = new System.Windows.Forms.Panel();
             this.gradientPanel1 = new Ambar.Utils.GradientPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnLogout = new System.Windows.Forms.Button();
             this.btnConsumos = new System.Windows.Forms.Button();
             this.btnTarifas = new System.Windows.Forms.Button();
             this.lblPosition = new System.Windows.Forms.Label();
@@ -46,8 +44,6 @@
             this.btnClientes = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnMinimizedSize)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,34 +73,6 @@
             this.btnMinimized.TabStop = false;
             this.btnMinimized.Click += new System.EventHandler(this.btnMinimized_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox1.Image = global::Ambar.Properties.Resources.Maximized_Button_Logo;
-            this.pictureBox1.Location = new System.Drawing.Point(1031, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // btnMinimizedSize
-            // 
-            this.btnMinimizedSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMinimizedSize.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMinimizedSize.Image = global::Ambar.Properties.Resources.Minimized_Size_Button_Logo;
-            this.btnMinimizedSize.Location = new System.Drawing.Point(1062, 12);
-            this.btnMinimizedSize.Name = "btnMinimizedSize";
-            this.btnMinimizedSize.Size = new System.Drawing.Size(25, 25);
-            this.btnMinimizedSize.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnMinimizedSize.TabIndex = 7;
-            this.btnMinimizedSize.TabStop = false;
-            this.btnMinimizedSize.Visible = false;
-            this.btnMinimizedSize.Click += new System.EventHandler(this.btnMinimizedSize_Click);
-            // 
             // panelStorage
             // 
             this.panelStorage.Location = new System.Drawing.Point(306, 43);
@@ -115,7 +83,7 @@
             // gradientPanel1
             // 
             this.gradientPanel1.angle = 90F;
-            this.gradientPanel1.Controls.Add(this.button1);
+            this.gradientPanel1.Controls.Add(this.btnLogout);
             this.gradientPanel1.Controls.Add(this.btnConsumos);
             this.gradientPanel1.Controls.Add(this.btnTarifas);
             this.gradientPanel1.Controls.Add(this.lblPosition);
@@ -132,22 +100,22 @@
             this.gradientPanel1.Size = new System.Drawing.Size(300, 720);
             this.gradientPanel1.TabIndex = 3;
             // 
-            // button1
+            // btnLogout
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button1.Location = new System.Drawing.Point(0, 600);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(300, 60);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "CERRAR SESIÓN";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnLogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnLogout.FlatAppearance.BorderSize = 0;
+            this.btnLogout.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnLogout.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogout.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogout.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnLogout.Location = new System.Drawing.Point(0, 600);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Size = new System.Drawing.Size(300, 60);
+            this.btnLogout.TabIndex = 0;
+            this.btnLogout.Text = "CERRAR SESIÓN";
+            this.btnLogout.UseVisualStyleBackColor = false;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // btnConsumos
             // 
@@ -278,8 +246,6 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1280, 720);
             this.Controls.Add(this.panelStorage);
-            this.Controls.Add(this.btnMinimizedSize);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnMinimized);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.gradientPanel1);
@@ -290,8 +256,6 @@
             this.Text = "Menu";
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnMinimizedSize)).EndInit();
             this.gradientPanel1.ResumeLayout(false);
             this.gradientPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -308,11 +272,9 @@
         private Utils.GradientPanel gradientPanel1;
         private System.Windows.Forms.PictureBox btnClose;
         private System.Windows.Forms.PictureBox btnMinimized;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox btnMinimizedSize;
         private System.Windows.Forms.Panel panelStorage;
         private System.Windows.Forms.Button btnConsumos;
         private System.Windows.Forms.Button btnTarifas;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnLogout;
     }
 }

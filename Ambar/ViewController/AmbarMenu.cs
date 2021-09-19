@@ -17,30 +17,6 @@ namespace Ambar.ViewController
             InitializeComponent();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void btnMinimized_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Maximized;
-            pictureBox1.Visible = false;
-            btnMinimizedSize.Visible = true;
-        }
-
-        private void btnMinimizedSize_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Normal;
-            pictureBox1.Visible = true;
-            btnMinimizedSize.Visible = false;
-        }
-
         private void openFormChild(object son)
         {
             if (panelStorage.Controls.Count != 0)
@@ -57,7 +33,7 @@ namespace Ambar.ViewController
 
         private void btnEmpleados_Click(object sender, EventArgs e)
         {
-            openFormChild(new Empleados());
+            openFormChild(new Employees());
         }
 
         private void btnClientes_Click(object sender, EventArgs e)
@@ -70,16 +46,27 @@ namespace Ambar.ViewController
             openFormChild(new Tarifas());
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnContratos_Click(object sender, EventArgs e)
+        {
+            openFormChild(new Contratos());
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
         {
             Form login = new Login();
             login.Show();
             this.Hide();
         }
 
-        private void btnContratos_Click(object sender, EventArgs e)
+        private void btnMinimized_Click(object sender, EventArgs e)
         {
-            openFormChild(new Contratos());
+            this.WindowState = FormWindowState.Minimized;
         }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
     }
 }
