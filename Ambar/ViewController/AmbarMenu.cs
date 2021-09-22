@@ -43,7 +43,7 @@ namespace Ambar.ViewController
 
         private void btnTarifas_Click(object sender, EventArgs e)
         {
-            openFormChild(new Tarifas());
+            openFormChild(new Rates());
         }
 
         private void btnContratos_Click(object sender, EventArgs e)
@@ -68,5 +68,16 @@ namespace Ambar.ViewController
             Application.Exit();
         }
 
+        private void btnReportes_Click(object sender, EventArgs e)
+        {
+            SubmenuReportes.Visible = !SubmenuReportes.Visible;
+            int alpha = (SubmenuReportes.Visible) ? 255 : 0;
+            btnReportes.BackColor = Color.FromArgb(alpha, 40, 40, 40);
+        }
+
+        private void btnConsumos_Click(object sender, EventArgs e)
+        {
+            openFormChild(new Consumos());
+        }
     }
 }

@@ -73,9 +73,39 @@ namespace Ambar.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Client_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Client_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Close_Button_Logo {
             get {
                 object obj = ResourceManager.GetObject("Close_Button_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Contract_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Contract_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Employee_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Employee_Logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -116,6 +146,26 @@ namespace Ambar.Properties {
         internal static System.Drawing.Bitmap Password_Logo {
             get {
                 object obj = ResourceManager.GetObject("Password_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Reports_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Reports_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Reports_Logo1 {
+            get {
+                object obj = ResourceManager.GetObject("Reports_Logo1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

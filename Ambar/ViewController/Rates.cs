@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace Ambar.ViewController
 {
-    public partial class Tarifas : Form
+    public partial class Rates : Form
     {
-        public Tarifas()
+        public Rates()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

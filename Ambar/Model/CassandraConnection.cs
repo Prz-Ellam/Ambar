@@ -26,7 +26,7 @@ namespace Ambar.Model
             }
 
             cluster = Cluster.Builder().AddContactPoint(dbServer).Build();
-            session = cluster.Connect();
+            session = cluster.Connect(dbKeyspace);
         }
 
         protected static void Disconnect()

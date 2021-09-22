@@ -9,7 +9,7 @@ namespace Ambar.Domain
 {
     public class UserModel
     {
-        private UserDAO userDAO = new UserDAO();
+        private UserDAO userDAO = UserDAO.GetInstance();
 
         public bool Login(string username, string password)
         {

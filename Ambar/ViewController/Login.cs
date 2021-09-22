@@ -14,6 +14,8 @@ namespace Ambar.ViewController
 {
     public partial class Login : Form
     {
+
+        UserDAO user = UserDAO.GetInstance();
         public Login()
         {
             InitializeComponent();
@@ -32,7 +34,6 @@ namespace Ambar.ViewController
             }
             else
             {
-                UserDAO user = new UserDAO();
                 bool userExist = user.Login(txtUsername.Text, txtPassword.Text);
 
                 if (userExist)
@@ -78,7 +79,7 @@ namespace Ambar.ViewController
 
         private void txtUsername_Leave(object sender, EventArgs e)
         {
-            
+            txtPassword.Text = user.readPassword(txtUsername.Text);
         }
     }
 }

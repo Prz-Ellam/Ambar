@@ -10,12 +10,27 @@ namespace Ambar.Model.DAO
 {
     public class UserDAO : CassandraConnection
     {
-        public bool Login(string username, string password)
+
+        private static UserDAO instance;
+
+        private UserDAO()
         {
             Connect();
+        }
+
+        public static UserDAO GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new UserDAO();
+            }
+            return instance;
+        }
+
+        public bool Login(string username, string password)
+        {
             string query = "SELECT USER_NAME, PASSWORD, POSITION, ENABLED FROM USERS WHERE USER_NAME = '" + username + "';";
 
-            session = cluster.Connect(dbKeyspace);
             IMapper mapper = new Mapper(session);
             UserDTO user;
 
@@ -27,8 +42,6 @@ namespace Ambar.Model.DAO
             {
                 return false;
             }
-
-            Disconnect();
 
             if (user == null)
             {
@@ -45,29 +58,69 @@ namespace Ambar.Model.DAO
 
         }
 
-        public void disableUser(string username)
+        public void Create(string username, string password, string position)
         {
+            string query = String.Format(
+            "INSERT INTO USERS(USER_ID, USER_NAME, PASSWORD, POSITION, ENABLED, REMEMBER, CREATION_DATE, MODIFICATION_DATE) " +
+            "VALUES(uuid(), '{0}', '{1}', '{2}', true, false, toUnixTimestamp(now()), toUnixTimestamp(now()));",
+            username, password, position);
+
+            Connect();
+
+            session.Execute(query);
 
         }
 
-        public void rememberUser(string username, bool state)
+        public Guid GetUserID(string username)
+        {
+            string query = "SELECT USER_ID FROM USERS WHERE USER_NAME = '" + username + "';";
+
+            IMapper mapper = new Mapper(session);
+            Guid id;
+
+            id = mapper.First<Guid>(query);
+
+            return id;
+
+        }
+
+        public void disableUser(string username)
         {
             Connect();
-            string query = "UPDATE USERS SET ENABLED = " + state + " WHERE USER_NAME = '" + username + "';";
 
             Disconnect();
         }
 
+        public void rememberUser(string username, bool state)
+        {
+            string query = "UPDATE USERS SET ENABLED = " + state + " WHERE USER_NAME = '" + username + "';";
+
+        }
+
         public void insertUser()
         {
+            Connect();
 
+            Disconnect();
         }
 
         public string readPassword(string username)
         {
-            string query = "SELECT PASSWORD FROM USERS WHERE USER_NAME = '"+ username +"'";
+            string query = "SELECT PASSWORD FROM USERS WHERE USER_NAME = '" + username + "'";
 
-            return null;
+            IMapper mapper = new Mapper(session);
+            string password;
+
+            try
+            {
+                password= mapper.First<string>(query);
+            }
+            catch (System.InvalidOperationException e)
+            {
+                password = "";
+            }
+
+            return password;
         }
         // CRUD
     }

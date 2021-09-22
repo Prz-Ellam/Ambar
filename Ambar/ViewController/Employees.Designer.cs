@@ -46,7 +46,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.btnAccept = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtConfirmPassword = new System.Windows.Forms.TextBox();
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.dgvEmpleados = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpleados)).BeginInit();
@@ -224,6 +224,7 @@
             this.btnAccept.TabIndex = 16;
             this.btnAccept.Text = "ACEPTAR";
             this.btnAccept.UseVisualStyleBackColor = false;
+            this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
             // 
             // label9
             // 
@@ -236,15 +237,15 @@
             this.label9.TabIndex = 18;
             this.label9.Text = "Confirmar Contraseña:";
             // 
-            // textBox1
+            // txtConfirmPassword
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(244, 341);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(360, 21);
-            this.textBox1.TabIndex = 17;
-            this.textBox1.UseSystemPasswordChar = true;
+            this.txtConfirmPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtConfirmPassword.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtConfirmPassword.Location = new System.Drawing.Point(244, 341);
+            this.txtConfirmPassword.Name = "txtConfirmPassword";
+            this.txtConfirmPassword.Size = new System.Drawing.Size(360, 21);
+            this.txtConfirmPassword.TabIndex = 17;
+            this.txtConfirmPassword.UseSystemPasswordChar = true;
             // 
             // lblEmpleados
             // 
@@ -276,7 +277,7 @@
             this.Controls.Add(this.dgvEmpleados);
             this.Controls.Add(this.lblEmpleados);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtConfirmPassword);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -325,7 +326,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtConfirmPassword;
         private System.Windows.Forms.Label lblEmpleados;
         private System.Windows.Forms.DataGridView dgvEmpleados;
     }
