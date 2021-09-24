@@ -11,22 +11,6 @@ namespace Ambar.Model.DAO
     class EmployeeDAO : CassandraConnection
     {
 
-        private static EmployeeDAO instance;
-
-        private EmployeeDAO()
-        {
-            Connect();
-        }
-
-        public static EmployeeDAO GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new EmployeeDAO();
-            }
-            return instance;
-        }
-
         public void Create(EmployeeDTO employee, Guid userID)
         {
             string query = String.Format("INSERT INTO EMPLOYEES(USER_ID, NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, DATE_OF_BIRTH, CURP, RFC) " +
@@ -50,7 +34,7 @@ namespace Ambar.Model.DAO
             IMapper mapper = new Mapper(session);
 
             IEnumerable<EmployeeDTO> employees = mapper.Fetch<EmployeeDTO>(query);
-            Disconnect();
+           //Disconnect();
 
             return employees.ToList();
         }

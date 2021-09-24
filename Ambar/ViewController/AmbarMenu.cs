@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Ambar.Common;
 
 namespace Ambar.ViewController
 {
@@ -15,6 +16,8 @@ namespace Ambar.ViewController
         public AmbarMenu()
         {
             InitializeComponent();
+            lblPositionLogged.Text = UserCache.position;
+            lblUsernameLogged.Text = UserCache.username;
         }
 
         private void openFormChild(object son)
@@ -78,6 +81,11 @@ namespace Ambar.ViewController
         private void btnConsumos_Click(object sender, EventArgs e)
         {
             openFormChild(new Consumos());
+        }
+
+        private void lblUsernameLogged_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

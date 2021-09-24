@@ -9,8 +9,8 @@ namespace Ambar.Common
     class UserCache
     {
         public static Guid id;
-        public static string username;
-        public static string position;
+        public static string username { get; set; }
+        public static string position { get; set; }
         public static string enabled;
     }
 }

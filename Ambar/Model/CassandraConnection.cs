@@ -8,23 +8,30 @@ using System.Threading.Tasks;
 
 namespace Ambar.Model
 {
-    public abstract class CassandraConnection
+    public class CassandraConnection
     {
         protected static string dbServer { get; set;} 
         protected static string dbKeyspace { get; set; }
         protected static Cluster cluster { get; set; }
         protected static ISession session { get; set; }
+
+        public CassandraConnection()
+        {
+            if (dbServer == null || dbKeyspace == null)
+            {
+                Connect();
+            }
+        }
+
+        //~CassandraConnection()
+        //{
+        //    Disconnect();
+        //}
+
         protected static void Connect()
         {
-            if (dbServer == null)
-            {
-                dbServer = ConfigurationManager.AppSettings["cassandra_home"].ToString();
-            }
-            if (dbKeyspace == null)
-            {
-                dbKeyspace = ConfigurationManager.AppSettings["keyspace"].ToString();
-            }
-
+            dbServer = ConfigurationManager.AppSettings["cassandra_home"].ToString();
+            dbKeyspace = ConfigurationManager.AppSettings["keyspace"].ToString();
             cluster = Cluster.Builder().AddContactPoint(dbServer).Build();
             session = cluster.Connect(dbKeyspace);
         }

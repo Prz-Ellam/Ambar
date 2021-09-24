@@ -30,7 +30,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AmbarMenu));
             this.panelStorage = new System.Windows.Forms.Panel();
+            this.btnMinimized = new System.Windows.Forms.PictureBox();
+            this.btnClose = new System.Windows.Forms.PictureBox();
             this.gradientPanel1 = new Ambar.Utils.GradientPanel();
+            this.lblUsernameLogged = new System.Windows.Forms.Label();
+            this.lblPositionLogged = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.SubmenuReportes = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelEmployee = new System.Windows.Forms.Panel();
             this.panelClient = new System.Windows.Forms.Panel();
             this.panelContract = new System.Windows.Forms.Panel();
@@ -41,23 +53,14 @@
             this.btnConsumos = new System.Windows.Forms.Button();
             this.btnTarifas = new System.Windows.Forms.Button();
             this.lblPosition = new System.Windows.Forms.Label();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.btnMinimized = new System.Windows.Forms.PictureBox();
-            this.btnClose = new System.Windows.Forms.PictureBox();
             this.btnReportes = new System.Windows.Forms.Button();
+            this.lblUsername = new System.Windows.Forms.Label();
             this.btnEmpleados = new System.Windows.Forms.Button();
             this.btnContratos = new System.Windows.Forms.Button();
             this.btnClientes = new System.Windows.Forms.Button();
-            this.SubmenuReportes = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.button3 = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.gradientPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
+            this.gradientPanel1.SuspendLayout();
             this.SubmenuReportes.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,12 +68,41 @@
             // 
             this.panelStorage.Location = new System.Drawing.Point(306, 43);
             this.panelStorage.Name = "panelStorage";
-            this.panelStorage.Size = new System.Drawing.Size(962, 665);
+            this.panelStorage.Size = new System.Drawing.Size(1035, 717);
             this.panelStorage.TabIndex = 8;
+            // 
+            // btnMinimized
+            // 
+            this.btnMinimized.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMinimized.Image = global::Ambar.Properties.Resources.Minimized_Button_Logo;
+            this.btnMinimized.Location = new System.Drawing.Point(1285, 12);
+            this.btnMinimized.Name = "btnMinimized";
+            this.btnMinimized.Size = new System.Drawing.Size(25, 25);
+            this.btnMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnMinimized.TabIndex = 5;
+            this.btnMinimized.TabStop = false;
+            this.btnMinimized.Click += new System.EventHandler(this.btnMinimized_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.Image = global::Ambar.Properties.Resources.Close_Button_Logo;
+            this.btnClose.Location = new System.Drawing.Point(1316, 12);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(25, 25);
+            this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnClose.TabIndex = 4;
+            this.btnClose.TabStop = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // gradientPanel1
             // 
             this.gradientPanel1.angle = 90F;
+            this.gradientPanel1.Controls.Add(this.lblUsernameLogged);
+            this.gradientPanel1.Controls.Add(this.lblPositionLogged);
+            this.gradientPanel1.Controls.Add(this.label1);
             this.gradientPanel1.Controls.Add(this.SubmenuReportes);
             this.gradientPanel1.Controls.Add(this.panelEmployee);
             this.gradientPanel1.Controls.Add(this.panelClient);
@@ -92,8 +124,128 @@
             this.gradientPanel1.Location = new System.Drawing.Point(0, 0);
             this.gradientPanel1.Name = "gradientPanel1";
             this.gradientPanel1.second = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            this.gradientPanel1.Size = new System.Drawing.Size(300, 720);
+            this.gradientPanel1.Size = new System.Drawing.Size(300, 772);
             this.gradientPanel1.TabIndex = 3;
+            // 
+            // lblUsernameLogged
+            // 
+            this.lblUsernameLogged.AutoSize = true;
+            this.lblUsernameLogged.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblUsernameLogged.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsernameLogged.Location = new System.Drawing.Point(8, 74);
+            this.lblUsernameLogged.Name = "lblUsernameLogged";
+            this.lblUsernameLogged.Size = new System.Drawing.Size(113, 20);
+            this.lblUsernameLogged.TabIndex = 17;
+            this.lblUsernameLogged.Text = "@Username";
+            this.lblUsernameLogged.Click += new System.EventHandler(this.lblUsernameLogged_Click);
+            // 
+            // lblPositionLogged
+            // 
+            this.lblPositionLogged.AutoSize = true;
+            this.lblPositionLogged.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblPositionLogged.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPositionLogged.Location = new System.Drawing.Point(8, 30);
+            this.lblPositionLogged.Name = "lblPositionLogged";
+            this.lblPositionLogged.Size = new System.Drawing.Size(100, 20);
+            this.lblPositionLogged.TabIndex = 16;
+            this.lblPositionLogged.Text = "@Position ";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.label1.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(94, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 20);
+            this.label1.TabIndex = 15;
+            // 
+            // SubmenuReportes
+            // 
+            this.SubmenuReportes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.SubmenuReportes.Controls.Add(this.panel4);
+            this.SubmenuReportes.Controls.Add(this.button3);
+            this.SubmenuReportes.Controls.Add(this.panel3);
+            this.SubmenuReportes.Controls.Add(this.button2);
+            this.SubmenuReportes.Controls.Add(this.panel2);
+            this.SubmenuReportes.Controls.Add(this.button1);
+            this.SubmenuReportes.Location = new System.Drawing.Point(12, 466);
+            this.SubmenuReportes.Name = "SubmenuReportes";
+            this.SubmenuReportes.Size = new System.Drawing.Size(288, 164);
+            this.SubmenuReportes.TabIndex = 0;
+            this.SubmenuReportes.Visible = false;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.panel4.Location = new System.Drawing.Point(12, 100);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(14, 40);
+            this.panel4.TabIndex = 12;
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.ForeColor = System.Drawing.Color.White;
+            this.button3.Location = new System.Drawing.Point(25, 100);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(263, 40);
+            this.button3.TabIndex = 17;
+            this.button3.Text = "Reporte de Consumos";
+            this.button3.UseVisualStyleBackColor = false;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.panel3.Location = new System.Drawing.Point(12, 50);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(14, 40);
+            this.panel3.TabIndex = 11;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(25, 50);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(263, 40);
+            this.button2.TabIndex = 16;
+            this.button2.Text = "Reporte de Tarifas";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.panel2.Location = new System.Drawing.Point(12, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(14, 40);
+            this.panel2.TabIndex = 10;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(25, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(263, 40);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Reporte General";
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // panelEmployee
             // 
@@ -192,49 +344,12 @@
             // 
             this.lblPosition.AutoSize = true;
             this.lblPosition.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblPosition.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPosition.Location = new System.Drawing.Point(12, 20);
+            this.lblPosition.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPosition.Location = new System.Drawing.Point(6, 10);
             this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(85, 20);
+            this.lblPosition.Size = new System.Drawing.Size(100, 20);
             this.lblPosition.TabIndex = 2;
-            this.lblPosition.Text = "Position:";
-            // 
-            // lblUsername
-            // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblUsername.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsername.Location = new System.Drawing.Point(12, 40);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(103, 20);
-            this.lblUsername.TabIndex = 1;
-            this.lblUsername.Text = "Username:";
-            // 
-            // btnMinimized
-            // 
-            this.btnMinimized.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMinimized.Image = global::Ambar.Properties.Resources.Minimized_Button_Logo;
-            this.btnMinimized.Location = new System.Drawing.Point(1212, 12);
-            this.btnMinimized.Name = "btnMinimized";
-            this.btnMinimized.Size = new System.Drawing.Size(25, 25);
-            this.btnMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnMinimized.TabIndex = 5;
-            this.btnMinimized.TabStop = false;
-            this.btnMinimized.Click += new System.EventHandler(this.btnMinimized_Click);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClose.Image = global::Ambar.Properties.Resources.Close_Button_Logo;
-            this.btnClose.Location = new System.Drawing.Point(1243, 12);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(25, 25);
-            this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnClose.TabIndex = 4;
-            this.btnClose.TabStop = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            this.lblPosition.Text = "Position: ";
             // 
             // btnReportes
             // 
@@ -254,6 +369,17 @@
             this.btnReportes.Text = "Reportes";
             this.btnReportes.UseVisualStyleBackColor = false;
             this.btnReportes.Click += new System.EventHandler(this.btnReportes_Click);
+            // 
+            // lblUsername
+            // 
+            this.lblUsername.AutoSize = true;
+            this.lblUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblUsername.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsername.Location = new System.Drawing.Point(6, 53);
+            this.lblUsername.Name = "lblUsername";
+            this.lblUsername.Size = new System.Drawing.Size(118, 20);
+            this.lblUsername.TabIndex = 1;
+            this.lblUsername.Text = "Username: ";
             // 
             // btnEmpleados
             // 
@@ -312,99 +438,12 @@
             this.btnClientes.UseVisualStyleBackColor = false;
             this.btnClientes.Click += new System.EventHandler(this.btnClientes_Click);
             // 
-            // SubmenuReportes
-            // 
-            this.SubmenuReportes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.SubmenuReportes.Controls.Add(this.panel4);
-            this.SubmenuReportes.Controls.Add(this.button3);
-            this.SubmenuReportes.Controls.Add(this.panel3);
-            this.SubmenuReportes.Controls.Add(this.button2);
-            this.SubmenuReportes.Controls.Add(this.panel2);
-            this.SubmenuReportes.Controls.Add(this.button1);
-            this.SubmenuReportes.Location = new System.Drawing.Point(12, 466);
-            this.SubmenuReportes.Name = "SubmenuReportes";
-            this.SubmenuReportes.Size = new System.Drawing.Size(288, 164);
-            this.SubmenuReportes.TabIndex = 0;
-            this.SubmenuReportes.Visible = false;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.panel2.Location = new System.Drawing.Point(12, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(14, 40);
-            this.panel2.TabIndex = 10;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(25, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(263, 40);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Reporte General";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(25, 50);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(263, 40);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "Reporte de Tarifas";
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.panel3.Location = new System.Drawing.Point(12, 50);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(14, 40);
-            this.panel3.TabIndex = 11;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(25, 100);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(263, 40);
-            this.button3.TabIndex = 17;
-            this.button3.Text = "Reporte de Consumos";
-            this.button3.UseVisualStyleBackColor = false;
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.panel4.Location = new System.Drawing.Point(12, 100);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(14, 40);
-            this.panel4.TabIndex = 12;
-            // 
             // AmbarMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1280, 720);
+            this.ClientSize = new System.Drawing.Size(1353, 772);
             this.Controls.Add(this.panelStorage);
             this.Controls.Add(this.btnMinimized);
             this.Controls.Add(this.btnClose);
@@ -414,10 +453,10 @@
             this.Name = "AmbarMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
-            this.gradientPanel1.ResumeLayout(false);
-            this.gradientPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
+            this.gradientPanel1.ResumeLayout(false);
+            this.gradientPanel1.PerformLayout();
             this.SubmenuReportes.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -450,5 +489,8 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label lblUsernameLogged;
+        private System.Windows.Forms.Label lblPositionLogged;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -5,56 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using Cassandra.Mapping;
 using Ambar.Model.DTO;
+using Cassandra;
 
 namespace Ambar.Model.DAO
 {
     public class UserDAO : CassandraConnection
     {
 
-        private static UserDAO instance;
-
-        private UserDAO()
+        public UserDTO Login(string username, string password)
         {
-            Connect();
-        }
-
-        public static UserDAO GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new UserDAO();
-            }
-            return instance;
-        }
-
-        public bool Login(string username, string password)
-        {
-            string query = "SELECT USER_NAME, PASSWORD, POSITION, ENABLED FROM USERS WHERE USER_NAME = '" + username + "';";
+            string query = string.Format("SELECT USER_NAME, ENABLED, POSITION, REMEMBER FROM USERS_LOGIN WHERE USER_NAME = '{0}' AND PASSWORD = '{1}';",
+                username, password);
 
             IMapper mapper = new Mapper(session);
             UserDTO user;
 
             try
             {
-                user = mapper.First<UserDTO>(query);
+                user = mapper.Single<UserDTO>(query);
             }
             catch (System.InvalidOperationException e)
             {
-                return false;
+                return null;
             }
 
-            if (user == null)
-            {
-                return false;
-            }
-            else if (user.Password != password)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return user;
 
         }
 
@@ -91,10 +66,24 @@ namespace Ambar.Model.DAO
             Disconnect();
         }
 
-        public void rememberUser(string username, bool state)
+        public void RememberUser(string username, string password, bool state)
         {
-            string query = "UPDATE USERS SET ENABLED = " + state + " WHERE USER_NAME = '" + username + "';";
+            string queryUsers = "UPDATE USERS SET REMEMBER = ? WHERE USER_NAME = ?;";
+            string queryLogin = "UPDATE USERS_LOGIN SET REMEMBER = ? WHERE USER_NAME = ? AND PASSWORD = ?;";
+            string queryInsertRem = "INSERT INTO PASSWORD_REMEMBER(USER_NAME, PASSWORD, REMEMBER) VALUES(?, ?, ?);";
+            string queryDelRem = "DELETE FROM PASSWORD_REMEMBER WHERE USER_NAME = ? AND REMEMBER = ?;";
 
+            var users = session.Prepare(queryUsers);
+            var login = session.Prepare(queryLogin);
+            var insertRem = session.Prepare(queryInsertRem);
+            var delRem = session.Prepare(queryDelRem);
+
+            var batch = new BatchStatement()
+                            .Add(users.Bind(state, username))
+                            .Add(login.Bind(state, username, password))
+                            .Add(insertRem.Bind(username, password, state))
+                            .Add(delRem.Bind(username, !state));
+            session.Execute(batch);
         }
 
         public void insertUser()
@@ -104,24 +93,75 @@ namespace Ambar.Model.DAO
             Disconnect();
         }
 
-        public string readPassword(string username)
+        public (string, bool) ReadPassword(string username)
         {
-            string query = "SELECT PASSWORD FROM USERS WHERE USER_NAME = '" + username + "'";
+            string query = string.Format("SELECT PASSWORD FROM PASSWORD_REMEMBER WHERE USER_NAME = '{0}' AND REMEMBER = true;",
+                username);
 
+            IMapper mapper = new Mapper(session);
+            string password;
+            bool enabled;
+
+            try
+            {
+                password = mapper.Single<string>(query);
+                enabled = true;
+            }
+            catch (System.InvalidOperationException e)
+            {
+                password = null;
+                enabled = false;
+            }
+
+            return (password, enabled);
+        }
+
+        public bool Exists(string username)
+        {
+
+            string query = string.Format("SELECT USER_NAME FROM USERS WHERE USER_NAME = '{0}'", username);
+
+            IMapper mapper = new Mapper(session);
+            string user;
+
+            try
+            {
+                user = mapper.Single<string>(query);
+                return true;
+            }
+            catch (System.InvalidOperationException e)
+            {
+                return false;
+            }
+        }
+
+        public void SetEnabled(string username, bool enabled)
+        {
+
+            string passwordQuery = string.Format("SELECT PASSWORD FROM USERS WHERE USER_NAME = '{0}'", username);
             IMapper mapper = new Mapper(session);
             string password;
 
             try
             {
-                password= mapper.First<string>(query);
+                password = mapper.Single<string>(passwordQuery);
             }
             catch (System.InvalidOperationException e)
             {
-                password = "";
+                return;
             }
 
-            return password;
+            string queryUsers = "UPDATE USERS SET ENABLED = ? WHERE USER_NAME = ?;";
+            string queryLogin = "UPDATE USERS_LOGIN SET ENABLED = ? WHERE USER_NAME = ? AND PASSWORD = ?;";
+
+            var users = session.Prepare(queryUsers);
+            var login = session.Prepare(queryLogin);
+
+            var batch = new BatchStatement()
+                            .Add(users.Bind(enabled, username))
+                            .Add(login.Bind(enabled, username, password));
+            session.Execute(batch);
         }
-        // CRUD
+
     }
 }

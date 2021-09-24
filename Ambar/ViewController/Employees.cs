@@ -11,15 +11,17 @@ using System.Windows.Forms;
 using Ambar.ViewController;
 using Ambar.Model.DAO;
 using Ambar.Model.DTO;
+using System.Text.RegularExpressions;
 
 namespace Ambar.ViewController
 {
     public partial class Employees : Form
     {
+        EmployeeDAO dao = new EmployeeDAO();
         public Employees()
         {
             InitializeComponent();
-            EmployeeDAO dao = EmployeeDAO.GetInstance();
+            
             dgvEmpleados.DataSource = dao.ReadAll();
             //SendMessage(txtNames.Handle, EM_SETCUEBANNER, 0, "NAME(S)");
             //SendMessage(txtFatherLastName.Handle, EM_SETCUEBANNER, 0, "FATHER LAST NAME");
@@ -41,18 +43,35 @@ namespace Ambar.ViewController
             if (txtNames.Text == "" || txtFatherLastName.Text == "" || txtMotherLastName.Text == "" || txtRFC.Text == ""
                 || txtCURP.Text == "" || txtUsername.Text == "" || txtPassword.Text == "" || txtConfirmPassword.Text == "")
             {
-                MessageBox.Show("Todos los campos son obligatorios", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                pbWarningIcon.Visible = true;
+                lblError.Visible = true;
+                lblError.Text = "TODOS LOS CAMPOS SON OBLIGATORIOS";
+                //MessageBox.Show("Todos los campos son obligatorios", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }   
 
             if (txtPassword.Text != txtConfirmPassword.Text)
             {
-                MessageBox.Show("Verificar contraseña", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                pbWarningIcon.Visible = true;
+                lblError.Visible = true;
+                lblError.Text = "VERIFICAR CONTRASEÑA";
+                //MessageBox.Show("Verificar contraseña", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            UserDAO.GetInstance().Create(txtUsername.Text, txtPassword.Text, "Employee");
-            Guid userID = UserDAO.GetInstance().GetUserID(txtUsername.Text);
+            string res = @"^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            if (!rx.IsMatch(txtCURP.Text))
+            {
+                pbWarningIcon.Visible = true;
+                lblError.Visible = true;
+                lblError.Text = "VERIFICAR CURP";
+                return;
+            }
+
+            new UserDAO().Create(txtUsername.Text, txtPassword.Text, "Employee");
+            Guid userID = new UserDAO().GetUserID(txtUsername.Text);
 
             EmployeeDTO employee = new EmployeeDTO();
             employee.Name = txtNames.Text;
@@ -62,7 +81,7 @@ namespace Ambar.ViewController
             employee.RFC = txtRFC.Text;
             employee.CURP = txtCURP.Text;
 
-            EmployeeDAO.GetInstance().Create(employee, userID);
+            dao.Create(employee, userID);
 
             txtNames.Clear();
             txtFatherLastName.Clear();
@@ -74,6 +93,17 @@ namespace Ambar.ViewController
             txtConfirmPassword.Clear();
             dtpBirthday.Value = DateTime.Now;
 
+        }
+
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            // QUERY PARA ELIMINAR UN EMPLEADO
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            // QUERY PARA ACTUALIZAR UN EMPLEADO
         }
     }
 }

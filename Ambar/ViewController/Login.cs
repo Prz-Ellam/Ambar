@@ -9,13 +9,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ambar.Model.DAO;
+using Ambar.Model.DTO;
+using System.Configuration;
+using Ambar.Common;
 
 namespace Ambar.ViewController
 {
     public partial class Login : Form
     {
 
-        UserDAO user = UserDAO.GetInstance();
+        UserDAO user = new UserDAO();
+        (string, uint) loginIntents = ("", 0);
+
         public Login()
         {
             InitializeComponent();
@@ -27,34 +32,57 @@ namespace Ambar.ViewController
         {
             if (txtUsername.Text == "" || txtPassword.Text == "")
             {
-                pbWarningIcon.Visible = true;
-                lblError.Text = "TODOS LOS CAMPOS SON OBLIGATORIOS";
-                lblError.Visible = true;
-                return;
+                printErrorLogin("TODOS LOS CAMPOS SON OBLIGATORIOS");
             }
             else
             {
-                bool userExist = user.Login(txtUsername.Text, txtPassword.Text);
+                UserDTO userInfo = user.Login(txtUsername.Text, txtPassword.Text);
+                bool userExists = user.Exists(txtUsername.Text);
 
-                if (userExist)
+                if (userInfo == null)
                 {
-                    user.rememberUser(txtUsername.Text, chkRemember.Checked);
+                    if (loginIntents.Item1 == txtUsername.Text)
+                    {
+                        loginIntents.Item2++;
+                    }
+                    else if (userExists && txtUsername.Text != ConfigurationManager.AppSettings["admin"].ToString())
+                    {
+                        loginIntents.Item1 = txtUsername.Text;
+                        loginIntents.Item2 = 0;
+                    }
+
+                    if (loginIntents.Item2 == 2)
+                    {
+                        user.SetEnabled(loginIntents.Item1, false);
+                    }
+
+                    printErrorLogin("SUS CREDENCIALES NO COINCIDEN");
+                }
+                else if (userInfo.Enabled)
+                {
+                    printErrorLogin("SU USUARIO SE ENCUENTRA BLOQUEADO");
+                }
+                else
+                {
+                    user.RememberUser(txtUsername.Text, txtPassword.Text, chkRemember.Checked);
+                    UserCache.position = userInfo.Position;
+                    UserCache.username = userInfo.User_Name;
                     AmbarMenu menu = new AmbarMenu();
                     menu.Show();
                     this.Hide();
                 }
-                else
-                {
-                    pbWarningIcon.Visible = true;
-                    lblError.Text = "SUS CREDENCIALES NO COINCIDEN";
-                    lblError.Visible = true;
-                    txtUsername.Clear();
-                    txtPassword.Clear();
-                    txtUsername.Focus();
-                }
+
             }
 
         }
+
+        private void txtUsername_Leave(object sender, EventArgs e)
+        {
+            (string, bool) values = user.ReadPassword(txtUsername.Text);
+            txtPassword.Text = values.Item1;
+            chkRemember.Checked = values.Item2;
+        }
+
         private void Login_MouseDown(object sender, MouseEventArgs e)
         {
             WinAPI.ReleaseCapture();
@@ -77,9 +105,15 @@ namespace Ambar.ViewController
             Application.Exit();
         }
 
-        private void txtUsername_Leave(object sender, EventArgs e)
+        void printErrorLogin(string error)
         {
-            txtPassword.Text = user.readPassword(txtUsername.Text);
+            pbWarningIcon.Visible = true;
+            lblError.Text = error;
+            lblError.Visible = true;
+            txtUsername.Clear();
+            txtPassword.Clear();
+            txtUsername.Focus();
         }
+
     }
 }

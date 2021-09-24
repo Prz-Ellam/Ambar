@@ -49,7 +49,12 @@
             this.txtConfirmPassword = new System.Windows.Forms.TextBox();
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.dgvEmpleados = new System.Windows.Forms.DataGridView();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.lblError = new System.Windows.Forms.Label();
+            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpleados)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // txtNames
@@ -215,9 +220,12 @@
             // 
             // btnAccept
             // 
-            this.btnAccept.BackColor = System.Drawing.Color.White;
+            this.btnAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnAccept.FlatAppearance.BorderSize = 0;
+            this.btnAccept.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAccept.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAccept.ForeColor = System.Drawing.Color.White;
             this.btnAccept.Location = new System.Drawing.Point(710, 101);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(152, 52);
@@ -268,12 +276,61 @@
             this.dgvEmpleados.Size = new System.Drawing.Size(860, 185);
             this.dgvEmpleados.TabIndex = 20;
             // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdate.Location = new System.Drawing.Point(710, 179);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(152, 59);
+            this.btnUpdate.TabIndex = 21;
+            this.btnUpdate.Text = "ACTUALIZAR";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelete.Location = new System.Drawing.Point(710, 262);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(152, 59);
+            this.btnDelete.TabIndex = 22;
+            this.btnDelete.Text = "BORRAR";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Font = new System.Drawing.Font("Montserrat", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblError.Location = new System.Drawing.Point(283, 376);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(107, 19);
+            this.lblError.TabIndex = 24;
+            this.lblError.Text = "ERROR TEXT";
+            this.lblError.Visible = false;
+            // 
+            // pbWarningIcon
+            // 
+            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
+            this.pbWarningIcon.Location = new System.Drawing.Point(244, 370);
+            this.pbWarningIcon.Name = "pbWarningIcon";
+            this.pbWarningIcon.Size = new System.Drawing.Size(30, 30);
+            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbWarningIcon.TabIndex = 23;
+            this.pbWarningIcon.TabStop = false;
+            this.pbWarningIcon.Visible = false;
+            // 
             // Employees
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1059, 618);
+            this.Controls.Add(this.lblError);
+            this.Controls.Add(this.pbWarningIcon);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.dgvEmpleados);
             this.Controls.Add(this.lblEmpleados);
             this.Controls.Add(this.label9);
@@ -301,6 +358,7 @@
             this.Text = "Empleados";
             this.Load += new System.EventHandler(this.Empleados_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpleados)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,5 +387,9 @@
         private System.Windows.Forms.TextBox txtConfirmPassword;
         private System.Windows.Forms.Label lblEmpleados;
         private System.Windows.Forms.DataGridView dgvEmpleados;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label lblError;
+        private System.Windows.Forms.PictureBox pbWarningIcon;
     }
 }
