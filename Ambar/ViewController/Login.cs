@@ -32,6 +32,7 @@ namespace Ambar.ViewController
         {
             if (txtUsername.Text == "" || txtPassword.Text == "")
             {
+                chkRemember.Checked = false;
                 printErrorLogin("TODOS LOS CAMPOS SON OBLIGATORIOS");
             }
             else
@@ -41,25 +42,30 @@ namespace Ambar.ViewController
 
                 if (userInfo == null)
                 {
-                    if (loginIntents.Item1 == txtUsername.Text)
+                    if (userExists)
                     {
-                        loginIntents.Item2++;
-                    }
-                    else if (userExists && txtUsername.Text != ConfigurationManager.AppSettings["admin"].ToString())
-                    {
-                        loginIntents.Item1 = txtUsername.Text;
-                        loginIntents.Item2 = 0;
+                        if (loginIntents.Item1 != txtUsername.Text && txtUsername.Text != ConfigurationManager.AppSettings["admin"].ToString())
+                        {
+                            loginIntents.Item1 = txtUsername.Text;
+                            loginIntents.Item2 = 0;
+                        }
+                        else
+                        {
+                            loginIntents.Item2++;
+                        }
+
+                        if (loginIntents.Item2 == 2)
+                        {
+                            user.SetEnabled(loginIntents.Item1, false);
+                        }
                     }
 
-                    if (loginIntents.Item2 == 2)
-                    {
-                        user.SetEnabled(loginIntents.Item1, false);
-                    }
-
+                    chkRemember.Checked = false;
                     printErrorLogin("SUS CREDENCIALES NO COINCIDEN");
                 }
-                else if (userInfo.Enabled)
+                else if (!userInfo.Enabled)
                 {
+                    chkRemember.Checked = false;
                     printErrorLogin("SU USUARIO SE ENCUENTRA BLOQUEADO");
                 }
                 else
@@ -71,9 +77,7 @@ namespace Ambar.ViewController
                     menu.Show();
                     this.Hide();
                 }
-
             }
-
         }
 
         private void txtUsername_Leave(object sender, EventArgs e)

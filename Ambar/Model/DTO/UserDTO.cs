@@ -14,7 +14,7 @@ namespace Ambar.Model.DTO
         private string position;
         private bool enabled;
 
-        public Guid UserID { get => user_id; set => user_id = value; }
+        public Guid User_ID { get => user_id; set => user_id = value; }
         public string User_Name { get => user_name; set => user_name = value; }
         public string Password { get => password; set => password = value; }
         public string Position { get => position; set => position = value; }

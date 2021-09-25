@@ -11,11 +11,13 @@ namespace Ambar.Model.DAO
     class EmployeeDAO : CassandraConnection
     {
 
-        public void Create(EmployeeDTO employee, Guid userID)
+        public void Create(EmployeeDTO employee)
         {
-            string query = String.Format("INSERT INTO EMPLOYEES(USER_ID, NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, DATE_OF_BIRTH, CURP, RFC) " +
-                "VALUES({0},'{1}','{2}','{3}','{4}','{5}','{6}')", userID, employee.Name, employee.Father_Last_Name,
-                employee.Mother_Last_Name, employee.Date_Of_Brith.ToString("yyyy-MM-dd HH:mm:ss") + "+0000", employee.CURP, employee.RFC);
+            string query = string.Format("INSERT INTO EMPLOYEES(USER_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, DATE_OF_BIRTH, CURP, RFC, CREATION_DATE, MODIFICATION_DATE) " +
+                "VALUES({0},'{1}','{2}','{3}','{4}','{5}','{6}', toUnixTimestamp(now())",
+                employee.User_ID, employee.First_Name, employee.Father_Last_Name, employee.Mother_Last_Name, 
+                employee.Date_Of_Birth, employee.CURP, employee.RFC);
+            query += ", {toUnixTimestamp(now()):'Begin'});";
 
             session.Execute(query);
 
@@ -28,13 +30,11 @@ namespace Ambar.Model.DAO
 
         public List<EmployeeDTO> ReadAll()
         {
-            Connect();
             string query = "SELECT * FROM EMPLOYEES;";
             session = cluster.Connect(dbKeyspace);
             IMapper mapper = new Mapper(session);
 
             IEnumerable<EmployeeDTO> employees = mapper.Fetch<EmployeeDTO>(query);
-           //Disconnect();
 
             return employees.ToList();
         }

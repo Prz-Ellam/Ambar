@@ -63,7 +63,7 @@
             this.txtNames.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNames.Location = new System.Drawing.Point(244, 86);
             this.txtNames.Name = "txtNames";
-            this.txtNames.Size = new System.Drawing.Size(360, 21);
+            this.txtNames.Size = new System.Drawing.Size(480, 21);
             this.txtNames.TabIndex = 0;
             // 
             // txtFatherLastName
@@ -72,7 +72,7 @@
             this.txtFatherLastName.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFatherLastName.Location = new System.Drawing.Point(244, 117);
             this.txtFatherLastName.Name = "txtFatherLastName";
-            this.txtFatherLastName.Size = new System.Drawing.Size(360, 21);
+            this.txtFatherLastName.Size = new System.Drawing.Size(480, 21);
             this.txtFatherLastName.TabIndex = 1;
             // 
             // txtMotherLastName
@@ -81,7 +81,7 @@
             this.txtMotherLastName.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMotherLastName.Location = new System.Drawing.Point(244, 148);
             this.txtMotherLastName.Name = "txtMotherLastName";
-            this.txtMotherLastName.Size = new System.Drawing.Size(360, 21);
+            this.txtMotherLastName.Size = new System.Drawing.Size(480, 21);
             this.txtMotherLastName.TabIndex = 2;
             // 
             // txtRFC
@@ -90,7 +90,7 @@
             this.txtRFC.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRFC.Location = new System.Drawing.Point(244, 217);
             this.txtRFC.Name = "txtRFC";
-            this.txtRFC.Size = new System.Drawing.Size(360, 21);
+            this.txtRFC.Size = new System.Drawing.Size(480, 21);
             this.txtRFC.TabIndex = 3;
             // 
             // dtpBirthday
@@ -99,7 +99,7 @@
             this.dtpBirthday.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpBirthday.Location = new System.Drawing.Point(244, 179);
             this.dtpBirthday.Name = "dtpBirthday";
-            this.dtpBirthday.Size = new System.Drawing.Size(360, 28);
+            this.dtpBirthday.Size = new System.Drawing.Size(240, 28);
             this.dtpBirthday.TabIndex = 4;
             // 
             // txtCURP
@@ -108,7 +108,7 @@
             this.txtCURP.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCURP.Location = new System.Drawing.Point(244, 248);
             this.txtCURP.Name = "txtCURP";
-            this.txtCURP.Size = new System.Drawing.Size(360, 21);
+            this.txtCURP.Size = new System.Drawing.Size(480, 21);
             this.txtCURP.TabIndex = 5;
             // 
             // txtUsername
@@ -117,7 +117,7 @@
             this.txtUsername.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUsername.Location = new System.Drawing.Point(244, 279);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(360, 21);
+            this.txtUsername.Size = new System.Drawing.Size(480, 21);
             this.txtUsername.TabIndex = 6;
             // 
             // txtPassword
@@ -126,7 +126,7 @@
             this.txtPassword.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.Location = new System.Drawing.Point(244, 310);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(360, 21);
+            this.txtPassword.Size = new System.Drawing.Size(480, 21);
             this.txtPassword.TabIndex = 7;
             this.txtPassword.UseSystemPasswordChar = true;
             // 
@@ -226,9 +226,9 @@
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAccept.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
-            this.btnAccept.Location = new System.Drawing.Point(710, 101);
+            this.btnAccept.Location = new System.Drawing.Point(777, 87);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(152, 52);
+            this.btnAccept.Size = new System.Drawing.Size(150, 50);
             this.btnAccept.TabIndex = 16;
             this.btnAccept.Text = "ACEPTAR";
             this.btnAccept.UseVisualStyleBackColor = false;
@@ -251,7 +251,7 @@
             this.txtConfirmPassword.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtConfirmPassword.Location = new System.Drawing.Point(244, 341);
             this.txtConfirmPassword.Name = "txtConfirmPassword";
-            this.txtConfirmPassword.Size = new System.Drawing.Size(360, 21);
+            this.txtConfirmPassword.Size = new System.Drawing.Size(480, 21);
             this.txtConfirmPassword.TabIndex = 17;
             this.txtConfirmPassword.UseSystemPasswordChar = true;
             // 
@@ -269,33 +269,45 @@
             // dgvEmpleados
             // 
             this.dgvEmpleados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEmpleados.Location = new System.Drawing.Point(64, 406);
+            this.dgvEmpleados.Location = new System.Drawing.Point(22, 406);
             this.dgvEmpleados.Name = "dgvEmpleados";
+            this.dgvEmpleados.ReadOnly = true;
             this.dgvEmpleados.RowHeadersWidth = 51;
             this.dgvEmpleados.RowTemplate.Height = 24;
-            this.dgvEmpleados.Size = new System.Drawing.Size(860, 185);
+            this.dgvEmpleados.Size = new System.Drawing.Size(979, 185);
             this.dgvEmpleados.TabIndex = 20;
+            this.dgvEmpleados.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmpleados_CellContentDoubleClick);
             // 
             // btnUpdate
             // 
+            this.btnUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnUpdate.FlatAppearance.BorderSize = 0;
+            this.btnUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdate.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUpdate.Location = new System.Drawing.Point(710, 179);
+            this.btnUpdate.ForeColor = System.Drawing.Color.White;
+            this.btnUpdate.Location = new System.Drawing.Point(777, 169);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(152, 59);
+            this.btnUpdate.Size = new System.Drawing.Size(150, 50);
             this.btnUpdate.TabIndex = 21;
             this.btnUpdate.Text = "ACTUALIZAR";
-            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnDelete
             // 
-            this.btnDelete.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(710, 262);
+            this.btnDelete.BackColor = System.Drawing.Color.Firebrick;
+            this.btnDelete.FlatAppearance.BorderSize = 0;
+            this.btnDelete.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(777, 249);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(152, 59);
+            this.btnDelete.Size = new System.Drawing.Size(150, 50);
             this.btnDelete.TabIndex = 22;
             this.btnDelete.Text = "BORRAR";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // lblError

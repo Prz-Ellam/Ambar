@@ -12,16 +12,17 @@ using Ambar.ViewController;
 using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using System.Text.RegularExpressions;
+using Cassandra;
 
 namespace Ambar.ViewController
 {
     public partial class Employees : Form
     {
         EmployeeDAO dao = new EmployeeDAO();
+        UserDAO userDAO = new UserDAO();
         public Employees()
         {
             InitializeComponent();
-            
             dgvEmpleados.DataSource = dao.ReadAll();
             //SendMessage(txtNames.Handle, EM_SETCUEBANNER, 0, "NAME(S)");
             //SendMessage(txtFatherLastName.Handle, EM_SETCUEBANNER, 0, "FATHER LAST NAME");
@@ -46,7 +47,6 @@ namespace Ambar.ViewController
                 pbWarningIcon.Visible = true;
                 lblError.Visible = true;
                 lblError.Text = "TODOS LOS CAMPOS SON OBLIGATORIOS";
-                //MessageBox.Show("Todos los campos son obligatorios", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }   
 
@@ -55,7 +55,6 @@ namespace Ambar.ViewController
                 pbWarningIcon.Visible = true;
                 lblError.Visible = true;
                 lblError.Text = "VERIFICAR CONTRASEÑA";
-                //MessageBox.Show("Verificar contraseña", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -70,18 +69,19 @@ namespace Ambar.ViewController
                 return;
             }
 
-            new UserDAO().Create(txtUsername.Text, txtPassword.Text, "Employee");
-            Guid userID = new UserDAO().GetUserID(txtUsername.Text);
+            userDAO.Create(txtUsername.Text, txtPassword.Text, "Employee");
 
             EmployeeDTO employee = new EmployeeDTO();
-            employee.Name = txtNames.Text;
+            employee.User_ID = userDAO.GetUserID(txtUsername.Text);
+            employee.First_Name = txtNames.Text;
             employee.Father_Last_Name = txtFatherLastName.Text;
             employee.Mother_Last_Name = txtMotherLastName.Text;
-            employee.Date_Of_Brith = dtpBirthday.Value;
+            employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
             employee.RFC = txtRFC.Text;
             employee.CURP = txtCURP.Text;
 
-            dao.Create(employee, userID);
+            dao.Create(employee);
+            dgvEmpleados.DataSource = dao.ReadAll();
 
             txtNames.Clear();
             txtFatherLastName.Clear();
@@ -92,7 +92,6 @@ namespace Ambar.ViewController
             txtPassword.Clear();
             txtConfirmPassword.Clear();
             dtpBirthday.Value = DateTime.Now;
-
         }
 
 
@@ -105,5 +104,20 @@ namespace Ambar.ViewController
         {
             // QUERY PARA ACTUALIZAR UN EMPLEADO
         }
+
+        private void dgvEmpleados_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            txtNames.Text = dgvEmpleados.Rows[e.RowIndex].Cells[1].Value.ToString();
+            txtFatherLastName.Text = dgvEmpleados.Rows[e.RowIndex].Cells[2].Value.ToString();
+            txtMotherLastName.Text = dgvEmpleados.Rows[e.RowIndex].Cells[3].Value.ToString();
+            txtRFC.Text = dgvEmpleados.Rows[e.RowIndex].Cells[5].Value.ToString();
+            txtCURP.Text = dgvEmpleados.Rows[e.RowIndex].Cells[6].Value.ToString();
+
+            UserDTO dto = userDAO.Read((Guid)dgvEmpleados.Rows[e.RowIndex].Cells[0].Value);
+            txtUsername.Text = dto.User_Name;
+            txtPassword.Text = txtConfirmPassword.Text = dto.Password;
+
+        }
+
     }
 }
