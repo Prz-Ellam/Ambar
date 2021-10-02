@@ -16,8 +16,37 @@ namespace Ambar.ViewController
         public AmbarMenu()
         {
             InitializeComponent();
+        }
+
+        private void AmbarMenu_Load(object sender, EventArgs e)
+        {
             lblPositionLogged.Text = UserCache.position;
             lblUsernameLogged.Text = UserCache.username;
+
+            if (UserCache.position == "Administrator")
+            {
+                btnClients.Visible = false;
+                panelClients.Visible = false;
+                btnContracts.Visible = false;
+                panelContracts.Visible = false;
+                btnConsumptions.Visible = false;
+                panelConsumptions.Visible = false;
+                btnRates.Visible = false;
+                panelRates.Visible = false;
+                btnReports.Visible = false;
+                panelReports.Visible = false;
+            }
+            else if (UserCache.position == "Employee")
+            {
+                btnEmployees.Visible = false;
+                panelEmployees.Visible = false;
+                btnClients.Location = new Point(btnClients.Location.X, btnClients.Location.Y - 60);
+                panelClients.Location = new Point(panelClients.Location.X, panelClients.Location.Y - 60);
+                btnContracts.Location = new Point(btnContracts.Location.X, btnContracts.Location.Y - 60);
+                panelContracts.Location = new Point(panelContracts.Location.X, panelContracts.Location.Y - 60);
+                // -60
+            }
+
         }
 
         private void openFormChild(object son)
@@ -75,7 +104,7 @@ namespace Ambar.ViewController
         {
             SubmenuReportes.Visible = !SubmenuReportes.Visible;
             int alpha = (SubmenuReportes.Visible) ? 255 : 0;
-            btnReportes.BackColor = Color.FromArgb(alpha, 40, 40, 40);
+            btnReports.BackColor = Color.FromArgb(alpha, 40, 40, 40);
         }
 
         private void btnConsumos_Click(object sender, EventArgs e)
@@ -87,5 +116,7 @@ namespace Ambar.ViewController
         {
 
         }
+
+     
     }
 }

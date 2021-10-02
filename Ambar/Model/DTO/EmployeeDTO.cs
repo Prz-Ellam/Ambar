@@ -9,19 +9,27 @@ namespace Ambar.Model.DTO
 {
     class EmployeeDTO
     {
-        private Guid user_ID;
-        private string first_Name;
-        private string father_Last_Name;
-        private string mother_Last_Name;
-        private LocalDate date_Of_Birth;
+        private Guid user_id;
+        private string user_name;
+        private string password;
+        private DateTimeOffset creation_date;
+        private Dictionary<DateTimeOffset, string> modification_date;
+        private string first_name;
+        private string father_last_name;
+        private string mother_last_name;
+        private LocalDate date_of_birth;
         private string rfc;
         private string curp;
 
-        public Guid User_ID { get => user_ID; set => user_ID = value; }
-        public string First_Name { get => first_Name; set => first_Name = value; }
-        public string Father_Last_Name { get => father_Last_Name; set => father_Last_Name = value; }
-        public string Mother_Last_Name { get => mother_Last_Name; set => mother_Last_Name = value; }
-        public LocalDate Date_Of_Birth { get => date_Of_Birth; set => date_Of_Birth = value; }
+        public Guid User_ID { get => user_id; set => user_id = value; }
+        public string User_Name { get => user_name; set => user_name = value; }
+        public string Password { get => password; set => password = value; }
+        public DateTimeOffset Creation_date { get => creation_date; set => creation_date = value; }
+        public Dictionary<DateTimeOffset, string> Modification_date { get => modification_date; set => modification_date = value; }
+        public string First_Name { get => first_name; set => first_name = value; }
+        public string Father_Last_Name { get => father_last_name; set => father_last_name = value; }
+        public string Mother_Last_Name { get => mother_last_name; set => mother_last_name = value; }
+        public LocalDate Date_Of_Birth { get => date_of_birth; set => date_of_birth = value; }
         public string RFC { get => rfc; set => rfc = value; }
         public string CURP { get => curp; set => curp = value; }
     }

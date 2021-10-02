@@ -18,105 +18,239 @@ namespace Ambar.ViewController
 {
     public partial class Employees : Form
     {
-        EmployeeDAO dao = new EmployeeDAO();
-        UserDAO userDAO = new UserDAO();
+        // DAO para hacer queries a la entidad empleados
+        EmployeeDAO dao = new EmployeeDAO(); 
+        /* 
+           Guardamos el username y el ID original de un empleado al que se le este aplicando una edicion o borrado para 
+           tener una referencia de los datos originales
+        */
+        string originalUsername; 
+        Guid originalID;
+
+        // Indices seleccionados del combobox y el data grid view
+        int dgvPrevIndex = -1;
+        int lbPrevIndex = -1;
+
         public Employees()
         {
             InitializeComponent();
-            dgvEmpleados.DataSource = dao.ReadAll();
-            //SendMessage(txtNames.Handle, EM_SETCUEBANNER, 0, "NAME(S)");
-            //SendMessage(txtFatherLastName.Handle, EM_SETCUEBANNER, 0, "FATHER LAST NAME");
-            //SendMessage(txtMotherLastName.Handle, EM_SETCUEBANNER, 0, "MOTHER LAST NAME");
-            //SendMessage(txtRFC.Handle, EM_SETCUEBANNER, 0, "RFC");
-            //SendMessage(txtCURP.Handle, EM_SETCUEBANNER, 0, "CURP");
-            //SendMessage(txtUsername.Handle, EM_SETCUEBANNER, 0, "USERNAME");
-            //SendMessage(txtPassword.Handle, EM_SETCUEBANNER, 0, "PASSWORD");
         }
 
         private void Empleados_Load(object sender, EventArgs e)
         {
+            dgvEmpleados.DataSource = dao.ReadAll();
 
+            List<string> names = dao.ReadAllDisable();
+            foreach (var ls in names)
+            {
+                lbDisableEmployees.Items.Add(names);
+            }
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
 
-            if (txtNames.Text == "" || txtFatherLastName.Text == "" || txtMotherLastName.Text == "" || txtRFC.Text == ""
-                || txtCURP.Text == "" || txtUsername.Text == "" || txtPassword.Text == "" || txtConfirmPassword.Text == "")
+            if (txtNames.Text == string.Empty || txtFatherLastName.Text == string.Empty || 
+                txtMotherLastName.Text == string.Empty || txtRFC.Text == string.Empty || 
+                txtCURP.Text == string.Empty || txtUsername.Text == string.Empty || 
+                txtPassword.Text == string.Empty || txtConfirmPassword.Text == string.Empty)
             {
-                pbWarningIcon.Visible = true;
-                lblError.Visible = true;
-                lblError.Text = "TODOS LOS CAMPOS SON OBLIGATORIOS";
+                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                 return;
             }   
 
             if (txtPassword.Text != txtConfirmPassword.Text)
             {
-                pbWarningIcon.Visible = true;
-                lblError.Visible = true;
-                lblError.Text = "VERIFICAR CONTRASEÑA";
+                PrintError("VERIFICAR CONTRASEÑA");
                 return;
             }
 
-            string res = @"^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$";
-            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            if (!rx.IsMatch(txtCURP.Text))
+            if (!VerifyCURP(txtCURP.Text))
             {
-                pbWarningIcon.Visible = true;
-                lblError.Visible = true;
-                lblError.Text = "VERIFICAR CURP";
+                PrintError("VERIFICAR CURP");
                 return;
             }
 
-            userDAO.Create(txtUsername.Text, txtPassword.Text, "Employee");
+            if (dao.UserExists(txtUsername.Text))
+            {
+                PrintError("EL NOMBRE DE USUARIO YA EXISTE");
+                return;
+            }
 
+            // Creamos un objeto de transferencia de datos para la entidad empleado y lo mandamos a Cassandra
             EmployeeDTO employee = new EmployeeDTO();
-            employee.User_ID = userDAO.GetUserID(txtUsername.Text);
             employee.First_Name = txtNames.Text;
             employee.Father_Last_Name = txtFatherLastName.Text;
             employee.Mother_Last_Name = txtMotherLastName.Text;
             employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
             employee.RFC = txtRFC.Text;
             employee.CURP = txtCURP.Text;
+            employee.User_Name = txtUsername.Text;
+            employee.Password = txtPassword.Text;
 
             dao.Create(employee);
+
             dgvEmpleados.DataSource = dao.ReadAll();
 
+            ClearForm();
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            // Nunca se deberia dar este caso, pero en caso de cualquier error se previene con este if
+            if (btnAccept.Enabled == false)
+            {
+                return;
+            }
+
+            if (txtNames.Text == string.Empty || txtFatherLastName.Text == string.Empty ||
+                txtMotherLastName.Text == string.Empty || txtRFC.Text == string.Empty ||
+                txtCURP.Text == string.Empty || txtUsername.Text == string.Empty ||
+                txtPassword.Text == string.Empty || txtConfirmPassword.Text == string.Empty)
+            {
+                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                return;
+            }
+
+            if (txtPassword.Text != txtConfirmPassword.Text)
+            {
+                PrintError("VERIFICAR CONTRASEÑA");
+                return;
+            }
+
+            if (!VerifyCURP(txtCURP.Text))
+            {
+                PrintError("VERIFICAR CURP");
+                return;
+            }
+
+            if (dao.UserExists(txtUsername.Text) && originalUsername != txtUsername.Text)
+            {
+                PrintError("EL NOMBRE DE USUARIO YA EXISTE");
+                return;
+            }
+
+            EmployeeDTO employee = new EmployeeDTO();
+            employee.User_ID = originalID;
+            employee.First_Name = txtNames.Text;
+            employee.Father_Last_Name = txtFatherLastName.Text;
+            employee.Mother_Last_Name = txtMotherLastName.Text;
+            employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
+            employee.RFC = txtRFC.Text;
+            employee.CURP = txtCURP.Text;
+            employee.User_Name = txtUsername.Text;
+            employee.Password = txtPassword.Text;
+
+            dao.Update(employee, originalUsername);
+
+            dgvEmpleados.DataSource = dao.ReadAll();
+
+            ClearForm();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            // Nunca se deberia dar este caso, pero en caso de cualquier error se previene con este if
+            if (btnAccept.Enabled == false)
+            {
+                return;
+            }
+
+            dao.Delete(originalID, originalUsername);
+            dgvEmpleados.DataSource = dao.ReadAll();
+
+            ClearForm();
+        }
+
+        private void dgvEmpleados_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
+
+        }
+
+        private void dgvEmpleados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (dgvPrevIndex == index)
+            {
+                ClearForm();
+                dgvPrevIndex = -1;
+                return;
+            }
+            else
+            {
+                originalID = (Guid)dgvEmpleados.Rows[index].Cells[0].Value;
+                txtNames.Text = dgvEmpleados.Rows[index].Cells[5].Value.ToString();
+                txtFatherLastName.Text = dgvEmpleados.Rows[index].Cells[6].Value.ToString();
+                txtMotherLastName.Text = dgvEmpleados.Rows[index].Cells[7].Value.ToString();
+                dtpBirthday.Value = Convert.ToDateTime(dgvEmpleados.Rows[index].Cells[8].Value.ToString());
+                txtRFC.Text = dgvEmpleados.Rows[index].Cells[9].Value.ToString();
+                txtCURP.Text = dgvEmpleados.Rows[index].Cells[10].Value.ToString();
+                txtUsername.Text = originalUsername = dgvEmpleados.Rows[index].Cells[1].Value.ToString();
+                txtPassword.Text = dgvEmpleados.Rows[index].Cells[2].Value.ToString();
+                txtConfirmPassword.Text = dgvEmpleados.Rows[index].Cells[2].Value.ToString();
+                btnAccept.Enabled = false;
+                btnUpdate.Enabled = true;
+                btnDelete.Enabled = true;
+            }
+
+            dgvPrevIndex = index;
+        }
+
+        private void lbDisableEmployees_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lbPrevIndex == lbDisableEmployees.SelectedIndex)
+            {
+                txtDisable.Clear();
+                btnEnabling.Enabled = false;
+                lbPrevIndex = -1;
+                lbDisableEmployees.ClearSelected();
+                return;
+            }
+            else
+            {
+                txtDisable.Text = lbDisableEmployees.Items[lbDisableEmployees.SelectedIndex].ToString();
+                btnEnabling.Enabled = true;
+                lbPrevIndex = lbDisableEmployees.SelectedIndex;
+            }
+        }
+
+        private void btnEnabling_Click(object sender, EventArgs e)
+        {
+            dao.Enabled(txtDisable.Text, true);
+        }
+
+        private void ClearForm()
+        {
             txtNames.Clear();
             txtFatherLastName.Clear();
             txtMotherLastName.Clear();
+            dtpBirthday.Value = DateTime.Now;
             txtRFC.Clear();
             txtCURP.Clear();
             txtUsername.Clear();
             txtPassword.Clear();
             txtConfirmPassword.Clear();
-            dtpBirthday.Value = DateTime.Now;
+            btnAccept.Enabled = true;
+            btnUpdate.Enabled = false;
+            btnDelete.Enabled = false;
+            pbWarningIcon.Visible = false;
+            lblError.Visible = false;
         }
 
-
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void PrintError(string error)
         {
-            // QUERY PARA ELIMINAR UN EMPLEADO
+            pbWarningIcon.Visible = true;
+            lblError.Visible = true;
+            lblError.Text = error;
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private bool VerifyCURP(string curp)
         {
-            // QUERY PARA ACTUALIZAR UN EMPLEADO
-        }
+            string res = @"^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private void dgvEmpleados_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            txtNames.Text = dgvEmpleados.Rows[e.RowIndex].Cells[1].Value.ToString();
-            txtFatherLastName.Text = dgvEmpleados.Rows[e.RowIndex].Cells[2].Value.ToString();
-            txtMotherLastName.Text = dgvEmpleados.Rows[e.RowIndex].Cells[3].Value.ToString();
-            txtRFC.Text = dgvEmpleados.Rows[e.RowIndex].Cells[5].Value.ToString();
-            txtCURP.Text = dgvEmpleados.Rows[e.RowIndex].Cells[6].Value.ToString();
-
-            UserDTO dto = userDAO.Read((Guid)dgvEmpleados.Rows[e.RowIndex].Cells[0].Value);
-            txtUsername.Text = dto.User_Name;
-            txtPassword.Text = txtConfirmPassword.Text = dto.Password;
-
+            return rx.IsMatch(curp);
         }
 
     }

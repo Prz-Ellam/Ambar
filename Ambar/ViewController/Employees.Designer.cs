@@ -53,6 +53,9 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.lblError = new System.Windows.Forms.Label();
             this.pbWarningIcon = new System.Windows.Forms.PictureBox();
+            this.btnEnabling = new System.Windows.Forms.Button();
+            this.txtDisable = new System.Windows.Forms.TextBox();
+            this.lbDisableEmployees = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpleados)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +66,7 @@
             this.txtNames.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNames.Location = new System.Drawing.Point(244, 86);
             this.txtNames.Name = "txtNames";
-            this.txtNames.Size = new System.Drawing.Size(480, 21);
+            this.txtNames.Size = new System.Drawing.Size(400, 21);
             this.txtNames.TabIndex = 0;
             // 
             // txtFatherLastName
@@ -72,7 +75,7 @@
             this.txtFatherLastName.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFatherLastName.Location = new System.Drawing.Point(244, 117);
             this.txtFatherLastName.Name = "txtFatherLastName";
-            this.txtFatherLastName.Size = new System.Drawing.Size(480, 21);
+            this.txtFatherLastName.Size = new System.Drawing.Size(400, 21);
             this.txtFatherLastName.TabIndex = 1;
             // 
             // txtMotherLastName
@@ -81,7 +84,7 @@
             this.txtMotherLastName.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMotherLastName.Location = new System.Drawing.Point(244, 148);
             this.txtMotherLastName.Name = "txtMotherLastName";
-            this.txtMotherLastName.Size = new System.Drawing.Size(480, 21);
+            this.txtMotherLastName.Size = new System.Drawing.Size(400, 21);
             this.txtMotherLastName.TabIndex = 2;
             // 
             // txtRFC
@@ -90,7 +93,7 @@
             this.txtRFC.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRFC.Location = new System.Drawing.Point(244, 217);
             this.txtRFC.Name = "txtRFC";
-            this.txtRFC.Size = new System.Drawing.Size(480, 21);
+            this.txtRFC.Size = new System.Drawing.Size(400, 21);
             this.txtRFC.TabIndex = 3;
             // 
             // dtpBirthday
@@ -99,7 +102,7 @@
             this.dtpBirthday.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpBirthday.Location = new System.Drawing.Point(244, 179);
             this.dtpBirthday.Name = "dtpBirthday";
-            this.dtpBirthday.Size = new System.Drawing.Size(240, 28);
+            this.dtpBirthday.Size = new System.Drawing.Size(270, 28);
             this.dtpBirthday.TabIndex = 4;
             // 
             // txtCURP
@@ -108,7 +111,7 @@
             this.txtCURP.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCURP.Location = new System.Drawing.Point(244, 248);
             this.txtCURP.Name = "txtCURP";
-            this.txtCURP.Size = new System.Drawing.Size(480, 21);
+            this.txtCURP.Size = new System.Drawing.Size(400, 21);
             this.txtCURP.TabIndex = 5;
             // 
             // txtUsername
@@ -117,7 +120,7 @@
             this.txtUsername.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUsername.Location = new System.Drawing.Point(244, 279);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(480, 21);
+            this.txtUsername.Size = new System.Drawing.Size(400, 21);
             this.txtUsername.TabIndex = 6;
             // 
             // txtPassword
@@ -126,7 +129,7 @@
             this.txtPassword.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.Location = new System.Drawing.Point(244, 310);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(480, 21);
+            this.txtPassword.Size = new System.Drawing.Size(400, 21);
             this.txtPassword.TabIndex = 7;
             this.txtPassword.UseSystemPasswordChar = true;
             // 
@@ -226,7 +229,7 @@
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAccept.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
-            this.btnAccept.Location = new System.Drawing.Point(777, 87);
+            this.btnAccept.Location = new System.Drawing.Point(675, 86);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(150, 50);
             this.btnAccept.TabIndex = 16;
@@ -251,7 +254,7 @@
             this.txtConfirmPassword.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtConfirmPassword.Location = new System.Drawing.Point(244, 341);
             this.txtConfirmPassword.Name = "txtConfirmPassword";
-            this.txtConfirmPassword.Size = new System.Drawing.Size(480, 21);
+            this.txtConfirmPassword.Size = new System.Drawing.Size(400, 21);
             this.txtConfirmPassword.TabIndex = 17;
             this.txtConfirmPassword.UseSystemPasswordChar = true;
             // 
@@ -260,7 +263,7 @@
             this.lblEmpleados.AutoSize = true;
             this.lblEmpleados.Font = new System.Drawing.Font("Montserrat", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmpleados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmpleados.Location = new System.Drawing.Point(29, 22);
+            this.lblEmpleados.Location = new System.Drawing.Point(15, 22);
             this.lblEmpleados.Name = "lblEmpleados";
             this.lblEmpleados.Size = new System.Drawing.Size(234, 40);
             this.lblEmpleados.TabIndex = 19;
@@ -274,19 +277,21 @@
             this.dgvEmpleados.ReadOnly = true;
             this.dgvEmpleados.RowHeadersWidth = 51;
             this.dgvEmpleados.RowTemplate.Height = 24;
-            this.dgvEmpleados.Size = new System.Drawing.Size(979, 185);
+            this.dgvEmpleados.Size = new System.Drawing.Size(803, 185);
             this.dgvEmpleados.TabIndex = 20;
+            this.dgvEmpleados.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmpleados_CellContentClick);
             this.dgvEmpleados.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmpleados_CellContentDoubleClick);
             // 
             // btnUpdate
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnUpdate.Enabled = false;
             this.btnUpdate.FlatAppearance.BorderSize = 0;
             this.btnUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdate.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(777, 169);
+            this.btnUpdate.Location = new System.Drawing.Point(675, 176);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(150, 50);
             this.btnUpdate.TabIndex = 21;
@@ -297,12 +302,13 @@
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.Firebrick;
+            this.btnDelete.Enabled = false;
             this.btnDelete.FlatAppearance.BorderSize = 0;
             this.btnDelete.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(777, 249);
+            this.btnDelete.Location = new System.Drawing.Point(675, 266);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(150, 50);
             this.btnDelete.TabIndex = 22;
@@ -333,12 +339,54 @@
             this.pbWarningIcon.TabStop = false;
             this.pbWarningIcon.Visible = false;
             // 
+            // btnEnabling
+            // 
+            this.btnEnabling.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnEnabling.Enabled = false;
+            this.btnEnabling.FlatAppearance.BorderSize = 0;
+            this.btnEnabling.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            this.btnEnabling.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEnabling.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEnabling.ForeColor = System.Drawing.Color.White;
+            this.btnEnabling.Location = new System.Drawing.Point(893, 541);
+            this.btnEnabling.Name = "btnEnabling";
+            this.btnEnabling.Size = new System.Drawing.Size(150, 50);
+            this.btnEnabling.TabIndex = 26;
+            this.btnEnabling.Text = "HABILITAR";
+            this.btnEnabling.UseVisualStyleBackColor = false;
+            this.btnEnabling.Click += new System.EventHandler(this.btnEnabling_Click);
+            // 
+            // txtDisable
+            // 
+            this.txtDisable.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtDisable.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDisable.Location = new System.Drawing.Point(868, 500);
+            this.txtDisable.Name = "txtDisable";
+            this.txtDisable.ReadOnly = true;
+            this.txtDisable.Size = new System.Drawing.Size(200, 21);
+            this.txtDisable.TabIndex = 27;
+            // 
+            // lbDisableEmployees
+            // 
+            this.lbDisableEmployees.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lbDisableEmployees.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDisableEmployees.FormattingEnabled = true;
+            this.lbDisableEmployees.ItemHeight = 20;
+            this.lbDisableEmployees.Location = new System.Drawing.Point(868, 86);
+            this.lbDisableEmployees.Name = "lbDisableEmployees";
+            this.lbDisableEmployees.Size = new System.Drawing.Size(200, 400);
+            this.lbDisableEmployees.TabIndex = 28;
+            this.lbDisableEmployees.SelectedIndexChanged += new System.EventHandler(this.lbDisableEmployees_SelectedIndexChanged);
+            // 
             // Employees
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1059, 618);
+            this.ClientSize = new System.Drawing.Size(1155, 618);
+            this.Controls.Add(this.lbDisableEmployees);
+            this.Controls.Add(this.txtDisable);
+            this.Controls.Add(this.btnEnabling);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.btnDelete);
@@ -403,5 +451,8 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.PictureBox pbWarningIcon;
+        private System.Windows.Forms.Button btnEnabling;
+        private System.Windows.Forms.TextBox txtDisable;
+        private System.Windows.Forms.ListBox lbDisableEmployees;
     }
 }
