@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace Ambar.ViewController
 {
-    public partial class Contratos : Form
+    public partial class RatesReport : Form
     {
-        public Contratos()
+        public RatesReport()
         {
             InitializeComponent();
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

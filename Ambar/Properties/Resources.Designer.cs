@@ -103,6 +103,16 @@ namespace Ambar.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CSV_Logo {
+            get {
+                object obj = ResourceManager.GetObject("CSV_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Employee_Logo {
             get {
                 object obj = ResourceManager.GetObject("Employee_Logo", resourceCulture);
@@ -146,6 +156,16 @@ namespace Ambar.Properties {
         internal static System.Drawing.Bitmap Password_Logo {
             get {
                 object obj = ResourceManager.GetObject("Password_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PDF_Logo {
+            get {
+                object obj = ResourceManager.GetObject("PDF_Logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

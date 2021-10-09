@@ -19,7 +19,8 @@ namespace Ambar.ViewController
     public partial class Employees : Form
     {
         // DAO para hacer queries a la entidad empleados
-        EmployeeDAO dao = new EmployeeDAO(); 
+        EmployeeDAO dao = new EmployeeDAO();
+        UserRememberDAO userRemember = new UserRememberDAO();
         /* 
            Guardamos el username y el ID original de un empleado al que se le este aplicando una edicion o borrado para 
            tener una referencia de los datos originales
@@ -38,7 +39,14 @@ namespace Ambar.ViewController
 
         private void Empleados_Load(object sender, EventArgs e)
         {
-            dgvEmpleados.DataSource = dao.ReadAll();
+            List<EmployeeDTO> employees = dao.ReadAll();
+            List<EmployeeDTG> dtgEmployees = new List<EmployeeDTG>();
+            foreach(var employee in employees)
+            {
+                dtgEmployees.Add(new EmployeeDTG(employee));
+            }
+
+            this.dtgEmployees.DataSource = dtgEmployees;
 
             List<string> names = dao.ReadAllDisable();
             foreach (var ls in names)
@@ -90,15 +98,16 @@ namespace Ambar.ViewController
 
             dao.Create(employee);
 
-            dgvEmpleados.DataSource = dao.ReadAll();
+            dtgEmployees.DataSource = dao.ReadAll();
 
+            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
             ClearForm();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             // Nunca se deberia dar este caso, pero en caso de cualquier error se previene con este if
-            if (btnAccept.Enabled == false)
+            if (btnAccept.Enabled)
             {
                 return;
             }
@@ -142,59 +151,28 @@ namespace Ambar.ViewController
             employee.Password = txtPassword.Text;
 
             dao.Update(employee, originalUsername);
+            userRemember.UpdateRememberUser("Employee", originalUsername, employee.User_Name, employee.Password);
 
-            dgvEmpleados.DataSource = dao.ReadAll();
+            dtgEmployees.DataSource = dao.ReadAll();
 
+            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
             ClearForm();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
             // Nunca se deberia dar este caso, pero en caso de cualquier error se previene con este if
-            if (btnAccept.Enabled == false)
+            if (btnAccept.Enabled)
             {
                 return;
             }
 
             dao.Delete(originalID, originalUsername);
-            dgvEmpleados.DataSource = dao.ReadAll();
+            userRemember.ForgerPassword("Employee", originalUsername);
+            dtgEmployees.DataSource = dao.ReadAll();
 
+            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
             ClearForm();
-        }
-
-        private void dgvEmpleados_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-           
-
-        }
-
-        private void dgvEmpleados_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int index = e.RowIndex;
-            if (dgvPrevIndex == index)
-            {
-                ClearForm();
-                dgvPrevIndex = -1;
-                return;
-            }
-            else
-            {
-                originalID = (Guid)dgvEmpleados.Rows[index].Cells[0].Value;
-                txtNames.Text = dgvEmpleados.Rows[index].Cells[5].Value.ToString();
-                txtFatherLastName.Text = dgvEmpleados.Rows[index].Cells[6].Value.ToString();
-                txtMotherLastName.Text = dgvEmpleados.Rows[index].Cells[7].Value.ToString();
-                dtpBirthday.Value = Convert.ToDateTime(dgvEmpleados.Rows[index].Cells[8].Value.ToString());
-                txtRFC.Text = dgvEmpleados.Rows[index].Cells[9].Value.ToString();
-                txtCURP.Text = dgvEmpleados.Rows[index].Cells[10].Value.ToString();
-                txtUsername.Text = originalUsername = dgvEmpleados.Rows[index].Cells[1].Value.ToString();
-                txtPassword.Text = dgvEmpleados.Rows[index].Cells[2].Value.ToString();
-                txtConfirmPassword.Text = dgvEmpleados.Rows[index].Cells[2].Value.ToString();
-                btnAccept.Enabled = false;
-                btnUpdate.Enabled = true;
-                btnDelete.Enabled = true;
-            }
-
-            dgvPrevIndex = index;
         }
 
         private void lbDisableEmployees_SelectedIndexChanged(object sender, EventArgs e)
@@ -218,6 +196,18 @@ namespace Ambar.ViewController
         private void btnEnabling_Click(object sender, EventArgs e)
         {
             dao.Enabled(txtDisable.Text, true);
+
+            txtDisable.Clear();
+            btnEnabling.Enabled = false;
+            lbPrevIndex = -1;
+            lbDisableEmployees.ClearSelected();
+            lbDisableEmployees.Items.Clear();
+
+            List<string> names = dao.ReadAllDisable();
+            foreach (var name in names)
+            {
+                lbDisableEmployees.Items.Add(name);
+            }
         }
 
         private void ClearForm()
@@ -253,5 +243,35 @@ namespace Ambar.ViewController
             return rx.IsMatch(curp);
         }
 
+        private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (dgvPrevIndex == index)
+            {
+                ClearForm();
+                dgvPrevIndex = -1;
+                return;
+            }
+            else
+            {
+                originalID = (Guid)dtgEmployees.Rows[index].Cells[0].Value;
+                txtUsername.Text = originalUsername = dtgEmployees.Rows[index].Cells[1].Value.ToString();
+                txtPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
+                txtConfirmPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
+
+                txtNames.Text = dtgEmployees.Rows[index].Cells[3].Value.ToString();
+                txtFatherLastName.Text = dtgEmployees.Rows[index].Cells[4].Value.ToString();
+                txtMotherLastName.Text = dtgEmployees.Rows[index].Cells[5].Value.ToString();
+                dtpBirthday.Value = Convert.ToDateTime(dtgEmployees.Rows[index].Cells[6].Value.ToString());
+                txtRFC.Text = dtgEmployees.Rows[index].Cells[7].Value.ToString();
+                txtCURP.Text = dtgEmployees.Rows[index].Cells[8].Value.ToString();
+
+                btnAccept.Enabled = false;
+                btnUpdate.Enabled = true;
+                btnDelete.Enabled = true;
+            }
+
+            dgvPrevIndex = index;
+        }
     }
 }

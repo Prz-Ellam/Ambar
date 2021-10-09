@@ -8,14 +8,20 @@ namespace Ambar.Model.DTO
 {
     class RateDTO
     {
-        // Fecha
-        // Tipo de servicio
-        // Monto o porcentual
-        private DateTime period;
+        private Guid rate_id;
+        private decimal basic_level;
+        private decimal intermediate_level;
+        private decimal surplus_level;
         private string service;
-        private string typeOfRate;
-        private decimal basicLevel;
-        private decimal intermediateLevel;
-        private decimal surplusLevel;
+        private int year;
+        private short month;
+
+        public Guid Rate_ID { get => rate_id; set => rate_id = value; }
+        public decimal Basic_Level { get => basic_level; set => basic_level = value; }
+        public decimal Intermediate_Level { get => intermediate_level; set => intermediate_level = value; }
+        public decimal Surplus_Level { get => surplus_level; set => surplus_level = value; }
+        public string Service { get => service; set => service = value; }
+        public int Year { get => year; set => year = value; }
+        public short Month { get => month; set => month = value; }
     }
 }

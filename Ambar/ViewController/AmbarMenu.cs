@@ -80,7 +80,7 @@ namespace Ambar.ViewController
 
         private void btnContratos_Click(object sender, EventArgs e)
         {
-            openFormChild(new Contratos());
+            openFormChild(new Contracts());
         }
 
         private void btnLogout_Click(object sender, EventArgs e)

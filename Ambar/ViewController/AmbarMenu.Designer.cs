@@ -68,15 +68,15 @@
             // 
             this.panelStorage.Location = new System.Drawing.Point(306, 43);
             this.panelStorage.Name = "panelStorage";
-            this.panelStorage.Size = new System.Drawing.Size(1182, 683);
+            this.panelStorage.Size = new System.Drawing.Size(1235, 845);
             this.panelStorage.TabIndex = 8;
             // 
             // btnMinimized
             // 
-            this.btnMinimized.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMinimized.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMinimized.Image = global::Ambar.Properties.Resources.Minimized_Button_Logo;
-            this.btnMinimized.Location = new System.Drawing.Point(1432, 12);
+            this.btnMinimized.Location = new System.Drawing.Point(1487, 10);
             this.btnMinimized.Name = "btnMinimized";
             this.btnMinimized.Size = new System.Drawing.Size(25, 25);
             this.btnMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -86,10 +86,10 @@
             // 
             // btnClose
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClose.Image = global::Ambar.Properties.Resources.Close_Button_Logo;
-            this.btnClose.Location = new System.Drawing.Point(1463, 12);
+            this.btnClose.Location = new System.Drawing.Point(1518, 10);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(25, 25);
             this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -124,7 +124,7 @@
             this.gradientPanel1.Location = new System.Drawing.Point(0, 0);
             this.gradientPanel1.Name = "gradientPanel1";
             this.gradientPanel1.second = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            this.gradientPanel1.Size = new System.Drawing.Size(300, 726);
+            this.gradientPanel1.Size = new System.Drawing.Size(300, 900);
             this.gradientPanel1.TabIndex = 3;
             // 
             // lblUsernameLogged
@@ -443,7 +443,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1500, 726);
+            this.ClientSize = new System.Drawing.Size(1553, 900);
             this.Controls.Add(this.panelStorage);
             this.Controls.Add(this.btnMinimized);
             this.Controls.Add(this.btnClose);

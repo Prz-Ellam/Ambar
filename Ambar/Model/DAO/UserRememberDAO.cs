@@ -72,6 +72,12 @@ namespace Ambar.Model.DAO
             return users.ToList();
         }
 
+        public void UpdateRememberUser(string position, string oldUsername, string newUsername, string password)
+        {
+            ForgerPassword(position, oldUsername);
+            RememberPassword(position, newUsername, password);
+        }
+
 
     }
 }

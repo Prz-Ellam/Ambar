@@ -12,6 +12,9 @@ namespace Ambar
     static class Program
     {
         [STAThread]
+
+        // TODO: Si se elimina un empleado o cliente, tambien debe desaparecer del enabling
+        // Borrar y actualizar tambien en remember users
         static void Main()
         {
             Application.EnableVisualStyles();

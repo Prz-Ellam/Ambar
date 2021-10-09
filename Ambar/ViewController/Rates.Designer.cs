@@ -28,48 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.btnMasiveCharge = new System.Windows.Forms.Button();
+            this.cbService = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.btnAccept = new System.Windows.Forms.Button();
+            this.txtBasic = new System.Windows.Forms.TextBox();
+            this.txtIntermediate = new System.Windows.Forms.TextBox();
+            this.txtSurplus = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpPeriod = new System.Windows.Forms.DateTimePicker();
             this.lblEmpleados = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dgvRates = new System.Windows.Forms.DataGridView();
+            this.lblError = new System.Windows.Forms.Label();
+            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
+            this.RateID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Service = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Month = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BasicLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IntermediateLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SurplusLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRates)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // btnMasiveCharge
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(291, 326);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(150, 50);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "CARGA MASIVA";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnMasiveCharge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnMasiveCharge.FlatAppearance.BorderSize = 0;
+            this.btnMasiveCharge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMasiveCharge.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMasiveCharge.ForeColor = System.Drawing.Color.White;
+            this.btnMasiveCharge.Location = new System.Drawing.Point(261, 349);
+            this.btnMasiveCharge.Name = "btnMasiveCharge";
+            this.btnMasiveCharge.Size = new System.Drawing.Size(150, 50);
+            this.btnMasiveCharge.TabIndex = 0;
+            this.btnMasiveCharge.Text = "CARGA MASIVA";
+            this.btnMasiveCharge.UseVisualStyleBackColor = false;
+            this.btnMasiveCharge.Click += new System.EventHandler(this.btnMasiveCharge_Click);
             // 
-            // comboBox1
+            // cbService
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.cbService.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbService.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbService.FormattingEnabled = true;
+            this.cbService.Items.AddRange(new object[] {
             "Domestico",
             "Industrial"});
-            this.comboBox1.Location = new System.Drawing.Point(341, 75);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(175, 24);
-            this.comboBox1.TabIndex = 1;
+            this.cbService.Location = new System.Drawing.Point(238, 82);
+            this.cbService.Name = "cbService";
+            this.cbService.Size = new System.Drawing.Size(186, 28);
+            this.cbService.TabIndex = 1;
             // 
             // comboBox2
             // 
@@ -83,46 +96,54 @@
             this.comboBox2.Size = new System.Drawing.Size(186, 24);
             this.comboBox2.TabIndex = 2;
             // 
-            // button2
+            // btnAccept
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(95, 326);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(150, 50);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "ACEPTAR";
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnAccept.FlatAppearance.BorderSize = 0;
+            this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAccept.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAccept.ForeColor = System.Drawing.Color.White;
+            this.btnAccept.Location = new System.Drawing.Point(85, 349);
+            this.btnAccept.Name = "btnAccept";
+            this.btnAccept.Size = new System.Drawing.Size(150, 50);
+            this.btnAccept.TabIndex = 3;
+            this.btnAccept.Text = "ACEPTAR";
+            this.btnAccept.UseVisualStyleBackColor = false;
+            this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
             // 
-            // textBox1
+            // txtBasic
             // 
-            this.textBox1.Location = new System.Drawing.Point(239, 204);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(191, 22);
-            this.textBox1.TabIndex = 4;
+            this.txtBasic.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBasic.Location = new System.Drawing.Point(238, 231);
+            this.txtBasic.Name = "txtBasic";
+            this.txtBasic.Size = new System.Drawing.Size(334, 28);
+            this.txtBasic.TabIndex = 4;
+            this.txtBasic.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox2
+            // txtIntermediate
             // 
-            this.textBox2.Location = new System.Drawing.Point(239, 232);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(191, 22);
-            this.textBox2.TabIndex = 5;
+            this.txtIntermediate.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtIntermediate.Location = new System.Drawing.Point(238, 267);
+            this.txtIntermediate.Name = "txtIntermediate";
+            this.txtIntermediate.Size = new System.Drawing.Size(334, 28);
+            this.txtIntermediate.TabIndex = 5;
+            this.txtIntermediate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox3
+            // txtSurplus
             // 
-            this.textBox3.Location = new System.Drawing.Point(239, 260);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(191, 22);
-            this.textBox3.TabIndex = 6;
+            this.txtSurplus.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSurplus.Location = new System.Drawing.Point(238, 303);
+            this.txtSurplus.Name = "txtSurplus";
+            this.txtSurplus.Size = new System.Drawing.Size(334, 28);
+            this.txtSurplus.TabIndex = 6;
+            this.txtSurplus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(44, 204);
+            this.label1.Location = new System.Drawing.Point(58, 231);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(159, 20);
             this.label1.TabIndex = 7;
@@ -133,7 +154,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label2.Location = new System.Drawing.Point(22, 234);
+            this.label2.Location = new System.Drawing.Point(22, 269);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(198, 20);
             this.label2.TabIndex = 8;
@@ -144,118 +165,185 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label3.Location = new System.Drawing.Point(18, 260);
+            this.label3.Location = new System.Drawing.Point(22, 303);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(194, 20);
             this.label3.TabIndex = 9;
             this.label3.Text = "Consumo Excedente:";
             // 
-            // comboBox3
+            // dtpPeriod
             // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "AGUASCALIENTES",
-            "BAJA CALIFORNIA",
-            "BAJA CALIFORNIA SUR",
-            "CAMPECHE",
-            "CIUDAD DE MÉXICO",
-            "COAHUILA",
-            "COLIMA",
-            "CHIAPAS",
-            "CHIHUAHUA",
-            "DURANGO",
-            "ESTADO DE MÉXICO",
-            "GUANAJUATO",
-            "GUERRERO",
-            "HIDALGO",
-            "JALISCO",
-            "MICHOACÁN",
-            "MORELOS",
-            "NAYARIT",
-            "NUEVO LEÓN",
-            "OAXACA",
-            "PUEBLA",
-            "QUERÉTARO",
-            "QUINTANA ROO",
-            "SAN LUIS POTOSÍ",
-            "SINALOA",
-            "SONORA",
-            "TABASCO",
-            "TAMAULIPAS",
-            "TLAXCALA",
-            "VERACRUZ",
-            "YUCATÁN",
-            "ZACATECAS"});
-            this.comboBox3.Location = new System.Drawing.Point(508, 202);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(214, 24);
-            this.comboBox3.TabIndex = 10;
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(508, 234);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(214, 24);
-            this.comboBox4.TabIndex = 11;
-            // 
-            // comboBox5
-            // 
-            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(508, 264);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(214, 24);
-            this.comboBox5.TabIndex = 12;
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.CalendarFont = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.CustomFormat = "MMMM yyyy";
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(494, 348);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
-            this.dateTimePicker1.TabIndex = 13;
+            this.dtpPeriod.CalendarFont = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpPeriod.CustomFormat = "MMMM yyyy";
+            this.dtpPeriod.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpPeriod.Location = new System.Drawing.Point(238, 193);
+            this.dtpPeriod.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+            this.dtpPeriod.Name = "dtpPeriod";
+            this.dtpPeriod.ShowUpDown = true;
+            this.dtpPeriod.Size = new System.Drawing.Size(279, 28);
+            this.dtpPeriod.TabIndex = 13;
             // 
             // lblEmpleados
             // 
             this.lblEmpleados.AutoSize = true;
             this.lblEmpleados.Font = new System.Drawing.Font("Montserrat", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmpleados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmpleados.Location = new System.Drawing.Point(19, 18);
+            this.lblEmpleados.Location = new System.Drawing.Point(20, 20);
             this.lblEmpleados.Name = "lblEmpleados";
             this.lblEmpleados.Size = new System.Drawing.Size(157, 40);
             this.lblEmpleados.TabIndex = 20;
             this.lblEmpleados.Text = "TARIFAS";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.label4.Location = new System.Drawing.Point(59, 82);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(153, 20);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Tipo de Servicio:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.label5.Location = new System.Drawing.Point(12, 195);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(213, 20);
+            this.label5.TabIndex = 22;
+            this.label5.Text = "Periodo de facturación:";
+            // 
+            // dgvRates
+            // 
+            this.dgvRates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.RateID,
+            this.Service,
+            this.Year,
+            this.Month,
+            this.BasicLevel,
+            this.IntermediateLevel,
+            this.SurplusLevel});
+            this.dgvRates.Location = new System.Drawing.Point(16, 428);
+            this.dgvRates.Name = "dgvRates";
+            this.dgvRates.RowHeadersWidth = 51;
+            this.dgvRates.RowTemplate.Height = 24;
+            this.dgvRates.Size = new System.Drawing.Size(764, 150);
+            this.dgvRates.TabIndex = 23;
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Font = new System.Drawing.Font("Montserrat", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblError.Location = new System.Drawing.Point(527, 149);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(107, 19);
+            this.lblError.TabIndex = 25;
+            this.lblError.Text = "ERROR TEXT";
+            this.lblError.Visible = false;
+            // 
+            // pbWarningIcon
+            // 
+            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
+            this.pbWarningIcon.Location = new System.Drawing.Point(488, 143);
+            this.pbWarningIcon.Name = "pbWarningIcon";
+            this.pbWarningIcon.Size = new System.Drawing.Size(30, 30);
+            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbWarningIcon.TabIndex = 24;
+            this.pbWarningIcon.TabStop = false;
+            this.pbWarningIcon.Visible = false;
+            // 
+            // RateID
+            // 
+            this.RateID.DataPropertyName = "RATE_ID";
+            this.RateID.HeaderText = "ID";
+            this.RateID.MinimumWidth = 6;
+            this.RateID.Name = "RateID";
+            this.RateID.Width = 125;
+            // 
+            // Service
+            // 
+            this.Service.DataPropertyName = "SERVICE";
+            this.Service.HeaderText = "Servicio";
+            this.Service.MinimumWidth = 6;
+            this.Service.Name = "Service";
+            this.Service.Width = 125;
+            // 
+            // Year
+            // 
+            this.Year.DataPropertyName = "YEAR";
+            this.Year.HeaderText = "Año";
+            this.Year.MinimumWidth = 6;
+            this.Year.Name = "Year";
+            this.Year.Width = 125;
+            // 
+            // Month
+            // 
+            this.Month.DataPropertyName = "MONTH";
+            this.Month.HeaderText = "Mes";
+            this.Month.MinimumWidth = 6;
+            this.Month.Name = "Month";
+            this.Month.Width = 125;
+            // 
+            // BasicLevel
+            // 
+            this.BasicLevel.DataPropertyName = "BASIC_LEVEL";
+            this.BasicLevel.HeaderText = "Consumo Básico";
+            this.BasicLevel.MinimumWidth = 6;
+            this.BasicLevel.Name = "BasicLevel";
+            this.BasicLevel.Width = 125;
+            // 
+            // IntermediateLevel
+            // 
+            this.IntermediateLevel.DataPropertyName = "INTERMEDIATE_LEVEL";
+            this.IntermediateLevel.HeaderText = "Consumo Intermedio";
+            this.IntermediateLevel.MinimumWidth = 6;
+            this.IntermediateLevel.Name = "IntermediateLevel";
+            this.IntermediateLevel.Width = 125;
+            // 
+            // SurplusLevel
+            // 
+            this.SurplusLevel.DataPropertyName = "SURPLUS_LEVEL";
+            this.SurplusLevel.HeaderText = "Consumo Excedente";
+            this.SurplusLevel.MinimumWidth = 6;
+            this.SurplusLevel.Name = "SurplusLevel";
+            this.SurplusLevel.Width = 125;
             // 
             // Rates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(820, 606);
+            this.Controls.Add(this.lblError);
+            this.Controls.Add(this.pbWarningIcon);
+            this.Controls.Add(this.dgvRates);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.lblEmpleados);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.comboBox5);
-            this.Controls.Add(this.comboBox4);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.dtpPeriod);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.txtSurplus);
+            this.Controls.Add(this.txtIntermediate);
+            this.Controls.Add(this.txtBasic);
+            this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cbService);
+            this.Controls.Add(this.btnMasiveCharge);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Rates";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tarifas";
+            this.Load += new System.EventHandler(this.Rates_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRates)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -263,20 +351,29 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button btnMasiveCharge;
+        private System.Windows.Forms.ComboBox cbService;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Button btnAccept;
+        private System.Windows.Forms.TextBox txtBasic;
+        private System.Windows.Forms.TextBox txtIntermediate;
+        private System.Windows.Forms.TextBox txtSurplus;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox5;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpPeriod;
         private System.Windows.Forms.Label lblEmpleados;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DataGridView dgvRates;
+        private System.Windows.Forms.Label lblError;
+        private System.Windows.Forms.PictureBox pbWarningIcon;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RateID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Service;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Year;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Month;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BasicLevel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IntermediateLevel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SurplusLevel;
     }
 }
