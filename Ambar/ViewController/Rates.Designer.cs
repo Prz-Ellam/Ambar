@@ -42,9 +42,7 @@
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.dgvRates = new System.Windows.Forms.DataGridView();
-            this.lblError = new System.Windows.Forms.Label();
-            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
+            this.dtgRates = new System.Windows.Forms.DataGridView();
             this.RateID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Service = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,8 +50,13 @@
             this.BasicLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IntermediateLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SurplusLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRates)).BeginInit();
+            this.lblError = new System.Windows.Forms.Label();
+            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
+            this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgRates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnMasiveCharge
@@ -154,7 +157,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label2.Location = new System.Drawing.Point(22, 269);
+            this.label2.Location = new System.Drawing.Point(17, 269);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(198, 20);
             this.label2.TabIndex = 8;
@@ -211,16 +214,16 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label5.Location = new System.Drawing.Point(12, 195);
+            this.label5.Location = new System.Drawing.Point(4, 195);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(213, 20);
             this.label5.TabIndex = 22;
             this.label5.Text = "Periodo de facturación:";
             // 
-            // dgvRates
+            // dtgRates
             // 
-            this.dgvRates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dtgRates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgRates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.RateID,
             this.Service,
             this.Year,
@@ -228,35 +231,12 @@
             this.BasicLevel,
             this.IntermediateLevel,
             this.SurplusLevel});
-            this.dgvRates.Location = new System.Drawing.Point(16, 428);
-            this.dgvRates.Name = "dgvRates";
-            this.dgvRates.RowHeadersWidth = 51;
-            this.dgvRates.RowTemplate.Height = 24;
-            this.dgvRates.Size = new System.Drawing.Size(764, 150);
-            this.dgvRates.TabIndex = 23;
-            // 
-            // lblError
-            // 
-            this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Montserrat", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(527, 149);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(107, 19);
-            this.lblError.TabIndex = 25;
-            this.lblError.Text = "ERROR TEXT";
-            this.lblError.Visible = false;
-            // 
-            // pbWarningIcon
-            // 
-            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(488, 143);
-            this.pbWarningIcon.Name = "pbWarningIcon";
-            this.pbWarningIcon.Size = new System.Drawing.Size(30, 30);
-            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbWarningIcon.TabIndex = 24;
-            this.pbWarningIcon.TabStop = false;
-            this.pbWarningIcon.Visible = false;
+            this.dtgRates.Location = new System.Drawing.Point(16, 428);
+            this.dtgRates.Name = "dtgRates";
+            this.dtgRates.RowHeadersWidth = 51;
+            this.dtgRates.RowTemplate.Height = 24;
+            this.dtgRates.Size = new System.Drawing.Size(764, 150);
+            this.dtgRates.TabIndex = 23;
             // 
             // RateID
             // 
@@ -314,15 +294,54 @@
             this.SurplusLevel.Name = "SurplusLevel";
             this.SurplusLevel.Width = 125;
             // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Font = new System.Drawing.Font("Montserrat", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblError.Location = new System.Drawing.Point(527, 149);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(107, 19);
+            this.lblError.TabIndex = 25;
+            this.lblError.Text = "ERROR TEXT";
+            this.lblError.Visible = false;
+            // 
+            // pbWarningIcon
+            // 
+            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
+            this.pbWarningIcon.Location = new System.Drawing.Point(488, 143);
+            this.pbWarningIcon.Name = "pbWarningIcon";
+            this.pbWarningIcon.Size = new System.Drawing.Size(30, 30);
+            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbWarningIcon.TabIndex = 24;
+            this.pbWarningIcon.TabStop = false;
+            this.pbWarningIcon.Visible = false;
+            // 
+            // ofnMassive
+            // 
+            this.ofnMassive.FileName = ".";
+            this.ofnMassive.Filter = "CSV (*.csv)|*.csv|XLSX (*.xlsx)|*.xlsx";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(704, 143);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(498, 223);
+            this.dataGridView1.TabIndex = 26;
+            // 
             // Rates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(820, 606);
+            this.ClientSize = new System.Drawing.Size(1242, 606);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.pbWarningIcon);
-            this.Controls.Add(this.dgvRates);
+            this.Controls.Add(this.dtgRates);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lblEmpleados);
@@ -342,8 +361,9 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tarifas";
             this.Load += new System.EventHandler(this.Rates_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRates)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgRates)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -365,7 +385,7 @@
         private System.Windows.Forms.Label lblEmpleados;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DataGridView dgvRates;
+        private System.Windows.Forms.DataGridView dtgRates;
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.PictureBox pbWarningIcon;
         private System.Windows.Forms.DataGridViewTextBoxColumn RateID;
@@ -375,5 +395,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn BasicLevel;
         private System.Windows.Forms.DataGridViewTextBoxColumn IntermediateLevel;
         private System.Windows.Forms.DataGridViewTextBoxColumn SurplusLevel;
+        private System.Windows.Forms.OpenFileDialog ofnMassive;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

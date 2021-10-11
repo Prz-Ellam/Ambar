@@ -117,6 +117,9 @@ namespace Ambar.ViewController
 
         }
 
-     
+        private void btnRatesReport_Click(object sender, EventArgs e)
+        {
+            openFormChild(new RatesReport());
+        }
     }
 }

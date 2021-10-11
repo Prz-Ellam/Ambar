@@ -64,6 +64,26 @@ namespace Ambar.Model.DAO
         }
 
 
+        public List<RateDTO> ReadByYear(int year)
+        {
+            string query = string.Format("SELECT * FROM RATES_BY_YEAR WHERE YEAR = {0};", year);
+
+            IMapper mapper = new Mapper(session);
+            IEnumerable<RateDTO> rates;
+
+            try
+            {
+                rates = mapper.Fetch<RateDTO>(query);
+            }
+            catch (System.InvalidOperationException e)
+            {
+                return null;
+            }
+
+            return rates.ToList();
+        }
+
+
         public List<RateDTO> ReadAll()
         {
             string query = "SELECT * FROM RATES";

@@ -54,7 +54,7 @@
             this.txtKilowatts.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtKilowatts.Location = new System.Drawing.Point(249, 145);
             this.txtKilowatts.Name = "txtKilowatts";
-            this.txtKilowatts.Size = new System.Drawing.Size(227, 28);
+            this.txtKilowatts.Size = new System.Drawing.Size(279, 28);
             this.txtKilowatts.TabIndex = 0;
             this.txtKilowatts.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -102,7 +102,7 @@
             this.txtMeterSerialNumber.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMeterSerialNumber.Location = new System.Drawing.Point(249, 97);
             this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
-            this.txtMeterSerialNumber.Size = new System.Drawing.Size(227, 28);
+            this.txtMeterSerialNumber.Size = new System.Drawing.Size(279, 28);
             this.txtMeterSerialNumber.TabIndex = 4;
             this.txtMeterSerialNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 

@@ -40,7 +40,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnRatesReport = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.panelEmployees = new System.Windows.Forms.Panel();
@@ -166,7 +166,7 @@
             this.SubmenuReportes.Controls.Add(this.panel4);
             this.SubmenuReportes.Controls.Add(this.button3);
             this.SubmenuReportes.Controls.Add(this.panel3);
-            this.SubmenuReportes.Controls.Add(this.button2);
+            this.SubmenuReportes.Controls.Add(this.btnRatesReport);
             this.SubmenuReportes.Controls.Add(this.panel2);
             this.SubmenuReportes.Controls.Add(this.button1);
             this.SubmenuReportes.Location = new System.Drawing.Point(12, 466);
@@ -207,21 +207,22 @@
             this.panel3.Size = new System.Drawing.Size(14, 40);
             this.panel3.TabIndex = 11;
             // 
-            // button2
+            // btnRatesReport
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(25, 50);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(263, 40);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "Reporte de Tarifas";
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnRatesReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnRatesReport.FlatAppearance.BorderSize = 0;
+            this.btnRatesReport.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnRatesReport.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnRatesReport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRatesReport.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRatesReport.ForeColor = System.Drawing.Color.White;
+            this.btnRatesReport.Location = new System.Drawing.Point(25, 50);
+            this.btnRatesReport.Name = "btnRatesReport";
+            this.btnRatesReport.Size = new System.Drawing.Size(263, 40);
+            this.btnRatesReport.TabIndex = 16;
+            this.btnRatesReport.Text = "Reporte de Tarifas";
+            this.btnRatesReport.UseVisualStyleBackColor = false;
+            this.btnRatesReport.Click += new System.EventHandler(this.btnRatesReport_Click);
             // 
             // panel2
             // 
@@ -486,7 +487,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel SubmenuReportes;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnRatesReport;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button button3;

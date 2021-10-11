@@ -16,7 +16,7 @@ using Cassandra;
 
 namespace Ambar.ViewController
 {
-    public partial class Employees : Form
+    public partial class Employees : Form, IAmbarForm
     {
         // DAO para hacer queries a la entidad empleados
         EmployeeDAO dao = new EmployeeDAO();
@@ -29,7 +29,7 @@ namespace Ambar.ViewController
         Guid originalID;
 
         // Indices seleccionados del combobox y el data grid view
-        int dgvPrevIndex = -1;
+        int dtgPrevIndex = -1;
         int lbPrevIndex = -1;
 
         public Employees()
@@ -39,12 +39,7 @@ namespace Ambar.ViewController
 
         private void Empleados_Load(object sender, EventArgs e)
         {
-            List<EmployeeDTO> employees = dao.ReadAll();
-            List<EmployeeDTG> dtgEmployees = new List<EmployeeDTG>();
-            foreach(var employee in employees)
-            {
-                dtgEmployees.Add(new EmployeeDTG(employee));
-            }
+            FillDataGridView();
 
             this.dtgEmployees.DataSource = dtgEmployees;
 
@@ -98,10 +93,10 @@ namespace Ambar.ViewController
 
             dao.Create(employee);
 
-            dtgEmployees.DataSource = dao.ReadAll();
+            FillDataGridView();
 
-            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
             ClearForm();
+            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -153,10 +148,10 @@ namespace Ambar.ViewController
             dao.Update(employee, originalUsername);
             userRemember.UpdateRememberUser("Employee", originalUsername, employee.User_Name, employee.Password);
 
-            dtgEmployees.DataSource = dao.ReadAll();
+            FillDataGridView();
 
-            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
             ClearForm();
+            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -167,12 +162,19 @@ namespace Ambar.ViewController
                 return;
             }
 
-            dao.Delete(originalID, originalUsername);
-            userRemember.ForgerPassword("Employee", originalUsername);
-            dtgEmployees.DataSource = dao.ReadAll();
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "ADVERTENCIA", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
-            ClearForm();
+            if (res == DialogResult.Yes)
+            {
+                dao.Delete(originalID, originalUsername);
+                userRemember.ForgerPassword("Employee", originalUsername);
+
+                FillDataGridView();
+
+                ClearForm();
+                MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            }
         }
 
         private void lbDisableEmployees_SelectedIndexChanged(object sender, EventArgs e)
@@ -210,7 +212,7 @@ namespace Ambar.ViewController
             }
         }
 
-        private void ClearForm()
+        public void ClearForm()
         {
             txtNames.Clear();
             txtFatherLastName.Clear();
@@ -228,7 +230,7 @@ namespace Ambar.ViewController
             lblError.Visible = false;
         }
 
-        private void PrintError(string error)
+        public void PrintError(string error)
         {
             pbWarningIcon.Visible = true;
             lblError.Visible = true;
@@ -246,10 +248,10 @@ namespace Ambar.ViewController
         private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-            if (dgvPrevIndex == index)
+            if (dtgPrevIndex == index)
             {
                 ClearForm();
-                dgvPrevIndex = -1;
+                dtgPrevIndex = -1;
                 return;
             }
             else
@@ -271,7 +273,18 @@ namespace Ambar.ViewController
                 btnDelete.Enabled = true;
             }
 
-            dgvPrevIndex = index;
+            dtgPrevIndex = index;
         }
+
+        public void FillDataGridView()
+        {
+            List<EmployeeDTO> employees = dao.ReadAll();
+            List<EmployeeDTG> dtgEmployees = new List<EmployeeDTG>();
+            foreach (var employee in employees)
+            {
+                dtgEmployees.Add(new EmployeeDTG(employee));
+            }
+        }
+
     }
 }

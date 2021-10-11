@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ambar.Model.DTO;
 using Cassandra;
+using Cassandra.Mapping;
 
 namespace Ambar.Model.DAO
 {
@@ -42,11 +43,23 @@ namespace Ambar.Model.DAO
             session.Execute(batch);
         }
 
-        public List<ContractDTO> ReadClientContracts(string client)
+        public List<ContractDTO> ReadClientContracts(Guid clientID)
         {
+            string query = string.Format("SELECT * FROM CLIENT_CONTRACTS WHERE CLIENT_ID = {0}", clientID);
 
+            IMapper mapper = new Mapper(session);
+            IEnumerable<ContractDTO> contracts;
 
-            return null;
+            try
+            {
+                contracts = mapper.Fetch<ContractDTO>(query);
+            }
+            catch (System.InvalidOperationException e)
+            {
+                return null;
+            }
+
+            return contracts.ToList();
         }
     }
 }

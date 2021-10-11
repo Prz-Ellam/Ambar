@@ -49,13 +49,6 @@
             this.txtConfirmPassword = new System.Windows.Forms.TextBox();
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.dtgEmployees = new System.Windows.Forms.DataGridView();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.lblError = new System.Windows.Forms.Label();
-            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
-            this.btnEnabling = new System.Windows.Forms.Button();
-            this.txtDisable = new System.Windows.Forms.TextBox();
-            this.lbDisableEmployees = new System.Windows.Forms.ListBox();
             this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Username = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Password = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,6 +58,13 @@
             this.DateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RFC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CURP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.lblError = new System.Windows.Forms.Label();
+            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
+            this.btnEnabling = new System.Windows.Forms.Button();
+            this.txtDisable = new System.Windows.Forms.TextBox();
+            this.lbDisableEmployees = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             this.SuspendLayout();
@@ -320,6 +320,87 @@
             this.dtgEmployees.TabIndex = 20;
             this.dtgEmployees.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEmployees_CellDoubleClick);
             // 
+            // UserID
+            // 
+            this.UserID.DataPropertyName = "USER_ID";
+            this.UserID.HeaderText = "ID";
+            this.UserID.MinimumWidth = 6;
+            this.UserID.Name = "UserID";
+            this.UserID.ReadOnly = true;
+            this.UserID.Width = 125;
+            // 
+            // Username
+            // 
+            this.Username.DataPropertyName = "USER_NAME";
+            this.Username.HeaderText = "Usuario";
+            this.Username.MinimumWidth = 6;
+            this.Username.Name = "Username";
+            this.Username.ReadOnly = true;
+            this.Username.Width = 125;
+            // 
+            // Password
+            // 
+            this.Password.DataPropertyName = "PASSWORD";
+            this.Password.HeaderText = "Contraseña";
+            this.Password.MinimumWidth = 6;
+            this.Password.Name = "Password";
+            this.Password.ReadOnly = true;
+            this.Password.Width = 125;
+            // 
+            // FirstName
+            // 
+            this.FirstName.DataPropertyName = "FIRST_NAME";
+            this.FirstName.HeaderText = "Nombre(s)";
+            this.FirstName.MinimumWidth = 6;
+            this.FirstName.Name = "FirstName";
+            this.FirstName.ReadOnly = true;
+            this.FirstName.Width = 125;
+            // 
+            // FatherLastName
+            // 
+            this.FatherLastName.DataPropertyName = "FATHER_LAST_NAME";
+            this.FatherLastName.HeaderText = "Apellido Paterno";
+            this.FatherLastName.MinimumWidth = 6;
+            this.FatherLastName.Name = "FatherLastName";
+            this.FatherLastName.ReadOnly = true;
+            this.FatherLastName.Width = 125;
+            // 
+            // MotherLastName
+            // 
+            this.MotherLastName.DataPropertyName = "MOTHER_LAST_NAME";
+            this.MotherLastName.HeaderText = "Apellido Materno";
+            this.MotherLastName.MinimumWidth = 6;
+            this.MotherLastName.Name = "MotherLastName";
+            this.MotherLastName.ReadOnly = true;
+            this.MotherLastName.Width = 125;
+            // 
+            // DateOfBirth
+            // 
+            this.DateOfBirth.DataPropertyName = "DATE_OF_BIRTH";
+            this.DateOfBirth.HeaderText = "Fecha de Nacimiento";
+            this.DateOfBirth.MinimumWidth = 6;
+            this.DateOfBirth.Name = "DateOfBirth";
+            this.DateOfBirth.ReadOnly = true;
+            this.DateOfBirth.Width = 125;
+            // 
+            // RFC
+            // 
+            this.RFC.DataPropertyName = "RFC";
+            this.RFC.HeaderText = "RFC";
+            this.RFC.MinimumWidth = 6;
+            this.RFC.Name = "RFC";
+            this.RFC.ReadOnly = true;
+            this.RFC.Width = 125;
+            // 
+            // CURP
+            // 
+            this.CURP.DataPropertyName = "CURP";
+            this.CURP.HeaderText = "CURP";
+            this.CURP.MinimumWidth = 6;
+            this.CURP.Name = "CURP";
+            this.CURP.ReadOnly = true;
+            this.CURP.Width = 125;
+            // 
             // btnUpdate
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
@@ -414,87 +495,6 @@
             this.lbDisableEmployees.Size = new System.Drawing.Size(250, 520);
             this.lbDisableEmployees.TabIndex = 28;
             this.lbDisableEmployees.SelectedIndexChanged += new System.EventHandler(this.lbDisableEmployees_SelectedIndexChanged);
-            // 
-            // UserID
-            // 
-            this.UserID.DataPropertyName = "USER_ID";
-            this.UserID.HeaderText = "ID";
-            this.UserID.MinimumWidth = 6;
-            this.UserID.Name = "UserID";
-            this.UserID.ReadOnly = true;
-            this.UserID.Width = 125;
-            // 
-            // Username
-            // 
-            this.Username.DataPropertyName = "USER_NAME";
-            this.Username.HeaderText = "Usuario";
-            this.Username.MinimumWidth = 6;
-            this.Username.Name = "Username";
-            this.Username.ReadOnly = true;
-            this.Username.Width = 125;
-            // 
-            // Password
-            // 
-            this.Password.DataPropertyName = "PASSWORD";
-            this.Password.HeaderText = "Contraseña";
-            this.Password.MinimumWidth = 6;
-            this.Password.Name = "Password";
-            this.Password.ReadOnly = true;
-            this.Password.Width = 125;
-            // 
-            // FirstName
-            // 
-            this.FirstName.DataPropertyName = "FIRST_NAME";
-            this.FirstName.HeaderText = "Nombre(s)";
-            this.FirstName.MinimumWidth = 6;
-            this.FirstName.Name = "FirstName";
-            this.FirstName.ReadOnly = true;
-            this.FirstName.Width = 125;
-            // 
-            // FatherLastName
-            // 
-            this.FatherLastName.DataPropertyName = "FATHER_LAST_NAME";
-            this.FatherLastName.HeaderText = "Apellido Paterno";
-            this.FatherLastName.MinimumWidth = 6;
-            this.FatherLastName.Name = "FatherLastName";
-            this.FatherLastName.ReadOnly = true;
-            this.FatherLastName.Width = 125;
-            // 
-            // MotherLastName
-            // 
-            this.MotherLastName.DataPropertyName = "MOTHER_LAST_NAME";
-            this.MotherLastName.HeaderText = "Apellido Materno";
-            this.MotherLastName.MinimumWidth = 6;
-            this.MotherLastName.Name = "MotherLastName";
-            this.MotherLastName.ReadOnly = true;
-            this.MotherLastName.Width = 125;
-            // 
-            // DateOfBirth
-            // 
-            this.DateOfBirth.DataPropertyName = "DATE_OF_BIRTH";
-            this.DateOfBirth.HeaderText = "Fecha de Nacimiento";
-            this.DateOfBirth.MinimumWidth = 6;
-            this.DateOfBirth.Name = "DateOfBirth";
-            this.DateOfBirth.ReadOnly = true;
-            this.DateOfBirth.Width = 125;
-            // 
-            // RFC
-            // 
-            this.RFC.DataPropertyName = "RFC";
-            this.RFC.HeaderText = "RFC";
-            this.RFC.MinimumWidth = 6;
-            this.RFC.Name = "RFC";
-            this.RFC.ReadOnly = true;
-            this.RFC.Width = 125;
-            // 
-            // CURP
-            // 
-            this.CURP.DataPropertyName = "CURP";
-            this.CURP.HeaderText = "CURP";
-            this.CURP.MinimumWidth = 6;
-            this.CURP.Name = "CURP";
-            this.CURP.ReadOnly = true;
-            this.CURP.Width = 125;
             // 
             // Employees
             // 

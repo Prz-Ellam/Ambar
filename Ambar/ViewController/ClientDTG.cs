@@ -1,13 +1,14 @@
-﻿using Cassandra;
+﻿using Ambar.Model.DTO;
+using Cassandra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ambar.Model.DTO
+namespace Ambar.ViewController
 {
-    class ClientDTO
+    class ClientDTG
     {
         private Guid user_id;
         private string user_name;
@@ -15,24 +16,33 @@ namespace Ambar.Model.DTO
         private string first_name;
         private string father_last_name;
         private string mother_last_name;
-        private LocalDate date_of_birth;
         private IEnumerable<string> emails = new List<string>();
+        private LocalDate date_of_birth;
         private string curp;
         private string gender;
-        private DateTimeOffset creation_date;
-        private Dictionary<DateTimeOffset, string> modification_date;
+        public ClientDTG(ClientDTO dto)
+        {
+            user_id = dto.User_ID;
+            user_name = dto.User_Name;
+            password = dto.Password;
+            first_name = dto.First_Name;
+            father_last_name = dto.Father_Last_Name;
+            mother_last_name = dto.Mother_Last_Name;
+            date_of_birth = dto.Date_Of_Birth;
+            curp = dto.CURP;
+            gender = dto.Gender;
+            emails = dto.Emails;
+        }
 
         public Guid User_ID { get => user_id; set => user_id = value; }
         public string User_Name { get => user_name; set => user_name = value; }
         public string Password { get => password; set => password = value; }
-        public DateTimeOffset Creation_date { get => creation_date; set => creation_date = value; }
-        public Dictionary<DateTimeOffset, string> Modification_date { get => modification_date; set => modification_date = value; }
         public string First_Name { get => first_name; set => first_name = value; }
         public string Father_Last_Name { get => father_last_name; set => father_last_name = value; }
         public string Mother_Last_Name { get => mother_last_name; set => mother_last_name = value; }
-        public LocalDate Date_Of_Birth { get => date_of_birth; set => date_of_birth = value; }
         public IEnumerable<string> Emails { get => emails; set => emails = value; }
-        public string CURP { get => curp; set => curp = value; }
+        public LocalDate Date_Of_Birth { get => date_of_birth; set => date_of_birth = value; }
+        public string Curp { get => curp; set => curp = value; }
         public string Gender { get => gender; set => gender = value; }
     }
 }

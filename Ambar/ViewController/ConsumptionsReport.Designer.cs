@@ -33,14 +33,14 @@ namespace Ambar.ViewController
             this.label4 = new System.Windows.Forms.Label();
             this.dtpYear = new System.Windows.Forms.DateTimePicker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnPDF = new System.Windows.Forms.Button();
-            this.btnCSV = new System.Windows.Forms.Button();
             this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Month = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LevelSerialMeter = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BasicLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IntermediateLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SurplusLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnPDF = new System.Windows.Forms.Button();
+            this.btnCSV = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,6 +78,7 @@ namespace Ambar.ViewController
             this.dtpYear.ShowUpDown = true;
             this.dtpYear.Size = new System.Drawing.Size(200, 28);
             this.dtpYear.TabIndex = 24;
+            this.dtpYear.ValueChanged += new System.EventHandler(this.dtpYear_ValueChanged);
             // 
             // dataGridView1
             // 
@@ -93,38 +94,8 @@ namespace Ambar.ViewController
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(803, 310);
+            this.dataGridView1.Size = new System.Drawing.Size(870, 310);
             this.dataGridView1.TabIndex = 26;
-            // 
-            // btnPDF
-            // 
-            this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            this.btnPDF.FlatAppearance.BorderSize = 0;
-            this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPDF.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPDF.Image = global::Ambar.Properties.Resources.PDF_Logo;
-            this.btnPDF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPDF.Location = new System.Drawing.Point(721, 480);
-            this.btnPDF.Name = "btnPDF";
-            this.btnPDF.Size = new System.Drawing.Size(225, 75);
-            this.btnPDF.TabIndex = 28;
-            this.btnPDF.Text = "          GENERAR PDF";
-            this.btnPDF.UseVisualStyleBackColor = false;
-            // 
-            // btnCSV
-            // 
-            this.btnCSV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            this.btnCSV.FlatAppearance.BorderSize = 0;
-            this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCSV.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCSV.Image = global::Ambar.Properties.Resources.CSV_Logo;
-            this.btnCSV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCSV.Location = new System.Drawing.Point(449, 480);
-            this.btnCSV.Name = "btnCSV";
-            this.btnCSV.Size = new System.Drawing.Size(225, 75);
-            this.btnCSV.TabIndex = 27;
-            this.btnCSV.Text = "          GENERAR CSV";
-            this.btnCSV.UseVisualStyleBackColor = false;
             // 
             // Year
             // 
@@ -168,12 +139,44 @@ namespace Ambar.ViewController
             this.SurplusLevel.Name = "SurplusLevel";
             this.SurplusLevel.Width = 125;
             // 
+            // btnPDF
+            // 
+            this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnPDF.FlatAppearance.BorderSize = 0;
+            this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPDF.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPDF.Image = global::Ambar.Properties.Resources.PDF_Logo;
+            this.btnPDF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPDF.Location = new System.Drawing.Point(637, 480);
+            this.btnPDF.Name = "btnPDF";
+            this.btnPDF.Size = new System.Drawing.Size(300, 100);
+            this.btnPDF.TabIndex = 28;
+            this.btnPDF.Text = "          GENERAR PDF";
+            this.btnPDF.UseVisualStyleBackColor = false;
+            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
+            // 
+            // btnCSV
+            // 
+            this.btnCSV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnCSV.FlatAppearance.BorderSize = 0;
+            this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCSV.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCSV.Image = global::Ambar.Properties.Resources.CSV_Logo;
+            this.btnCSV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCSV.Location = new System.Drawing.Point(276, 480);
+            this.btnCSV.Name = "btnCSV";
+            this.btnCSV.Size = new System.Drawing.Size(300, 100);
+            this.btnCSV.TabIndex = 27;
+            this.btnCSV.Text = "          GENERAR CSV";
+            this.btnCSV.UseVisualStyleBackColor = false;
+            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
+            // 
             // ConsumptionsReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1029, 586);
+            this.ClientSize = new System.Drawing.Size(1062, 616);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.dataGridView1);
@@ -183,6 +186,7 @@ namespace Ambar.ViewController
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ConsumptionsReport";
             this.Text = "ConsumptionsReport";
+            this.Load += new System.EventHandler(this.ConsumptionsReport_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -31,7 +31,7 @@ namespace Ambar.ViewController
 
         private void Clients_Load(object sender, EventArgs e)
         {
-            dtgClients.DataSource = dao.ReadAll();
+            FillDataGridView();
 
             List<string> names = dao.ReadAllDisable();
             foreach (var name in names)
@@ -44,7 +44,7 @@ namespace Ambar.ViewController
         {
             if (txtFirstName.Text == string.Empty || txtFatherLastName.Text == string.Empty ||
                 txtMotherLastName.Text == string.Empty || txtCURP.Text == string.Empty ||
-                cbEmails.Items.Count <= 0 || txtUsername.Text == string.Empty || 
+                cbEmails.Items.Count <= 0 || txtUsername.Text == string.Empty ||
                 txtPassword.Text == string.Empty || txtConfirmPassword.Text == string.Empty)
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
@@ -75,10 +75,14 @@ namespace Ambar.ViewController
             client.Father_Last_Name = txtFatherLastName.Text;
             client.Mother_Last_Name = txtMotherLastName.Text;
             client.CURP = txtCURP.Text;
+
+            List<string> emailsAux = new List<string>();
             for (int i = 0; i < cbEmails.Items.Count; i++)
             {
-                client.Emails.Add(cbEmails.Items[i].ToString());
+                emailsAux.Add(cbEmails.Items[i].ToString());
             }
+            client.Emails = emailsAux.AsEnumerable<string>();
+
             client.Date_Of_Birth = new LocalDate(dtpDateOfBirth.Value.Year, dtpDateOfBirth.Value.Month, dtpDateOfBirth.Value.Day);
             client.Gender = cbGender.Text;
             client.User_Name = txtUsername.Text;
@@ -86,9 +90,10 @@ namespace Ambar.ViewController
 
             dao.Create(client);
 
-            dtgClients.DataSource = dao.ReadAll();
+            FillDataGridView();
 
             ClearForm();
+            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -100,7 +105,7 @@ namespace Ambar.ViewController
 
             if (txtFirstName.Text == string.Empty || txtFatherLastName.Text == string.Empty ||
                txtMotherLastName.Text == string.Empty || txtCURP.Text == string.Empty ||
-               cbEmails.Items.Count <= 0 || txtUsername.Text == string.Empty || 
+               cbEmails.Items.Count <= 0 || txtUsername.Text == string.Empty ||
                txtPassword.Text == string.Empty || txtConfirmPassword.Text == string.Empty)
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
@@ -131,10 +136,14 @@ namespace Ambar.ViewController
             client.Father_Last_Name = txtFatherLastName.Text;
             client.Mother_Last_Name = txtMotherLastName.Text;
             client.CURP = txtCURP.Text;
+
+            List<string> emailsAux = new List<string>();
             for (int i = 0; i < cbEmails.Items.Count; i++)
             {
-                client.Emails.Add(cbEmails.Items[i].ToString());
+                emailsAux.Add(cbEmails.Items[i].ToString());
             }
+            client.Emails = emailsAux.AsEnumerable<string>();
+
             client.Date_Of_Birth = new LocalDate(dtpDateOfBirth.Value.Year, dtpDateOfBirth.Value.Month, dtpDateOfBirth.Value.Day);
             client.Gender = cbGender.Text;
             client.User_Name = txtUsername.Text;
@@ -143,9 +152,10 @@ namespace Ambar.ViewController
             dao.Update(client, originalUsername);
             userRemember.UpdateRememberUser("Client", originalUsername, client.User_Name, client.Password);
 
-            dtgClients.DataSource = dao.ReadAll();
+            FillDataGridView();
 
             ClearForm();
+            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
         }
 
         private void cbEmails_KeyDown(object sender, KeyEventArgs e)
@@ -175,38 +185,6 @@ namespace Ambar.ViewController
             return rx.IsMatch(curp);
         }
 
-        private void dgvClientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int index = e.RowIndex;
-            if (dgvPrevIndex == index)
-            {
-                ClearForm();
-                dgvPrevIndex = -1;
-                return;
-            }
-            else
-            {
-                originalID = (Guid)dtgClients.Rows[index].Cells[0].Value;
-                txtFirstName.Text = dtgClients.Rows[index].Cells[5].Value.ToString();
-                txtFatherLastName.Text = dtgClients.Rows[index].Cells[6].Value.ToString();
-                txtMotherLastName.Text = dtgClients.Rows[index].Cells[7].Value.ToString();
-                dtpDateOfBirth.Value = Convert.ToDateTime(dtgClients.Rows[index].Cells[8].Value.ToString());
-                ////cbGender.Text = dgvEmpleados.Rows[index].Cells[10].Value.ToString();
-                ///
-                //dgvClients.Rows[index].
-                cbGender.SelectedIndex = cbGender.FindString(dtgClients.Rows[index].Cells[10].Value.ToString());
-                txtCURP.Text = dtgClients.Rows[index].Cells[9].Value.ToString();
-                txtUsername.Text = originalUsername = dtgClients.Rows[index].Cells[1].Value.ToString();
-                txtPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
-                txtConfirmPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
-                btnAccept.Enabled = false;
-                btnUpdate.Enabled = true;
-                btnDelete.Enabled = true;
-            }
-
-            dgvPrevIndex = index;
-        }
-
         private void ClearForm()
         {
             txtFirstName.Clear();
@@ -233,11 +211,19 @@ namespace Ambar.ViewController
                 return;
             }
 
-            dao.Delete(originalID, originalUsername);
-            userRemember.ForgerPassword("Client", originalUsername);
-            dtgClients.DataSource = dao.ReadAll();
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "ADVERTENCIA",
+               MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            ClearForm();
+            if (res == DialogResult.Yes)
+            {
+                dao.Delete(originalID, originalUsername);
+                userRemember.ForgerPassword("Client", originalUsername);
+
+                FillDataGridView();
+
+                ClearForm();
+                MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            }
         }
 
         private void btnEnabling_Click(object sender, EventArgs e)
@@ -273,6 +259,60 @@ namespace Ambar.ViewController
                 btnEnabling.Enabled = true;
                 lbPrevIndex = lbDisableClients.SelectedIndex;
             }
+        }
+
+        private void FillDataGridView()
+        {
+            List<ClientDTO> clients = dao.ReadAll();
+            List<ClientDTG> dtgClients = new List<ClientDTG>();
+            foreach (var client in clients)
+            {
+                dtgClients.Add(new ClientDTG(client));
+            }
+            this.dtgClients.DataSource = dtgClients;
+            this.dtgClients.Columns["Emails"].Visible = false;
+        }
+
+        private void dtgClients_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (dgvPrevIndex == index)
+            {
+                ClearForm();
+                dtgEmails.Rows.Clear();
+                cbEmails.Items.Clear();
+                dgvPrevIndex = -1;
+                return;
+            }
+            else
+            {
+                originalID = (Guid)dtgClients.Rows[index].Cells[0].Value;
+                txtUsername.Text = originalUsername = dtgClients.Rows[index].Cells[1].Value.ToString();
+                txtPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
+                txtConfirmPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
+
+                txtFirstName.Text = dtgClients.Rows[index].Cells[3].Value.ToString();
+                txtFatherLastName.Text = dtgClients.Rows[index].Cells[4].Value.ToString();
+                txtMotherLastName.Text = dtgClients.Rows[index].Cells[5].Value.ToString();
+                dtpDateOfBirth.Value = Convert.ToDateTime(dtgClients.Rows[index].Cells[7].Value.ToString());
+                txtCURP.Text = dtgClients.Rows[index].Cells[8].Value.ToString();
+                cbGender.SelectedIndex = cbGender.FindString(dtgClients.Rows[index].Cells[9].Value.ToString());
+
+                dtgEmails.Rows.Clear();
+                cbEmails.Items.Clear();
+                IEnumerable<string> emails = (IEnumerable<string>)dtgClients.Rows[index].Cells[6].Value;
+                foreach (var email in emails.ToList())
+                {
+                    dtgEmails.Rows.Add(email);
+                    cbEmails.Items.Add(email);
+                }
+
+                btnAccept.Enabled = false;
+                btnUpdate.Enabled = true;
+                btnDelete.Enabled = true;
+            }
+
+            dgvPrevIndex = index;
         }
     }
 }
