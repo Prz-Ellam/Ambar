@@ -19,7 +19,7 @@ namespace Ambar.ViewController
     public partial class Employees : Form, IAmbarForm
     {
         // DAO para hacer queries a la entidad empleados
-        EmployeeDAO dao = new EmployeeDAO();
+        EmployeeDAO EmployeeDao = new EmployeeDAO();
         UserRememberDAO userRemember = new UserRememberDAO();
         /* 
            Guardamos el username y el ID original de un empleado al que se le este aplicando una edicion o borrado para 
@@ -40,14 +40,7 @@ namespace Ambar.ViewController
         private void Empleados_Load(object sender, EventArgs e)
         {
             FillDataGridView();
-
-            this.dtgEmployees.DataSource = dtgEmployees;
-
-            List<string> names = dao.ReadAllDisable();
-            foreach (var ls in names)
-            {
-                lbDisableEmployees.Items.Add(names);
-            }
+            FillDisableUsers();
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -60,7 +53,7 @@ namespace Ambar.ViewController
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                 return;
-            }   
+            }
 
             if (txtPassword.Text != txtConfirmPassword.Text)
             {
@@ -74,7 +67,13 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (dao.UserExists(txtUsername.Text))
+            if (!VerifyRFC(txtRFC.Text))
+            {
+                PrintError("VERIFICAR RFC");
+                return;
+            }
+
+            if (EmployeeDao.UserExists(txtUsername.Text))
             {
                 PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
@@ -82,6 +81,7 @@ namespace Ambar.ViewController
 
             // Creamos un objeto de transferencia de datos para la entidad empleado y lo mandamos a Cassandra
             EmployeeDTO employee = new EmployeeDTO();
+            employee.User_ID = Guid.NewGuid();
             employee.First_Name = txtNames.Text;
             employee.Father_Last_Name = txtFatherLastName.Text;
             employee.Mother_Last_Name = txtMotherLastName.Text;
@@ -91,7 +91,7 @@ namespace Ambar.ViewController
             employee.User_Name = txtUsername.Text;
             employee.Password = txtPassword.Text;
 
-            dao.Create(employee);
+            EmployeeDao.Create(employee);
 
             FillDataGridView();
 
@@ -128,7 +128,13 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (dao.UserExists(txtUsername.Text) && originalUsername != txtUsername.Text)
+            if (!VerifyRFC(txtRFC.Text))
+            {
+                PrintError("VERIFICAR RFC");
+                return;
+            }
+
+            if (EmployeeDao.UserExists(txtUsername.Text) && originalUsername != txtUsername.Text)
             {
                 PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
@@ -145,7 +151,7 @@ namespace Ambar.ViewController
             employee.User_Name = txtUsername.Text;
             employee.Password = txtPassword.Text;
 
-            dao.Update(employee, originalUsername);
+            EmployeeDao.Update(employee, originalUsername);
             userRemember.UpdateRememberUser("Employee", originalUsername, employee.User_Name, employee.Password);
 
             FillDataGridView();
@@ -167,7 +173,7 @@ namespace Ambar.ViewController
 
             if (res == DialogResult.Yes)
             {
-                dao.Delete(originalID, originalUsername);
+                EmployeeDao.Delete(originalID, originalUsername);
                 userRemember.ForgerPassword("Employee", originalUsername);
 
                 FillDataGridView();
@@ -181,10 +187,7 @@ namespace Ambar.ViewController
         {
             if (lbPrevIndex == lbDisableEmployees.SelectedIndex)
             {
-                txtDisable.Clear();
-                btnEnabling.Enabled = false;
-                lbPrevIndex = -1;
-                lbDisableEmployees.ClearSelected();
+                ClearDisableUsers();
                 return;
             }
             else
@@ -197,19 +200,20 @@ namespace Ambar.ViewController
 
         private void btnEnabling_Click(object sender, EventArgs e)
         {
-            dao.Enabled(txtDisable.Text, true);
+            EmployeeDao.Enabled(txtDisable.Text, true);
 
+            ClearDisableUsers();
+
+            lbDisableEmployees.Items.Clear();
+            FillDisableUsers();
+        }
+
+        public void ClearDisableUsers()
+        {
             txtDisable.Clear();
             btnEnabling.Enabled = false;
             lbPrevIndex = -1;
             lbDisableEmployees.ClearSelected();
-            lbDisableEmployees.Items.Clear();
-
-            List<string> names = dao.ReadAllDisable();
-            foreach (var name in names)
-            {
-                lbDisableEmployees.Items.Add(name);
-            }
         }
 
         public void ClearForm()
@@ -245,6 +249,14 @@ namespace Ambar.ViewController
             return rx.IsMatch(curp);
         }
 
+        private bool VerifyRFC(string rfc)
+        {
+            string res = @"^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            return rx.IsMatch(rfc);
+        }
+
         private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
@@ -257,10 +269,10 @@ namespace Ambar.ViewController
             else
             {
                 originalID = (Guid)dtgEmployees.Rows[index].Cells[0].Value;
-                txtUsername.Text = originalUsername = dtgEmployees.Rows[index].Cells[1].Value.ToString();
+                txtUsername.Text = dtgEmployees.Rows[index].Cells[1].Value.ToString();
+                originalUsername = dtgEmployees.Rows[index].Cells[1].Value.ToString();
                 txtPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
                 txtConfirmPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
-
                 txtNames.Text = dtgEmployees.Rows[index].Cells[3].Value.ToString();
                 txtFatherLastName.Text = dtgEmployees.Rows[index].Cells[4].Value.ToString();
                 txtMotherLastName.Text = dtgEmployees.Rows[index].Cells[5].Value.ToString();
@@ -278,11 +290,21 @@ namespace Ambar.ViewController
 
         public void FillDataGridView()
         {
-            List<EmployeeDTO> employees = dao.ReadAll();
-            List<EmployeeDTG> dtgEmployees = new List<EmployeeDTG>();
+            List<EmployeeDTO> employees = EmployeeDao.Read();
+            List<EmployeeDTG> dtgEmployeesList = new List<EmployeeDTG>();
             foreach (var employee in employees)
             {
-                dtgEmployees.Add(new EmployeeDTG(employee));
+                dtgEmployeesList.Add(new EmployeeDTG(employee));
+            }
+            dtgEmployees.DataSource = dtgEmployeesList;
+        }
+
+        public void FillDisableUsers()
+        {
+            List<string> names = EmployeeDao.ReadAllDisable();
+            foreach (var name in names)
+            {
+                lbDisableEmployees.Items.Add(name);
             }
         }
 

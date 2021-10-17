@@ -22,6 +22,9 @@ namespace Ambar.Model.DTO
         private Guid client_id;
         private LocalDate start_period_date;
         private DateTimeOffset creation_date;
+        private string first_name;
+        private string father_last_name;
+        private string mother_last_name;
 
         public Guid Contract_ID { get => contract_id; set => contract_id = value; }
         public string Meter_Serial_Number { get => meter_serial_number; set => meter_serial_number = value; }
@@ -36,5 +39,8 @@ namespace Ambar.Model.DTO
         public Guid Client_ID { get => client_id; set => client_id = value; }
         public LocalDate Start_Period_Date { get => start_period_date; set => start_period_date = value; }
         public DateTimeOffset Creation_Date { get => creation_date; set => creation_date = value; }
+        public string First_Name { get => first_name; set => first_name = value; }
+        public string Father_Last_Name { get => father_last_name; set => father_last_name = value; }
+        public string Mother_Last_Name { get => mother_last_name; set => mother_last_name = value; }
     }
 }

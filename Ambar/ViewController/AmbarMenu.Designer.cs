@@ -28,17 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AmbarMenu));
             this.panelStorage = new System.Windows.Forms.Panel();
             this.btnMinimized = new System.Windows.Forms.PictureBox();
             this.btnClose = new System.Windows.Forms.PictureBox();
+            this.fadeIn = new System.Windows.Forms.Timer(this.components);
             this.gradientPanel1 = new Ambar.Utils.GradientPanel();
             this.lblUsernameLogged = new System.Windows.Forms.Label();
             this.lblPositionLogged = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.SubmenuReportes = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnConsumptionsReport = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnRatesReport = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -58,6 +60,8 @@
             this.btnEmployees = new System.Windows.Forms.Button();
             this.btnContracts = new System.Windows.Forms.Button();
             this.btnClients = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnReceipts = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             this.gradientPanel1.SuspendLayout();
@@ -97,9 +101,17 @@
             this.btnClose.TabStop = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // fadeIn
+            // 
+            this.fadeIn.Enabled = true;
+            this.fadeIn.Interval = 30;
+            this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
+            // 
             // gradientPanel1
             // 
             this.gradientPanel1.angle = 90F;
+            this.gradientPanel1.Controls.Add(this.panel1);
+            this.gradientPanel1.Controls.Add(this.btnReceipts);
             this.gradientPanel1.Controls.Add(this.lblUsernameLogged);
             this.gradientPanel1.Controls.Add(this.lblPositionLogged);
             this.gradientPanel1.Controls.Add(this.label1);
@@ -164,12 +176,12 @@
             // 
             this.SubmenuReportes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.SubmenuReportes.Controls.Add(this.panel4);
-            this.SubmenuReportes.Controls.Add(this.button3);
+            this.SubmenuReportes.Controls.Add(this.btnConsumptionsReport);
             this.SubmenuReportes.Controls.Add(this.panel3);
             this.SubmenuReportes.Controls.Add(this.btnRatesReport);
             this.SubmenuReportes.Controls.Add(this.panel2);
             this.SubmenuReportes.Controls.Add(this.button1);
-            this.SubmenuReportes.Location = new System.Drawing.Point(12, 466);
+            this.SubmenuReportes.Location = new System.Drawing.Point(12, 526);
             this.SubmenuReportes.Name = "SubmenuReportes";
             this.SubmenuReportes.Size = new System.Drawing.Size(288, 164);
             this.SubmenuReportes.TabIndex = 0;
@@ -183,21 +195,22 @@
             this.panel4.Size = new System.Drawing.Size(14, 40);
             this.panel4.TabIndex = 12;
             // 
-            // button3
+            // btnConsumptionsReport
             // 
-            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(25, 100);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(263, 40);
-            this.button3.TabIndex = 17;
-            this.button3.Text = "Reporte de Consumos";
-            this.button3.UseVisualStyleBackColor = false;
+            this.btnConsumptionsReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnConsumptionsReport.FlatAppearance.BorderSize = 0;
+            this.btnConsumptionsReport.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnConsumptionsReport.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnConsumptionsReport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConsumptionsReport.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConsumptionsReport.ForeColor = System.Drawing.Color.White;
+            this.btnConsumptionsReport.Location = new System.Drawing.Point(25, 100);
+            this.btnConsumptionsReport.Name = "btnConsumptionsReport";
+            this.btnConsumptionsReport.Size = new System.Drawing.Size(263, 40);
+            this.btnConsumptionsReport.TabIndex = 17;
+            this.btnConsumptionsReport.Text = "Reporte de Consumos";
+            this.btnConsumptionsReport.UseVisualStyleBackColor = false;
+            this.btnConsumptionsReport.Click += new System.EventHandler(this.btnConsumptionsReport_Click);
             // 
             // panel3
             // 
@@ -285,7 +298,7 @@
             // 
             // panelReports
             // 
-            this.panelReports.Location = new System.Drawing.Point(0, 410);
+            this.panelReports.Location = new System.Drawing.Point(0, 470);
             this.panelReports.Name = "panelReports";
             this.panelReports.Size = new System.Drawing.Size(14, 50);
             this.panelReports.TabIndex = 9;
@@ -299,7 +312,7 @@
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogout.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogout.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnLogout.Location = new System.Drawing.Point(0, 647);
+            this.btnLogout.Location = new System.Drawing.Point(0, 775);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(300, 60);
             this.btnLogout.TabIndex = 0;
@@ -363,7 +376,7 @@
             this.btnReports.ForeColor = System.Drawing.Color.White;
             this.btnReports.Image = global::Ambar.Properties.Resources.Reports_Logo1;
             this.btnReports.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReports.Location = new System.Drawing.Point(12, 410);
+            this.btnReports.Location = new System.Drawing.Point(12, 470);
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(288, 50);
             this.btnReports.TabIndex = 1;
@@ -439,6 +452,32 @@
             this.btnClients.UseVisualStyleBackColor = false;
             this.btnClients.Click += new System.EventHandler(this.btnClientes_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(0, 410);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(14, 50);
+            this.panel1.TabIndex = 19;
+            // 
+            // btnReceipts
+            // 
+            this.btnReceipts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnReceipts.FlatAppearance.BorderSize = 0;
+            this.btnReceipts.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReceipts.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReceipts.ForeColor = System.Drawing.Color.White;
+            this.btnReceipts.Image = global::Ambar.Properties.Resources.Reports_Logo1;
+            this.btnReceipts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnReceipts.Location = new System.Drawing.Point(12, 410);
+            this.btnReceipts.Name = "btnReceipts";
+            this.btnReceipts.Size = new System.Drawing.Size(288, 50);
+            this.btnReceipts.TabIndex = 18;
+            this.btnReceipts.Text = "Recibos";
+            this.btnReceipts.UseVisualStyleBackColor = false;
+            this.btnReceipts.Click += new System.EventHandler(this.btnReceipts_Click);
+            // 
             // AmbarMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -452,6 +491,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AmbarMenu";
+            this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
             this.Load += new System.EventHandler(this.AmbarMenu_Load);
@@ -490,9 +530,12 @@
         private System.Windows.Forms.Button btnRatesReport;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnConsumptionsReport;
         private System.Windows.Forms.Label lblUsernameLogged;
         private System.Windows.Forms.Label lblPositionLogged;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Timer fadeIn;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnReceipts;
     }
 }

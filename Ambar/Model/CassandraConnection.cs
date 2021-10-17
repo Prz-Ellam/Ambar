@@ -1,4 +1,5 @@
 ﻿using Cassandra;
+using Cassandra.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,6 +15,7 @@ namespace Ambar.Model
         protected static string dbKeyspace { get; set; }
         protected static Cluster cluster { get; set; }
         protected static ISession session { get; set; }
+        protected static IMapper mapper { get; set; }
 
         public CassandraConnection()
         {
@@ -34,6 +36,7 @@ namespace Ambar.Model
             dbKeyspace = ConfigurationManager.AppSettings["keyspace"].ToString();
             cluster = Cluster.Builder().AddContactPoint(dbServer).Build();
             session = cluster.Connect(dbKeyspace);
+            mapper = new Mapper(session);
         }
 
         protected static void Disconnect()

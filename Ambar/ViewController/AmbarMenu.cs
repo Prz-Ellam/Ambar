@@ -121,5 +121,23 @@ namespace Ambar.ViewController
         {
             openFormChild(new RatesReport());
         }
+
+        private void fadeIn_Tick(object sender, EventArgs e)
+        {
+            if (Opacity < 1)
+            {
+                Opacity += 0.05f;
+            }
+        }
+
+        private void btnConsumptionsReport_Click(object sender, EventArgs e)
+        {
+            openFormChild(new ConsumptionsReport());
+        }
+
+        private void btnReceipts_Click(object sender, EventArgs e)
+        {
+            openFormChild(new Receipts());
+        }
     }
 }

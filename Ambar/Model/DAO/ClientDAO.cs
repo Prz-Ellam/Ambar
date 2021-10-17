@@ -11,25 +11,23 @@ namespace Ambar.Model.DAO
 {
     class ClientDAO : CassandraConnection
     {
-
         public void Create(ClientDTO client)
         {
-            Guid uuid = Guid.NewGuid();
-            string queryEmp = "INSERT INTO CLIENTS(USER_ID, USER_NAME, PASSWORD, CREATION_DATE, MODIFICATION_DATE, " +
+            string queryEmp = "INSERT INTO CLIENTS(USER_ID, USER_NAME, PASSWORD, CREATED_AT, MODIFICATE_AT, " +
                "FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, DATE_OF_BIRTH, CURP, GENDER)" +
                "VALUES(?, ?, ?, toUnixTimestamp(now()), { toUnixTimestamp(now()):'Begin'}, ?, ?, ?, ?, ?, ?);";
             string queryLog = "INSERT INTO CLIENTS_LOGIN(USER_NAME, PASSWORD, ENABLED) VALUES(?, ?, true);";
-            string queryRem = "INSERT INTO CLIENTS_ENABLED(USER_NAME, PASSWORD, ENABLED) VALUES(?, ?, true);";
+            string queryRem = "INSERT INTO CLIENTS_ENABLED(USER_NAME, ENABLED) VALUES(?, true);";
 
             var emp = session.Prepare(queryEmp);
             var log = session.Prepare(queryLog);
             var rem = session.Prepare(queryRem);
 
             var batch = new BatchStatement()
-                           .Add(emp.Bind(uuid, client.User_Name, client.Password, client.First_Name, client.Father_Last_Name,
+                           .Add(emp.Bind(client.User_ID, client.User_Name, client.Password, client.First_Name, client.Father_Last_Name,
                            client.Mother_Last_Name, client.Date_Of_Birth, client.CURP, client.Gender))
                            .Add(log.Bind(client.User_Name, client.Password))
-                           .Add(rem.Bind(client.User_Name, client.Password));
+                           .Add(rem.Bind(client.User_Name));
 
             session.Execute(batch);
 
@@ -39,7 +37,7 @@ namespace Ambar.Model.DAO
                 query += "'" + ls + "',";
             }
             query = query.Remove(query.Length - 1);
-            query += "} WHERE USER_ID = " + uuid;
+            query += "} WHERE USER_ID = " + client.User_ID;
 
             session.Execute(query);
         }
@@ -63,7 +61,7 @@ namespace Ambar.Model.DAO
             string queryEmp = string.Format("UPDATE CLIENTS SET USER_NAME = '{0}', PASSWORD = '{1}', FIRST_NAME = '{2}', " +
                 "FATHER_LAST_NAME = '{3}', MOTHER_LAST_NAME = '{4}', DATE_OF_BIRTH = '{5}', CURP = '{6}', GENDER = '{7}' " +
                 "WHERE USER_ID = {8};",
-                  client.User_Name, client.Password, client.First_Name, client.Father_Last_Name, client.Mother_Last_Name, 
+                  client.User_Name, client.Password, client.First_Name, client.Father_Last_Name, client.Mother_Last_Name,
                   client.Date_Of_Birth, client.CURP, client.Gender, client.User_ID);
 
             string queryEmails = "UPDATE CLIENTS SET EMAILS = {";
@@ -74,16 +72,15 @@ namespace Ambar.Model.DAO
             queryEmails = queryEmails.Remove(queryEmails.Length - 1);
             queryEmails += "} WHERE USER_ID = " + client.User_ID;
 
-            string queryDelLog = string.Format("DELETE FROM CLIENTS_LOGIN WHERE USER_NAME = '{0}';", username);
 
+            string queryDelLog = string.Format("DELETE FROM CLIENTS_LOGIN WHERE USER_NAME = '{0}';", username);
             string queryLog = string.Format("INSERT INTO CLIENTS_LOGIN(USER_NAME, PASSWORD, ENABLED) " +
                 "VALUES('{0}', '{1}', {2});", client.User_Name, client.Password, enabled);
 
             string queryDelEnabled = string.Format("DELETE FROM CLIENTS_ENABLED WHERE ENABLED = {0} AND USER_NAME = '{1}';",
                 enabled, username);
-
-            string queryInEnabled = string.Format("INSERT INTO CLIENTS_ENABLED(USER_NAME, PASSWORD, ENABLED) " +
-                "VALUES('{0}', '{1}', {2});", client.User_Name, client.Password, enabled);
+            string queryInEnabled = string.Format("INSERT INTO CLIENTS_ENABLED(USER_NAME, ENABLED) " +
+                "VALUES('{0}', {1});", client.User_Name, enabled);
 
             session.Execute(queryEmp);
             session.Execute(queryEmails);
@@ -150,10 +147,10 @@ namespace Ambar.Model.DAO
         }
 
 
-        public (ClientLoginDTO, bool) Login(string username, string password)
+        public ClientLoginDTO Login(string username, string password)
         {
             string query = string.Format("SELECT USER_NAME, PASSWORD, ENABLED FROM CLIENTS_LOGIN WHERE USER_NAME = " +
-            "'{0}';", username);
+            "'{0}' AND PASSWORD = '{1}';", username);
 
             IMapper mapper = new Mapper(session);
             ClientLoginDTO user;
@@ -161,44 +158,23 @@ namespace Ambar.Model.DAO
             try
             {
                 user = mapper.Single<ClientLoginDTO>(query);
-
-                if (user.Password != password)
-                {
-                    return (null, true);
-                }
-
             }
             catch (System.InvalidOperationException e)
             {
-                return (null, false);
+                return null;
             }
 
-            return (user, true);
+            return user;
         }
 
         public void Enabled(string username, bool enabled)
         {
-            string query = string.Format("SELECT PASSWORD FROM CLIENTS_LOGIN WHERE USER_NAME = " +
-                "'{0}';", username);
-
-            IMapper mapper = new Mapper(session);
-            string password;
-
-            try
-            {
-                password = mapper.Single<string>(query);
-            }
-            catch (System.InvalidOperationException e)
-            {
-                return;
-            }
-
             string queryLog = string.Format("UPDATE CLIENTS_LOGIN SET ENABLED = {0} WHERE USER_NAME = '{1}';",
                 enabled, username);
             string queryRem1 = string.Format("DELETE FROM CLIENTS_ENABLED WHERE ENABLED = {0} AND USER_NAME = '{1}';",
                 !enabled, username);
-            string queryRem2 = string.Format("INSERT INTO CLIENTS_ENABLED(USER_NAME, PASSWORD, ENABLED) " +
-                "VALUES('{0}', '{1}', {2});", username, password, enabled);
+            string queryRem2 = string.Format("INSERT INTO CLIENTS_ENABLED(USER_NAME, ENABLED) " +
+                "VALUES('{0}', {1});", username, enabled);
 
             session.Execute(queryLog);
             session.Execute(queryRem1);
@@ -231,7 +207,7 @@ namespace Ambar.Model.DAO
 
             Dictionary<string, Guid> clients = new Dictionary<string, Guid>();
             var rs = session.Execute(query);
-            foreach(var row in rs)
+            foreach (var row in rs)
             {
                 clients.Add(row.GetValue<string>("user_name"), row.GetValue<Guid>("user_id"));
             }
@@ -239,6 +215,5 @@ namespace Ambar.Model.DAO
             return clients;
         }
 
-            // CRUD
-        }
+    }
 }

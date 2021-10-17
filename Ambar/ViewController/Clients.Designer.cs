@@ -344,7 +344,7 @@
             this.lbDisableClients.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDisableClients.FormattingEnabled = true;
             this.lbDisableClients.ItemHeight = 20;
-            this.lbDisableClients.Location = new System.Drawing.Point(892, 86);
+            this.lbDisableClients.Location = new System.Drawing.Point(892, 100);
             this.lbDisableClients.Name = "lbDisableClients";
             this.lbDisableClients.Size = new System.Drawing.Size(250, 520);
             this.lbDisableClients.TabIndex = 31;

@@ -23,6 +23,10 @@ namespace Ambar.ViewController
         public Login()
         {
             InitializeComponent();
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
             WinAPI.SendMessage(txtUsername.Handle, WinAPI.EM_SETCUEBANNER, 0, "USUARIO");
             WinAPI.SendMessage(txtPassword.Handle, WinAPI.EM_SETCUEBANNER, 0, "CONTRASEÑA");
 
@@ -32,12 +36,10 @@ namespace Ambar.ViewController
             txtUsername.AutoCompleteCustomSource = allowedTypes;
             txtUsername.AutoCompleteMode = AutoCompleteMode.Suggest;
             txtUsername.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-
             if (txtUsername.Text == "" || txtPassword.Text == "")
             {
                 printErrorLogin("TODOS LOS CAMPOS SON OBLIGATORIOS");
@@ -58,6 +60,7 @@ namespace Ambar.ViewController
                         else
                         {
                             RememberMe("Administrator");
+                            dao.LoginHistory(dto.User_Name);
                             ShowMenu("Administrator", dto.User_Name);
                         }
 
@@ -66,21 +69,19 @@ namespace Ambar.ViewController
                     case "Empleado":
                     {
                         EmployeeDAO dao = new EmployeeDAO();
-                        EmployeeLoginDTO dto;
-                        bool exists;
-                        (dto, exists) = dao.Login(txtUsername.Text, txtPassword.Text);
+                        EmployeeLoginDTO dto = dao.Login(txtUsername.Text, txtPassword.Text);
 
-                        if (dto == null && exists == false) // Credenciales incorrectas e usuario inexistente
+                        if (dto == null)
                         {
-                            printErrorLogin("SUS CREDENCIALES NO COINCIDEN");
-                        }
-                        else if (dto == null && exists == true)
-                        {
-                            FailedLogin();
-
-                            if (loginIntents.Item2 == 2)
+                            bool exists = dao.UserExists(txtUsername.Text);
+                            if (exists)
                             {
-                                dao.Enabled(loginIntents.Item1, false);
+                                FailedLogin();
+
+                                if (loginIntents.Item2 == 2)
+                                {
+                                    dao.Enabled(loginIntents.Item1, false);
+                                }
                             }
                             printErrorLogin("SUS CREDENCIALES NO COINCIDEN");
                         }
@@ -99,21 +100,19 @@ namespace Ambar.ViewController
                     case "Cliente":
                     {
                         ClientDAO dao = new ClientDAO();
-                        ClientLoginDTO dto;
-                        bool exists;
-                        (dto, exists) = dao.Login(txtUsername.Text, txtPassword.Text);
+                        ClientLoginDTO dto = dao.Login(txtUsername.Text, txtPassword.Text);
 
-                        if (dto == null && exists == false) // Credenciales incorrectas e usuario inexistente
+                        if (dto == null) // Credenciales incorrectas e usuario inexistente
                         {
-                            printErrorLogin("SUS CREDENCIALES NO COINCIDEN");
-                        }
-                        else if (dto == null && exists == true)
-                        {
-                            FailedLogin();
-
-                            if (loginIntents.Item2 == 2)
+                            bool exists = dao.UserExists(txtUsername.Text);
+                            if (exists)
                             {
-                                dao.Enabled(loginIntents.Item1, false);
+                                FailedLogin();
+
+                                if (loginIntents.Item2 == 2)
+                                {
+                                    dao.Enabled(loginIntents.Item1, false);
+                                }
                             }
                             printErrorLogin("SUS CREDENCIALES NO COINCIDEN");
                         }
@@ -128,13 +127,8 @@ namespace Ambar.ViewController
                         }
                         break;
                     }
-                    default:
-                    {
-                        return;
-                    }
                 }
             }
-
         }
 
         private void FailedLogin()
@@ -168,10 +162,6 @@ namespace Ambar.ViewController
             {
                 userRemember.ForgerPassword(position, txtUsername.Text);
             }
-        }
-
-        private void txtUsername_Leave(object sender, EventArgs e)
-        {
         }
 
         private void Login_MouseDown(object sender, MouseEventArgs e)
@@ -209,7 +199,6 @@ namespace Ambar.ViewController
 
         private void cbPositions_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (cbPositions.SelectedIndex == -1)
             {
                 cbPositions.SelectedIndex = 0;
@@ -281,5 +270,14 @@ namespace Ambar.ViewController
                 txtPassword.Focus();
             }
         }
+
+        private void fadeIn_Tick(object sender, EventArgs e)
+        {
+            if (Opacity < 1)
+            {
+                Opacity += 0.05f;
+            }
+        }
+
     }
 }

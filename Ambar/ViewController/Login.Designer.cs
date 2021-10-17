@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.lblLogin = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
@@ -43,9 +44,10 @@
             this.pbUsername = new System.Windows.Forms.PictureBox();
             this.lblError = new System.Windows.Forms.Label();
             this.cbPositions = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.fadeIn = new System.Windows.Forms.Timer(this.components);
             this.gradientPanel = new Ambar.Utils.GradientPanel();
             this.pbAmbar = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
@@ -77,7 +79,6 @@
             this.txtUsername.Size = new System.Drawing.Size(430, 25);
             this.txtUsername.TabIndex = 2;
             this.txtUsername.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
-            this.txtUsername.Leave += new System.EventHandler(this.txtUsername_Leave);
             // 
             // txtPassword
             // 
@@ -222,6 +223,23 @@
             this.cbPositions.TabIndex = 14;
             this.cbPositions.SelectedIndexChanged += new System.EventHandler(this.cbPositions_SelectedIndexChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.label1.Location = new System.Drawing.Point(286, 95);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 24);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Tipo:";
+            // 
+            // fadeIn
+            // 
+            this.fadeIn.Enabled = true;
+            this.fadeIn.Interval = 30;
+            this.fadeIn.Tick += new System.EventHandler(this.fadeIn_Tick);
+            // 
             // gradientPanel
             // 
             this.gradientPanel.angle = 90F;
@@ -244,17 +262,6 @@
             this.pbAmbar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbAmbar.TabIndex = 14;
             this.pbAmbar.TabStop = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(286, 95);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 24);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Tipo:";
             // 
             // Login
             // 
@@ -281,8 +288,10 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Login";
+            this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            this.Load += new System.EventHandler(this.Login_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Login_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).EndInit();
@@ -315,5 +324,6 @@
         private System.Windows.Forms.PictureBox pbAmbar;
         private System.Windows.Forms.ComboBox cbPositions;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Timer fadeIn;
     }
 }

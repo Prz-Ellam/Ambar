@@ -18,6 +18,7 @@ namespace Ambar.ViewController
         ContractDAO dao = new ContractDAO();
         Dictionary<string, Guid> clients;
         int lbPrevIndex = -1;
+        int dtgPrevIndex = -1;
 
         public Contracts()
         {
@@ -27,11 +28,14 @@ namespace Ambar.ViewController
         private void Contratos_Load(object sender, EventArgs e)
         {
             ClientDAO clientDAO = new ClientDAO();
-            clients = clientDAO.ReadAllUsernames();
-            foreach(var key in clients.Keys)
+            List<ClientDTO> clients = clientDAO.ReadAll();
+            List<ClientDTG> dtgClients = new List<ClientDTG>();
+            foreach (var client in clients)
             {
-                lbClients.Items.Add(key);
+                dtgClients.Add(new ClientDTG(client));
             }
+            this.dtgClients.DataSource = dtgClients;
+            this.dtgClients.Columns["Emails"].Visible = false;
         }
 
         private void lbClientes_SelectedIndexChanged(object sender, EventArgs e)
@@ -41,7 +45,7 @@ namespace Ambar.ViewController
                 txtClient.Clear();
                 btnAccept.Enabled = false;
                 lbPrevIndex = -1;
-                dtgContracts.DataSource = null;
+                dtgContracts.Rows.Clear();
                 lbClients.ClearSelected();
                 return;
             }
@@ -60,6 +64,10 @@ namespace Ambar.ViewController
 
             switch (cbState.SelectedIndex)
             {
+                case -1:
+                {
+                    return;
+                }
                 case 0: // Aguascalientes
                 {
                     cities = new string[] {"AGUASCALIENTES", "ASIENTOS", "CALVILLO", "COSÍO", "EL LLANO",
@@ -311,9 +319,19 @@ namespace Ambar.ViewController
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
             }
 
+            if (dao.ContractExists(txtMeterSerialNumber.Text))
+            {
+                PrintError("EL NUMERO DE MEDIDOR YA EXISTE");
+                return;
+            }
+
             ContractDTO contract = new ContractDTO();
             DateTime today = DateTime.Now;
-            contract.Client_ID = clients[txtClient.Text];
+            contract.Contract_ID = Guid.NewGuid();
+            contract.Client_ID = (Guid)dtgClients.Rows[dtgPrevIndex].Cells[0].Value;
+            contract.First_Name = dtgClients.Rows[dtgPrevIndex].Cells[3].Value.ToString();
+            contract.Father_Last_Name = dtgClients.Rows[dtgPrevIndex].Cells[4].Value.ToString();
+            contract.Mother_Last_Name = dtgClients.Rows[dtgPrevIndex].Cells[5].Value.ToString();
             contract.Meter_Serial_Number = txtMeterSerialNumber.Text;
             contract.Service_Number = Convert.ToInt32(txtServiceNumber.Text);
             contract.State = cbState.Text;
@@ -355,7 +373,7 @@ namespace Ambar.ViewController
 
         private void FillDataGridView()
         {
-            List<ContractDTO> contracts = dao.ReadClientContracts(clients[lbClients.SelectedItem.ToString()]);
+            List<ContractDTO> contracts = dao.ReadClientContracts((Guid)dtgClients.Rows[dtgPrevIndex].Cells[0].Value);
             List<ContractDTG> dtgContracts = new List<ContractDTG>();
             foreach (var contract in contracts)
             {
@@ -364,5 +382,25 @@ namespace Ambar.ViewController
             this.dtgContracts.DataSource = dtgContracts;
         }
 
+        private void dtgClients_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (dtgPrevIndex == index)
+            {
+                txtClient.Clear();
+                btnAccept.Enabled = false;
+                dtgPrevIndex = -1;
+                dtgContracts.DataSource = null;
+                lbClients.ClearSelected();
+                return;
+            }
+            else
+            {
+                dtgPrevIndex = index;
+                txtClient.Text = dtgClients.Rows[index].Cells[1].Value.ToString();
+                FillDataGridView();
+                btnAccept.Enabled = true;
+            }
+        }
     }
 }

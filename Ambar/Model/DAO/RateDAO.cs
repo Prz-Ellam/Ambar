@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,6 @@ namespace Ambar.Model.DAO
             string queryExists = string.Format("SELECT COUNT(YEAR) FROM RATES_ACTIVE " +
                 "WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = '{2}';", rate.Year, rate.Month, rate.Service);
 
-            IMapper mapper = new Mapper(session);
             bool exists;
 
             try
@@ -49,13 +49,15 @@ namespace Ambar.Model.DAO
             string queryAct;
             if (exists)
             {
-                queryAct = string.Format("UPDATE RATES_ACTIVE SET BASIC_LEVEL = {0}, INTERMEDIATE_LEVEL = {1}, " +
+                queryAct = string.Format(CultureInfo.InvariantCulture,
+                    "UPDATE RATES_ACTIVE SET BASIC_LEVEL = {0}, INTERMEDIATE_LEVEL = {1}, " +
                     "SURPLUS_LEVEL = {2} WHERE SERVICE = '{3}' AND YEAR = {4} AND MONTH = {5};",
                rate.Basic_Level, rate.Intermediate_Level, rate.Surplus_Level, rate.Service, rate.Year, rate.Month);
             }
             else
             {
-                queryAct = string.Format("INSERT INTO RATES_ACTIVE(BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL," +
+                queryAct = string.Format(CultureInfo.InvariantCulture, 
+                    "INSERT INTO RATES_ACTIVE(BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL," +
                " SERVICE, YEAR, MONTH) VALUES({0}, {1}, {2}, '{3}', {4}, {5});",
                rate.Basic_Level, rate.Intermediate_Level, rate.Surplus_Level, rate.Service, rate.Year, rate.Month);
             }
@@ -68,7 +70,6 @@ namespace Ambar.Model.DAO
         {
             string query = string.Format("SELECT * FROM RATES_BY_YEAR WHERE YEAR = {0};", year);
 
-            IMapper mapper = new Mapper(session);
             IEnumerable<RateDTO> rates;
 
             try
@@ -81,6 +82,25 @@ namespace Ambar.Model.DAO
             }
 
             return rates.ToList();
+        }
+
+        public RateForReceiptDTO FindActiveRates(string service, int year, short month)
+        {
+            string query = "SELECT BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL FROM RATES_ACTIVE WHERE YEAR = {0} " +
+                "AND MONTH = {1} AND SERVICE = '{2}';";
+            query = string.Format(query, year, month, service);
+
+            RateForReceiptDTO rateActive;
+            try
+            {
+                rateActive = mapper.Single<RateForReceiptDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return rateActive;
         }
 
 

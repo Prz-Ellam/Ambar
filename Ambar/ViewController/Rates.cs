@@ -44,11 +44,26 @@ namespace Ambar.ViewController
             //}
             
             RateDTO rate = new RateDTO();
-            rate.Basic_Level = Convert.ToDecimal(txtBasic.Text);
-            rate.Intermediate_Level = Convert.ToDecimal(txtIntermediate.Text);
-            rate.Surplus_Level = Convert.ToDecimal(txtSurplus.Text);
+            rate.Basic_Level = Convert.ToDecimal(txtBasic.Text, CultureInfo.InvariantCulture);
+            rate.Intermediate_Level = Convert.ToDecimal(txtIntermediate.Text, CultureInfo.InvariantCulture);
+            rate.Surplus_Level = Convert.ToDecimal(txtSurplus.Text, CultureInfo.InvariantCulture);
             rate.Year = dtpPeriod.Value.Year;
-            rate.Month = Convert.ToInt16(dtpPeriod.Value.Month);
+
+            short month;
+            if (cbService.SelectedIndex == 1)
+            {
+                month = Convert.ToInt16(cbPeriod.SelectedIndex * 2 + 1);
+            }
+            else if (cbService.SelectedIndex == 2)
+            {
+                month = Convert.ToInt16(cbPeriod.SelectedIndex + 1);
+            }
+            else
+            {
+                return;
+            }
+            rate.Month = month;
+
             rate.Service = cbService.SelectedItem.ToString();
 
             dao.Create(rate);
@@ -116,6 +131,41 @@ namespace Ambar.ViewController
             pbWarningIcon.Visible = true;
             lblError.Visible = true;
             lblError.Text = error;
+        }
+
+        private void cbService_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbPeriod.Items.Clear();
+
+            switch (cbService.SelectedIndex)
+            {
+                case 1:
+                {
+                    cbPeriod.Items.Add("ENERO-FEBRERO");
+                    cbPeriod.Items.Add("MARZO-ABRIL");
+                    cbPeriod.Items.Add("MAYO-JUNIO");
+                    cbPeriod.Items.Add("JULIO-AGOSTO");
+                    cbPeriod.Items.Add("SEPTIEMBRE-OCTUBRE");
+                    cbPeriod.Items.Add("NOVIEMBRE-DICIEMBRE");
+                    break;
+                }
+                case 2:
+                {
+                    cbPeriod.Items.Add("ENERO");
+                    cbPeriod.Items.Add("FEBRERO");
+                    cbPeriod.Items.Add("MARZO");
+                    cbPeriod.Items.Add("ABRIL");
+                    cbPeriod.Items.Add("MAYO");
+                    cbPeriod.Items.Add("JUNIO");
+                    cbPeriod.Items.Add("JULIO");
+                    cbPeriod.Items.Add("AGOSTO");
+                    cbPeriod.Items.Add("SEPTIEMBRE");
+                    cbPeriod.Items.Add("OCTUBRE");
+                    cbPeriod.Items.Add("NOVIEMBRE");
+                    cbPeriod.Items.Add("DICIEMBRE");
+                    break;
+                }
+            }
         }
     }
 }

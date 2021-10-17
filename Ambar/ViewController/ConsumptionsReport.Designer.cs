@@ -32,16 +32,18 @@ namespace Ambar.ViewController
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dtpYear = new System.Windows.Forms.DateTimePicker();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dtgConsumptionsReport = new System.Windows.Forms.DataGridView();
+            this.btnPDF = new System.Windows.Forms.Button();
+            this.btnCSV = new System.Windows.Forms.Button();
             this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Month = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LevelSerialMeter = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BasicLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IntermediateLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SurplusLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnPDF = new System.Windows.Forms.Button();
-            this.btnCSV = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.ofnReportCSV = new System.Windows.Forms.SaveFileDialog();
+            this.ofnReportPDF = new System.Windows.Forms.SaveFileDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptionsReport)).BeginInit();
             this.SuspendLayout();
             // 
             // lblEmpleados
@@ -80,64 +82,22 @@ namespace Ambar.ViewController
             this.dtpYear.TabIndex = 24;
             this.dtpYear.ValueChanged += new System.EventHandler(this.dtpYear_ValueChanged);
             // 
-            // dataGridView1
+            // dtgConsumptionsReport
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dtgConsumptionsReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgConsumptionsReport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Year,
             this.Month,
             this.LevelSerialMeter,
             this.BasicLevel,
             this.IntermediateLevel,
             this.SurplusLevel});
-            this.dataGridView1.Location = new System.Drawing.Point(22, 133);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(870, 310);
-            this.dataGridView1.TabIndex = 26;
-            // 
-            // Year
-            // 
-            this.Year.HeaderText = "Año";
-            this.Year.MinimumWidth = 6;
-            this.Year.Name = "Year";
-            this.Year.Width = 125;
-            // 
-            // Month
-            // 
-            this.Month.HeaderText = "Mes";
-            this.Month.MinimumWidth = 6;
-            this.Month.Name = "Month";
-            this.Month.Width = 125;
-            // 
-            // LevelSerialMeter
-            // 
-            this.LevelSerialMeter.HeaderText = "Número de Medidor";
-            this.LevelSerialMeter.MinimumWidth = 6;
-            this.LevelSerialMeter.Name = "LevelSerialMeter";
-            this.LevelSerialMeter.Width = 125;
-            // 
-            // BasicLevel
-            // 
-            this.BasicLevel.HeaderText = "kW Básica";
-            this.BasicLevel.MinimumWidth = 6;
-            this.BasicLevel.Name = "BasicLevel";
-            this.BasicLevel.Width = 125;
-            // 
-            // IntermediateLevel
-            // 
-            this.IntermediateLevel.HeaderText = "kW Intermedia";
-            this.IntermediateLevel.MinimumWidth = 6;
-            this.IntermediateLevel.Name = "IntermediateLevel";
-            this.IntermediateLevel.Width = 125;
-            // 
-            // SurplusLevel
-            // 
-            this.SurplusLevel.HeaderText = "kW Excedente";
-            this.SurplusLevel.MinimumWidth = 6;
-            this.SurplusLevel.Name = "SurplusLevel";
-            this.SurplusLevel.Width = 125;
+            this.dtgConsumptionsReport.Location = new System.Drawing.Point(22, 133);
+            this.dtgConsumptionsReport.Name = "dtgConsumptionsReport";
+            this.dtgConsumptionsReport.RowHeadersWidth = 51;
+            this.dtgConsumptionsReport.RowTemplate.Height = 24;
+            this.dtgConsumptionsReport.Size = new System.Drawing.Size(870, 310);
+            this.dtgConsumptionsReport.TabIndex = 26;
             // 
             // btnPDF
             // 
@@ -171,6 +131,62 @@ namespace Ambar.ViewController
             this.btnCSV.UseVisualStyleBackColor = false;
             this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
             // 
+            // Year
+            // 
+            this.Year.DataPropertyName = "YEAR";
+            this.Year.HeaderText = "Año";
+            this.Year.MinimumWidth = 6;
+            this.Year.Name = "Year";
+            this.Year.Width = 125;
+            // 
+            // Month
+            // 
+            this.Month.DataPropertyName = "MONTH";
+            this.Month.HeaderText = "Mes";
+            this.Month.MinimumWidth = 6;
+            this.Month.Name = "Month";
+            this.Month.Width = 125;
+            // 
+            // LevelSerialMeter
+            // 
+            this.LevelSerialMeter.DataPropertyName = "METER_SERIAL_NUMBER";
+            this.LevelSerialMeter.HeaderText = "Número de Medidor";
+            this.LevelSerialMeter.MinimumWidth = 6;
+            this.LevelSerialMeter.Name = "LevelSerialMeter";
+            this.LevelSerialMeter.Width = 125;
+            // 
+            // BasicLevel
+            // 
+            this.BasicLevel.DataPropertyName = "BASIC_KW";
+            this.BasicLevel.HeaderText = "kW Básica";
+            this.BasicLevel.MinimumWidth = 6;
+            this.BasicLevel.Name = "BasicLevel";
+            this.BasicLevel.Width = 125;
+            // 
+            // IntermediateLevel
+            // 
+            this.IntermediateLevel.DataPropertyName = "INTERMEDIATE_KW";
+            this.IntermediateLevel.HeaderText = "kW Intermedia";
+            this.IntermediateLevel.MinimumWidth = 6;
+            this.IntermediateLevel.Name = "IntermediateLevel";
+            this.IntermediateLevel.Width = 125;
+            // 
+            // SurplusLevel
+            // 
+            this.SurplusLevel.DataPropertyName = "SURPLUS_KW";
+            this.SurplusLevel.HeaderText = "kW Excedente";
+            this.SurplusLevel.MinimumWidth = 6;
+            this.SurplusLevel.Name = "SurplusLevel";
+            this.SurplusLevel.Width = 125;
+            // 
+            // ofnReportCSV
+            // 
+            this.ofnReportCSV.Filter = "CSV (*.csv)|*.csv";
+            // 
+            // ofnReportPDF
+            // 
+            this.ofnReportPDF.Filter = "PDF (*.pdf)|*.pdf";
+            // 
             // ConsumptionsReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -179,7 +195,7 @@ namespace Ambar.ViewController
             this.ClientSize = new System.Drawing.Size(1062, 616);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.btnCSV);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dtgConsumptionsReport);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dtpYear);
             this.Controls.Add(this.lblEmpleados);
@@ -187,7 +203,7 @@ namespace Ambar.ViewController
             this.Name = "ConsumptionsReport";
             this.Text = "ConsumptionsReport";
             this.Load += new System.EventHandler(this.ConsumptionsReport_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptionsReport)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,7 +214,7 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Label lblEmpleados;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dtpYear;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dtgConsumptionsReport;
         private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.Button btnCSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn Year;
@@ -207,5 +223,7 @@ namespace Ambar.ViewController
         private System.Windows.Forms.DataGridViewTextBoxColumn BasicLevel;
         private System.Windows.Forms.DataGridViewTextBoxColumn IntermediateLevel;
         private System.Windows.Forms.DataGridViewTextBoxColumn SurplusLevel;
+        private System.Windows.Forms.SaveFileDialog ofnReportCSV;
+        private System.Windows.Forms.SaveFileDialog ofnReportPDF;
     }
 }

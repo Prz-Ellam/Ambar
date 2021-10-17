@@ -16,7 +16,7 @@ namespace Ambar.ViewController
 {
     public partial class Clients : Form
     {
-        ClientDAO dao = new ClientDAO();
+        ClientDAO clientDao = new ClientDAO();
         UserRememberDAO userRemember = new UserRememberDAO();
         string originalUsername;
         Guid originalID;
@@ -32,12 +32,7 @@ namespace Ambar.ViewController
         private void Clients_Load(object sender, EventArgs e)
         {
             FillDataGridView();
-
-            List<string> names = dao.ReadAllDisable();
-            foreach (var name in names)
-            {
-                lbDisableClients.Items.Add(name);
-            }
+            FillDisableUsers();
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -63,7 +58,7 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (dao.UserExists(txtUsername.Text))
+            if (clientDao.UserExists(txtUsername.Text))
             {
                 PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
@@ -71,6 +66,7 @@ namespace Ambar.ViewController
 
             // Objeto de transferencia de datos para la creacion de los datos del cliente
             ClientDTO client = new ClientDTO();
+            client.User_ID = Guid.NewGuid();
             client.First_Name = txtFirstName.Text;
             client.Father_Last_Name = txtFatherLastName.Text;
             client.Mother_Last_Name = txtMotherLastName.Text;
@@ -88,7 +84,7 @@ namespace Ambar.ViewController
             client.User_Name = txtUsername.Text;
             client.Password = txtPassword.Text;
 
-            dao.Create(client);
+            clientDao.Create(client);
 
             FillDataGridView();
 
@@ -98,7 +94,7 @@ namespace Ambar.ViewController
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (btnAccept.Enabled == false)
+            if (btnAccept.Enabled == true)
             {
                 return;
             }
@@ -124,7 +120,13 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (dao.UserExists(txtUsername.Text) && originalUsername != txtUsername.Text)
+            if (!VerifyEmails())
+            {
+                PrintError("VERIFICAR EMAILS");
+                return;
+            }
+
+            if (clientDao.UserExists(txtUsername.Text) && originalUsername != txtUsername.Text)
             {
                 PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
@@ -149,13 +151,35 @@ namespace Ambar.ViewController
             client.User_Name = txtUsername.Text;
             client.Password = txtPassword.Text;
 
-            dao.Update(client, originalUsername);
+            clientDao.Update(client, originalUsername);
             userRemember.UpdateRememberUser("Client", originalUsername, client.User_Name, client.Password);
 
             FillDataGridView();
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (btnAccept.Enabled)
+            {
+                return;
+            }
+
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "ADVERTENCIA",
+               MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (res == DialogResult.Yes)
+            {
+                clientDao.Delete(originalID, originalUsername);
+                userRemember.ForgerPassword("Client", originalUsername);
+
+                FillDataGridView();
+
+                ClearForm();
+                MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            }
         }
 
         private void cbEmails_KeyDown(object sender, KeyEventArgs e)
@@ -185,6 +209,20 @@ namespace Ambar.ViewController
             return rx.IsMatch(curp);
         }
 
+        private bool VerifyEmails()
+        {
+            string res = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            for (int i = 0; i < cbEmails.Items.Count; i++)
+            {
+                if (!rx.IsMatch(cbEmails.Items[i].ToString())) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void ClearForm()
         {
             txtFirstName.Clear();
@@ -204,53 +242,21 @@ namespace Ambar.ViewController
             lblError.Visible = false;
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            if (btnAccept.Enabled)
-            {
-                return;
-            }
-
-            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "ADVERTENCIA",
-               MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (res == DialogResult.Yes)
-            {
-                dao.Delete(originalID, originalUsername);
-                userRemember.ForgerPassword("Client", originalUsername);
-
-                FillDataGridView();
-
-                ClearForm();
-                MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
-            }
-        }
-
         private void btnEnabling_Click(object sender, EventArgs e)
         {
-            dao.Enabled(txtDisable.Text, true);
+            clientDao.Enabled(txtDisable.Text, true);
 
-            txtDisable.Clear();
-            btnEnabling.Enabled = false;
-            lbPrevIndex = -1;
-            lbDisableClients.ClearSelected();
+            ClearDisableUsers();
+
             lbDisableClients.Items.Clear();
-
-            List<string> names = dao.ReadAllDisable();
-            foreach (var name in names)
-            {
-                lbDisableClients.Items.Add(name);
-            }
+            FillDisableUsers();
         }
 
         private void lbDisableClients_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lbPrevIndex == lbDisableClients.SelectedIndex)
             {
-                txtDisable.Clear();
-                btnEnabling.Enabled = false;
-                lbPrevIndex = -1;
-                lbDisableClients.ClearSelected();
+                ClearDisableUsers();
                 return;
             }
             else
@@ -263,7 +269,7 @@ namespace Ambar.ViewController
 
         private void FillDataGridView()
         {
-            List<ClientDTO> clients = dao.ReadAll();
+            List<ClientDTO> clients = clientDao.ReadAll();
             List<ClientDTG> dtgClients = new List<ClientDTG>();
             foreach (var client in clients)
             {
@@ -271,6 +277,14 @@ namespace Ambar.ViewController
             }
             this.dtgClients.DataSource = dtgClients;
             this.dtgClients.Columns["Emails"].Visible = false;
+        }
+
+        public void ClearDisableUsers()
+        {
+            txtDisable.Clear();
+            btnEnabling.Enabled = false;
+            lbPrevIndex = -1;
+            lbDisableClients.ClearSelected();
         }
 
         private void dtgClients_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -313,6 +327,15 @@ namespace Ambar.ViewController
             }
 
             dgvPrevIndex = index;
+        }
+
+        public void FillDisableUsers()
+        {
+            List<string> names = clientDao.ReadAllDisable();
+            foreach (var name in names)
+            {
+                lbDisableClients.Items.Add(name);
+            }
         }
     }
 }

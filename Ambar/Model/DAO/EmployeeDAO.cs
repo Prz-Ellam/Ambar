@@ -14,11 +14,11 @@ namespace Ambar.Model.DAO
 
         public void Create(EmployeeDTO employee)
         {
-            string queryEmp = "INSERT INTO EMPLOYEES(USER_ID, USER_NAME, PASSWORD, CREATION_DATE, MODIFICATION_DATE, " +
+            string queryEmp = "INSERT INTO EMPLOYEES(USER_ID, USER_NAME, PASSWORD, CREATED_AT, MODIFICATE_AT, " +
                 "FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, DATE_OF_BIRTH, RFC, CURP)" + 
                 "VALUES(uuid(), ?, ?, toUnixTimestamp(now()), { toUnixTimestamp(now()):'Begin'}, ?, ?, ?, ?, ?, ?);";
             string queryLog = "INSERT INTO EMPLOYEES_LOGIN(USER_NAME, PASSWORD, ENABLED) VALUES(?, ?, true);";
-            string queryRem = "INSERT INTO EMPLOYEES_ENABLED(USER_NAME, PASSWORD, ENABLED) VALUES(?, ?, true);";
+            string queryRem = "INSERT INTO EMPLOYEES_ENABLED(USER_NAME, ENABLED) VALUES(?, true);";
 
             var emp = session.Prepare(queryEmp);
             var log = session.Prepare(queryLog);
@@ -28,80 +28,44 @@ namespace Ambar.Model.DAO
                            .Add(emp.Bind(employee.User_Name, employee.Password, employee.First_Name, employee.Father_Last_Name,
                            employee.Mother_Last_Name, employee.Date_Of_Birth, employee.RFC, employee.CURP))
                            .Add(log.Bind(employee.User_Name, employee.Password))
-                           .Add(rem.Bind(employee.User_Name, employee.Password));
+                           .Add(rem.Bind(employee.User_Name));
 
             session.Execute(batch);
         }
 
-        public EmployeeDTO Read()
-        {
-            return null;
-        }
-
-        public List<EmployeeDTO> ReadAll()
-        {
-            string query = "SELECT * FROM EMPLOYEES;";
-            session = cluster.Connect(dbKeyspace);
-            IMapper mapper = new Mapper(session);
-
-            IEnumerable<EmployeeDTO> employees = mapper.Fetch<EmployeeDTO>(query);
-
-            return employees.ToList();
-        }
-
         public void Update(EmployeeDTO employee, string username)
         {
-            string queryEnabled = string.Format("SELECT ENABLED FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}';", username);
+            string query = "SELECT ENABLED FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}';";
+            query = string.Format(query, username);
 
-            IMapper mapper = new Mapper(session);
+            var res = session.Execute(query);
             bool enabled;
 
-            try
+            foreach (var row in res)
             {
-                enabled = mapper.Single<bool>(queryEnabled);
+                enabled = row.GetValue<bool>("enabled");
+
+                string queryEmp = string.Format("UPDATE EMPLOYEES SET USER_NAME = '{0}', PASSWORD = '{1}', FIRST_NAME = '{2}', " +
+                    "FATHER_LAST_NAME = '{3}', MOTHER_LAST_NAME = '{4}', DATE_OF_BIRTH = '{5}', RFC = '{6}', CURP = '{7}' " +
+                    "WHERE USER_ID = {8};",
+                    employee.User_Name, employee.Password, employee.First_Name, employee.Father_Last_Name,
+                      employee.Mother_Last_Name, employee.Date_Of_Birth, employee.RFC, employee.CURP, employee.User_ID);
+
+                string queryDLog = string.Format("DELETE FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}';", username);
+                string queryLog = string.Format("INSERT INTO EMPLOYEES_LOGIN(USER_NAME, PASSWORD, ENABLED) " +
+                    "VALUES('{0}', '{1}', {2});", employee.User_Name, employee.Password, enabled);
+
+                string queryDEnabled = string.Format("DELETE FROM EMPLOYEES_ENABLED WHERE ENABLED = {0} AND USER_NAME = '{1}';",
+                    enabled, username);
+                string queryEnabled = string.Format("INSERT INTO EMPLOYEES_ENABLED(USER_NAME, ENABLED) " +
+                    "VALUES('{0}', {1});", employee.User_Name, enabled);
+
+                session.Execute(queryEmp);
+                session.Execute(queryDLog);
+                session.Execute(queryLog);
+                session.Execute(queryDEnabled);
+                session.Execute(queryEnabled);
             }
-            catch (System.InvalidOperationException e)
-            {
-                return;
-            }
-
-            string queryEmp = string.Format("UPDATE EMPLOYEES SET USER_NAME = '{0}', PASSWORD = '{1}', FIRST_NAME = '{2}', " +
-                "FATHER_LAST_NAME = '{3}', MOTHER_LAST_NAME = '{4}', DATE_OF_BIRTH = '{5}', RFC = '{6}', CURP = '{7}' " +
-                "WHERE USER_ID = {8};"
-                , employee.User_Name, employee.Password, employee.First_Name, employee.Father_Last_Name,
-                  employee.Mother_Last_Name, employee.Date_Of_Birth, employee.RFC, employee.CURP, employee.User_ID);
-
-            string queryDelLog = string.Format("DELETE FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}';", username);
-
-            string queryLog = string.Format("INSERT INTO EMPLOYEES_LOGIN(USER_NAME, PASSWORD, ENABLED) " +
-                "VALUES('{0}', '{1}', {2});", employee.User_Name, employee.Password, enabled);
-
-            string queryDelEnabled = string.Format("DELETE FROM EMPLOYEES_ENABLED WHERE ENABLED = {0} AND USER_NAME = '{1}';",
-                enabled, username);
-
-            string queryInEnabled = string.Format("INSERT INTO EMPLOYEES_ENABLED(USER_NAME, PASSWORD, ENABLED) " +
-                "VALUES('{0}', '{1}', {2});", employee.User_Name, employee.Password, enabled);
-
-            session.Execute(queryEmp);
-            session.Execute(queryDelLog);
-            session.Execute(queryLog);
-            session.Execute(queryDelEnabled);
-            session.Execute(queryInEnabled);
-
-            //var emp = session.Prepare(queryEmp);
-            //var delLog = session.Prepare(queryDelLog);
-            //var log = session.Prepare(queryLog);
-            //var delEnabled = session.Prepare(queryDelEnabled);
-            //var InEnabled = session.Prepare(queryInEnabled);
-            //
-            //var batch = new BatchStatement()
-            //              .Add(emp.Bind(employee.User_Name, employee.Password, employee.First_Name, employee.Father_Last_Name,
-            //              employee.Mother_Last_Name, employee.Date_Of_Birth, employee.RFC, employee.CURP, employee.User_ID))
-            //              .Add(delLog.Bind(username))
-            //              .Add(log.Bind(employee.User_Name, employee.Password, enabled))
-            //              .Add(delEnabled.Bind(enabled, username))
-            //              .Add(InEnabled.Bind(employee.User_Name, employee.Password, enabled));
-
         }
 
         public void Delete(Guid id, string username)
@@ -128,88 +92,69 @@ namespace Ambar.Model.DAO
             session.Execute(queryDel);
             session.Execute(queryDelLog);
             session.Execute(queryDelEnabled);
+        }
 
+        public List<EmployeeDTO> Read()
+        {
+            string query = "SELECT * FROM EMPLOYEES;";
+            session = cluster.Connect(dbKeyspace);
+            IEnumerable<EmployeeDTO> employees;
+
+            try
+            {
+                employees = mapper.Fetch<EmployeeDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return employees.ToList();
         }
 
         public void Enabled(string username, bool enabled)
         {
-            string query = string.Format("SELECT PASSWORD FROM EMPLOYEES_LOGIN WHERE USER_NAME = " +
-                "'{0}';", username);
-
-            IMapper mapper = new Mapper(session);
-            string password;
-
-            try
-            {
-                password = mapper.Single<string>(query);
-            }
-            catch (System.InvalidOperationException e)
-            {
-                return;
-            }
-
-            string queryLog = string.Format("UPDATE EMPLOYEES_LOGIN SET ENABLED = {0} WHERE USER_NAME = '{1}';",
-                enabled, username);
-            string queryRem1 = string.Format("DELETE FROM EMPLOYEES_ENABLED WHERE ENABLED = {0} AND USER_NAME = '{1}';",
-                !enabled, username);
-            string queryRem2 = string.Format("INSERT INTO EMPLOYEES_ENABLED(USER_NAME, PASSWORD, ENABLED) " +
-                "VALUES('{0}', '{1}', {2});", username, password, enabled);
+            string queryLog = "UPDATE EMPLOYEES_LOGIN SET ENABLED = {0} WHERE USER_NAME = '{1}';";
+            queryLog = string.Format(queryLog, enabled, username);
+            string queryRem1 = "DELETE FROM EMPLOYEES_ENABLED WHERE ENABLED = {0} AND USER_NAME = '{1}';";
+            queryRem1 = string.Format(queryRem1, !enabled, username);
+            string queryRem2 = "INSERT INTO EMPLOYEES_ENABLED(USER_NAME, ENABLED) VALUES('{0}', {1});";
+            queryRem2 = string.Format(queryRem2, username, enabled);
 
             session.Execute(queryLog);
             session.Execute(queryRem1);
             session.Execute(queryRem2);
-
-            //var log = session.Prepare(queryLog);
-            //var rem1 = session.Prepare(queryRem1);
-            //var rem2 = session.Prepare(queryRem2);
-            //
-            //var batch = new BatchStatement()
-            //              .Add(log.Bind(enabled, username))
-            //              .Add(rem1.Bind(enabled, username))
-            //              .Add(rem2.Bind(username, password, enabled));
-            //
-            //session.Execute(batch);
         }
 
-
-        public (EmployeeLoginDTO, bool) Login(string username, string password)
+        public EmployeeLoginDTO Login(string username, string password)
         {
-            string query = string.Format("SELECT USER_NAME, PASSWORD, ENABLED FROM EMPLOYEES_LOGIN WHERE USER_NAME = " +
-                "'{0}';", username);
+            string query = "SELECT USER_NAME, PASSWORD, ENABLED FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}' " +
+                "AND PASSWORD = '{1}';";
+            query = string.Format(query, username, password);
 
-            IMapper mapper = new Mapper(session);
-            EmployeeLoginDTO user;
-
+            EmployeeLoginDTO user;            
             try
             {
                 user = mapper.Single<EmployeeLoginDTO>(query);
-
-                if (user.Password != password)
-                {
-                    return (null, true);
-                }
-
             }
-            catch (System.InvalidOperationException e)
+            catch (Exception e)
             {
-                return (null, false);
+                return null;
             }
 
-            return (user, true);
+            return user;
         }
 
         public List<string> ReadAllDisable()
         {
-            string query = "SELECT USER_NAME FROM EMPLOYEES_ENABLED WHERE ENABLED = false;";
+            string query = "SELECT USER_NAME FROM EMPLOYEES_ENABLED WHERE ENABLED = FALSE;";
 
-            IMapper mapper = new Mapper(session);
             IEnumerable<string> employeesDisable;
-
             try
             {
                 employeesDisable = mapper.Fetch<string>(query);
             }
-            catch (InvalidOperationException e)
+            catch (Exception e)
             {
                 return null;
             }
@@ -219,21 +164,25 @@ namespace Ambar.Model.DAO
 
         public bool UserExists(string username)
         {
-            string query = string.Format("SELECT COUNT(USER_NAME) FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}';", username);
+            string query = "SELECT COUNT(USER_NAME) FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}';";
+            query = string.Format(query, username);
 
-            IMapper mapper = new Mapper(session);
-            bool isExisting;
+            var res = session.Execute(query);
+            Int64 isExisting = -1;
 
-            try
+            foreach (var row in res)
             {
-                isExisting = (mapper.Single<int>(query) != 0) ? true : false;
-            }
-            catch (Exception e)
-            {
-                isExisting = false;
+                isExisting = row.GetValue<Int64>("system.count(user_name)");
             }
 
-            return isExisting;
+            if (isExisting > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }

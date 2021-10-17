@@ -54,6 +54,7 @@
             this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.cbPeriod = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgRates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -80,12 +81,14 @@
             this.cbService.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbService.FormattingEnabled = true;
             this.cbService.Items.AddRange(new object[] {
+            "Seleccionar",
             "Domestico",
             "Industrial"});
             this.cbService.Location = new System.Drawing.Point(238, 82);
             this.cbService.Name = "cbService";
             this.cbService.Size = new System.Drawing.Size(186, 28);
             this.cbService.TabIndex = 1;
+            this.cbService.SelectedIndexChanged += new System.EventHandler(this.cbService_SelectedIndexChanged);
             // 
             // comboBox2
             // 
@@ -177,14 +180,14 @@
             // dtpPeriod
             // 
             this.dtpPeriod.CalendarFont = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpPeriod.CustomFormat = "MMMM yyyy";
+            this.dtpPeriod.CustomFormat = "yyyy";
             this.dtpPeriod.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpPeriod.Location = new System.Drawing.Point(238, 193);
+            this.dtpPeriod.Location = new System.Drawing.Point(493, 192);
             this.dtpPeriod.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             this.dtpPeriod.Name = "dtpPeriod";
             this.dtpPeriod.ShowUpDown = true;
-            this.dtpPeriod.Size = new System.Drawing.Size(279, 28);
+            this.dtpPeriod.Size = new System.Drawing.Size(79, 28);
             this.dtpPeriod.TabIndex = 13;
             // 
             // lblEmpleados
@@ -332,12 +335,23 @@
             this.dataGridView1.Size = new System.Drawing.Size(498, 223);
             this.dataGridView1.TabIndex = 26;
             // 
+            // cbPeriod
+            // 
+            this.cbPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPeriod.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPeriod.FormattingEnabled = true;
+            this.cbPeriod.Location = new System.Drawing.Point(238, 192);
+            this.cbPeriod.Name = "cbPeriod";
+            this.cbPeriod.Size = new System.Drawing.Size(249, 28);
+            this.cbPeriod.TabIndex = 27;
+            // 
             // Rates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1242, 606);
+            this.Controls.Add(this.cbPeriod);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.pbWarningIcon);
@@ -397,5 +411,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SurplusLevel;
         private System.Windows.Forms.OpenFileDialog ofnMassive;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ComboBox cbPeriod;
     }
 }

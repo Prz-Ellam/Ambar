@@ -13,23 +13,17 @@ namespace Ambar.Model.DAO
 
         public AdministratorDTO Login(string username, string password)
         {
-            string query = string.Format("SELECT USER_NAME, PASSWORD FROM ADMINISTRATORS_LOGIN WHERE USER_NAME = " +
-                "'{0}';", username);
+            string query = "SELECT USER_NAME, PASSWORD FROM ADMINISTRATORS_LOGIN WHERE USER_NAME = '{0}' " +
+                "AND PASSWORD = '{1}';";
+            query = string.Format(query, username, password);
 
-            IMapper mapper = new Mapper(session);
             AdministratorDTO user;
 
             try
             {
                 user = mapper.Single<AdministratorDTO>(query);
-
-                if (user.Password != password)
-                {
-                    user = null;
-                }
-
             }
-            catch (System.InvalidOperationException e)
+            catch (Exception e)
             {
                 user = null;
             }
@@ -37,6 +31,14 @@ namespace Ambar.Model.DAO
             return user;
         }
 
+        public void LoginHistory(string username)
+        {
+            string query = "UPDATE ADMINISTRATORS_LOGIN SET LOGIN_HISTORY = LOGIN_HISTORY + [ toUnixTimestamp(now()) ]" +
+            " WHERE USER_NAME = '{0}';";
+            query = string.Format(query, username);
+
+            session.Execute(query);
+        }
 
     }
 }
