@@ -1,22 +1,28 @@
 ﻿using Ambar.Model.DAO;
 using Ambar.Model.DTO;
+using Cassandra;
+using CsvHelper;
+using ExcelDataReader;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Ambar.ViewController
 {
-    public partial class Consumos : Form
+    public partial class Consumptions : Form
     {
         private ConsumptionDAO dao = new ConsumptionDAO();
-        public Consumos()
+        public Consumptions()
         {
             InitializeComponent();
         }
@@ -31,6 +37,7 @@ namespace Ambar.ViewController
                 dtgContracts.Add(new ContractDTG(contract));
             }
             this.dtgContracts.DataSource = dtgContracts;
+            dtgConsumptions.DataSource = dao.ReadConsumptions();
         }
 
         private void FillDataGridView()
@@ -46,24 +53,36 @@ namespace Ambar.ViewController
             }
 
             ContractDAO contractDAO = new ContractDAO();
-
             if (!contractDAO.ContractExists(txtMeterSerialNumber.Text))
             {
                 PrintError("EL NUMERO DE MEDIDOR NO EXISTE ACTUALMENTE");
                 return;
             }
 
-            string serviceType = contractDAO.FindServiceType(Convert.ToInt32(txtMeterSerialNumber.Text));
+            string serviceType = contractDAO.FindServiceType(txtMeterSerialNumber.Text);
             short month = Convert.ToInt16(dtpPeriod.Value.Month);
+            LocalDate startPeriod = contractDAO.FindStartPeriodDate(txtMeterSerialNumber.Text);
+            int year = dtpPeriod.Value.Year;
 
             if (serviceType == "Doméstico" && month % 2 == 0)
             {
                 month--;
             }
 
+            if (year < startPeriod.Year || (year == startPeriod.Year && month < startPeriod.Month))
+            {
+                PrintError("NO SE PUEDE CARGAR UN CONSUMO ANTES DEL INICIO DE PERIODO DE COBRO");
+            }
+
             if (dao.ConsumptionExists(txtMeterSerialNumber.Text, dtpPeriod.Value.Year, month))
             {
                 PrintError("YA FUE CARGADO UN CONSUMO EN ESTE PERIODO DE COBRO");
+                return;
+            }
+
+            if (IsDecimalNumber(txtKilowatts.Text))
+            {
+                PrintError("KILOWATTS CONSUMIDOS SOLO ACEPTA NUMEROS DECIMALES");
                 return;
             }
 
@@ -86,8 +105,52 @@ namespace Ambar.ViewController
             consumption.Year = dtpPeriod.Value.Year;
 
             dao.Create(consumption);
-            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            dtgConsumptions.DataSource = dao.ReadConsumptions();
 
+            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+        }
+
+        private void btnMassiveCharge_Click(object sender, EventArgs e)
+        {
+            if (ofnMassive.ShowDialog() == DialogResult.OK)
+            {
+                switch (ofnMassive.FilterIndex)
+                {
+                    case 1: // CSV
+                    {
+                        var reader = File.OpenText(ofnMassive.FileName);
+                        CsvReader csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
+
+                        var consumptionsCSV = csvReader.GetRecords<dynamic>().ToList();
+
+                        foreach (var consumption in consumptionsCSV)
+                        {
+                            decimal a = consumption;
+                        }
+
+
+                        break;
+                    }
+                    case 2: // Excel
+                    {
+                        FileStream reader = new FileStream(ofnMassive.FileName, FileMode.Open, FileAccess.Read);
+                        IExcelDataReader xlsxReader = ExcelReaderFactory.CreateReader(reader);
+
+                        DataSet dataSetXLSX = xlsxReader.AsDataSet(new ExcelDataSetConfiguration()
+                        {
+                            ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                            {
+                                UseHeaderRow = true
+                            }
+                        });
+
+                        //dataGridView1.DataSource = dataSetXLSX.Tables[0];
+
+                        reader.Close();
+                        break;
+                    }
+                }
+            }
         }
 
         static void PaymentBreakdown(decimal value, ref decimal kwBasic, ref decimal kwInt, ref decimal kwExc)
@@ -116,7 +179,6 @@ namespace Ambar.ViewController
             kwInt = intermediate;
             value -= intermediate;
             kwExc = value;
-
         }
 
         private void PrintError(string error)
@@ -124,6 +186,14 @@ namespace Ambar.ViewController
             pbWarningIcon.Visible = true;
             lblError.Visible = true;
             lblError.Text = error;
+        }
+
+        private bool IsDecimalNumber(string number)
+        {
+            string res = @"(?<=^| )\d+(\.\d+)?(?=$| )|(?<=^| )\.\d+(?=$| )";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            return rx.IsMatch(number);
         }
 
     }

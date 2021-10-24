@@ -42,16 +42,35 @@ namespace Ambar.Model.DAO
             session.Execute(batch);
         }
 
-        public List<ConsumptionDTO> ReadByYear(int year)
+        public List<ConsumptionDTO> ReadConsumptions()
         {
-            string query = string.Format("SELECT * FROM CONSUMPTIONS_BY_YEAR WHERE YEAR = {0};", year);
+            string query = "SELECT CONSUMPTION_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, " +
+                "SURPLUS_KW, TOTAL_KW, YEAR, MONTH FROM CONSUMPTIONS;";
+
+            IEnumerable<ConsumptionDTO> rates;
+            try
+            {
+                rates = mapper.Fetch<ConsumptionDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return rates.ToList();
+        }
+
+        public List<ConsumptionDTO> ReadConsumptionsByYear(int year)
+        {
+            string query = string.Format("SELECT CONSUMPTION_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, " +
+                "INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH FROM CONSUMPTIONS_BY_YEAR WHERE YEAR = {0};", year);
 
             IEnumerable<ConsumptionDTO> consumptions;
             try
             {
                 consumptions = mapper.Fetch<ConsumptionDTO>(query);
             }
-            catch (System.InvalidOperationException e)
+            catch (Exception e)
             {
                 return null;
             }
@@ -61,8 +80,9 @@ namespace Ambar.Model.DAO
 
         public bool ConsumptionExists(string meterSerialNumber, int year, short month)
         {
-            string query = string.Format("SELECT COUNT(YEAR) FROM CONSUMPTIONS_BY_YEAR WHERE YEAR = {0} AND MONTH = {1} " +
-                "AND METER_SERIAL_NUMBER = '{2}';", year, month, meterSerialNumber);
+            string query = "SELECT COUNT(YEAR) FROM CONSUMPTIONS_BY_METER_SERIAL_NUMBER" +
+                " WHERE METER_SERIAL_NUMBER = '{0}' AND YEAR = {1} AND MONTH = {2};";
+            query = string.Format(query, meterSerialNumber, year, month);
 
             var res = session.Execute(query);
             Int64 count = 0;
@@ -82,7 +102,7 @@ namespace Ambar.Model.DAO
             }
         }
 
-        public ConsumptionForReceiptDTO GetConsumptions(int year, short month, string meterSerialNumber)
+        public ConsumptionForReceiptDTO FindConsumption(int year, short month, string meterSerialNumber)
         {
             string query = string.Format("SELECT BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW FROM CONSUMPTIONS_BY_YEAR WHERE " +
                 "YEAR = {0} AND MONTH = {1} AND METER_SERIAL_NUMBER = '{2}';", year, month, meterSerialNumber);
@@ -92,7 +112,7 @@ namespace Ambar.Model.DAO
             {
                 consumptions = mapper.Single<ConsumptionForReceiptDTO>(query);
             }
-            catch (System.InvalidOperationException e)
+            catch (Exception e)
             {
                 return null;
             }

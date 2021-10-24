@@ -18,7 +18,6 @@ namespace Ambar.Model.DAO
             query = string.Format(query, username, password);
 
             AdministratorDTO user;
-
             try
             {
                 user = mapper.Single<AdministratorDTO>(query);
@@ -29,15 +28,6 @@ namespace Ambar.Model.DAO
             }
 
             return user;
-        }
-
-        public void LoginHistory(string username)
-        {
-            string query = "UPDATE ADMINISTRATORS_LOGIN SET LOGIN_HISTORY = LOGIN_HISTORY + [ toUnixTimestamp(now()) ]" +
-            " WHERE USER_NAME = '{0}';";
-            query = string.Format(query, username);
-
-            session.Execute(query);
         }
 
     }

@@ -12,7 +12,7 @@ namespace Ambar.ViewController
     {
         private Guid contract_id;
         private string meter_serial_number;
-        private int service_number;
+        private long service_number;
         private string state;
         private string city;
         private string suburb;
@@ -25,7 +25,7 @@ namespace Ambar.ViewController
 
         public Guid Contract_ID { get => contract_id; set => contract_id = value; }
         public string Meter_Serial_Number { get => meter_serial_number; set => meter_serial_number = value; }
-        public int Service_Number { get => service_number; set => service_number = value; }
+        public long Service_Number { get => service_number; set => service_number = value; }
         public string State { get => state; set => state = value; }
         public string City { get => city; set => city = value; }
         public string Suburb { get => suburb; set => suburb = value; }

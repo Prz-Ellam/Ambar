@@ -5,18 +5,19 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using Cassandra;
+using Ambar.Common;
 
 namespace Ambar.ViewController
 {
     public partial class Contracts : Form
     {
         ContractDAO dao = new ContractDAO();
-        Dictionary<string, Guid> clients;
         int lbPrevIndex = -1;
         int dtgPrevIndex = -1;
 
@@ -40,22 +41,22 @@ namespace Ambar.ViewController
 
         private void lbClientes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lbPrevIndex == lbClients.SelectedIndex)
-            {
-                txtClient.Clear();
-                btnAccept.Enabled = false;
-                lbPrevIndex = -1;
-                dtgContracts.Rows.Clear();
-                lbClients.ClearSelected();
-                return;
-            }
-            else
-            {
-                txtClient.Text = lbClients.SelectedItem.ToString();
-                FillDataGridView();
-                btnAccept.Enabled = true;
-                lbPrevIndex = lbClients.SelectedIndex;
-            }
+            //if (lbPrevIndex == lbClients.SelectedIndex)
+            //{
+            //    txtClient.Clear();
+            //    btnAccept.Enabled = false;
+            //    lbPrevIndex = -1;
+            //    dtgContracts.Rows.Clear();
+            //    lbClients.ClearSelected();
+            //    return;
+            //}
+            //else
+            //{
+            //    txtClient.Text = lbClients.SelectedItem.ToString();
+            //    FillDataGridView();
+            //    btnAccept.Enabled = true;
+            //    lbPrevIndex = lbClients.SelectedIndex;
+            //}
         }
 
         private void cbState_SelectedIndexChanged(object sender, EventArgs e)
@@ -289,13 +290,119 @@ namespace Ambar.ViewController
                 }
                 case 16: // Morelos
                 {
+                    cities = new string[] { "AMACUZAC", "ATLATLAHUCAN", "AXOCHIAPAN", "AYALA", "COATLÁN DEL RÍO", "CUAUTLA", 
+                        "CUERNAVACA", "EMILIANO ZAPATA", "HUITZILAC", "JANTETELCO", "JIUTEPEC", "JOJUTLA", 
+                        "JONACATEPEC DE LEANDRO VALLE", "MAZATEPEC", "MIACATLÁN", "OCUITUCO", "PUENTE DE IXTLA", "TEMIXCO", 
+                        "TEPALCINGO", "TEPOZTLÁN", "TETECALA", "TETELA DEL VOLCÁN", "TLALNEPANTLA", "TLALTIZAPÁN DE ZAPATA", 
+                        "TLAQUILTENANGO", "TLAYACAPAN", "TOTOLAPAN", "XOCHITEPEC", "YAUTEPEC", "YECAPIXTLA", "ZACATEPEC", 
+                        "ZACUALPAN DE AMILPAS", "TEMOAC" };
                     break;
                 }
                 case 17: // Nayarit
                 {
-                    break;
+                    cities = new string[] { "ACAPONETA", "AHUACATLÁN", "AMATLÁN DE CAÑAS", "COMPOSTELA", "HUAJICORI",
+                        "IXTLÁN DEL RÍO", "JALA", "XALISCO", "DEL NAYAR", "ROSAMORADA", "RUÍZ", "SAN BLAS",
+                        "SAN PEDRO LAGUNILLAS", "SANTA MARÍA DEL ORO", "SANTIAGO IXCUINTLA", "TECUALA", "TEPIC", "TUXPAN",
+                        "LA YESCA", "BAHÍA DE BANDERAS" };
+                   break;
                 }
                 case 18: // Nuevo Leon
+                {
+                    cities = new string[] { "ABASOLO", "AGUALEGUAS", "LOS ALDAMAS", "ALLENDE", "ANÁHUAC", "APODACA",
+                    "ARAMBERRI", "BUSTAMANTE", "CADEREYTA JIMÉNEZ", "EL CARMEN", "CERRALVO", "CIÉNEGA DE FLORES", "CHINA",
+                    "DOCTOR ARROYO", "DOCTOR COSS", "DOCTOR GONZÁLEZ", "GALEANA", "GARCÍA", "SAN PEDRO GARZA GARCÍA",
+                    "GENERAL BRAVO", "GENERAL ESCOBEDO", "GENERAL TERÁN", "GENERAL TREVIÑO", "GENERAL ZARAGOZA",
+                    "GENERAL ZUAZUA", "GUADALUPE", "LOS HERRERAS", "HIGUERAS", "HUALAHUISES", "ITURBIDE", "JUÁREZ",
+                    "LAMPAZOS DE NARANJO", "LINARES", "MARÍN", "MELCHOR OCAMPO", "MIER Y NORIEGA", "MINA", "MONTEMORELOS", 
+                        "MONTERREY", "PARÁS", "PESQUERÍA", "LOS RAMONES", "RAYONES", "SABINAS HIDALGO", "SALINAS VICTORIA", 
+                        "SAN NICOLÁS DE LOS GARZA", "HIDALGO", "SANTA CATARINA", "SANTIAGO", "VALLECILLO", "VILLALDAMA" };
+                    break;
+                }
+                case 19: // Oaxaca
+                {
+                    break;
+                }
+                case 20: // Puebla
+                {
+                    break;
+                }
+                case 21: // Querétaro
+                {
+                    cities = new string[] { "AMEALCO DE BONFIL", "PINAL DE AMOLES", "ARROYO SECO", "CADEREYTA DE MONTES", 
+                        "COLÓN", "CORREGIDORA", "EZEQUIEL MONTES", "HUIMILPAN", "JALPAN DE SERRA", "LANDA DE MATAMOROS", 
+                        "EL MARQUÉS", "PEDRO ESCOBEDO", "PEÑAMILLER", "QUERÉTARO", "SAN JOAQUÍN", "SAN JUAN DEL RÍO", 
+                        "TEQUISQUIAPAN", "TOLIMÁN" };
+                    break;
+                }
+                case 22: // Quintana Roo
+                {
+                    cities = new string[] { "COZUMEL", "FELIPE CARRILLO PUERTO", "ISLA MUJERES", "OTHÓN P. BLANCO", 
+                        "BENITO JUÁREZ", "JOSÉ MARÍA MORELOS", "LÁZARO CÁRDENAS", "SOLIDARIDAD", "TULUM", "BACALAR", 
+                        "PUERTO MORELOS" };
+                    break;
+                }
+                case 23: // San Luis Potosí
+                {
+                    cities = new string[] { "AHUALULCO", "ALAQUINES", "AQUISMÓN", "ARMADILLO DE LOS INFANTE",
+                        "AXTLA DE TERRAZAS", "CÁRDENAS", "CATORCE", "CEDRAL", "CERRITOS", "CERRO DE SAN PEDRO",
+                        "CIUDAD DEL MAÍZ", "CIUDAD FERNÁNDEZ", "TANCANHUITZ", "CIUDAD VALLES", "COXCATLÁN", "CHARCAS",
+                        "EBANO", "GUADALCÁZAR", "HUEHUETLÁN", "LAGUNILLAS", "MATEHUALA", "MATLAPA", "MEXQUITIC DE CARMONA",
+                        "MOCTEZUMA", "EL NARANJO", "RAYÓN", "RIOVERDE", "SALINAS", "SAN ANTONIO", "SAN CIRO DE ACOSTA",
+                        "SAN LUIS POTOSÍ", "SAN MARTÍN CHALCHICUAUTLA", "SAN NICOLÁS TOLENTINO", "SANTA CATARINA",
+                        "SANTA MARÍA DEL RÍO", "SANTO DOMINGO", "SAN VICENTE TANCUAYALAB", "SOLEDAD DE GRACIANO SÁNCHEZ",
+                        "TAMASOPO", "TAMAZUNCHALE", "TAMPACÁN", "TAMPAMOLÓN CORONA", "TAMUÍN", "TANLAJÁS",
+                        "TANQUIÁN DE ESCOBEDO", "TIERRA NUEVA", "VANEGAS", "VENADO", "VILLA DE ARRIAGA", "VILLA DE ARISTA",
+                        "VILLA DE GUADALUPE", "VILLA DE LA PAZ", "VILLA DE RAMOS", "VILLA DE REYES", "VILLA HIDALGO",
+                        "VILLA JUÁREZ", "XILITLA", "ZARAGOZA" };
+                    break;
+                }
+                case 24: // Sinaloa
+                {
+                    cities = new string[] { "AHOME", "ANGOSTURA", "BADIRAGUATO", "CONCORDIA", "COSALÁ", "CULIACÁN", 
+                        "CHOIX", "ELOTA", "ESCUINAPA", "EL FUERTE", "GUASAVE", "MAZATLÁN", "MOCORITO", "ROSARIO", 
+                        "SALVADOR ALVARADO", "SAN IGNACIO", "SINALOA", "NAVOLATO" };
+                    break;
+                }
+                case 25: // Sonora 
+                {
+                    cities = new string[] { "ACONCHI", "AGUA PRIETA", "ALAMOS", "ALTAR", "ARIVECHI", "ARIZPE", "ATIL", 
+                        "BACADÉHUACHI", "BACANORA", "BACERAC", "BACOACHI", "BÁCUM", "BANÁMICHI", "BAVIÁCORA", 
+                        "BAVISPE", "BENJAMÍN HILL", "CABORCA", "CAJEME", "CANANEA", "CARBÓ", "LA COLORADA", "CUCURPE", 
+                        "CUMPAS", "DIVISADEROS", "EMPALME", "ETCHOJOA", "FRONTERAS", "GRANADOS", "GUAYMAS", 
+                        "HERMOSILLO", "HUACHINERA", "HUÁSABAS", "HUATABAMPO", "HUÉPAC", "IMURIS", "MAGDALENA", 
+                        "MAZATÁN", "MOCTEZUMA", "NACO", "NÁCORI CHICO", "NACOZARI DE GARCÍA", "NAVOJOA", "NOGALES", 
+                        "ONAVAS", "OPODEPE", "OQUITOA", "PITIQUITO", "PUERTO PEÑASCO", "QUIRIEGO", "RAYÓN", "ROSARIO", 
+                        "SAHUARIPA", "SAN FELIPE DE JESÚS", "SAN JAVIER", "SAN LUIS RÍO COLORADO", 
+                        "SAN MIGUEL DE HORCASITAS", "SAN PEDRO DE LA CUEVA", "SANTA ANA", "SANTA CRUZ", "SÁRIC", 
+                        "SOYOPA", "SUAQUI GRANDE", "TEPACHE", "TRINCHERAS", "TUBUTAMA", "URES", "VILLA HIDALGO", 
+                        "VILLA PESQUEIRA", "YÉCORA", "GENERAL PLUTARCO ELÍAS CALLES", "BENITO JUÁREZ", 
+                        "SAN IGNACIO RÍO MUERTO" };
+                    break;
+                }
+                case 26: // Tabasco
+                {
+                    cities = new string[] { "BALANCÁN", "CÁRDENAS", "CENTLA", "CENTRO", "COMALCALCO", "CUNDUACÁN", 
+                        "EMILIANO ZAPATA", "HUIMANGUILLO", "JALAPA", "JALPA DE MÉNDEZ", "JONUTA", "MACUSPANA", "NACAJUCA", 
+                        "PARAÍSO", "TACOTALPA", "TEAPA", "TENOSIQUE" };
+                    break;
+                }
+                case 27: // Tamaulipas
+                {
+                    break;
+                }
+                case 28: // Tlaxcala
+                {
+                    break;
+                }
+                case 29: // Veracruz
+                {
+                    break;
+                }
+                case 30: // Yucatan
+                {
+                    break;
+                }
+                case 31: // Zacatecas
                 {
                     break;
                 }
@@ -317,14 +424,33 @@ namespace Ambar.ViewController
                 txtPostalCode.Text == string.Empty)
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                return;
             }
 
-            if (dao.ContractExists(txtMeterSerialNumber.Text))
+            if (!RegexUtils.OnlyNumbers(txtServiceNumber.Text))
+            {
+                PrintError("EL NÚMERO DE SERVICIO SOLO ACEPTA CAMPOS NUMÉRICOS");
+                return;
+            }
+
+            if (dao.ContractExists(txtMeterSerialNumber.Text, Convert.ToInt32(txtServiceNumber.Text)))
             {
                 PrintError("EL NUMERO DE MEDIDOR YA EXISTE");
                 return;
             }
 
+            ContractDTO contract = FillContract();
+
+            dao.Create(contract);
+
+            FillDataGridView();
+
+            ClearForm();
+            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+        }
+
+        private ContractDTO FillContract()
+        {
             ContractDTO contract = new ContractDTO();
             DateTime today = DateTime.Now;
             contract.Contract_ID = Guid.NewGuid();
@@ -332,8 +458,8 @@ namespace Ambar.ViewController
             contract.First_Name = dtgClients.Rows[dtgPrevIndex].Cells[3].Value.ToString();
             contract.Father_Last_Name = dtgClients.Rows[dtgPrevIndex].Cells[4].Value.ToString();
             contract.Mother_Last_Name = dtgClients.Rows[dtgPrevIndex].Cells[5].Value.ToString();
-            contract.Meter_Serial_Number = txtMeterSerialNumber.Text;
-            contract.Service_Number = Convert.ToInt32(txtServiceNumber.Text);
+            contract.Meter_Serial_Number = StringUtils.GetText(txtMeterSerialNumber);
+            contract.Service_Number = Convert.ToInt32(StringUtils.GetText(txtServiceNumber));
             contract.State = cbState.Text;
             contract.City = cbCity.Text;
             contract.Suburb = txtSuburb.Text;
@@ -342,13 +468,7 @@ namespace Ambar.ViewController
             contract.Postal_Code = txtPostalCode.Text;
             contract.Service = cbService.Text;
             contract.Start_Period_Date = new LocalDate(today.Year, today.Month, today.Day);
-
-            dao.Create(contract);
-
-            FillDataGridView();
-
-            ClearForm();
-            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            return contract;
         }
 
         private void PrintError(string error)
@@ -367,6 +487,7 @@ namespace Ambar.ViewController
             cbCity.SelectedIndex = -1;
             txtSuburb.Clear();
             txtStreet.Clear();
+            txtNumber.Clear();
             txtPostalCode.Clear();
             dtpStartPeriodDate.Value = DateTime.Now;
         }
@@ -385,13 +506,13 @@ namespace Ambar.ViewController
         private void dtgClients_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-            if (dtgPrevIndex == index)
+            if (dtgPrevIndex == index || index == -1)
             {
                 txtClient.Clear();
                 btnAccept.Enabled = false;
                 dtgPrevIndex = -1;
-                dtgContracts.DataSource = null;
-                lbClients.ClearSelected();
+                dtgContracts.DataSource = new List<ContractDTO>();
+                //lbClients.ClearSelected();
                 return;
             }
             else

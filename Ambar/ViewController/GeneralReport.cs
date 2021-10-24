@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Ambar.ViewController
 {
-    public partial class EmployeeReceiptQuery : Form
+    public partial class GeneralReport : Form
     {
-        public EmployeeReceiptQuery()
+        public GeneralReport()
         {
             InitializeComponent();
         }

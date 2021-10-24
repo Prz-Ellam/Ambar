@@ -58,7 +58,6 @@ namespace Ambar.ViewController
             this.lblStreet = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.lbClients = new System.Windows.Forms.ListBox();
             this.txtClient = new System.Windows.Forms.TextBox();
             this.cbService = new System.Windows.Forms.ComboBox();
             this.lblService = new System.Windows.Forms.Label();
@@ -86,29 +85,34 @@ namespace Ambar.ViewController
             // 
             // txtMeterSerialNumber
             // 
-            this.txtMeterSerialNumber.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMeterSerialNumber.Location = new System.Drawing.Point(261, 128);
+            this.txtMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMeterSerialNumber.Location = new System.Drawing.Point(196, 104);
+            this.txtMeterSerialNumber.Margin = new System.Windows.Forms.Padding(2);
             this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
-            this.txtMeterSerialNumber.Size = new System.Drawing.Size(400, 28);
+            this.txtMeterSerialNumber.Size = new System.Drawing.Size(430, 23);
             this.txtMeterSerialNumber.TabIndex = 0;
+            this.txtMeterSerialNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtServiceNumber
             // 
-            this.txtServiceNumber.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtServiceNumber.Location = new System.Drawing.Point(261, 166);
+            this.txtServiceNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtServiceNumber.Location = new System.Drawing.Point(196, 135);
+            this.txtServiceNumber.Margin = new System.Windows.Forms.Padding(2);
             this.txtServiceNumber.Name = "txtServiceNumber";
-            this.txtServiceNumber.Size = new System.Drawing.Size(400, 28);
+            this.txtServiceNumber.Size = new System.Drawing.Size(430, 23);
             this.txtServiceNumber.TabIndex = 1;
+            this.txtServiceNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.label1.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(47, 131);
+            this.label1.Location = new System.Drawing.Point(35, 106);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(190, 20);
+            this.label1.Size = new System.Drawing.Size(137, 17);
             this.label1.TabIndex = 2;
             this.label1.Text = "Número de Medidor:";
             // 
@@ -116,11 +120,12 @@ namespace Ambar.ViewController
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.label2.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label2.Location = new System.Drawing.Point(52, 169);
+            this.label2.Location = new System.Drawing.Point(39, 137);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(185, 20);
+            this.label2.Size = new System.Drawing.Size(134, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "Número de servicio:";
             // 
@@ -128,11 +133,12 @@ namespace Ambar.ViewController
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.label3.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label3.Location = new System.Drawing.Point(160, 93);
+            this.label3.Location = new System.Drawing.Point(120, 76);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 20);
+            this.label3.Size = new System.Drawing.Size(55, 17);
             this.label3.TabIndex = 5;
             this.label3.Text = "Cliente:";
             // 
@@ -143,11 +149,12 @@ namespace Ambar.ViewController
             this.btnAccept.FlatAppearance.BorderSize = 0;
             this.btnAccept.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAccept.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
-            this.btnAccept.Location = new System.Drawing.Point(261, 527);
+            this.btnAccept.Location = new System.Drawing.Point(196, 428);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(150, 50);
+            this.btnAccept.Size = new System.Drawing.Size(112, 41);
             this.btnAccept.TabIndex = 6;
             this.btnAccept.Text = "ACEPTAR";
             this.btnAccept.UseVisualStyleBackColor = false;
@@ -168,11 +175,12 @@ namespace Ambar.ViewController
             this.PostalCode,
             this.Service,
             this.StartPeriodDate});
-            this.dtgContracts.Location = new System.Drawing.Point(27, 602);
+            this.dtgContracts.Location = new System.Drawing.Point(20, 489);
+            this.dtgContracts.Margin = new System.Windows.Forms.Padding(2);
             this.dtgContracts.Name = "dtgContracts";
             this.dtgContracts.RowHeadersWidth = 51;
             this.dtgContracts.RowTemplate.Height = 24;
-            this.dtgContracts.Size = new System.Drawing.Size(813, 150);
+            this.dtgContracts.Size = new System.Drawing.Size(606, 122);
             this.dtgContracts.TabIndex = 10;
             // 
             // ContractID
@@ -265,66 +273,73 @@ namespace Ambar.ViewController
             // 
             // txtSuburb
             // 
-            this.txtSuburb.Font = new System.Drawing.Font("Montserrat", 10.2F);
-            this.txtSuburb.Location = new System.Drawing.Point(261, 318);
+            this.txtSuburb.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.txtSuburb.Location = new System.Drawing.Point(196, 258);
+            this.txtSuburb.Margin = new System.Windows.Forms.Padding(2);
             this.txtSuburb.Name = "txtSuburb";
-            this.txtSuburb.Size = new System.Drawing.Size(400, 28);
+            this.txtSuburb.Size = new System.Drawing.Size(430, 23);
             this.txtSuburb.TabIndex = 5;
             // 
             // txtStreet
             // 
-            this.txtStreet.Font = new System.Drawing.Font("Montserrat", 10.2F);
-            this.txtStreet.Location = new System.Drawing.Point(261, 356);
+            this.txtStreet.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.txtStreet.Location = new System.Drawing.Point(196, 289);
+            this.txtStreet.Margin = new System.Windows.Forms.Padding(2);
             this.txtStreet.Name = "txtStreet";
-            this.txtStreet.Size = new System.Drawing.Size(400, 28);
+            this.txtStreet.Size = new System.Drawing.Size(430, 23);
             this.txtStreet.TabIndex = 6;
             // 
             // txtNumber
             // 
-            this.txtNumber.Font = new System.Drawing.Font("Montserrat", 10.2F);
-            this.txtNumber.Location = new System.Drawing.Point(261, 394);
+            this.txtNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.txtNumber.Location = new System.Drawing.Point(196, 320);
+            this.txtNumber.Margin = new System.Windows.Forms.Padding(2);
             this.txtNumber.Name = "txtNumber";
-            this.txtNumber.Size = new System.Drawing.Size(400, 28);
+            this.txtNumber.Size = new System.Drawing.Size(430, 23);
             this.txtNumber.TabIndex = 7;
             // 
             // txtPostalCode
             // 
-            this.txtPostalCode.Font = new System.Drawing.Font("Montserrat", 10.2F);
-            this.txtPostalCode.Location = new System.Drawing.Point(261, 432);
+            this.txtPostalCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.txtPostalCode.Location = new System.Drawing.Point(196, 351);
+            this.txtPostalCode.Margin = new System.Windows.Forms.Padding(2);
             this.txtPostalCode.Name = "txtPostalCode";
-            this.txtPostalCode.Size = new System.Drawing.Size(400, 28);
+            this.txtPostalCode.Size = new System.Drawing.Size(430, 23);
             this.txtPostalCode.TabIndex = 8;
             // 
             // lblContracts
             // 
             this.lblContracts.AutoSize = true;
-            this.lblContracts.Font = new System.Drawing.Font("Montserrat", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblContracts.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblContracts.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblContracts.Location = new System.Drawing.Point(20, 20);
+            this.lblContracts.Location = new System.Drawing.Point(15, 16);
+            this.lblContracts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblContracts.Name = "lblContracts";
-            this.lblContracts.Size = new System.Drawing.Size(231, 40);
+            this.lblContracts.Size = new System.Drawing.Size(186, 31);
             this.lblContracts.TabIndex = 22;
             this.lblContracts.Text = "CONTRATOS";
             // 
             // lblState
             // 
             this.lblState.AutoSize = true;
-            this.lblState.Font = new System.Drawing.Font("Montserrat", 10.2F);
+            this.lblState.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.lblState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblState.Location = new System.Drawing.Point(164, 244);
+            this.lblState.Location = new System.Drawing.Point(123, 198);
+            this.lblState.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(73, 20);
+            this.lblState.Size = new System.Drawing.Size(56, 17);
             this.lblState.TabIndex = 23;
             this.lblState.Text = "Estado:";
             // 
             // lblCity
             // 
             this.lblCity.AutoSize = true;
-            this.lblCity.Font = new System.Drawing.Font("Montserrat", 10.2F);
+            this.lblCity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.lblCity.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblCity.Location = new System.Drawing.Point(56, 282);
+            this.lblCity.Location = new System.Drawing.Point(42, 229);
+            this.lblCity.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCity.Name = "lblCity";
-            this.lblCity.Size = new System.Drawing.Size(181, 20);
+            this.lblCity.Size = new System.Drawing.Size(127, 17);
             this.lblCity.TabIndex = 24;
             this.lblCity.Text = "Ciudad / Municipio:";
             // 
@@ -332,11 +347,12 @@ namespace Ambar.ViewController
             // 
             this.lblSuburb.AutoSize = true;
             this.lblSuburb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblSuburb.Font = new System.Drawing.Font("Montserrat", 10.2F);
+            this.lblSuburb.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.lblSuburb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblSuburb.Location = new System.Drawing.Point(157, 321);
+            this.lblSuburb.Location = new System.Drawing.Point(118, 261);
+            this.lblSuburb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSuburb.Name = "lblSuburb";
-            this.lblSuburb.Size = new System.Drawing.Size(80, 20);
+            this.lblSuburb.Size = new System.Drawing.Size(59, 17);
             this.lblSuburb.TabIndex = 25;
             this.lblSuburb.Text = "Colonia:";
             // 
@@ -344,81 +360,75 @@ namespace Ambar.ViewController
             // 
             this.lblStreet.AutoSize = true;
             this.lblStreet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblStreet.Font = new System.Drawing.Font("Montserrat", 10.2F);
+            this.lblStreet.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.lblStreet.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblStreet.Location = new System.Drawing.Point(179, 359);
+            this.lblStreet.Location = new System.Drawing.Point(134, 292);
+            this.lblStreet.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblStreet.Name = "lblStreet";
-            this.lblStreet.Size = new System.Drawing.Size(58, 20);
+            this.lblStreet.Size = new System.Drawing.Size(43, 17);
             this.lblStreet.TabIndex = 26;
             this.lblStreet.Text = "Calle:";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Montserrat", 10.2F);
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label8.Location = new System.Drawing.Point(152, 397);
+            this.label8.Location = new System.Drawing.Point(114, 323);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(85, 20);
+            this.label8.Size = new System.Drawing.Size(62, 17);
             this.label8.TabIndex = 27;
             this.label8.Text = "Número:";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Montserrat", 10.2F);
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label9.Location = new System.Drawing.Point(102, 435);
+            this.label9.Location = new System.Drawing.Point(76, 353);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(135, 20);
+            this.label9.Size = new System.Drawing.Size(99, 17);
             this.label9.TabIndex = 28;
             this.label9.Text = "Código Postal:";
-            // 
-            // lbClients
-            // 
-            this.lbClients.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lbClients.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbClients.FormattingEnabled = true;
-            this.lbClients.ItemHeight = 20;
-            this.lbClients.Location = new System.Drawing.Point(1063, 116);
-            this.lbClients.Name = "lbClients";
-            this.lbClients.Size = new System.Drawing.Size(220, 600);
-            this.lbClients.TabIndex = 29;
-            this.lbClients.SelectedIndexChanged += new System.EventHandler(this.lbClientes_SelectedIndexChanged);
             // 
             // txtClient
             // 
             this.txtClient.Enabled = false;
-            this.txtClient.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtClient.Location = new System.Drawing.Point(261, 90);
+            this.txtClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtClient.Location = new System.Drawing.Point(196, 73);
+            this.txtClient.Margin = new System.Windows.Forms.Padding(2);
             this.txtClient.Name = "txtClient";
             this.txtClient.ReadOnly = true;
-            this.txtClient.Size = new System.Drawing.Size(400, 28);
+            this.txtClient.Size = new System.Drawing.Size(430, 23);
             this.txtClient.TabIndex = 30;
             // 
             // cbService
             // 
             this.cbService.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbService.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbService.Font = new System.Drawing.Font("Montserrat", 10.2F);
+            this.cbService.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.cbService.FormattingEnabled = true;
             this.cbService.Items.AddRange(new object[] {
             "Doméstico",
             "Industrial"});
-            this.cbService.Location = new System.Drawing.Point(261, 204);
+            this.cbService.Location = new System.Drawing.Point(196, 166);
+            this.cbService.Margin = new System.Windows.Forms.Padding(2);
             this.cbService.Name = "cbService";
-            this.cbService.Size = new System.Drawing.Size(400, 28);
+            this.cbService.Size = new System.Drawing.Size(430, 25);
             this.cbService.TabIndex = 2;
             // 
             // lblService
             // 
             this.lblService.AutoSize = true;
             this.lblService.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.lblService.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblService.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblService.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblService.Location = new System.Drawing.Point(86, 207);
+            this.lblService.Location = new System.Drawing.Point(64, 168);
+            this.lblService.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblService.Name = "lblService";
-            this.lblService.Size = new System.Drawing.Size(151, 20);
+            this.lblService.Size = new System.Drawing.Size(112, 17);
             this.lblService.TabIndex = 34;
             this.lblService.Text = "Tipo de servicio:";
             // 
@@ -426,7 +436,7 @@ namespace Ambar.ViewController
             // 
             this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbState.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbState.Font = new System.Drawing.Font("Montserrat", 9F);
+            this.cbState.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.cbState.FormattingEnabled = true;
             this.cbState.Items.AddRange(new object[] {
             "AGUASCALIENTES",
@@ -461,9 +471,10 @@ namespace Ambar.ViewController
             "VERACRUZ",
             "YUCATÁN",
             "ZACATECAS"});
-            this.cbState.Location = new System.Drawing.Point(261, 242);
+            this.cbState.Location = new System.Drawing.Point(196, 197);
+            this.cbState.Margin = new System.Windows.Forms.Padding(2);
             this.cbState.Name = "cbState";
-            this.cbState.Size = new System.Drawing.Size(400, 27);
+            this.cbState.Size = new System.Drawing.Size(430, 23);
             this.cbState.TabIndex = 3;
             this.cbState.SelectedIndexChanged += new System.EventHandler(this.cbState_SelectedIndexChanged);
             // 
@@ -471,43 +482,47 @@ namespace Ambar.ViewController
             // 
             this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbCity.Font = new System.Drawing.Font("Montserrat", 9F);
+            this.cbCity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.cbCity.FormattingEnabled = true;
-            this.cbCity.Location = new System.Drawing.Point(261, 280);
+            this.cbCity.Location = new System.Drawing.Point(196, 228);
+            this.cbCity.Margin = new System.Windows.Forms.Padding(2);
             this.cbCity.Name = "cbCity";
-            this.cbCity.Size = new System.Drawing.Size(400, 27);
+            this.cbCity.Size = new System.Drawing.Size(430, 23);
             this.cbCity.TabIndex = 4;
             // 
             // dtpStartPeriodDate
             // 
             this.dtpStartPeriodDate.CustomFormat = "";
-            this.dtpStartPeriodDate.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpStartPeriodDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpStartPeriodDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpStartPeriodDate.Location = new System.Drawing.Point(261, 470);
+            this.dtpStartPeriodDate.Location = new System.Drawing.Point(196, 382);
+            this.dtpStartPeriodDate.Margin = new System.Windows.Forms.Padding(2);
             this.dtpStartPeriodDate.Name = "dtpStartPeriodDate";
-            this.dtpStartPeriodDate.Size = new System.Drawing.Size(400, 28);
+            this.dtpStartPeriodDate.Size = new System.Drawing.Size(301, 23);
             this.dtpStartPeriodDate.TabIndex = 9;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.label4.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label4.Location = new System.Drawing.Point(76, 476);
+            this.label4.Location = new System.Drawing.Point(57, 387);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(161, 20);
+            this.label4.Size = new System.Drawing.Size(117, 17);
             this.label4.TabIndex = 38;
             this.label4.Text = "Inicio de Periodo:";
             // 
             // lblError
             // 
             this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Montserrat", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(309, 55);
+            this.lblError.Location = new System.Drawing.Point(232, 45);
+            this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(107, 19);
+            this.lblError.Size = new System.Drawing.Size(84, 15);
             this.lblError.TabIndex = 40;
             this.lblError.Text = "ERROR TEXT";
             this.lblError.Visible = false;
@@ -515,9 +530,10 @@ namespace Ambar.ViewController
             // pbWarningIcon
             // 
             this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(270, 49);
+            this.pbWarningIcon.Location = new System.Drawing.Point(202, 40);
+            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
             this.pbWarningIcon.Name = "pbWarningIcon";
-            this.pbWarningIcon.Size = new System.Drawing.Size(30, 30);
+            this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
             this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbWarningIcon.TabIndex = 39;
             this.pbWarningIcon.TabStop = false;
@@ -537,12 +553,13 @@ namespace Ambar.ViewController
             this.CURP,
             this.Gender,
             this.Emails});
-            this.dtgClients.Location = new System.Drawing.Point(700, 90);
+            this.dtgClients.Location = new System.Drawing.Point(643, 73);
+            this.dtgClients.Margin = new System.Windows.Forms.Padding(2);
             this.dtgClients.Name = "dtgClients";
             this.dtgClients.ReadOnly = true;
             this.dtgClients.RowHeadersWidth = 51;
             this.dtgClients.RowTemplate.Height = 24;
-            this.dtgClients.Size = new System.Drawing.Size(519, 408);
+            this.dtgClients.Size = new System.Drawing.Size(271, 332);
             this.dtgClients.TabIndex = 41;
             this.dtgClients.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgClients_CellDoubleClick);
             // 
@@ -638,10 +655,10 @@ namespace Ambar.ViewController
             // 
             // Contracts
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1398, 775);
+            this.ClientSize = new System.Drawing.Size(1040, 630);
             this.Controls.Add(this.dtgClients);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.pbWarningIcon);
@@ -652,7 +669,6 @@ namespace Ambar.ViewController
             this.Controls.Add(this.lblService);
             this.Controls.Add(this.cbService);
             this.Controls.Add(this.txtClient);
-            this.Controls.Add(this.lbClients);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.lblStreet);
@@ -672,6 +688,7 @@ namespace Ambar.ViewController
             this.Controls.Add(this.txtServiceNumber);
             this.Controls.Add(this.txtMeterSerialNumber);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Contracts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Contratos";
@@ -704,7 +721,6 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Label lblStreet;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ListBox lbClients;
         private System.Windows.Forms.TextBox txtClient;
         private System.Windows.Forms.ComboBox cbService;
         private System.Windows.Forms.Label lblService;

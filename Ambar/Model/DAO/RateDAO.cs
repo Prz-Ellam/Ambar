@@ -32,8 +32,8 @@ namespace Ambar.Model.DAO
 
             session.Execute(batch);
 
-            string queryExists = string.Format("SELECT COUNT(YEAR) FROM RATES_ACTIVE " +
-                "WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = '{2}';", rate.Year, rate.Month, rate.Service);
+            string queryExists = "SELECT COUNT(YEAR) FROM RATES_ACTIVE WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = '{2}';";
+            queryExists = string.Format(queryExists, rate.Year, rate.Month, rate.Service);
 
             bool exists;
 
@@ -41,7 +41,7 @@ namespace Ambar.Model.DAO
             {
                 exists = (mapper.Single<int>(queryExists) != 0) ? true : false;
             }
-            catch (System.InvalidOperationException e)
+            catch (Exception e)
             {
                 return;
             }
@@ -65,27 +65,11 @@ namespace Ambar.Model.DAO
 
         }
 
-
-        public List<RateDTO> ReadByYear(int year)
-        {
-            string query = string.Format("SELECT * FROM RATES_BY_YEAR WHERE YEAR = {0};", year);
-
-            IEnumerable<RateDTO> rates;
-
-            try
-            {
-                rates = mapper.Fetch<RateDTO>(query);
-            }
-            catch (System.InvalidOperationException e)
-            {
-                return null;
-            }
-
-            return rates.ToList();
-        }
-
         public RateForReceiptDTO FindActiveRates(string service, int year, short month)
         {
+            if (service == "Doméstico")
+                service = "Domestico";
+
             string query = "SELECT BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL FROM RATES_ACTIVE WHERE YEAR = {0} " +
                 "AND MONTH = {1} AND SERVICE = '{2}';";
             query = string.Format(query, year, month, service);
@@ -104,13 +88,30 @@ namespace Ambar.Model.DAO
         }
 
 
-        public List<RateDTO> ReadAll()
+        public List<RateDTO> ReadRates()
         {
-            string query = "SELECT * FROM RATES";
+            string query = "SELECT RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, SERVICE, YEAR, MONTH FROM RATES";
 
-            IMapper mapper = new Mapper(session);
             IEnumerable<RateDTO> rates;
+            try
+            {
+                rates = mapper.Fetch<RateDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
 
+            return rates.ToList();
+        }
+
+        public List<RateDTO> ReadRatesByYear(int year)
+        {
+            string query = "SELECT RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, SERVICE, YEAR, MONTH FROM " +
+                "RATES_BY_YEAR WHERE YEAR = {0};";
+            query = string.Format(query, year);
+
+            IEnumerable<RateDTO> rates;
             try
             {
                 rates = mapper.Fetch<RateDTO>(query);

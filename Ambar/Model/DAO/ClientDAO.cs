@@ -15,7 +15,7 @@ namespace Ambar.Model.DAO
         {
             string queryEmp = "INSERT INTO CLIENTS(USER_ID, USER_NAME, PASSWORD, CREATED_AT, MODIFICATE_AT, " +
                "FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, DATE_OF_BIRTH, CURP, GENDER)" +
-               "VALUES(?, ?, ?, toUnixTimestamp(now()), { toUnixTimestamp(now()):'Begin'}, ?, ?, ?, ?, ?, ?);";
+               "VALUES(?, ?, ?, toUnixTimestamp(now()), [ toUnixTimestamp(now()) ], ?, ?, ?, ?, ?, ?);";
             string queryLog = "INSERT INTO CLIENTS_LOGIN(USER_NAME, PASSWORD, ENABLED) VALUES(?, ?, true);";
             string queryRem = "INSERT INTO CLIENTS_ENABLED(USER_NAME, ENABLED) VALUES(?, true);";
 
@@ -46,21 +46,19 @@ namespace Ambar.Model.DAO
         {
             string queryEnabled = string.Format("SELECT ENABLED FROM CLIENTS_LOGIN WHERE USER_NAME = '{0}';", username);
 
-            IMapper mapper = new Mapper(session);
             bool enabled;
-
             try
             {
                 enabled = mapper.Single<bool>(queryEnabled);
             }
-            catch (System.InvalidOperationException e)
+            catch (Exception e)
             {
                 return;
             }
 
             string queryEmp = string.Format("UPDATE CLIENTS SET USER_NAME = '{0}', PASSWORD = '{1}', FIRST_NAME = '{2}', " +
-                "FATHER_LAST_NAME = '{3}', MOTHER_LAST_NAME = '{4}', DATE_OF_BIRTH = '{5}', CURP = '{6}', GENDER = '{7}' " +
-                "WHERE USER_ID = {8};",
+                "FATHER_LAST_NAME = '{3}', MOTHER_LAST_NAME = '{4}', DATE_OF_BIRTH = '{5}', CURP = '{6}', GENDER = '{7}'," +
+                "MODIFICATE_AT = MODIFICATE_AT + [ toUnixTimestamp(now()) ] WHERE USER_ID = {8};",
                   client.User_Name, client.Password, client.First_Name, client.Father_Last_Name, client.Mother_Last_Name,
                   client.Date_Of_Birth, client.CURP, client.Gender, client.User_ID);
 
@@ -77,10 +75,10 @@ namespace Ambar.Model.DAO
             string queryLog = string.Format("INSERT INTO CLIENTS_LOGIN(USER_NAME, PASSWORD, ENABLED) " +
                 "VALUES('{0}', '{1}', {2});", client.User_Name, client.Password, enabled);
 
-            string queryDelEnabled = string.Format("DELETE FROM CLIENTS_ENABLED WHERE ENABLED = {0} AND USER_NAME = '{1}';",
-                enabled, username);
-            string queryInEnabled = string.Format("INSERT INTO CLIENTS_ENABLED(USER_NAME, ENABLED) " +
-                "VALUES('{0}', {1});", client.User_Name, enabled);
+            string queryDelEnabled = "DELETE FROM CLIENTS_ENABLED WHERE ENABLED = {0} AND USER_NAME = '{1}';";
+            queryDelEnabled = string.Format(queryDelEnabled, enabled, username);
+            string queryInEnabled = "INSERT INTO CLIENTS_ENABLED(USER_NAME, ENABLED) VALUES('{0}', {1});";
+            queryInEnabled = string.Format(queryInEnabled, client.User_Name, enabled);
 
             session.Execute(queryEmp);
             session.Execute(queryEmails);
@@ -88,20 +86,20 @@ namespace Ambar.Model.DAO
             session.Execute(queryLog);
             session.Execute(queryDelEnabled);
             session.Execute(queryInEnabled);
+
+            new ContractDAO().UpdateClientInfo(client.User_ID, client.First_Name, client.Father_Last_Name, client.Mother_Last_Name);
         }
 
         public void Delete(Guid id, string username)
         {
             string queryEnabled = string.Format("SELECT ENABLED FROM CLIENTS_LOGIN WHERE USER_NAME = '{0}';", username);
 
-            IMapper mapper = new Mapper(session);
             bool enabled;
-
             try
             {
                 enabled = mapper.Single<bool>(queryEnabled);
             }
-            catch (System.InvalidOperationException e)
+            catch (Exception e)
             {
                 return;
             }
@@ -118,9 +116,8 @@ namespace Ambar.Model.DAO
 
         public List<ClientDTO> ReadAll()
         {
-            string query = "SELECT * FROM CLIENTS;";
-            session = cluster.Connect(dbKeyspace);
-            IMapper mapper = new Mapper(session);
+            string query = "SELECT USER_ID, USER_NAME, PASSWORD, CREATED_AT, MODIFICATE_AT, FIRST_NAME, FATHER_LAST_NAME," +
+                "MOTHER_LAST_NAME, DATE_OF_BIRTH, EMAILS, CURP, GENDER FROM CLIENTS;";
 
             IEnumerable<ClientDTO> clients = mapper.Fetch<ClientDTO>(query);
 
@@ -129,11 +126,9 @@ namespace Ambar.Model.DAO
 
         public List<string> ReadAllDisable()
         {
-            string query = "SELECT USER_NAME FROM CLIENTS_ENABLED WHERE ENABLED = false;";
+            string query = "SELECT USER_NAME FROM CLIENTS_ENABLED WHERE ENABLED = FALSE;";
 
-            IMapper mapper = new Mapper(session);
             IEnumerable<string> clientsDisable;
-
             try
             {
                 clientsDisable = mapper.Fetch<string>(query);
@@ -150,11 +145,9 @@ namespace Ambar.Model.DAO
         public ClientLoginDTO Login(string username, string password)
         {
             string query = string.Format("SELECT USER_NAME, PASSWORD, ENABLED FROM CLIENTS_LOGIN WHERE USER_NAME = " +
-            "'{0}' AND PASSWORD = '{1}';", username);
+            "'{0}' AND PASSWORD = '{1}';", username, password);
 
-            IMapper mapper = new Mapper(session);
             ClientLoginDTO user;
-
             try
             {
                 user = mapper.Single<ClientLoginDTO>(query);
@@ -183,27 +176,49 @@ namespace Ambar.Model.DAO
 
         public bool UserExists(string username)
         {
-            string query = string.Format("SELECT COUNT(USER_NAME) FROM CLIENTS_LOGIN WHERE USER_NAME = '{0}';", username);
+            string query1 = "SELECT COUNT(USER_NAME) FROM CLIENTS_LOGIN WHERE USER_NAME = '{0}';";
+            query1 = string.Format(query1, username);
+            string query2 = "SELECT COUNT(USER_NAME) FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}';";
+            query2 = string.Format(query2, username);
+            string query3 = "SELECT COUNT(USER_NAME) FROM ADMINISTRATORS_LOGIN WHERE USER_NAME = '{0}';";
+            query3 = string.Format(query3, username);
 
-            IMapper mapper = new Mapper(session);
+            bool isExisting1, isExisting2, isExisting3;
+            try
+            {
+                isExisting1 = (mapper.Single<int>(query1) != 0) ? true : false;
+                isExisting2 = (mapper.Single<int>(query2) != 0) ? true : false;
+                isExisting3 = (mapper.Single<int>(query3) != 0) ? true : false;
+            }
+            catch (Exception e)
+            {
+                 return false;
+            }
+
+            return (isExisting1 || isExisting2 || isExisting3);
+        }
+
+        public bool ClientExists(string username)
+        {
+            string query = "SELECT COUNT(USER_NAME) FROM CLIENTS_LOGIN WHERE USER_NAME = '{0}';";
+            query = string.Format(query, username);
+
             bool isExisting;
-
             try
             {
                 isExisting = (mapper.Single<int>(query) != 0) ? true : false;
             }
             catch (Exception e)
             {
-                isExisting = false;
+                return false;
             }
 
-            return isExisting;
+            return (isExisting);
         }
 
         public Dictionary<string, Guid> ReadAllUsernames()
         {
             string query = "SELECT USER_ID, USER_NAME FROM CLIENTS;";
-            session = cluster.Connect(dbKeyspace);
 
             Dictionary<string, Guid> clients = new Dictionary<string, Guid>();
             var rs = session.Execute(query);
@@ -213,6 +228,21 @@ namespace Ambar.Model.DAO
             }
 
             return clients;
+        }
+
+        public Guid FindClientID(string username)
+        {
+            string query = "SELECT USER_ID FROM CLIENTS WHERE USER_NAME = '{0}' ALLOW FILTERING";
+            query = string.Format(query, username);
+
+            var rs = session.Execute(query);
+            foreach(var row in rs)
+            {
+                Guid id;
+                id = row.GetValue<Guid>("user_id");
+                return id;
+            }
+            return Guid.Empty;
         }
 
     }

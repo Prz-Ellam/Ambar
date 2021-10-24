@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ambar.Model.DAO;
 using Ambar.Model.DTO;
+using Ambar.Common;
 using Cassandra;
 
 namespace Ambar.ViewController
@@ -18,6 +19,7 @@ namespace Ambar.ViewController
     {
         ClientDAO clientDao = new ClientDAO();
         UserRememberDAO userRemember = new UserRememberDAO();
+
         string originalUsername;
         Guid originalID;
 
@@ -37,52 +39,56 @@ namespace Ambar.ViewController
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (txtFirstName.Text == string.Empty || txtFatherLastName.Text == string.Empty ||
-                txtMotherLastName.Text == string.Empty || txtCURP.Text == string.Empty ||
-                cbEmails.Items.Count <= 0 || txtUsername.Text == string.Empty ||
-                txtPassword.Text == string.Empty || txtConfirmPassword.Text == string.Empty)
+            if (btnUpdate.Enabled || btnDelete.Enabled)
             {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
-                return;
-            }
-
-            if (txtPassword.Text != txtConfirmPassword.Text)
-            {
-                PrintError("VERIFICAR CONTRASEÑA");
-                return;
-            }
-
-            if (!VerifyCURP(txtCURP.Text))
-            {
-                PrintError("VERIFICAR CURP");
-                return;
-            }
-
-            if (clientDao.UserExists(txtUsername.Text))
-            {
-                PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
             }
 
             // Objeto de transferencia de datos para la creacion de los datos del cliente
             ClientDTO client = new ClientDTO();
             client.User_ID = Guid.NewGuid();
-            client.First_Name = txtFirstName.Text;
-            client.Father_Last_Name = txtFatherLastName.Text;
-            client.Mother_Last_Name = txtMotherLastName.Text;
-            client.CURP = txtCURP.Text;
-
+            client.First_Name = StringUtils.GetText(txtFirstName);
+            client.Father_Last_Name = StringUtils.GetText(txtFatherLastName);
+            client.Mother_Last_Name = StringUtils.GetText(txtMotherLastName);
+            client.CURP = StringUtils.GetText(txtCURP);
             List<string> emailsAux = new List<string>();
             for (int i = 0; i < cbEmails.Items.Count; i++)
             {
-                emailsAux.Add(cbEmails.Items[i].ToString());
+                emailsAux.Add(StringUtils.GetText(cbEmails.Items[i].ToString()));
             }
             client.Emails = emailsAux.AsEnumerable<string>();
-
             client.Date_Of_Birth = new LocalDate(dtpDateOfBirth.Value.Year, dtpDateOfBirth.Value.Month, dtpDateOfBirth.Value.Day);
             client.Gender = cbGender.Text;
-            client.User_Name = txtUsername.Text;
-            client.Password = txtPassword.Text;
+            client.User_Name = StringUtils.GetText(txtUsername);
+            client.Password = StringUtils.GetText(txtPassword);
+            string confirmPassword = StringUtils.GetText(txtConfirmPassword);
+
+            if (client.First_Name == string.Empty || client.Father_Last_Name == string.Empty ||
+                client.Mother_Last_Name == string.Empty || client.CURP == string.Empty ||
+                client.Emails.Count() <= 0 || client.User_Name == string.Empty || client.Gender == string.Empty ||
+                client.Password == string.Empty || confirmPassword == string.Empty)
+            {
+                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                return;
+            }
+
+            if (client.Password != confirmPassword)
+            {
+                PrintError("VERIFICAR CONTRASEÑA");
+                return;
+            }
+
+            if (!RegexUtils.VerifyCURP(client.CURP))
+            {
+                PrintError("VERIFICAR CURP");
+                return;
+            }
+
+            if (clientDao.UserExists(client.User_Name))
+            {
+                PrintError("EL NOMBRE DE USUARIO YA EXISTE");
+                return;
+            }
 
             clientDao.Create(client);
 
@@ -99,22 +105,40 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (txtFirstName.Text == string.Empty || txtFatherLastName.Text == string.Empty ||
-               txtMotherLastName.Text == string.Empty || txtCURP.Text == string.Empty ||
-               cbEmails.Items.Count <= 0 || txtUsername.Text == string.Empty ||
-               txtPassword.Text == string.Empty || txtConfirmPassword.Text == string.Empty)
+            ClientDTO client = new ClientDTO();
+            client.User_ID = originalID;
+            client.First_Name = StringUtils.GetText(txtFirstName);
+            client.Father_Last_Name = StringUtils.GetText(txtFatherLastName);
+            client.Mother_Last_Name = StringUtils.GetText(txtMotherLastName);
+            client.CURP = StringUtils.GetText(txtCURP);
+            List<string> emailsAux = new List<string>();
+            for (int i = 0; i < cbEmails.Items.Count; i++)
+            {
+                emailsAux.Add(StringUtils.GetText(cbEmails.Items[i].ToString()));
+            }
+            client.Emails = emailsAux.AsEnumerable<string>();
+            client.Date_Of_Birth = new LocalDate(dtpDateOfBirth.Value.Year, dtpDateOfBirth.Value.Month, dtpDateOfBirth.Value.Day);
+            client.Gender = cbGender.Text;
+            client.User_Name = StringUtils.GetText(txtUsername);
+            client.Password = StringUtils.GetText(txtPassword);
+            string confirmPassword = StringUtils.GetText(txtConfirmPassword);
+
+            if (client.First_Name == string.Empty || client.Father_Last_Name == string.Empty ||
+                client.Mother_Last_Name == string.Empty || client.CURP == string.Empty ||
+                client.Emails.Count() <= 0 || client.User_Name == string.Empty ||
+                client.Password == string.Empty || confirmPassword == string.Empty)
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                 return;
             }
 
-            if (txtPassword.Text != txtConfirmPassword.Text)
+            if (client.Password != confirmPassword)
             {
                 PrintError("VERIFICAR CONTRASEÑA");
                 return;
             }
 
-            if (!VerifyCURP(txtCURP.Text))
+            if (!RegexUtils.VerifyCURP(client.CURP))
             {
                 PrintError("VERIFICAR CURP");
                 return;
@@ -126,35 +150,21 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (clientDao.UserExists(txtUsername.Text) && originalUsername != txtUsername.Text)
+            if (clientDao.UserExists(client.User_Name) && originalUsername != client.User_Name)
             {
                 PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
             }
 
-            ClientDTO client = new ClientDTO();
-            client.User_ID = originalID;
-            client.First_Name = txtFirstName.Text;
-            client.Father_Last_Name = txtFatherLastName.Text;
-            client.Mother_Last_Name = txtMotherLastName.Text;
-            client.CURP = txtCURP.Text;
-
-            List<string> emailsAux = new List<string>();
-            for (int i = 0; i < cbEmails.Items.Count; i++)
-            {
-                emailsAux.Add(cbEmails.Items[i].ToString());
-            }
-            client.Emails = emailsAux.AsEnumerable<string>();
-
-            client.Date_Of_Birth = new LocalDate(dtpDateOfBirth.Value.Year, dtpDateOfBirth.Value.Month, dtpDateOfBirth.Value.Day);
-            client.Gender = cbGender.Text;
-            client.User_Name = txtUsername.Text;
-            client.Password = txtPassword.Text;
-
             clientDao.Update(client, originalUsername);
-            userRemember.UpdateRememberUser("Client", originalUsername, client.User_Name, client.Password);
+            if (userRemember.RememberUserExists("Client", originalUsername))
+            {
+                userRemember.UpdateRememberUser("Client", originalUsername, client.User_Name, client.Password);
+            }
 
             FillDataGridView();
+            FillDisableUsers();
+            dtgEmails.Rows.Clear();
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
@@ -173,9 +183,14 @@ namespace Ambar.ViewController
             if (res == DialogResult.Yes)
             {
                 clientDao.Delete(originalID, originalUsername);
-                userRemember.ForgerPassword("Client", originalUsername);
+                if (userRemember.RememberUserExists("Client", originalUsername))
+                {
+                    userRemember.ForgerPassword("Client", originalUsername);
+                }
 
                 FillDataGridView();
+                FillDisableUsers();
+                dtgEmails.Rows.Clear();
 
                 ClearForm();
                 MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
@@ -186,29 +201,14 @@ namespace Ambar.ViewController
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (cbEmails.FindString(cbEmails.Text) == -1)
+                if (cbEmails.FindString(cbEmails.Text) == -1 && cbEmails.Text != string.Empty)
                 {
                     cbEmails.Items.Add(cbEmails.Text);
                 }
                 cbEmails.Text = "";
             }
         }
-
-        private void PrintError(string error)
-        {
-            pbWarningIcon.Visible = true;
-            lblError.Visible = true;
-            lblError.Text = error;
-        }
-
-        private bool VerifyCURP(string curp)
-        {
-            string res = @"^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$";
-            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            return rx.IsMatch(curp);
-        }
-
+     
         private bool VerifyEmails()
         {
             string res = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
@@ -242,31 +242,6 @@ namespace Ambar.ViewController
             lblError.Visible = false;
         }
 
-        private void btnEnabling_Click(object sender, EventArgs e)
-        {
-            clientDao.Enabled(txtDisable.Text, true);
-
-            ClearDisableUsers();
-
-            lbDisableClients.Items.Clear();
-            FillDisableUsers();
-        }
-
-        private void lbDisableClients_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lbPrevIndex == lbDisableClients.SelectedIndex)
-            {
-                ClearDisableUsers();
-                return;
-            }
-            else
-            {
-                txtDisable.Text = lbDisableClients.Items[lbDisableClients.SelectedIndex].ToString();
-                btnEnabling.Enabled = true;
-                lbPrevIndex = lbDisableClients.SelectedIndex;
-            }
-        }
-
         private void FillDataGridView()
         {
             List<ClientDTO> clients = clientDao.ReadAll();
@@ -279,18 +254,10 @@ namespace Ambar.ViewController
             this.dtgClients.Columns["Emails"].Visible = false;
         }
 
-        public void ClearDisableUsers()
-        {
-            txtDisable.Clear();
-            btnEnabling.Enabled = false;
-            lbPrevIndex = -1;
-            lbDisableClients.ClearSelected();
-        }
-
         private void dtgClients_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-            if (dgvPrevIndex == index)
+            if (dgvPrevIndex == index || index == -1)
             {
                 ClearForm();
                 dtgEmails.Rows.Clear();
@@ -304,7 +271,6 @@ namespace Ambar.ViewController
                 txtUsername.Text = originalUsername = dtgClients.Rows[index].Cells[1].Value.ToString();
                 txtPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
                 txtConfirmPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
-
                 txtFirstName.Text = dtgClients.Rows[index].Cells[3].Value.ToString();
                 txtFatherLastName.Text = dtgClients.Rows[index].Cells[4].Value.ToString();
                 txtMotherLastName.Text = dtgClients.Rows[index].Cells[5].Value.ToString();
@@ -324,18 +290,62 @@ namespace Ambar.ViewController
                 btnAccept.Enabled = false;
                 btnUpdate.Enabled = true;
                 btnDelete.Enabled = true;
+                pbWarningIcon.Visible = false;
+                lblError.Visible = false;
+
+                dgvPrevIndex = index;
             }
 
-            dgvPrevIndex = index;
+        }
+
+        public void ClearDisableUsers()
+        {
+            txtDisable.Clear();
+            btnEnabling.Enabled = false;
+            lbPrevIndex = -1;
+            lbDisableClients.ClearSelected();
         }
 
         public void FillDisableUsers()
         {
+            lbDisableClients.Items.Clear();
             List<string> names = clientDao.ReadAllDisable();
             foreach (var name in names)
             {
                 lbDisableClients.Items.Add(name);
             }
         }
+
+        private void lbDisableClients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lbPrevIndex == lbDisableClients.SelectedIndex)
+            {
+                ClearDisableUsers();
+                return;
+            }
+            else
+            {
+                txtDisable.Text = lbDisableClients.Items[lbDisableClients.SelectedIndex].ToString();
+                btnEnabling.Enabled = true;
+                lbPrevIndex = lbDisableClients.SelectedIndex;
+            }
+        }
+
+        private void btnEnabling_Click(object sender, EventArgs e)
+        {
+            clientDao.Enabled(txtDisable.Text, true);
+
+            ClearDisableUsers();
+
+            FillDisableUsers();
+        }
+
+        private void PrintError(string error)
+        {
+            pbWarningIcon.Visible = true;
+            lblError.Visible = true;
+            lblError.Text = error;
+        }
+
     }
 }

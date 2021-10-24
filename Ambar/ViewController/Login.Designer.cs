@@ -60,11 +60,12 @@
             // lblLogin
             // 
             this.lblLogin.AutoSize = true;
-            this.lblLogin.Font = new System.Drawing.Font("Montserrat", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLogin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblLogin.Location = new System.Drawing.Point(471, 27);
+            this.lblLogin.Location = new System.Drawing.Point(353, 22);
+            this.lblLogin.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLogin.Name = "lblLogin";
-            this.lblLogin.Size = new System.Drawing.Size(126, 40);
+            this.lblLogin.Size = new System.Drawing.Size(99, 31);
             this.lblLogin.TabIndex = 1;
             this.lblLogin.Text = "LOGIN";
             // 
@@ -72,11 +73,12 @@
             // 
             this.txtUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.txtUsername.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUsername.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUsername.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.txtUsername.Location = new System.Drawing.Point(340, 159);
+            this.txtUsername.Location = new System.Drawing.Point(255, 129);
+            this.txtUsername.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(430, 25);
+            this.txtUsername.Size = new System.Drawing.Size(322, 19);
             this.txtUsername.TabIndex = 2;
             this.txtUsername.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
@@ -84,11 +86,12 @@
             // 
             this.txtPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPassword.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.txtPassword.Location = new System.Drawing.Point(340, 234);
+            this.txtPassword.Location = new System.Drawing.Point(255, 190);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(430, 25);
+            this.txtPassword.Size = new System.Drawing.Size(322, 19);
             this.txtPassword.TabIndex = 3;
             this.txtPassword.UseSystemPasswordChar = true;
             // 
@@ -98,11 +101,12 @@
             this.btnAccept.FlatAppearance.BorderSize = 0;
             this.btnAccept.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAccept.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
-            this.btnAccept.Location = new System.Drawing.Point(280, 362);
+            this.btnAccept.Location = new System.Drawing.Point(210, 294);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(490, 48);
+            this.btnAccept.Size = new System.Drawing.Size(368, 39);
             this.btnAccept.TabIndex = 4;
             this.btnAccept.Text = "ACCEDER";
             this.btnAccept.UseVisualStyleBackColor = false;
@@ -111,17 +115,19 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.panel1.Location = new System.Drawing.Point(340, 184);
+            this.panel1.Location = new System.Drawing.Point(255, 150);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(430, 1);
+            this.panel1.Size = new System.Drawing.Size(322, 1);
             this.panel1.TabIndex = 5;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.panel2.Location = new System.Drawing.Point(340, 259);
+            this.panel2.Location = new System.Drawing.Point(255, 210);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(430, 1);
+            this.panel2.Size = new System.Drawing.Size(322, 1);
             this.panel2.TabIndex = 6;
             // 
             // chkRemember
@@ -129,11 +135,12 @@
             this.chkRemember.AutoSize = true;
             this.chkRemember.FlatAppearance.BorderSize = 0;
             this.chkRemember.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkRemember.Font = new System.Drawing.Font("Montserrat", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRemember.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkRemember.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.chkRemember.Location = new System.Drawing.Point(339, 283);
+            this.chkRemember.Location = new System.Drawing.Point(254, 230);
+            this.chkRemember.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.chkRemember.Name = "chkRemember";
-            this.chkRemember.Size = new System.Drawing.Size(152, 27);
+            this.chkRemember.Size = new System.Drawing.Size(109, 22);
             this.chkRemember.TabIndex = 7;
             this.chkRemember.Text = "Recuérdame";
             this.chkRemember.UseVisualStyleBackColor = true;
@@ -141,9 +148,10 @@
             // pbWarningIcon
             // 
             this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(290, 321);
+            this.pbWarningIcon.Location = new System.Drawing.Point(218, 261);
+            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pbWarningIcon.Name = "pbWarningIcon";
-            this.pbWarningIcon.Size = new System.Drawing.Size(30, 30);
+            this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
             this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbWarningIcon.TabIndex = 12;
             this.pbWarningIcon.TabStop = false;
@@ -153,9 +161,10 @@
             // 
             this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMinimized.Image = global::Ambar.Properties.Resources.Minimized_Button_Logo;
-            this.btnMinimized.Location = new System.Drawing.Point(732, 12);
+            this.btnMinimized.Location = new System.Drawing.Point(549, 10);
+            this.btnMinimized.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnMinimized.Name = "btnMinimized";
-            this.btnMinimized.Size = new System.Drawing.Size(25, 25);
+            this.btnMinimized.Size = new System.Drawing.Size(19, 20);
             this.btnMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnMinimized.TabIndex = 11;
             this.btnMinimized.TabStop = false;
@@ -165,9 +174,10 @@
             // 
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClose.Image = global::Ambar.Properties.Resources.Close_Button_Logo;
-            this.btnClose.Location = new System.Drawing.Point(763, 12);
+            this.btnClose.Location = new System.Drawing.Point(572, 10);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(25, 25);
+            this.btnClose.Size = new System.Drawing.Size(19, 20);
             this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnClose.TabIndex = 10;
             this.btnClose.TabStop = false;
@@ -176,9 +186,10 @@
             // pbPassword
             // 
             this.pbPassword.Image = global::Ambar.Properties.Resources.Password_Logo;
-            this.pbPassword.Location = new System.Drawing.Point(288, 219);
+            this.pbPassword.Location = new System.Drawing.Point(216, 178);
+            this.pbPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pbPassword.Name = "pbPassword";
-            this.pbPassword.Size = new System.Drawing.Size(40, 40);
+            this.pbPassword.Size = new System.Drawing.Size(30, 32);
             this.pbPassword.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbPassword.TabIndex = 9;
             this.pbPassword.TabStop = false;
@@ -186,9 +197,10 @@
             // pbUsername
             // 
             this.pbUsername.Image = global::Ambar.Properties.Resources.Username_Logo;
-            this.pbUsername.Location = new System.Drawing.Point(288, 144);
+            this.pbUsername.Location = new System.Drawing.Point(216, 117);
+            this.pbUsername.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pbUsername.Name = "pbUsername";
-            this.pbUsername.Size = new System.Drawing.Size(40, 40);
+            this.pbUsername.Size = new System.Drawing.Size(30, 32);
             this.pbUsername.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbUsername.TabIndex = 8;
             this.pbUsername.TabStop = false;
@@ -196,11 +208,12 @@
             // lblError
             // 
             this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Montserrat", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(329, 327);
+            this.lblError.Location = new System.Drawing.Point(247, 266);
+            this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(107, 19);
+            this.lblError.Size = new System.Drawing.Size(84, 15);
             this.lblError.TabIndex = 13;
             this.lblError.Text = "ERROR TEXT";
             this.lblError.Visible = false;
@@ -210,27 +223,29 @@
             this.cbPositions.BackColor = System.Drawing.Color.White;
             this.cbPositions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPositions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbPositions.Font = new System.Drawing.Font("Montserrat", 10F);
+            this.cbPositions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.cbPositions.ForeColor = System.Drawing.Color.Black;
             this.cbPositions.FormattingEnabled = true;
             this.cbPositions.Items.AddRange(new object[] {
             "Administrador",
             "Empleado",
             "Cliente"});
-            this.cbPositions.Location = new System.Drawing.Point(351, 93);
+            this.cbPositions.Location = new System.Drawing.Point(263, 76);
+            this.cbPositions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbPositions.Name = "cbPositions";
-            this.cbPositions.Size = new System.Drawing.Size(227, 28);
+            this.cbPositions.Size = new System.Drawing.Size(171, 24);
             this.cbPositions.TabIndex = 14;
             this.cbPositions.SelectedIndexChanged += new System.EventHandler(this.cbPositions_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(286, 95);
+            this.label1.Location = new System.Drawing.Point(214, 77);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 24);
+            this.label1.Size = new System.Drawing.Size(43, 20);
             this.label1.TabIndex = 15;
             this.label1.Text = "Tipo:";
             // 
@@ -247,28 +262,30 @@
             this.gradientPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.gradientPanel.first = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.gradientPanel.Location = new System.Drawing.Point(0, 0);
+            this.gradientPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.gradientPanel.Name = "gradientPanel";
             this.gradientPanel.second = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            this.gradientPanel.Size = new System.Drawing.Size(250, 450);
+            this.gradientPanel.Size = new System.Drawing.Size(188, 366);
             this.gradientPanel.TabIndex = 0;
             // 
             // pbAmbar
             // 
             this.pbAmbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.pbAmbar.Image = global::Ambar.Properties.Resources.Ambar_Logo;
-            this.pbAmbar.Location = new System.Drawing.Point(38, 111);
+            this.pbAmbar.Location = new System.Drawing.Point(28, 90);
+            this.pbAmbar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pbAmbar.Name = "pbAmbar";
-            this.pbAmbar.Size = new System.Drawing.Size(174, 162);
+            this.pbAmbar.Size = new System.Drawing.Size(130, 132);
             this.pbAmbar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbAmbar.TabIndex = 14;
             this.pbAmbar.TabStop = false;
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbPositions);
             this.Controls.Add(this.lblError);
@@ -287,6 +304,7 @@
             this.Controls.Add(this.gradientPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Login";
             this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

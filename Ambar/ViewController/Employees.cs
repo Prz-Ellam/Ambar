@@ -12,6 +12,7 @@ using Ambar.ViewController;
 using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using System.Text.RegularExpressions;
+using Ambar.Common;
 using Cassandra;
 
 namespace Ambar.ViewController
@@ -45,52 +46,59 @@ namespace Ambar.ViewController
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
+            if (btnUpdate.Enabled || btnDelete.Enabled)
+            {
+                return;
+            }
 
-            if (txtNames.Text == string.Empty || txtFatherLastName.Text == string.Empty || 
-                txtMotherLastName.Text == string.Empty || txtRFC.Text == string.Empty || 
-                txtCURP.Text == string.Empty || txtUsername.Text == string.Empty || 
-                txtPassword.Text == string.Empty || txtConfirmPassword.Text == string.Empty)
+            // Creamos un objeto de transferencia de datos para la entidad empleado y lo rellenamos
+            EmployeeDTO employee = new EmployeeDTO();
+            employee.User_ID = Guid.NewGuid();
+            employee.First_Name = StringUtils.GetText(txtNames);
+            employee.Father_Last_Name = StringUtils.GetText(txtFatherLastName);
+            employee.Mother_Last_Name = StringUtils.GetText(txtMotherLastName);
+            employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
+            employee.RFC = StringUtils.GetText(txtRFC);
+            employee.CURP = StringUtils.GetText(txtCURP);
+            employee.User_Name = StringUtils.GetText(txtUsername);
+            employee.Password = StringUtils.GetText(txtPassword);
+            string confirmPassword = StringUtils.GetText(txtConfirmPassword);
+
+            // Se realizan las validaciones necesarias
+            if (employee.First_Name == string.Empty || employee.Father_Last_Name == string.Empty ||
+                employee.Mother_Last_Name == string.Empty || employee.RFC == string.Empty ||
+                employee.CURP == string.Empty || employee.User_Name == string.Empty ||
+                employee.Password == string.Empty || confirmPassword == string.Empty)
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                 return;
             }
 
-            if (txtPassword.Text != txtConfirmPassword.Text)
+            if (employee.Password != confirmPassword)
             {
                 PrintError("VERIFICAR CONTRASEÑA");
                 return;
             }
 
-            if (!VerifyCURP(txtCURP.Text))
+            if (!RegexUtils.VerifyCURP(employee.CURP))
             {
                 PrintError("VERIFICAR CURP");
                 return;
             }
 
-            if (!VerifyRFC(txtRFC.Text))
+            if (!RegexUtils.VerifyRFC(employee.RFC))
             {
                 PrintError("VERIFICAR RFC");
                 return;
             }
 
-            if (EmployeeDao.UserExists(txtUsername.Text))
+            if (EmployeeDao.UserExists(employee.User_Name))
             {
                 PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
             }
 
-            // Creamos un objeto de transferencia de datos para la entidad empleado y lo mandamos a Cassandra
-            EmployeeDTO employee = new EmployeeDTO();
-            employee.User_ID = Guid.NewGuid();
-            employee.First_Name = txtNames.Text;
-            employee.Father_Last_Name = txtFatherLastName.Text;
-            employee.Mother_Last_Name = txtMotherLastName.Text;
-            employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
-            employee.RFC = txtRFC.Text;
-            employee.CURP = txtCURP.Text;
-            employee.User_Name = txtUsername.Text;
-            employee.Password = txtPassword.Text;
-
+            // Se crea en la base de datos
             EmployeeDao.Create(employee);
 
             FillDataGridView();
@@ -107,54 +115,58 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (txtNames.Text == string.Empty || txtFatherLastName.Text == string.Empty ||
-                txtMotherLastName.Text == string.Empty || txtRFC.Text == string.Empty ||
-                txtCURP.Text == string.Empty || txtUsername.Text == string.Empty ||
-                txtPassword.Text == string.Empty || txtConfirmPassword.Text == string.Empty)
+            EmployeeDTO employee = new EmployeeDTO();
+            employee.User_ID = originalID;
+            employee.First_Name = StringUtils.GetText(txtNames);
+            employee.Father_Last_Name = StringUtils.GetText(txtFatherLastName);
+            employee.Mother_Last_Name = StringUtils.GetText(txtMotherLastName);
+            employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
+            employee.RFC = StringUtils.GetText(txtRFC);
+            employee.CURP = StringUtils.GetText(txtCURP);
+            employee.User_Name = StringUtils.GetText(txtUsername);
+            employee.Password = StringUtils.GetText(txtPassword);
+            string confirmPassword = StringUtils.GetText(txtConfirmPassword);
+
+            if (employee.First_Name == string.Empty || employee.Father_Last_Name == string.Empty ||
+                employee.Mother_Last_Name == string.Empty || employee.RFC == string.Empty ||
+                employee.CURP == string.Empty || employee.User_Name == string.Empty ||
+                employee.Password == string.Empty || confirmPassword == string.Empty)
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                 return;
             }
 
-            if (txtPassword.Text != txtConfirmPassword.Text)
+            if (employee.Password != confirmPassword)
             {
                 PrintError("VERIFICAR CONTRASEÑA");
                 return;
             }
 
-            if (!VerifyCURP(txtCURP.Text))
+            if (!RegexUtils.VerifyCURP(employee.CURP))
             {
                 PrintError("VERIFICAR CURP");
                 return;
             }
 
-            if (!VerifyRFC(txtRFC.Text))
+            if (!RegexUtils.VerifyRFC(employee.RFC))
             {
                 PrintError("VERIFICAR RFC");
                 return;
             }
 
-            if (EmployeeDao.UserExists(txtUsername.Text) && originalUsername != txtUsername.Text)
+            if (EmployeeDao.UserExists(employee.User_Name) && originalUsername != employee.User_Name)
             {
                 PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
             }
 
-            EmployeeDTO employee = new EmployeeDTO();
-            employee.User_ID = originalID;
-            employee.First_Name = txtNames.Text;
-            employee.Father_Last_Name = txtFatherLastName.Text;
-            employee.Mother_Last_Name = txtMotherLastName.Text;
-            employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
-            employee.RFC = txtRFC.Text;
-            employee.CURP = txtCURP.Text;
-            employee.User_Name = txtUsername.Text;
-            employee.Password = txtPassword.Text;
-
             EmployeeDao.Update(employee, originalUsername);
-            userRemember.UpdateRememberUser("Employee", originalUsername, employee.User_Name, employee.Password);
+            if (userRemember.RememberUserExists("Employee", originalUsername)) {
+                userRemember.UpdateRememberUser("Employee", originalUsername, employee.User_Name, employee.Password);
+            }
 
             FillDataGridView();
+            FillDisableUsers();
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
@@ -174,12 +186,95 @@ namespace Ambar.ViewController
             if (res == DialogResult.Yes)
             {
                 EmployeeDao.Delete(originalID, originalUsername);
-                userRemember.ForgerPassword("Employee", originalUsername);
+                if (userRemember.RememberUserExists("Employee", originalUsername))
+                {
+                    userRemember.ForgerPassword("Employee", originalUsername);
+                }
 
                 FillDataGridView();
+                FillDisableUsers();
 
                 ClearForm();
                 MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            }
+        }
+
+        public void ClearForm()
+        {
+            txtNames.Clear();
+            txtFatherLastName.Clear();
+            txtMotherLastName.Clear();
+            dtpBirthday.Value = DateTime.Now;
+            txtRFC.Clear();
+            txtCURP.Clear();
+            txtUsername.Clear();
+            txtPassword.Clear();
+            txtConfirmPassword.Clear();
+            btnAccept.Enabled = true;
+            btnUpdate.Enabled = false;
+            btnDelete.Enabled = false;
+            pbWarningIcon.Visible = false;
+            lblError.Visible = false;
+        }
+        public void FillDataGridView()
+        {
+            List<EmployeeDTO> employees = EmployeeDao.Read();
+            List<EmployeeDTG> dtgEmployeesList = new List<EmployeeDTG>();
+            foreach (var employee in employees)
+            {
+                dtgEmployeesList.Add(new EmployeeDTG(employee));
+            }
+            dtgEmployees.DataSource = dtgEmployeesList;
+        }
+
+        private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (dtgPrevIndex == index)
+            {
+                ClearForm();
+                dtgPrevIndex = -1;
+            }
+            else
+            {
+                originalID = (Guid)dtgEmployees.Rows[index].Cells[0].Value;
+                txtUsername.Text = dtgEmployees.Rows[index].Cells[1].Value.ToString();
+                originalUsername = dtgEmployees.Rows[index].Cells[1].Value.ToString();
+                txtPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
+                txtConfirmPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
+                txtNames.Text = dtgEmployees.Rows[index].Cells[3].Value.ToString();
+                txtFatherLastName.Text = dtgEmployees.Rows[index].Cells[4].Value.ToString();
+                txtMotherLastName.Text = dtgEmployees.Rows[index].Cells[5].Value.ToString();
+                dtpBirthday.Value = Convert.ToDateTime(dtgEmployees.Rows[index].Cells[6].Value.ToString());
+                txtRFC.Text = dtgEmployees.Rows[index].Cells[7].Value.ToString();
+                txtCURP.Text = dtgEmployees.Rows[index].Cells[8].Value.ToString();
+
+                btnAccept.Enabled = false;
+                btnUpdate.Enabled = true;
+                btnDelete.Enabled = true;
+                pbWarningIcon.Visible = false;
+                lblError.Visible = false;
+
+                dtgPrevIndex = index;
+
+            }
+        }
+
+        public void ClearDisableUsers()
+        {
+            txtDisable.Clear();
+            btnEnabling.Enabled = false;
+            lbPrevIndex = -1;
+            lbDisableEmployees.ClearSelected();
+        }
+
+        public void FillDisableUsers()
+        {
+            lbDisableEmployees.Items.Clear();
+            List<string> names = EmployeeDao.ReadAllDisable();
+            foreach (var name in names)
+            {
+                lbDisableEmployees.Items.Add(name);
             }
         }
 
@@ -204,34 +299,7 @@ namespace Ambar.ViewController
 
             ClearDisableUsers();
 
-            lbDisableEmployees.Items.Clear();
             FillDisableUsers();
-        }
-
-        public void ClearDisableUsers()
-        {
-            txtDisable.Clear();
-            btnEnabling.Enabled = false;
-            lbPrevIndex = -1;
-            lbDisableEmployees.ClearSelected();
-        }
-
-        public void ClearForm()
-        {
-            txtNames.Clear();
-            txtFatherLastName.Clear();
-            txtMotherLastName.Clear();
-            dtpBirthday.Value = DateTime.Now;
-            txtRFC.Clear();
-            txtCURP.Clear();
-            txtUsername.Clear();
-            txtPassword.Clear();
-            txtConfirmPassword.Clear();
-            btnAccept.Enabled = true;
-            btnUpdate.Enabled = false;
-            btnDelete.Enabled = false;
-            pbWarningIcon.Visible = false;
-            lblError.Visible = false;
         }
 
         public void PrintError(string error)
@@ -240,73 +308,5 @@ namespace Ambar.ViewController
             lblError.Visible = true;
             lblError.Text = error;
         }
-
-        private bool VerifyCURP(string curp)
-        {
-            string res = @"^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$";
-            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            return rx.IsMatch(curp);
-        }
-
-        private bool VerifyRFC(string rfc)
-        {
-            string res = @"^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$";
-            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            return rx.IsMatch(rfc);
-        }
-
-        private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int index = e.RowIndex;
-            if (dtgPrevIndex == index)
-            {
-                ClearForm();
-                dtgPrevIndex = -1;
-                return;
-            }
-            else
-            {
-                originalID = (Guid)dtgEmployees.Rows[index].Cells[0].Value;
-                txtUsername.Text = dtgEmployees.Rows[index].Cells[1].Value.ToString();
-                originalUsername = dtgEmployees.Rows[index].Cells[1].Value.ToString();
-                txtPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
-                txtConfirmPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
-                txtNames.Text = dtgEmployees.Rows[index].Cells[3].Value.ToString();
-                txtFatherLastName.Text = dtgEmployees.Rows[index].Cells[4].Value.ToString();
-                txtMotherLastName.Text = dtgEmployees.Rows[index].Cells[5].Value.ToString();
-                dtpBirthday.Value = Convert.ToDateTime(dtgEmployees.Rows[index].Cells[6].Value.ToString());
-                txtRFC.Text = dtgEmployees.Rows[index].Cells[7].Value.ToString();
-                txtCURP.Text = dtgEmployees.Rows[index].Cells[8].Value.ToString();
-
-                btnAccept.Enabled = false;
-                btnUpdate.Enabled = true;
-                btnDelete.Enabled = true;
-            }
-
-            dtgPrevIndex = index;
-        }
-
-        public void FillDataGridView()
-        {
-            List<EmployeeDTO> employees = EmployeeDao.Read();
-            List<EmployeeDTG> dtgEmployeesList = new List<EmployeeDTG>();
-            foreach (var employee in employees)
-            {
-                dtgEmployeesList.Add(new EmployeeDTG(employee));
-            }
-            dtgEmployees.DataSource = dtgEmployeesList;
-        }
-
-        public void FillDisableUsers()
-        {
-            List<string> names = EmployeeDao.ReadAllDisable();
-            foreach (var name in names)
-            {
-                lbDisableEmployees.Items.Add(name);
-            }
-        }
-
     }
 }

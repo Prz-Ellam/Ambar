@@ -9,7 +9,6 @@ namespace Ambar.Domain
 {
     public class UserModel
     {
-        private UserDAO userDAO = new UserDAO();
 
        //public User Login(string username, string password)
        //{

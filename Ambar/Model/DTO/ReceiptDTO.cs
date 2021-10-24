@@ -29,6 +29,7 @@ namespace Ambar.Model.DTO
         decimal basic_kw;
         decimal intermediate_kw;
         decimal surplus_kw;
+        decimal total_kw;
 		decimal basic_price;
 		decimal intermediate_price;
 		decimal surplus_price;
@@ -37,10 +38,11 @@ namespace Ambar.Model.DTO
         decimal total_price;
         decimal amount_pad;
 		decimal pending_amount;
+        IDictionary<string, decimal> payment_history;
 
         public Guid Receipt_ID { get => receipt_id; set => receipt_id = value; }
         public string First_Name { get => first_name; set => first_name = value; }
-        public string Father_Last_Mame { get => father_last_name; set => father_last_name = value; }
+        public string Father_Last_Name { get => father_last_name; set => father_last_name = value; }
         public string Mother_Last_Name { get => mother_last_name; set => mother_last_name = value; }
         public string State { get => state; set => state = value; }
         public string City { get => city; set => city = value; }
@@ -67,5 +69,7 @@ namespace Ambar.Model.DTO
         public decimal Intermediate_KW { get => intermediate_kw; set => intermediate_kw = value; }
         public decimal Surplus_KW { get => surplus_kw; set => surplus_kw = value; }
         public string Service { get => service; set => service = value; }
+        public IDictionary<string, decimal> Payment_History { get => payment_history; set => payment_history = value; }
+        public decimal Total_KW { get => total_kw; set => total_kw = value; }
     }
 }

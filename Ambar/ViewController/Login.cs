@@ -29,13 +29,7 @@ namespace Ambar.ViewController
         {
             WinAPI.SendMessage(txtUsername.Handle, WinAPI.EM_SETCUEBANNER, 0, "USUARIO");
             WinAPI.SendMessage(txtPassword.Handle, WinAPI.EM_SETCUEBANNER, 0, "CONTRASEÑA");
-
             cbPositions.SelectedIndex = 0;
-            AutoCompleteStringCollection allowedTypes = new AutoCompleteStringCollection();
-            allowedTypes.AddRange(userRemember.GetRememberUsers("Administrator").ToArray());
-            txtUsername.AutoCompleteCustomSource = allowedTypes;
-            txtUsername.AutoCompleteMode = AutoCompleteMode.Suggest;
-            txtUsername.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -60,7 +54,6 @@ namespace Ambar.ViewController
                         else
                         {
                             RememberMe("Administrator");
-                            dao.LoginHistory(dto.User_Name);
                             ShowMenu("Administrator", dto.User_Name);
                         }
 
@@ -73,7 +66,7 @@ namespace Ambar.ViewController
 
                         if (dto == null)
                         {
-                            bool exists = dao.UserExists(txtUsername.Text);
+                            bool exists = dao.EmployeeExists(txtUsername.Text);
                             if (exists)
                             {
                                 FailedLogin();
@@ -104,7 +97,7 @@ namespace Ambar.ViewController
 
                         if (dto == null) // Credenciales incorrectas e usuario inexistente
                         {
-                            bool exists = dao.UserExists(txtUsername.Text);
+                            bool exists = dao.ClientExists(txtUsername.Text);
                             if (exists)
                             {
                                 FailedLogin();

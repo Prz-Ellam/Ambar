@@ -25,16 +25,18 @@ namespace Ambar.ViewController
 
             if (UserCache.position == "Administrator")
             {
-                btnClients.Visible = false;
-                panelClients.Visible = false;
-                btnContracts.Visible = false;
-                panelContracts.Visible = false;
-                btnConsumptions.Visible = false;
-                panelConsumptions.Visible = false;
-                btnRates.Visible = false;
-                panelRates.Visible = false;
-                btnReports.Visible = false;
-                panelReports.Visible = false;
+                //btnClients.Visible = false;
+                //panelClients.Visible = false;
+                //btnContracts.Visible = false;
+                //panelContracts.Visible = false;
+                //btnConsumptions.Visible = false;
+                //panelConsumptions.Visible = false;
+                //btnRates.Visible = false;
+                //panelRates.Visible = false;
+                //btnReports.Visible = false;
+                //panelReports.Visible = false;
+                //btnReceipts.Visible = false;
+                //panelReceipts.Visible = false;
             }
             else if (UserCache.position == "Employee")
             {
@@ -45,6 +47,19 @@ namespace Ambar.ViewController
                 btnContracts.Location = new Point(btnContracts.Location.X, btnContracts.Location.Y - 60);
                 panelContracts.Location = new Point(panelContracts.Location.X, panelContracts.Location.Y - 60);
                 // -60
+            }
+            else if (UserCache.position == "Client")
+            {
+                btnEmployees.Visible = false;
+                panelEmployees.Visible = false;
+                btnClients.Visible = false;
+                panelClients.Visible = false;
+                btnContracts.Visible = false;
+                panelContracts.Visible = false;
+                btnRates.Visible = false;
+                panelRates.Visible = false;
+                btnConsumptions.Visible = false;
+                panelConsumptions.Visible = false;
             }
 
         }
@@ -109,7 +124,7 @@ namespace Ambar.ViewController
 
         private void btnConsumos_Click(object sender, EventArgs e)
         {
-            openFormChild(new Consumos());
+            openFormChild(new Consumptions());
         }
 
         private void lblUsernameLogged_Click(object sender, EventArgs e)
@@ -137,7 +152,24 @@ namespace Ambar.ViewController
 
         private void btnReceipts_Click(object sender, EventArgs e)
         {
-            openFormChild(new Receipts());
+            if (UserCache.position == "Employee")
+            {
+                openFormChild(new Receipts());
+            }
+            else
+            {
+                openFormChild(new ClientReceipts());
+            }
+        }
+
+        private void btnHistoricConsumption_Click(object sender, EventArgs e)
+        {
+            openFormChild(new HistoricConsumption());
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            openFormChild(new GeneralReport());
         }
     }
 }

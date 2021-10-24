@@ -135,7 +135,7 @@ namespace Ambar.ViewController
 
         private void dtpYear_ValueChanged(object sender, EventArgs e)
         {
-            List<RateDTO> rates = dao.ReadByYear(dtpYear.Value.Year);
+            List<RateDTO> rates = dao.ReadRatesByYear(dtpYear.Value.Year);
             List<RatesReportCSV> ratesCSV = new List<RatesReportCSV>();
             foreach (var rate in rates)
             {
@@ -147,7 +147,7 @@ namespace Ambar.ViewController
 
         private void RatesReport_Load(object sender, EventArgs e)
         {
-            List<RateDTO> rates = dao.ReadByYear(dtpYear.Value.Year);
+            List<RateDTO> rates = dao.ReadRatesByYear(dtpYear.Value.Year);
             List<RatesReportCSV> ratesCSV = new List<RatesReportCSV>();
             foreach (var rate in rates)
             {
