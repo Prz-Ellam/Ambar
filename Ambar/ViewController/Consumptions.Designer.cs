@@ -69,10 +69,10 @@
             // txtKilowatts
             // 
             this.txtKilowatts.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtKilowatts.Location = new System.Drawing.Point(194, 119);
+            this.txtKilowatts.Location = new System.Drawing.Point(194, 112);
             this.txtKilowatts.Margin = new System.Windows.Forms.Padding(2);
             this.txtKilowatts.Name = "txtKilowatts";
-            this.txtKilowatts.Size = new System.Drawing.Size(210, 23);
+            this.txtKilowatts.Size = new System.Drawing.Size(287, 23);
             this.txtKilowatts.TabIndex = 0;
             this.txtKilowatts.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -83,7 +83,7 @@
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
-            this.btnAccept.Location = new System.Drawing.Point(70, 217);
+            this.btnAccept.Location = new System.Drawing.Point(194, 206);
             this.btnAccept.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(112, 41);
@@ -99,10 +99,10 @@
             this.btnMassiveCharge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMassiveCharge.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMassiveCharge.ForeColor = System.Drawing.Color.White;
-            this.btnMassiveCharge.Location = new System.Drawing.Point(205, 217);
+            this.btnMassiveCharge.Location = new System.Drawing.Point(331, 206);
             this.btnMassiveCharge.Margin = new System.Windows.Forms.Padding(2);
             this.btnMassiveCharge.Name = "btnMassiveCharge";
-            this.btnMassiveCharge.Size = new System.Drawing.Size(112, 53);
+            this.btnMassiveCharge.Size = new System.Drawing.Size(129, 41);
             this.btnMassiveCharge.TabIndex = 2;
             this.btnMassiveCharge.Text = "CARGA MASIVA";
             this.btnMassiveCharge.UseVisualStyleBackColor = false;
@@ -113,7 +113,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(17, 119);
+            this.label1.Location = new System.Drawing.Point(23, 115);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(150, 17);
@@ -123,10 +123,10 @@
             // txtMeterSerialNumber
             // 
             this.txtMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMeterSerialNumber.Location = new System.Drawing.Point(194, 79);
+            this.txtMeterSerialNumber.Location = new System.Drawing.Point(194, 81);
             this.txtMeterSerialNumber.Margin = new System.Windows.Forms.Padding(2);
             this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
-            this.txtMeterSerialNumber.Size = new System.Drawing.Size(210, 23);
+            this.txtMeterSerialNumber.Size = new System.Drawing.Size(287, 23);
             this.txtMeterSerialNumber.TabIndex = 4;
             this.txtMeterSerialNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -135,7 +135,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label2.Location = new System.Drawing.Point(30, 81);
+            this.label2.Location = new System.Drawing.Point(36, 84);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(137, 17);
@@ -147,7 +147,7 @@
             this.lblEmpleados.AutoSize = true;
             this.lblEmpleados.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmpleados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmpleados.Location = new System.Drawing.Point(15, 16);
+            this.lblEmpleados.Location = new System.Drawing.Point(15, 15);
             this.lblEmpleados.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmpleados.Name = "lblEmpleados";
             this.lblEmpleados.Size = new System.Drawing.Size(174, 31);
@@ -166,12 +166,12 @@
             this.Year,
             this.Month,
             this.TotalKW});
-            this.dtgConsumptions.Location = new System.Drawing.Point(9, 361);
+            this.dtgConsumptions.Location = new System.Drawing.Point(9, 289);
             this.dtgConsumptions.Margin = new System.Windows.Forms.Padding(2);
             this.dtgConsumptions.Name = "dtgConsumptions";
             this.dtgConsumptions.RowHeadersWidth = 51;
             this.dtgConsumptions.RowTemplate.Height = 24;
-            this.dtgConsumptions.Size = new System.Drawing.Size(476, 122);
+            this.dtgConsumptions.Size = new System.Drawing.Size(870, 249);
             this.dtgConsumptions.TabIndex = 22;
             // 
             // ConsumptionID
@@ -243,7 +243,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label5.Location = new System.Drawing.Point(17, 166);
+            this.label5.Location = new System.Drawing.Point(18, 148);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(155, 17);
@@ -256,12 +256,12 @@
             this.dtpPeriod.CustomFormat = "MMMM yyyy";
             this.dtpPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpPeriod.Location = new System.Drawing.Point(194, 164);
+            this.dtpPeriod.Location = new System.Drawing.Point(194, 143);
             this.dtpPeriod.Margin = new System.Windows.Forms.Padding(2);
             this.dtpPeriod.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             this.dtpPeriod.Name = "dtpPeriod";
             this.dtpPeriod.ShowUpDown = true;
-            this.dtpPeriod.Size = new System.Drawing.Size(210, 23);
+            this.dtpPeriod.Size = new System.Drawing.Size(287, 23);
             this.dtpPeriod.TabIndex = 23;
             // 
             // dtgContracts
@@ -286,7 +286,7 @@
             this.dtgContracts.ReadOnly = true;
             this.dtgContracts.RowHeadersWidth = 51;
             this.dtgContracts.RowTemplate.Height = 24;
-            this.dtgContracts.Size = new System.Drawing.Size(359, 237);
+            this.dtgContracts.Size = new System.Drawing.Size(359, 183);
             this.dtgContracts.TabIndex = 25;
             // 
             // ContractID
@@ -393,7 +393,7 @@
             this.lblError.AutoSize = true;
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(312, 47);
+            this.lblError.Location = new System.Drawing.Point(223, 54);
             this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(84, 15);
@@ -404,7 +404,7 @@
             // pbWarningIcon
             // 
             this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(283, 42);
+            this.pbWarningIcon.Location = new System.Drawing.Point(194, 49);
             this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
             this.pbWarningIcon.Name = "pbWarningIcon";
             this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);

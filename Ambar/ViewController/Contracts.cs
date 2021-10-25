@@ -18,7 +18,6 @@ namespace Ambar.ViewController
     public partial class Contracts : Form
     {
         ContractDAO dao = new ContractDAO();
-        int lbPrevIndex = -1;
         int dtgPrevIndex = -1;
 
         public Contracts()
@@ -37,26 +36,6 @@ namespace Ambar.ViewController
             }
             this.dtgClients.DataSource = dtgClients;
             this.dtgClients.Columns["Emails"].Visible = false;
-        }
-
-        private void lbClientes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //if (lbPrevIndex == lbClients.SelectedIndex)
-            //{
-            //    txtClient.Clear();
-            //    btnAccept.Enabled = false;
-            //    lbPrevIndex = -1;
-            //    dtgContracts.Rows.Clear();
-            //    lbClients.ClearSelected();
-            //    return;
-            //}
-            //else
-            //{
-            //    txtClient.Text = lbClients.SelectedItem.ToString();
-            //    FillDataGridView();
-            //    btnAccept.Enabled = true;
-            //    lbPrevIndex = lbClients.SelectedIndex;
-            //}
         }
 
         private void cbState_SelectedIndexChanged(object sender, EventArgs e)
@@ -388,10 +367,35 @@ namespace Ambar.ViewController
                 }
                 case 27: // Tamaulipas
                 {
+                    cities = new string[] { "ABASOLO", "ALDAMA", "ALTAMIRA", "ANTIGUO MORELOS",
+                    "BURGOS", "BUSTAMANTE", "CAMARGO", "CASAS", "CIUDAD MADERO", "CRUILLAS",
+                    "GÓMEZ FARÍAS", "GONZÁLEZ", "GÜÉMEZ", "GUERRERO", "GUSTAVO DÍAZ ORDAZ", "HIDALGO",
+                    "JAUMAVE", "JIMÉNEZ", "LLERA", "MAINERO", "EL MANTE", "MATAMOROS", "MÉNDEZ", "MIER",
+                    "MIGUEL ALEMÁN", "MIQUIHUANA", "NUEVO LAREDO", "NUEVO MORELOS", "OCAMPO", "PADILLA",
+                    "PALMILLAS", "REYNOSA", "RÍO BRAVO", "SAN CARLOS", "SAN FERNANDO", "SAN NICOLÁS", 
+                        "SOTO LA MARINA", "TAMPICO", "TULA", "VALLE HERMOSO", "VICTORIA", "VILLAGRÁN", 
+                        "XICOTÉNCATL" };
                     break;
                 }
                 case 28: // Tlaxcala
                 {
+                    cities = new string[] { "AMAXAC DE GUERRERO", "APETATITLÁN DE ANTONIO CARVAJAL",
+                    "ATLANGATEPEC", "ATLTZAYANCA", "APIZACO", "CALPULALPAN", "EL CARMEN TEQUEXQUITLA",
+                    "CUAPIAXTLA", "CUAXOMULCO", "CHIAUTEMPAN", "MUÑOZ DE DOMINGO ARENAS", "ESPAÑITA",
+                    "HUAMANTLA", "HUEYOTLIPAN", "IXTACUIXTLA DE MARIANO MATAMOROS", "IXTENCO",
+                    "MAZATECOCHCO DE JOSÉ MARÍA MORELOS", "CONTLA DE JUAN CUAMATZI",
+                    "TEPETITLA DE LARDIZÁBAL", "SANCTÓRUM DE LÁZARO CÁRDENAS",
+                    "NANACAMILPA DE MARIANO ARISTA", "ACUAMANALA DE MIGUEL HIDALGO", "NATÍVITAS",
+                    "PANOTLA", "SAN PABLO DEL MONTE", "SANTA CRUZ TLAXCALA", "TENANCINGO", "TEOLOCHOLCO",
+                    "TEPEYANCO", "TERRENATE", "TETLA DE LA SOLIDARIDAD", "TETLATLAHUCA", "TLAXCALA",
+                    "TLAXCO", "TOCATLÁN", "TOTOLAC", "ZILTLALTÉPEC DE TRINIDAD SÁNCHEZ SANTOS",
+                    "TZOMPANTEPEC", "XALOZTOC", "XALTOCAN", "PAPALOTLA DE XICOHTÉNCATL", "XICOHTZINCO",
+                    "YAUHQUEMEHCAN", "ZACATELCO", "BENITO JUÁREZ", "EMILIANO ZAPATA", "LÁZARO CÁRDENAS",
+                    "LA MAGDALENA TLALTELULCO", "SAN DAMIÁN TEXÓLOC", "SAN FRANCISCO TETLANOHCAN",
+                        "SAN JERÓNIMO ZACUALPAN", "SAN JOSÉ TEACALCO", "SAN JUAN HUACTZINCO",
+                        "SAN LORENZO AXOCOMANITLA", "SAN LUCAS TECOPILCO", "SANTA ANA NOPALUCAN", 
+                        "SANTA APOLONIA TEACALCO", "SANTA CATARINA AYOMETLA", "SANTA CRUZ QUILEHTLA", 
+                        "SANTA ISABEL XILOXOXTLA" };
                     break;
                 }
                 case 29: // Veracruz
@@ -400,6 +404,23 @@ namespace Ambar.ViewController
                 }
                 case 30: // Yucatan
                 {
+                    cities = new string[] { "ABALÁ", "ACANCEH", "AKIL", "BACA", "BOKOBÁ", "BUCTZOTZ",
+                        "CACALCHÉN", "CALOTMUL", "CANSAHCAB", "CANTAMAYEC", "CELESTÚN", "CENOTILLO",
+                        "CONKAL", "CUNCUNUL", "CUZAMÁ", "CHACSINKÍN", "CHANKOM", "CHAPAB", "CHEMAX",
+                        "CHICXULUB PUEBLO", "CHICHIMILÁ", "CHIKINDZONOT", "CHOCHOLÁ", "CHUMAYEL", "DZÁN",
+                        "DZEMUL", "DZIDZANTÚN", "DZILAM DE BRAVO", "DZILAM GONZÁLEZ", "DZITÁS",
+                        "DZONCAUICH", "ESPITA", "HALACHÓ", "HOCABÁ", "HOCTÚN", "HOMÚN", "HUHÍ",
+                        "HUNUCMÁ", "IXIL", "IZAMAL", "KANASÍN", "KANTUNIL", "KAUA", "KINCHIL", "KOPOMÁ",
+                        "MAMA", "MANÍ", "MAXCANÚ", "MAYAPÁN", "MÉRIDA", "MOCOCHÁ", "MOTUL", "MUNA",
+                        "MUXUPIP", "OPICHÉN", "OXKUTZCAB", "PANABÁ", "PETO", "PROGRESO", "QUINTANA ROO",
+                        "RÍO LAGARTOS", "SACALUM", "SAMAHIL", "SANAHCAT", "SAN FELIPE", "SANTA ELENA",
+                        "SEYÉ", "SINANCHÉ", "SOTUTA", "SUCILÁ", "SUDZAL", "SUMA", "TAHDZIÚ", "TAHMEK",
+                        "TEABO", "TECOH", "TEKAL DE VENEGAS", "TEKANTÓ", "TEKAX", "TEKIT", "TEKOM",
+                        "TELCHAC PUEBLO", "TELCHAC PUERTO", "TEMAX", "TEMOZÓN", "TEPAKÁN", "TETIZ",
+                        "TEYA", "TICUL", "TIMUCUY", "TINUM", "TIXCACALCUPUL", "TIXKOKOB", "TIXMEHUAC",
+                        "TIXPÉHUAL", "TIZIMÍN", "TUNKÁS", "TZUCACAB", "UAYMA", "UCÚ", "UMÁN", 
+                        "VALLADOLID", "XOCCHEL", "YAXCABÁ", "YAXKUKUL", "YOBAÍN"
+                    };
                     break;
                 }
                 case 31: // Zacatecas
@@ -435,7 +456,7 @@ namespace Ambar.ViewController
 
             if (dao.ContractExists(txtMeterSerialNumber.Text, Convert.ToInt32(txtServiceNumber.Text)))
             {
-                PrintError("EL NUMERO DE MEDIDOR YA EXISTE");
+                PrintError("EL NÚMERO DE MEDIDOR O NÚMERO DE SERVICIO YA EXISTE");
                 return;
             }
 
@@ -443,7 +464,7 @@ namespace Ambar.ViewController
 
             dao.Create(contract);
 
-            FillDataGridView();
+            FillContractDataGridView();
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
@@ -492,10 +513,12 @@ namespace Ambar.ViewController
             dtpStartPeriodDate.Value = DateTime.Now;
         }
 
-        private void FillDataGridView()
+        private void FillContractDataGridView()
         {
+            // Se encuentra el UUID del Cliente utilizando el username como llave en un map
             List<ContractDTO> contracts = dao.ReadClientContracts((Guid)dtgClients.Rows[dtgPrevIndex].Cells[0].Value);
             List<ContractDTG> dtgContracts = new List<ContractDTG>();
+            // Conversion de un DTO a un DTG
             foreach (var contract in contracts)
             {
                 dtgContracts.Add(new ContractDTG(contract));
@@ -508,18 +531,17 @@ namespace Ambar.ViewController
             int index = e.RowIndex;
             if (dtgPrevIndex == index || index == -1)
             {
-                txtClient.Clear();
-                btnAccept.Enabled = false;
                 dtgPrevIndex = -1;
+                txtClient.Clear();
                 dtgContracts.DataSource = new List<ContractDTO>();
-                //lbClients.ClearSelected();
+                btnAccept.Enabled = false;
                 return;
             }
             else
             {
                 dtgPrevIndex = index;
                 txtClient.Text = dtgClients.Rows[index].Cells[1].Value.ToString();
-                FillDataGridView();
+                FillContractDataGridView();
                 btnAccept.Enabled = true;
             }
         }

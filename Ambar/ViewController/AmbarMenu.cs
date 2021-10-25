@@ -25,18 +25,18 @@ namespace Ambar.ViewController
 
             if (UserCache.position == "Administrator")
             {
-                //btnClients.Visible = false;
-                //panelClients.Visible = false;
-                //btnContracts.Visible = false;
-                //panelContracts.Visible = false;
-                //btnConsumptions.Visible = false;
-                //panelConsumptions.Visible = false;
-                //btnRates.Visible = false;
-                //panelRates.Visible = false;
-                //btnReports.Visible = false;
-                //panelReports.Visible = false;
-                //btnReceipts.Visible = false;
-                //panelReceipts.Visible = false;
+                btnClients.Visible = false;
+                panelClients.Visible = false;
+                btnContracts.Visible = false;
+                panelContracts.Visible = false;
+                btnConsumptions.Visible = false;
+                panelConsumptions.Visible = false;
+                btnRates.Visible = false;
+                panelRates.Visible = false;
+                btnReports.Visible = false;
+                panelReports.Visible = false;
+                btnReceipts.Visible = false;
+                panelReceipts.Visible = false;
             }
             else if (UserCache.position == "Employee")
             {

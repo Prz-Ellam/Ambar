@@ -35,17 +35,19 @@ namespace Ambar.ViewController
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (txtBasic.Text == string.Empty || txtIntermediate.Text == string.Empty || txtSurplus.Text == string.Empty
-                || cbService.SelectedIndex == -1)
+            if (txtBasic.Text == string.Empty || txtIntermediate.Text == string.Empty || 
+                txtSurplus.Text == string.Empty || cbService.SelectedIndex <= 0 ||
+                cbPeriod.SelectedIndex == -1)
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                 return;
             }
 
-            if (!RegexUtils.IsDecimalNumber(txtBasic.Text) || !RegexUtils.IsDecimalNumber(txtIntermediate.Text) 
-                || !RegexUtils.IsDecimalNumber(txtSurplus.Text))
+            if (!RegexUtils.IsDecimalNumber(txtBasic.Text) || 
+                !RegexUtils.IsDecimalNumber(txtIntermediate.Text) ||
+                !RegexUtils.IsDecimalNumber(txtSurplus.Text))
             {
-                PrintError("TARIFAS SOLO ACEPTAN NUMEROS DECIMALES");
+                PrintError("TARIFAS SOLO ACEPTAN NÚMEROS DECIMALES");
                 return;
             }
             
@@ -69,7 +71,6 @@ namespace Ambar.ViewController
             {
                 return;
             }
-
             rate.Month = month;
             rate.Service = cbService.SelectedItem.ToString();
 
@@ -92,34 +93,40 @@ namespace Ambar.ViewController
                         var reader = File.OpenText(ofnMassive.FileName);
                         CsvReader csvReader = new CsvReader(reader, CultureInfo.CurrentCulture);
 
-                        var studentsCSV = csvReader.GetRecords<RateCSV>();
-                        foreach (var student in studentsCSV)
+                        var ratesCSV = csvReader.GetRecords<RateCSV>();
+                        List<RateDTO> finalRates = new List<RateDTO>();
+                        bool isCorrect = true;
+                        foreach (var rateCSV in ratesCSV)
                         {
-                            if (student.Basica == string.Empty || student.Intermedia == string.Empty ||
-                                student.Excedente == string.Empty || student.Servicio == string.Empty ||
-                                student.Anio == string.Empty || student.Mes == string.Empty)
+                            if (rateCSV.Basica == string.Empty || rateCSV.Intermedia == string.Empty ||
+                                rateCSV.Excedente == string.Empty || rateCSV.Servicio == string.Empty ||
+                                rateCSV.Anio == string.Empty || rateCSV.Mes == string.Empty)
                             {
                                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
-                                continue;
+                                finalRates.Clear();
+                                isCorrect = false;
+                                break;
                             }
 
-                            if (!RegexUtils.IsDecimalNumber(student.Basica) ||
-                                !RegexUtils.IsDecimalNumber(student.Intermedia) ||
-                                !RegexUtils.IsDecimalNumber(student.Excedente))
+                            if (!RegexUtils.IsDecimalNumber(rateCSV.Basica) ||
+                                !RegexUtils.IsDecimalNumber(rateCSV.Intermedia) ||
+                                !RegexUtils.IsDecimalNumber(rateCSV.Excedente))
                             {
                                 PrintError("TARIFAS SOLO ACEPTAN NUMEROS DECIMALES");
-                                continue;
+                                finalRates.Clear();
+                                isCorrect = false;
+                                break;
                             }
 
                             RateDTO rate = new RateDTO();
-                            rate.Basic_Level = Convert.ToDecimal(student.Basica, CultureInfo.InvariantCulture);
-                            rate.Intermediate_Level = Convert.ToDecimal(student.Intermedia, CultureInfo.InvariantCulture);
-                            rate.Surplus_Level = Convert.ToDecimal(student.Excedente, CultureInfo.InvariantCulture);
-                            rate.Year = Convert.ToInt32(student.Anio, CultureInfo.InvariantCulture);
-                            rate.Service = student.Servicio;
-                            if (student.Servicio == "Domestico")
+                            rate.Basic_Level = Convert.ToDecimal(rateCSV.Basica, CultureInfo.InvariantCulture);
+                            rate.Intermediate_Level = Convert.ToDecimal(rateCSV.Intermedia, CultureInfo.InvariantCulture);
+                            rate.Surplus_Level = Convert.ToDecimal(rateCSV.Excedente, CultureInfo.InvariantCulture);
+                            rate.Year = Convert.ToInt32(rateCSV.Anio, CultureInfo.InvariantCulture);
+                            rate.Service = rateCSV.Servicio;
+                            if (rateCSV.Servicio == "Domestico")
                             {
-                                short month = Convert.ToInt16(student.Mes, CultureInfo.InvariantCulture);
+                                short month = Convert.ToInt16(rateCSV.Mes, CultureInfo.InvariantCulture);
                                 if (month % 2 == 0)
                                 {
                                     month--;
@@ -127,13 +134,21 @@ namespace Ambar.ViewController
                                 rate.Month = month;
                             }
 
+                            finalRates.Add(rate);
+                        }
+
+                        foreach (var rate in finalRates)
+                        {
                             dao.Create(rate);
                         }
 
                         dtgRates.DataSource = dao.ReadRates();
 
-                        ClearForm();
-                        MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+                        if (isCorrect)
+                        {
+                            ClearForm();
+                            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+                        }
                         break;
                     }
                     case 2: // Excel

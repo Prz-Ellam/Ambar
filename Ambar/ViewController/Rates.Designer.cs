@@ -65,10 +65,10 @@
             this.btnMasiveCharge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMasiveCharge.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMasiveCharge.ForeColor = System.Drawing.Color.White;
-            this.btnMasiveCharge.Location = new System.Drawing.Point(196, 301);
+            this.btnMasiveCharge.Location = new System.Drawing.Point(315, 256);
             this.btnMasiveCharge.Margin = new System.Windows.Forms.Padding(2);
             this.btnMasiveCharge.Name = "btnMasiveCharge";
-            this.btnMasiveCharge.Size = new System.Drawing.Size(112, 51);
+            this.btnMasiveCharge.Size = new System.Drawing.Size(129, 41);
             this.btnMasiveCharge.TabIndex = 0;
             this.btnMasiveCharge.Text = "CARGA MASIVA";
             this.btnMasiveCharge.UseVisualStyleBackColor = false;
@@ -83,10 +83,10 @@
             "Seleccionar",
             "Domestico",
             "Industrial"});
-            this.cbService.Location = new System.Drawing.Point(178, 119);
+            this.cbService.Location = new System.Drawing.Point(178, 81);
             this.cbService.Margin = new System.Windows.Forms.Padding(2);
             this.cbService.Name = "cbService";
-            this.cbService.Size = new System.Drawing.Size(252, 25);
+            this.cbService.Size = new System.Drawing.Size(430, 25);
             this.cbService.TabIndex = 1;
             this.cbService.SelectedIndexChanged += new System.EventHandler(this.cbService_SelectedIndexChanged);
             // 
@@ -97,7 +97,7 @@
             this.comboBox2.Items.AddRange(new object[] {
             "Monto",
             "Porcentual"});
-            this.comboBox2.Location = new System.Drawing.Point(366, 67);
+            this.comboBox2.Location = new System.Drawing.Point(623, 80);
             this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(140, 21);
@@ -110,7 +110,7 @@
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
-            this.btnAccept.Location = new System.Drawing.Point(64, 308);
+            this.btnAccept.Location = new System.Drawing.Point(178, 256);
             this.btnAccept.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(112, 41);
@@ -122,30 +122,30 @@
             // txtBasic
             // 
             this.txtBasic.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBasic.Location = new System.Drawing.Point(178, 188);
+            this.txtBasic.Location = new System.Drawing.Point(178, 143);
             this.txtBasic.Margin = new System.Windows.Forms.Padding(2);
             this.txtBasic.Name = "txtBasic";
-            this.txtBasic.Size = new System.Drawing.Size(252, 23);
+            this.txtBasic.Size = new System.Drawing.Size(430, 23);
             this.txtBasic.TabIndex = 4;
             this.txtBasic.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtIntermediate
             // 
             this.txtIntermediate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtIntermediate.Location = new System.Drawing.Point(178, 217);
+            this.txtIntermediate.Location = new System.Drawing.Point(178, 174);
             this.txtIntermediate.Margin = new System.Windows.Forms.Padding(2);
             this.txtIntermediate.Name = "txtIntermediate";
-            this.txtIntermediate.Size = new System.Drawing.Size(252, 23);
+            this.txtIntermediate.Size = new System.Drawing.Size(430, 23);
             this.txtIntermediate.TabIndex = 5;
             this.txtIntermediate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtSurplus
             // 
             this.txtSurplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSurplus.Location = new System.Drawing.Point(178, 246);
+            this.txtSurplus.Location = new System.Drawing.Point(178, 205);
             this.txtSurplus.Margin = new System.Windows.Forms.Padding(2);
             this.txtSurplus.Name = "txtSurplus";
-            this.txtSurplus.Size = new System.Drawing.Size(252, 23);
+            this.txtSurplus.Size = new System.Drawing.Size(430, 23);
             this.txtSurplus.TabIndex = 6;
             this.txtSurplus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -154,7 +154,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(44, 191);
+            this.label1.Location = new System.Drawing.Point(44, 146);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(117, 17);
@@ -166,7 +166,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label2.Location = new System.Drawing.Point(20, 220);
+            this.label2.Location = new System.Drawing.Point(20, 177);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(141, 17);
@@ -178,7 +178,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label3.Location = new System.Drawing.Point(20, 249);
+            this.label3.Location = new System.Drawing.Point(20, 208);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 17);
@@ -189,14 +189,14 @@
             // 
             this.dtpPeriod.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpPeriod.CustomFormat = "yyyy";
-            this.dtpPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpPeriod.Location = new System.Drawing.Point(370, 156);
+            this.dtpPeriod.Location = new System.Drawing.Point(373, 114);
             this.dtpPeriod.Margin = new System.Windows.Forms.Padding(2);
             this.dtpPeriod.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             this.dtpPeriod.Name = "dtpPeriod";
             this.dtpPeriod.ShowUpDown = true;
-            this.dtpPeriod.Size = new System.Drawing.Size(60, 23);
+            this.dtpPeriod.Size = new System.Drawing.Size(71, 22);
             this.dtpPeriod.TabIndex = 13;
             // 
             // lblEmpleados
@@ -204,7 +204,7 @@
             this.lblEmpleados.AutoSize = true;
             this.lblEmpleados.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmpleados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmpleados.Location = new System.Drawing.Point(15, 16);
+            this.lblEmpleados.Location = new System.Drawing.Point(15, 15);
             this.lblEmpleados.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmpleados.Name = "lblEmpleados";
             this.lblEmpleados.Size = new System.Drawing.Size(130, 31);
@@ -216,7 +216,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label4.Location = new System.Drawing.Point(44, 119);
+            this.label4.Location = new System.Drawing.Point(44, 84);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(114, 17);
@@ -228,7 +228,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label5.Location = new System.Drawing.Point(6, 159);
+            this.label5.Location = new System.Drawing.Point(3, 115);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(155, 17);
@@ -246,7 +246,7 @@
             this.BasicLevel,
             this.IntermediateLevel,
             this.SurplusLevel});
-            this.dtgRates.Location = new System.Drawing.Point(12, 369);
+            this.dtgRates.Location = new System.Drawing.Point(15, 327);
             this.dtgRates.Margin = new System.Windows.Forms.Padding(2);
             this.dtgRates.Name = "dtgRates";
             this.dtgRates.RowHeadersWidth = 51;
@@ -315,7 +315,7 @@
             this.lblError.AutoSize = true;
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(513, 123);
+            this.lblError.Location = new System.Drawing.Point(207, 55);
             this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(84, 15);
@@ -326,7 +326,7 @@
             // pbWarningIcon
             // 
             this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(484, 118);
+            this.pbWarningIcon.Location = new System.Drawing.Point(178, 50);
             this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
             this.pbWarningIcon.Name = "pbWarningIcon";
             this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
@@ -344,7 +344,7 @@
             this.cbPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPeriod.FormattingEnabled = true;
-            this.cbPeriod.Location = new System.Drawing.Point(178, 156);
+            this.cbPeriod.Location = new System.Drawing.Point(178, 112);
             this.cbPeriod.Margin = new System.Windows.Forms.Padding(2);
             this.cbPeriod.Name = "cbPeriod";
             this.cbPeriod.Size = new System.Drawing.Size(188, 25);

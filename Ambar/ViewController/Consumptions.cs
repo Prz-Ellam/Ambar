@@ -16,6 +16,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Ambar.Common;
 
 namespace Ambar.ViewController
 {
@@ -80,7 +81,7 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (IsDecimalNumber(txtKilowatts.Text))
+            if (RegexUtils.IsDecimalNumber(txtKilowatts.Text))
             {
                 PrintError("KILOWATTS CONSUMIDOS SOLO ACEPTA NUMEROS DECIMALES");
                 return;
@@ -121,14 +122,26 @@ namespace Ambar.ViewController
                         var reader = File.OpenText(ofnMassive.FileName);
                         CsvReader csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
 
-                        var consumptionsCSV = csvReader.GetRecords<dynamic>().ToList();
+                        var consumptionsCSV = csvReader.GetRecords<ConsumptionCSV>().ToList();
+                        List<ConsumptionDTO> finalConsumptions = new List<ConsumptionDTO>();
+                        bool isCorrect = true;
 
                         foreach (var consumption in consumptionsCSV)
                         {
-                            decimal a = consumption;
+                            
                         }
 
+                        foreach (var consumption in finalConsumptions)
+                        {
+                            dao.Create(consumption);
+                        }
+                        dtgConsumptions.DataSource = dao.ReadConsumptions();
 
+                        if (isCorrect)
+                        {
+                            ClearForm();
+                            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+                        }
                         break;
                     }
                     case 2: // Excel
@@ -151,6 +164,13 @@ namespace Ambar.ViewController
                     }
                 }
             }
+        }
+
+        private void ClearForm()
+        {
+            txtMeterSerialNumber.Clear();
+            txtKilowatts.Clear();
+            dtpPeriod.Value = DateTime.Now;
         }
 
         static void PaymentBreakdown(decimal value, ref decimal kwBasic, ref decimal kwInt, ref decimal kwExc)
@@ -186,14 +206,6 @@ namespace Ambar.ViewController
             pbWarningIcon.Visible = true;
             lblError.Visible = true;
             lblError.Text = error;
-        }
-
-        private bool IsDecimalNumber(string number)
-        {
-            string res = @"(?<=^| )\d+(\.\d+)?(?=$| )|(?<=^| )\.\d+(?=$| )";
-            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            return rx.IsMatch(number);
         }
 
     }

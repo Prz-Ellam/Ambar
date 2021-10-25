@@ -308,7 +308,7 @@
             this.lblClientes.AutoSize = true;
             this.lblClientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblClientes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblClientes.Location = new System.Drawing.Point(15, 16);
+            this.lblClientes.Location = new System.Drawing.Point(15, 15);
             this.lblClientes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblClientes.Name = "lblClientes";
             this.lblClientes.Size = new System.Drawing.Size(148, 31);
