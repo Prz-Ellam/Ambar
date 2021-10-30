@@ -149,7 +149,7 @@ namespace Ambar.ViewController
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
-            this.btnAccept.Location = new System.Drawing.Point(196, 428);
+            this.btnAccept.Location = new System.Drawing.Point(196, 429);
             this.btnAccept.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(112, 41);
@@ -409,7 +409,8 @@ namespace Ambar.ViewController
             this.cbService.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.cbService.FormattingEnabled = true;
             this.cbService.Items.AddRange(new object[] {
-            "Doméstico",
+            "Seleccionar",
+            "Domestico",
             "Industrial"});
             this.cbService.Location = new System.Drawing.Point(196, 174);
             this.cbService.Margin = new System.Windows.Forms.Padding(2);
@@ -434,7 +435,7 @@ namespace Ambar.ViewController
             // 
             this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbState.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbState.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.cbState.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbState.FormattingEnabled = true;
             this.cbState.Items.AddRange(new object[] {
             "AGUASCALIENTES",
@@ -472,7 +473,7 @@ namespace Ambar.ViewController
             this.cbState.Location = new System.Drawing.Point(196, 205);
             this.cbState.Margin = new System.Windows.Forms.Padding(2);
             this.cbState.Name = "cbState";
-            this.cbState.Size = new System.Drawing.Size(430, 23);
+            this.cbState.Size = new System.Drawing.Size(430, 24);
             this.cbState.TabIndex = 3;
             this.cbState.SelectedIndexChanged += new System.EventHandler(this.cbState_SelectedIndexChanged);
             // 

@@ -44,7 +44,10 @@ namespace Ambar.ViewController
             this.cbPeriod = new System.Windows.Forms.ComboBox();
             this.ofnReceipt = new System.Windows.Forms.SaveFileDialog();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblError = new System.Windows.Forms.Label();
+            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // lblEmpleados
@@ -52,7 +55,7 @@ namespace Ambar.ViewController
             this.lblEmpleados.AutoSize = true;
             this.lblEmpleados.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmpleados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmpleados.Location = new System.Drawing.Point(15, 16);
+            this.lblEmpleados.Location = new System.Drawing.Point(15, 15);
             this.lblEmpleados.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmpleados.Name = "lblEmpleados";
             this.lblEmpleados.Size = new System.Drawing.Size(137, 31);
@@ -66,9 +69,9 @@ namespace Ambar.ViewController
             this.cbService.FormattingEnabled = true;
             this.cbService.Items.AddRange(new object[] {
             "Seleccionar",
-            "Doméstico",
+            "Domestico",
             "Industrial"});
-            this.cbService.Location = new System.Drawing.Point(196, 110);
+            this.cbService.Location = new System.Drawing.Point(196, 86);
             this.cbService.Margin = new System.Windows.Forms.Padding(2);
             this.cbService.Name = "cbService";
             this.cbService.Size = new System.Drawing.Size(202, 25);
@@ -80,12 +83,15 @@ namespace Ambar.ViewController
             this.dtpYear.CustomFormat = "yyyy";
             this.dtpYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpYear.Location = new System.Drawing.Point(196, 184);
+            this.dtpYear.Location = new System.Drawing.Point(196, 160);
             this.dtpYear.Margin = new System.Windows.Forms.Padding(2);
+            this.dtpYear.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dtpYear.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpYear.Name = "dtpYear";
             this.dtpYear.ShowUpDown = true;
             this.dtpYear.Size = new System.Drawing.Size(63, 23);
             this.dtpYear.TabIndex = 23;
+            this.dtpYear.ValueChanged += new System.EventHandler(this.dtpYear_ValueChanged);
             // 
             // btnGenerateReceipt
             // 
@@ -94,7 +100,7 @@ namespace Ambar.ViewController
             this.btnGenerateReceipt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGenerateReceipt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerateReceipt.ForeColor = System.Drawing.Color.White;
-            this.btnGenerateReceipt.Location = new System.Drawing.Point(196, 253);
+            this.btnGenerateReceipt.Location = new System.Drawing.Point(196, 215);
             this.btnGenerateReceipt.Margin = new System.Windows.Forms.Padding(2);
             this.btnGenerateReceipt.Name = "btnGenerateReceipt";
             this.btnGenerateReceipt.Size = new System.Drawing.Size(134, 57);
@@ -108,7 +114,7 @@ namespace Ambar.ViewController
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label5.Location = new System.Drawing.Point(64, 113);
+            this.label5.Location = new System.Drawing.Point(64, 89);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(112, 17);
@@ -120,7 +126,7 @@ namespace Ambar.ViewController
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(17, 152);
+            this.label1.Location = new System.Drawing.Point(17, 128);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(155, 17);
@@ -209,7 +215,7 @@ namespace Ambar.ViewController
             this.cbPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPeriod.FormattingEnabled = true;
-            this.cbPeriod.Location = new System.Drawing.Point(196, 149);
+            this.cbPeriod.Location = new System.Drawing.Point(196, 125);
             this.cbPeriod.Margin = new System.Windows.Forms.Padding(2);
             this.cbPeriod.Name = "cbPeriod";
             this.cbPeriod.Size = new System.Drawing.Size(202, 25);
@@ -231,12 +237,39 @@ namespace Ambar.ViewController
             this.label2.TabIndex = 32;
             this.label2.Text = "Periodo de facturacion:";
             // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblError.Location = new System.Drawing.Point(223, 55);
+            this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(84, 15);
+            this.lblError.TabIndex = 34;
+            this.lblError.Text = "ERROR TEXT";
+            this.lblError.Visible = false;
+            // 
+            // pbWarningIcon
+            // 
+            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
+            this.pbWarningIcon.Location = new System.Drawing.Point(194, 50);
+            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
+            this.pbWarningIcon.Name = "pbWarningIcon";
+            this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
+            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbWarningIcon.TabIndex = 33;
+            this.pbWarningIcon.TabStop = false;
+            this.pbWarningIcon.Visible = false;
+            // 
             // Receipts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(880, 479);
+            this.Controls.Add(this.lblError);
+            this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbPeriod);
             this.Controls.Add(this.dtpPeriodSearch);
@@ -257,6 +290,7 @@ namespace Ambar.ViewController
             this.Load += new System.EventHandler(this.Receipts_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,5 +313,7 @@ namespace Ambar.ViewController
         private System.Windows.Forms.ComboBox cbPeriod;
         private System.Windows.Forms.SaveFileDialog ofnReceipt;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblError;
+        private System.Windows.Forms.PictureBox pbWarningIcon;
     }
 }

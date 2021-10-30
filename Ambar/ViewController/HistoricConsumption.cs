@@ -16,5 +16,10 @@ namespace Ambar.ViewController
         {
             InitializeComponent();
         }
+
+        private void HistoricConsumption_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

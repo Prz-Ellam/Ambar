@@ -41,5 +41,28 @@ namespace Ambar.Common
             return rx.IsMatch(number);
         }
 
+        public static bool IsMonthNumber(string number)
+        {
+            string res = "^(0?[1-9]|1[012])$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            return rx.IsMatch(number);
+        }
+
+        public static bool IsYearNumber(string number)
+        {
+            string res = @"^(19|20)\d{2}$"; // 1900-2099
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            return rx.IsMatch(number);
+        }
+
+        public static bool VerifyEmail(string emails)
+        {
+            string res = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            return rx.IsMatch(emails);
+        }
     }
 }

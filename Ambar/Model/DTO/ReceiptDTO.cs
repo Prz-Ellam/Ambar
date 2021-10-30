@@ -19,10 +19,11 @@ namespace Ambar.Model.DTO
 		string number;
 		string postal_code;
 		string meter_serial_number;
-		int service_number;
+		long service_number;
         string service;
 		int year;
 		short month;
+        short day;
         decimal basic_level;
         decimal intermediate_level;
         decimal surplus_level;
@@ -51,7 +52,7 @@ namespace Ambar.Model.DTO
         public string Number { get => number; set => number = value; }
         public string Postal_Code { get => postal_code; set => postal_code = value; }
         public string Meter_Serial_Number { get => meter_serial_number; set => meter_serial_number = value; }
-        public int Service_Number { get => service_number; set => service_number = value; }
+        public long Service_Number { get => service_number; set => service_number = value; }
         public int Year { get => year; set => year = value; }
         public short Month { get => month; set => month = value; }
         public decimal Total_Price { get => total_price; set => total_price = value; }
@@ -71,5 +72,6 @@ namespace Ambar.Model.DTO
         public string Service { get => service; set => service = value; }
         public IDictionary<string, decimal> Payment_History { get => payment_history; set => payment_history = value; }
         public decimal Total_KW { get => total_kw; set => total_kw = value; }
+        public short Day { get => day; set => day = value; }
     }
 }

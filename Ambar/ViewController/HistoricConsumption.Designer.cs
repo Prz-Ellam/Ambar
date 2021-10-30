@@ -36,7 +36,7 @@ namespace Ambar.ViewController
             this.Paid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PendingPaid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtFilter = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
@@ -44,6 +44,7 @@ namespace Ambar.ViewController
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.btnPDF = new System.Windows.Forms.Button();
             this.btnCSV = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +60,7 @@ namespace Ambar.ViewController
             this.PendingPaid});
             this.dataGridView1.Location = new System.Drawing.Point(31, 148);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(739, 277);
+            this.dataGridView1.Size = new System.Drawing.Size(827, 277);
             this.dataGridView1.TabIndex = 1;
             // 
             // Period
@@ -94,17 +95,20 @@ namespace Ambar.ViewController
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker1.Location = new System.Drawing.Point(114, 113);
+            this.dateTimePicker1.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dateTimePicker1.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.ShowUpDown = true;
             this.dateTimePicker1.Size = new System.Drawing.Size(115, 22);
             this.dateTimePicker1.TabIndex = 5;
             // 
-            // textBox1
+            // txtFilter
             // 
-            this.textBox1.Location = new System.Drawing.Point(247, 115);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(239, 20);
-            this.textBox1.TabIndex = 6;
+            this.txtFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFilter.Location = new System.Drawing.Point(327, 115);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(239, 22);
+            this.txtFilter.TabIndex = 6;
             // 
             // groupBox1
             // 
@@ -112,7 +116,7 @@ namespace Ambar.ViewController
             this.groupBox1.Controls.Add(this.radioButton1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
-            this.groupBox1.Location = new System.Drawing.Point(247, 59);
+            this.groupBox1.Location = new System.Drawing.Point(327, 59);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(239, 46);
             this.groupBox1.TabIndex = 7;
@@ -124,7 +128,7 @@ namespace Ambar.ViewController
             this.radioButton2.AutoSize = true;
             this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
-            this.radioButton2.Location = new System.Drawing.Point(122, 19);
+            this.radioButton2.Location = new System.Drawing.Point(128, 19);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(92, 20);
             this.radioButton2.TabIndex = 1;
@@ -137,7 +141,7 @@ namespace Ambar.ViewController
             this.radioButton1.AutoSize = true;
             this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
-            this.radioButton1.Location = new System.Drawing.Point(6, 19);
+            this.radioButton1.Location = new System.Drawing.Point(17, 19);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(93, 20);
             this.radioButton1.TabIndex = 0;
@@ -162,7 +166,7 @@ namespace Ambar.ViewController
             this.lblEmpleados.AutoSize = true;
             this.lblEmpleados.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmpleados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmpleados.Location = new System.Drawing.Point(11, 15);
+            this.lblEmpleados.Location = new System.Drawing.Point(15, 15);
             this.lblEmpleados.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmpleados.Name = "lblEmpleados";
             this.lblEmpleados.Size = new System.Drawing.Size(316, 31);
@@ -201,23 +205,34 @@ namespace Ambar.ViewController
             this.btnCSV.Text = "          GENERAR CSV";
             this.btnCSV.UseVisualStyleBackColor = false;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(615, 112);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 28;
+            this.button1.Text = "Buscar";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // HistoricConsumption
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(800, 554);
+            this.ClientSize = new System.Drawing.Size(903, 554);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.lblEmpleados);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtFilter);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "HistoricConsumption";
             this.Text = "HistoricConsumption";
+            this.Load += new System.EventHandler(this.HistoricConsumption_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -235,7 +250,7 @@ namespace Ambar.ViewController
         private System.Windows.Forms.DataGridViewTextBoxColumn Paid;
         private System.Windows.Forms.DataGridViewTextBoxColumn PendingPaid;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtFilter;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
@@ -243,5 +258,6 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Label lblEmpleados;
         private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.Button btnCSV;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -20,7 +20,7 @@ namespace Ambar.ViewController
     public partial class Employees : Form, IAmbarForm
     {
         // DAO para hacer queries a la entidad empleados
-        EmployeeDAO EmployeeDao = new EmployeeDAO();
+        EmployeeDAO employeeDao = new EmployeeDAO();
         UserRememberDAO userRemember = new UserRememberDAO();
         /* 
            Guardamos el username y el ID original de un empleado al que se le este aplicando una edicion o borrado para 
@@ -46,7 +46,7 @@ namespace Ambar.ViewController
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (btnUpdate.Enabled || btnDelete.Enabled)
+            if (btnUpdate.Enabled || btnDelete.Enabled) // Solo por seguridad
             {
                 return;
             }
@@ -54,15 +54,15 @@ namespace Ambar.ViewController
             // Creamos un objeto de transferencia de datos para la entidad empleado y lo rellenamos
             EmployeeDTO employee = new EmployeeDTO();
             employee.User_ID = Guid.NewGuid();
-            employee.First_Name = StringUtils.GetText(txtNames);
-            employee.Father_Last_Name = StringUtils.GetText(txtFatherLastName);
-            employee.Mother_Last_Name = StringUtils.GetText(txtMotherLastName);
+            employee.First_Name = StringUtils.GetText(txtNames.Text);
+            employee.Father_Last_Name = StringUtils.GetText(txtFatherLastName.Text);
+            employee.Mother_Last_Name = StringUtils.GetText(txtMotherLastName.Text);
             employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
-            employee.RFC = StringUtils.GetText(txtRFC);
-            employee.CURP = StringUtils.GetText(txtCURP);
-            employee.User_Name = StringUtils.GetText(txtUsername);
-            employee.Password = StringUtils.GetText(txtPassword);
-            string confirmPassword = StringUtils.GetText(txtConfirmPassword);
+            employee.RFC = StringUtils.GetText(txtRFC.Text);
+            employee.CURP = StringUtils.GetText(txtCURP.Text);
+            employee.User_Name = StringUtils.GetText(txtUsername.Text);
+            employee.Password = StringUtils.GetText(txtPassword.Text);
+            string confirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
 
             // Se realizan las validaciones necesarias
             if (employee.First_Name == string.Empty || employee.Father_Last_Name == string.Empty ||
@@ -92,19 +92,19 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (EmployeeDao.UserExists(employee.User_Name))
+            if (employeeDao.UserExists(employee.User_Name))
             {
                 PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
             }
 
             // Se crea en la base de datos
-            EmployeeDao.Create(employee);
+            employeeDao.Create(employee);
 
             FillDataGridView();
 
             ClearForm();
-            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -117,15 +117,15 @@ namespace Ambar.ViewController
 
             EmployeeDTO employee = new EmployeeDTO();
             employee.User_ID = originalID;
-            employee.First_Name = StringUtils.GetText(txtNames);
-            employee.Father_Last_Name = StringUtils.GetText(txtFatherLastName);
-            employee.Mother_Last_Name = StringUtils.GetText(txtMotherLastName);
+            employee.First_Name = StringUtils.GetText(txtNames.Text);
+            employee.Father_Last_Name = StringUtils.GetText(txtFatherLastName.Text);
+            employee.Mother_Last_Name = StringUtils.GetText(txtMotherLastName.Text);
             employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
-            employee.RFC = StringUtils.GetText(txtRFC);
-            employee.CURP = StringUtils.GetText(txtCURP);
-            employee.User_Name = StringUtils.GetText(txtUsername);
-            employee.Password = StringUtils.GetText(txtPassword);
-            string confirmPassword = StringUtils.GetText(txtConfirmPassword);
+            employee.RFC = StringUtils.GetText(txtRFC.Text);
+            employee.CURP = StringUtils.GetText(txtCURP.Text);
+            employee.User_Name = StringUtils.GetText(txtUsername.Text);
+            employee.Password = StringUtils.GetText(txtPassword.Text);
+            string confirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
 
             if (employee.First_Name == string.Empty || employee.Father_Last_Name == string.Empty ||
                 employee.Mother_Last_Name == string.Empty || employee.RFC == string.Empty ||
@@ -154,13 +154,13 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (EmployeeDao.UserExists(employee.User_Name) && originalUsername != employee.User_Name)
+            if (employeeDao.UserExists(employee.User_Name) && originalUsername != employee.User_Name)
             {
                 PrintError("EL NOMBRE DE USUARIO YA EXISTE");
                 return;
             }
 
-            EmployeeDao.Update(employee, originalUsername);
+            employeeDao.Update(employee, originalUsername);
             if (userRemember.RememberUserExists("Employee", originalUsername)) {
                 userRemember.UpdateRememberUser("Employee", originalUsername, employee.User_Name, employee.Password);
             }
@@ -169,7 +169,7 @@ namespace Ambar.ViewController
             FillDisableUsers();
 
             ClearForm();
-            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -185,7 +185,7 @@ namespace Ambar.ViewController
 
             if (res == DialogResult.Yes)
             {
-                EmployeeDao.Delete(originalID, originalUsername);
+                employeeDao.Delete(originalID, originalUsername);
                 if (userRemember.RememberUserExists("Employee", originalUsername))
                 {
                     userRemember.ForgerPassword("Employee", originalUsername);
@@ -218,7 +218,7 @@ namespace Ambar.ViewController
         }
         public void FillDataGridView()
         {
-            List<EmployeeDTO> employees = EmployeeDao.Read();
+            List<EmployeeDTO> employees = employeeDao.Read();
             List<EmployeeDTG> dtgEmployeesList = new List<EmployeeDTG>();
             foreach (var employee in employees)
             {
@@ -256,7 +256,6 @@ namespace Ambar.ViewController
                 lblError.Visible = false;
 
                 dtgPrevIndex = index;
-
             }
         }
 
@@ -271,7 +270,7 @@ namespace Ambar.ViewController
         public void FillDisableUsers()
         {
             lbDisableEmployees.Items.Clear();
-            List<string> names = EmployeeDao.ReadAllDisable();
+            List<string> names = employeeDao.ReadAllDisable();
             foreach (var name in names)
             {
                 lbDisableEmployees.Items.Add(name);
@@ -295,7 +294,7 @@ namespace Ambar.ViewController
 
         private void btnEnabling_Click(object sender, EventArgs e)
         {
-            EmployeeDao.Enabled(txtDisable.Text, true);
+            employeeDao.Enabled(txtDisable.Text, true);
 
             ClearDisableUsers();
 

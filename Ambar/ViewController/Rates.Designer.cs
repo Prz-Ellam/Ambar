@@ -32,13 +32,10 @@
             this.cbService = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.btnAccept = new System.Windows.Forms.Button();
-            this.txtBasic = new System.Windows.Forms.TextBox();
-            this.txtIntermediate = new System.Windows.Forms.TextBox();
-            this.txtSurplus = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.dtpPeriod = new System.Windows.Forms.DateTimePicker();
+            this.dtpYear = new System.Windows.Forms.DateTimePicker();
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -54,8 +51,14 @@
             this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
             this.cbPeriod = new System.Windows.Forms.ComboBox();
+            this.nudBasic = new System.Windows.Forms.NumericUpDown();
+            this.nudSurplus = new System.Windows.Forms.NumericUpDown();
+            this.nudIntermediate = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dtgRates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBasic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSurplus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudIntermediate)).BeginInit();
             this.SuspendLayout();
             // 
             // btnMasiveCharge
@@ -97,7 +100,7 @@
             this.comboBox2.Items.AddRange(new object[] {
             "Monto",
             "Porcentual"});
-            this.comboBox2.Location = new System.Drawing.Point(623, 80);
+            this.comboBox2.Location = new System.Drawing.Point(777, 15);
             this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(140, 21);
@@ -118,36 +121,6 @@
             this.btnAccept.Text = "ACEPTAR";
             this.btnAccept.UseVisualStyleBackColor = false;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
-            // 
-            // txtBasic
-            // 
-            this.txtBasic.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBasic.Location = new System.Drawing.Point(178, 143);
-            this.txtBasic.Margin = new System.Windows.Forms.Padding(2);
-            this.txtBasic.Name = "txtBasic";
-            this.txtBasic.Size = new System.Drawing.Size(430, 23);
-            this.txtBasic.TabIndex = 4;
-            this.txtBasic.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtIntermediate
-            // 
-            this.txtIntermediate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtIntermediate.Location = new System.Drawing.Point(178, 174);
-            this.txtIntermediate.Margin = new System.Windows.Forms.Padding(2);
-            this.txtIntermediate.Name = "txtIntermediate";
-            this.txtIntermediate.Size = new System.Drawing.Size(430, 23);
-            this.txtIntermediate.TabIndex = 5;
-            this.txtIntermediate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtSurplus
-            // 
-            this.txtSurplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSurplus.Location = new System.Drawing.Point(178, 205);
-            this.txtSurplus.Margin = new System.Windows.Forms.Padding(2);
-            this.txtSurplus.Name = "txtSurplus";
-            this.txtSurplus.Size = new System.Drawing.Size(430, 23);
-            this.txtSurplus.TabIndex = 6;
-            this.txtSurplus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label1
             // 
@@ -185,19 +158,21 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Consumo Excedente:";
             // 
-            // dtpPeriod
+            // dtpYear
             // 
-            this.dtpPeriod.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpPeriod.CustomFormat = "yyyy";
-            this.dtpPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpPeriod.Location = new System.Drawing.Point(373, 114);
-            this.dtpPeriod.Margin = new System.Windows.Forms.Padding(2);
-            this.dtpPeriod.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-            this.dtpPeriod.Name = "dtpPeriod";
-            this.dtpPeriod.ShowUpDown = true;
-            this.dtpPeriod.Size = new System.Drawing.Size(71, 22);
-            this.dtpPeriod.TabIndex = 13;
+            this.dtpYear.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpYear.CustomFormat = "yyyy";
+            this.dtpYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpYear.Location = new System.Drawing.Point(373, 114);
+            this.dtpYear.Margin = new System.Windows.Forms.Padding(2);
+            this.dtpYear.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dtpYear.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
+            this.dtpYear.Name = "dtpYear";
+            this.dtpYear.ShowUpDown = true;
+            this.dtpYear.Size = new System.Drawing.Size(71, 22);
+            this.dtpYear.TabIndex = 13;
+            this.dtpYear.ValueChanged += new System.EventHandler(this.dtpPeriod_ValueChanged);
             // 
             // lblEmpleados
             // 
@@ -350,12 +325,57 @@
             this.cbPeriod.Size = new System.Drawing.Size(188, 25);
             this.cbPeriod.TabIndex = 27;
             // 
+            // nudBasic
+            // 
+            this.nudBasic.DecimalPlaces = 3;
+            this.nudBasic.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudBasic.Location = new System.Drawing.Point(178, 145);
+            this.nudBasic.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.nudBasic.Name = "nudBasic";
+            this.nudBasic.Size = new System.Drawing.Size(188, 22);
+            this.nudBasic.TabIndex = 28;
+            // 
+            // nudSurplus
+            // 
+            this.nudSurplus.DecimalPlaces = 3;
+            this.nudSurplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudSurplus.Location = new System.Drawing.Point(178, 207);
+            this.nudSurplus.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.nudSurplus.Name = "nudSurplus";
+            this.nudSurplus.Size = new System.Drawing.Size(188, 22);
+            this.nudSurplus.TabIndex = 29;
+            // 
+            // nudIntermediate
+            // 
+            this.nudIntermediate.DecimalPlaces = 3;
+            this.nudIntermediate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudIntermediate.Location = new System.Drawing.Point(178, 176);
+            this.nudIntermediate.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.nudIntermediate.Name = "nudIntermediate";
+            this.nudIntermediate.Size = new System.Drawing.Size(188, 22);
+            this.nudIntermediate.TabIndex = 30;
+            // 
             // Rates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(967, 615);
+            this.Controls.Add(this.nudIntermediate);
+            this.Controls.Add(this.nudSurplus);
+            this.Controls.Add(this.nudBasic);
             this.Controls.Add(this.cbPeriod);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.pbWarningIcon);
@@ -363,13 +383,10 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lblEmpleados);
-            this.Controls.Add(this.dtpPeriod);
+            this.Controls.Add(this.dtpYear);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtSurplus);
-            this.Controls.Add(this.txtIntermediate);
-            this.Controls.Add(this.txtBasic);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.cbService);
@@ -382,6 +399,9 @@
             this.Load += new System.EventHandler(this.Rates_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgRates)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBasic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSurplus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudIntermediate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -393,13 +413,10 @@
         private System.Windows.Forms.ComboBox cbService;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button btnAccept;
-        private System.Windows.Forms.TextBox txtBasic;
-        private System.Windows.Forms.TextBox txtIntermediate;
-        private System.Windows.Forms.TextBox txtSurplus;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dtpPeriod;
+        private System.Windows.Forms.DateTimePicker dtpYear;
         private System.Windows.Forms.Label lblEmpleados;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -415,5 +432,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SurplusLevel;
         private System.Windows.Forms.OpenFileDialog ofnMassive;
         private System.Windows.Forms.ComboBox cbPeriod;
+        private System.Windows.Forms.NumericUpDown nudBasic;
+        private System.Windows.Forms.NumericUpDown nudSurplus;
+        private System.Windows.Forms.NumericUpDown nudIntermediate;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cassandra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace Ambar.Model.DTO
         string service;
         string meter_serial_number;
         int service_number;
+        LocalDate start_period_date;
 
         public string First_Name { get => first_name; set => first_name = value; }
         public string Father_Last_Name { get => father_last_name; set => father_last_name = value; }
@@ -33,5 +35,6 @@ namespace Ambar.Model.DTO
         public string Service { get => service; set => service = value; }
         public string Meter_Serial_Number { get => meter_serial_number; set => meter_serial_number = value; }
         public int Service_Number { get => service_number; set => service_number = value; }
+        public LocalDate Start_Period_Date { get => start_period_date; set => start_period_date = value; }
     }
 }

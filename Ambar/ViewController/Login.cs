@@ -45,7 +45,8 @@ namespace Ambar.ViewController
                     case "Administrador":
                     {
                         AdministratorDAO dao = new AdministratorDAO();
-                        AdministratorDTO dto = dao.Login(txtUsername.Text, txtPassword.Text);
+                        AdministratorDTO dto = dao.Login(StringUtils.GetText(txtUsername.Text),  
+                            StringUtils.GetText(txtPassword.Text));
 
                         if (dto == null)
                         {
@@ -62,7 +63,8 @@ namespace Ambar.ViewController
                     case "Empleado":
                     {
                         EmployeeDAO dao = new EmployeeDAO();
-                        EmployeeLoginDTO dto = dao.Login(txtUsername.Text, txtPassword.Text);
+                        EmployeeLoginDTO dto = dao.Login(StringUtils.GetText(txtUsername.Text), 
+                            StringUtils.GetText(txtPassword.Text));
 
                         if (dto == null)
                         {
@@ -93,7 +95,8 @@ namespace Ambar.ViewController
                     case "Cliente":
                     {
                         ClientDAO dao = new ClientDAO();
-                        ClientLoginDTO dto = dao.Login(txtUsername.Text, txtPassword.Text);
+                        ClientLoginDTO dto = dao.Login(StringUtils.GetText(txtUsername.Text), 
+                            StringUtils.GetText(txtPassword.Text));
 
                         if (dto == null) // Credenciales incorrectas e usuario inexistente
                         {
@@ -136,6 +139,7 @@ namespace Ambar.ViewController
                 loginIntents.Item2++;
             }
         }
+
         private void ShowMenu(string position, string username)
         {
             UserCache.position = position;
@@ -157,6 +161,16 @@ namespace Ambar.ViewController
             }
         }
 
+        private void btnMinimized_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         private void Login_MouseDown(object sender, MouseEventArgs e)
         {
             WinAPI.ReleaseCapture();
@@ -167,16 +181,6 @@ namespace Ambar.ViewController
         {
             WinAPI.ReleaseCapture();
             WinAPI.SendMessage(this.Handle, WinAPI.WM_SYSCOMMAND, 0xf012, 0);
-        }
-
-        private void btnMinimized_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
         }
 
         void printErrorLogin(string error)
@@ -266,9 +270,9 @@ namespace Ambar.ViewController
 
         private void fadeIn_Tick(object sender, EventArgs e)
         {
-            if (Opacity < 1)
+            if (this.Opacity < 1)
             {
-                Opacity += 0.05f;
+                this.Opacity += 0.05f;
             }
         }
 

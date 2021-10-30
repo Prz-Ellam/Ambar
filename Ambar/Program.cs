@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Ambar.ViewController;
 using Ambar.Model.DAO;
 using Ambar.Model.DTO;
+using Ambar.Properties;
 
 namespace Ambar
 {
@@ -17,6 +18,12 @@ namespace Ambar
         // Borrar y actualizar tambien en remember users
         static void Main()
         {
+            if (Settings.Default.DateOffset == string.Empty)
+            {
+                Settings.Default.DateOffset = DateTime.Now.ToString();
+                Settings.Default.Save();
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Login());

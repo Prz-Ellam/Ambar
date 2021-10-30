@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtKilowatts = new System.Windows.Forms.TextBox();
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnMassiveCharge = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,20 +60,12 @@
             this.lblError = new System.Windows.Forms.Label();
             this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
+            this.nudKilowatts = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudKilowatts)).BeginInit();
             this.SuspendLayout();
-            // 
-            // txtKilowatts
-            // 
-            this.txtKilowatts.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtKilowatts.Location = new System.Drawing.Point(194, 112);
-            this.txtKilowatts.Margin = new System.Windows.Forms.Padding(2);
-            this.txtKilowatts.Name = "txtKilowatts";
-            this.txtKilowatts.Size = new System.Drawing.Size(287, 23);
-            this.txtKilowatts.TabIndex = 0;
-            this.txtKilowatts.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnAccept
             // 
@@ -258,7 +249,8 @@
             this.dtpPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpPeriod.Location = new System.Drawing.Point(194, 143);
             this.dtpPeriod.Margin = new System.Windows.Forms.Padding(2);
-            this.dtpPeriod.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+            this.dtpPeriod.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dtpPeriod.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpPeriod.Name = "dtpPeriod";
             this.dtpPeriod.ShowUpDown = true;
             this.dtpPeriod.Size = new System.Drawing.Size(287, 23);
@@ -417,12 +409,27 @@
             // 
             this.ofnMassive.Filter = "CSV (*.csv)|*.csv|XLSX (*.xlsx)|*.xlsx";
             // 
+            // nudKilowatts
+            // 
+            this.nudKilowatts.DecimalPlaces = 4;
+            this.nudKilowatts.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudKilowatts.Location = new System.Drawing.Point(194, 114);
+            this.nudKilowatts.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.nudKilowatts.Name = "nudKilowatts";
+            this.nudKilowatts.Size = new System.Drawing.Size(287, 22);
+            this.nudKilowatts.TabIndex = 28;
+            // 
             // Consumptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(976, 549);
+            this.Controls.Add(this.nudKilowatts);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.dtgContracts);
@@ -435,7 +442,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnMassiveCharge);
             this.Controls.Add(this.btnAccept);
-            this.Controls.Add(this.txtKilowatts);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Consumptions";
@@ -445,14 +451,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptions)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudKilowatts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txtKilowatts;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Button btnMassiveCharge;
         private System.Windows.Forms.Label label1;
@@ -485,5 +490,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Month;
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalKW;
         private System.Windows.Forms.OpenFileDialog ofnMassive;
+        private System.Windows.Forms.NumericUpDown nudKilowatts;
     }
 }

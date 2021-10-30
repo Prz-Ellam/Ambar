@@ -15,12 +15,13 @@ using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using Ambar.Common;
 using System.Globalization;
+using Ambar.Properties;
 
 namespace Ambar.ViewController
 {
     public partial class Rates : Form
     {
-        private RateDAO dao = new RateDAO();
+        private RateDAO rateDAO = new RateDAO();
 
         public Rates()
         {
@@ -29,57 +30,35 @@ namespace Ambar.ViewController
 
         private void Rates_Load(object sender, EventArgs e)
         {
-            dtgRates.DataSource = dao.ReadRates();
+            dtgRates.DataSource = rateDAO.ReadRates();
             cbService.SelectedIndex = 0;
+            dtpYear.MinDate = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (txtBasic.Text == string.Empty || txtIntermediate.Text == string.Empty || 
-                txtSurplus.Text == string.Empty || cbService.SelectedIndex <= 0 ||
+            // El sistema deberia dejar que haya tarifas de 0 ?
+            if (cbService.SelectedIndex <= 0 ||
                 cbPeriod.SelectedIndex == -1)
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                 return;
             }
-
-            if (!RegexUtils.IsDecimalNumber(txtBasic.Text) || 
-                !RegexUtils.IsDecimalNumber(txtIntermediate.Text) ||
-                !RegexUtils.IsDecimalNumber(txtSurplus.Text))
-            {
-                PrintError("TARIFAS SOLO ACEPTAN NÚMEROS DECIMALES");
-                return;
-            }
             
             RateDTO rate = new RateDTO();
-            rate.Basic_Level = Convert.ToDecimal(txtBasic.Text, CultureInfo.InvariantCulture);
-            rate.Intermediate_Level = Convert.ToDecimal(txtIntermediate.Text, CultureInfo.InvariantCulture);
-            rate.Surplus_Level = Convert.ToDecimal(txtSurplus.Text, CultureInfo.InvariantCulture);
-            rate.Year = dtpPeriod.Value.Year;
-
-            short month;
-            if (cbService.SelectedIndex == 1)
-            {
-                // ENERO, MARZO, MAYO, JULIO, SEPTIEMBRE, NOVIEMBRE
-                month = Convert.ToInt16(cbPeriod.SelectedIndex * 2 + 1);
-            }
-            else if (cbService.SelectedIndex == 2)
-            {
-                month = Convert.ToInt16(cbPeriod.SelectedIndex + 1);
-            }
-            else
-            {
-                return;
-            }
-            rate.Month = month;
+            rate.Basic_Level = nudBasic.Value;
+            rate.Intermediate_Level = nudIntermediate.Value;
+            rate.Surplus_Level = nudSurplus.Value;
+            rate.Year = dtpYear.Value.Year;
+            rate.Month = Convert.ToInt16(((ComboBoxItem)cbPeriod.SelectedItem).HiddenValue);
             rate.Service = cbService.SelectedItem.ToString();
 
-            dao.Create(rate);
+            rateDAO.Create(rate);
 
-            dtgRates.DataSource = dao.ReadRates();
+            dtgRates.DataSource = rateDAO.ReadRates();
 
             ClearForm();
-            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
         }
 
         private void btnMasiveCharge_Click(object sender, EventArgs e)
@@ -118,6 +97,16 @@ namespace Ambar.ViewController
                                 break;
                             }
 
+                            // Validar que mes y anio sean numericos (mes solo 1-12)
+                            if (!RegexUtils.IsMonthNumber(rateCSV.Mes) ||
+                                !RegexUtils.IsYearNumber(rateCSV.Anio))
+                            {
+                                PrintError("FECHA CON FORMATO INCORRECTO");
+                                finalRates.Clear();
+                                isCorrect = false;
+                                break;
+                            }
+
                             RateDTO rate = new RateDTO();
                             rate.Basic_Level = Convert.ToDecimal(rateCSV.Basica, CultureInfo.InvariantCulture);
                             rate.Intermediate_Level = Convert.ToDecimal(rateCSV.Intermedia, CultureInfo.InvariantCulture);
@@ -139,10 +128,10 @@ namespace Ambar.ViewController
 
                         foreach (var rate in finalRates)
                         {
-                            dao.Create(rate);
+                            rateDAO.Create(rate);
                         }
 
-                        dtgRates.DataSource = dao.ReadRates();
+                        dtgRates.DataSource = rateDAO.ReadRates();
 
                         if (isCorrect)
                         {
@@ -177,33 +166,44 @@ namespace Ambar.ViewController
         private void cbService_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbPeriod.Items.Clear();
+            DateTime offset = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
 
             switch (cbService.SelectedIndex)
             {
                 case 1:
                 {
-                    cbPeriod.Items.Add("ENERO-FEBRERO");
-                    cbPeriod.Items.Add("MARZO-ABRIL");
-                    cbPeriod.Items.Add("MAYO-JUNIO");
-                    cbPeriod.Items.Add("JULIO-AGOSTO");
-                    cbPeriod.Items.Add("SEPTIEMBRE-OCTUBRE");
-                    cbPeriod.Items.Add("NOVIEMBRE-DICIEMBRE");
+                    int bimester = 0;
+                    if (dtpYear.Value.Year == offset.Year)
+                    {
+                        bimester = DateUtils.FindBimester(offset) - 1;
+                    }
+
+                    string[] bimesters = new string[] { "ENERO-FEBRERO", "MARZO-ABRIL", "MAYO-JUNIO", "JULIO-AGOSTO",
+                    "SEPTIEMBRE-OCTUBRE", "NOVIEMBRE-DICIEMBRE" };
+                    int[] numbers = new int[] { 1, 3, 5, 7, 9, 11 };
+
+                    for (int i = bimester; i < 6; i++)
+                    {
+                        cbPeriod.Items.Add(new ComboBoxItem(bimesters[i], numbers[i]));
+                    }
                     break;
                 }
                 case 2:
                 {
-                    cbPeriod.Items.Add("ENERO");
-                    cbPeriod.Items.Add("FEBRERO");
-                    cbPeriod.Items.Add("MARZO");
-                    cbPeriod.Items.Add("ABRIL");
-                    cbPeriod.Items.Add("MAYO");
-                    cbPeriod.Items.Add("JUNIO");
-                    cbPeriod.Items.Add("JULIO");
-                    cbPeriod.Items.Add("AGOSTO");
-                    cbPeriod.Items.Add("SEPTIEMBRE");
-                    cbPeriod.Items.Add("OCTUBRE");
-                    cbPeriod.Items.Add("NOVIEMBRE");
-                    cbPeriod.Items.Add("DICIEMBRE");
+                    int month = 0;
+                    if (dtpYear.Value.Year == offset.Year)
+                    {
+                        month = offset.Month - 1;
+                    }
+
+                    string[] months = new string[] { "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO",
+                    "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
+                    int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+
+                    for (int i = month; i < 12; i++)
+                    {
+                        cbPeriod.Items.Add(new ComboBoxItem(months[i], numbers[i]));
+                    }
                     break;
                 }
             }
@@ -212,10 +212,10 @@ namespace Ambar.ViewController
         private void ClearForm()
         {
             cbService.SelectedIndex = 0;
-            dtpPeriod.Value = DateTime.Now;
-            txtBasic.Clear();
-            txtIntermediate.Clear();
-            txtSurplus.Clear();
+            dtpYear.Value = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
+            nudBasic.Value = 0;
+            nudIntermediate.Value = 0;
+            nudSurplus.Value = 0;
         }
 
         private void PrintError(string error)
@@ -224,6 +224,51 @@ namespace Ambar.ViewController
             lblError.Visible = true;
             lblError.Text = error;
         }
-     
+
+        private void dtpPeriod_ValueChanged(object sender, EventArgs e)
+        {
+            cbPeriod.Items.Clear();
+            DateTime offset = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
+
+            switch (cbService.SelectedIndex)
+            {
+                case 1:
+                {
+                    int bimester = 0;
+                    if (dtpYear.Value.Year == offset.Year)
+                    {
+                        bimester = DateUtils.FindBimester(offset) - 1;
+                    }
+
+                    string[] bimesters = new string[] { "ENERO-FEBRERO", "MARZO-ABRIL", "MAYO-JUNIO", "JULIO-AGOSTO",
+                    "SEPTIEMBRE-OCTUBRE", "NOVIEMBRE-DICIEMBRE" };
+                    int[] numbers = new int[] { 1, 3, 5, 7, 9, 11 };
+
+                    for (int i = bimester; i < 6; i++)
+                    {
+                        cbPeriod.Items.Add(new ComboBoxItem(bimesters[i], numbers[i]));
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    int month = 0;
+                    if (dtpYear.Value.Year == offset.Year)
+                    {
+                        month = offset.Month - 1;
+                    }
+
+                    string[] months = new string[] { "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO",
+                    "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
+                    int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+
+                    for (int i = month; i < 12; i++)
+                    {
+                        cbPeriod.Items.Add(new ComboBoxItem(months[i], numbers[i]));
+                    }
+                    break;
+                }
+            }
+        }
     }
 }

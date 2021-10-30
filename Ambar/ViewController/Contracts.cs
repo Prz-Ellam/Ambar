@@ -12,12 +12,13 @@ using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using Cassandra;
 using Ambar.Common;
+using Ambar.Properties;
 
 namespace Ambar.ViewController
 {
     public partial class Contracts : Form
     {
-        ContractDAO dao = new ContractDAO();
+        ContractDAO contractDao = new ContractDAO();
         int dtgPrevIndex = -1;
 
         public Contracts()
@@ -36,6 +37,8 @@ namespace Ambar.ViewController
             }
             this.dtgClients.DataSource = dtgClients;
             this.dtgClients.Columns["Emails"].Visible = false;
+            cbService.SelectedIndex = 0;
+            dtpStartPeriodDate.MinDate = Convert.ToDateTime(Settings.Default.DateOffset);
         }
 
         private void cbState_SelectedIndexChanged(object sender, EventArgs e)
@@ -299,10 +302,215 @@ namespace Ambar.ViewController
                 }
                 case 19: // Oaxaca
                 {
+                    cities = new string[] { "ABEJONES", "ACATLÁN DE PÉREZ FIGUEROA", "ASUNCIÓN CACALOTEPEC", 
+                        "ASUNCIÓN CUYOTEPEJI", "ASUNCIÓN IXTALTEPEC", "ASUNCIÓN NOCHIXTLÁN", "ASUNCIÓN OCOTLÁN", 
+                        "ASUNCIÓN TLACOLULITA", "AYOTZINTEPEC", "EL BARRIO DE LA SOLEDAD", "CALIHUALÁ", 
+                        "CANDELARIA LOXICHA", "CIÉNEGA DE ZIMATLÁN", "CIUDAD IXTEPEC", "COATECAS ALTAS", 
+                        "COICOYÁN DE LAS FLORES", "LA COMPAÑÍA", "CONCEPCIÓN BUENAVISTA", "CONCEPCIÓN PÁPALO", 
+                        "CONSTANCIA DEL ROSARIO", "COSOLAPA", "COSOLTEPEC", "CUILÁPAM DE GUERRERO", 
+                        "CUYAMECALCO VILLA DE ZARAGOZA", "CHAHUITES", "CHALCATONGO DE HIDALGO", 
+                        "CHIQUIHUITLÁN DE BENITO JUÁREZ", "HEROICA CIUDAD DE EJUTLA DE CRESPO", 
+                        "ELOXOCHITLÁN DE FLORES MAGÓN", "EL ESPINAL", "TAMAZULÁPAM DEL ESPÍRITU SANTO", 
+                        "FRESNILLO DE TRUJANO", "GUADALUPE ETLA", "GUADALUPE DE RAMÍREZ", "GUELATAO DE JUÁREZ", 
+                        "GUEVEA DE HUMBOLDT", "MESONES HIDALGO", "VILLA HIDALGO", "HEROICA CIUDAD DE HUAJUAPAN DE LEÓN", 
+                        "HUAUTEPEC", "HUAUTLA DE JIMÉNEZ", "IXTLÁN DE JUÁREZ", "HEROICA CIUDAD DE JUCHITÁN DE ZARAGOZA", 
+                        "LOMA BONITA", "MAGDALENA APASCO", "MAGDALENA JALTEPEC", "SANTA MAGDALENA JICOTLÁN", 
+                        "MAGDALENA MIXTEPEC", "MAGDALENA OCOTLÁN", "MAGDALENA PEÑASCO", "MAGDALENA TEITIPAC", 
+                        "MAGDALENA TEQUISISTLÁN", "MAGDALENA TLACOTEPEC", "MAGDALENA ZAHUATLÁN", "MARISCALA DE JUÁREZ", 
+                        "MÁRTIRES DE TACUBAYA", "MATÍAS ROMERO AVENDAÑO", "MAZATLÁN VILLA DE FLORES", 
+                        "MIAHUATLÁN DE PORFIRIO DÍAZ", "MIXISTLÁN DE LA REFORMA", "MONJAS", "NATIVIDAD", 
+                        "NAZARENO ETLA", "NEJAPA DE MADERO", "IXPANTEPEC NIEVES", "SANTIAGO NILTEPEC", 
+                        "OAXACA DE JUÁREZ", "OCOTLÁN DE MORELOS", "LA PE", "PINOTEPA DE DON LUIS", "PLUMA HIDALGO", 
+                        "SAN JOSÉ DEL PROGRESO", "PUTLA VILLA DE GUERRERO", "SANTA CATARINA QUIOQUITANI", 
+                        "REFORMA DE PINEDA", "LA REFORMA", "REYES ETLA", "ROJAS DE CUAUHTÉMOC", "SALINA CRUZ", 
+                        "SAN AGUSTÍN AMATENGO", "SAN AGUSTÍN ATENANGO", "SAN AGUSTÍN CHAYUCO", 
+                        "SAN AGUSTÍN DE LAS JUNTAS", "SAN AGUSTÍN ETLA", "SAN AGUSTÍN LOXICHA", 
+                        "SAN AGUSTÍN TLACOTEPEC", "SAN AGUSTÍN YATARENI", "SAN ANDRÉS CABECERA NUEVA", 
+                        "SAN ANDRÉS DINICUITI", "SAN ANDRÉS HUAXPALTEPEC", "SAN ANDRÉS HUAYÁPAM", 
+                        "SAN ANDRÉS IXTLAHUACA", "SAN ANDRÉS LAGUNAS", "SAN ANDRÉS NUXIÑO", "SAN ANDRÉS PAXTLÁN", 
+                        "SAN ANDRÉS SINAXTLA", "SAN ANDRÉS SOLAGA", "SAN ANDRÉS TEOTILÁLPAM", "SAN ANDRÉS TEPETLAPA", 
+                        "SAN ANDRÉS YAÁ", "SAN ANDRÉS ZABACHE", "SAN ANDRÉS ZAUTLA", "SAN ANTONINO CASTILLO VELASCO", 
+                        "SAN ANTONINO EL ALTO", "SAN ANTONINO MONTE VERDE", "SAN ANTONIO ACUTLA", 
+                        "SAN ANTONIO DE LA CAL", "SAN ANTONIO HUITEPEC", "SAN ANTONIO NANAHUATÍPAM", 
+                        "SAN ANTONIO SINICAHUA", "SAN ANTONIO TEPETLAPA", "SAN BALTAZAR CHICHICÁPAM", 
+                        "SAN BALTAZAR LOXICHA", "SAN BALTAZAR YATZACHI EL BAJO", "SAN BARTOLO COYOTEPEC", 
+                        "SAN BARTOLOMÉ AYAUTLA", "SAN BARTOLOMÉ LOXICHA", "SAN BARTOLOMÉ QUIALANA", 
+                        "SAN BARTOLOMÉ YUCUAÑE", "SAN BARTOLOMÉ ZOOGOCHO", "SAN BARTOLO SOYALTEPEC", 
+                        "SAN BARTOLO YAUTEPEC", "SAN BERNARDO MIXTEPEC", "SAN BLAS ATEMPA", "SAN CARLOS YAUTEPEC", 
+                        "SAN CRISTÓBAL AMATLÁN", "SAN CRISTÓBAL AMOLTEPEC", "SAN CRISTÓBAL LACHIRIOAG", 
+                        "SAN CRISTÓBAL SUCHIXTLAHUACA", "SAN DIONISIO DEL MAR", "SAN DIONISIO OCOTEPEC", 
+                        "SAN DIONISIO OCOTLÁN", "SAN ESTEBAN ATATLAHUCA", "SAN FELIPE JALAPA DE DÍAZ", 
+                        "SAN FELIPE TEJALÁPAM", "SAN FELIPE USILA", "SAN FRANCISCO CAHUACUÁ", "SAN FRANCISCO CAJONOS", 
+                        "SAN FRANCISCO CHAPULAPA", "SAN FRANCISCO CHINDÚA", "SAN FRANCISCO DEL MAR", 
+                        "SAN FRANCISCO HUEHUETLÁN", "SAN FRANCISCO IXHUATÁN", "SAN FRANCISCO JALTEPETONGO", 
+                        "SAN FRANCISCO LACHIGOLÓ", "SAN FRANCISCO LOGUECHE", "SAN FRANCISCO NUXAÑO", 
+                        "SAN FRANCISCO OZOLOTEPEC", "SAN FRANCISCO SOLA", "SAN FRANCISCO TELIXTLAHUACA",
+                        "SAN FRANCISCO TEOPAN", "SAN FRANCISCO TLAPANCINGO", "SAN GABRIEL MIXTEPEC", 
+                        "SAN ILDEFONSO AMATLÁN", "SAN ILDEFONSO SOLA", "SAN ILDEFONSO VILLA ALTA", 
+                        "SAN JACINTO AMILPAS", "SAN JACINTO TLACOTEPEC", "SAN JERÓNIMO COATLÁN", 
+                        "SAN JERÓNIMO SILACAYOAPILLA", "SAN JERÓNIMO SOSOLA", "SAN JERÓNIMO TAVICHE", 
+                        "SAN JERÓNIMO TECÓATL", "SAN JORGE NUCHITA", "SAN JOSÉ AYUQUILA", "SAN JOSÉ CHILTEPEC", 
+                        "SAN JOSÉ DEL PEÑASCO", "SAN JOSÉ ESTANCIA GRANDE", "SAN JOSÉ INDEPENDENCIA", 
+                        "SAN JOSÉ LACHIGUIRI", "SAN JOSÉ TENANGO", "SAN JUAN ACHIUTLA", "SAN JUAN ATEPEC", 
+                        "ÁNIMAS TRUJANO", "SAN JUAN BAUTISTA ATATLAHUCA", "SAN JUAN BAUTISTA COIXTLAHUACA", 
+                        "SAN JUAN BAUTISTA CUICATLÁN", "SAN JUAN BAUTISTA GUELACHE", "SAN JUAN BAUTISTA JAYACATLÁN", 
+                        "SAN JUAN BAUTISTA LO DE SOTO", "SAN JUAN BAUTISTA SUCHITEPEC", 
+                        "SAN JUAN BAUTISTA TLACOATZINTEPEC", "SAN JUAN BAUTISTA TLACHICHILCO", 
+                        "SAN JUAN BAUTISTA TUXTEPEC", "SAN JUAN CACAHUATEPEC", "SAN JUAN CIENEGUILLA", 
+                        "SAN JUAN COATZÓSPAM", "SAN JUAN COLORADO", "SAN JUAN COMALTEPEC", "SAN JUAN COTZOCÓN", 
+                        "SAN JUAN CHICOMEZÚCHIL", "SAN JUAN CHILATECA", "SAN JUAN DEL ESTADO", "SAN JUAN DEL RÍO", 
+                        "SAN JUAN DIUXI", "SAN JUAN EVANGELISTA ANALCO", "SAN JUAN GUELAVÍA", "SAN JUAN GUICHICOVI", 
+                        "SAN JUAN IHUALTEPEC", "SAN JUAN JUQUILA MIXES", "SAN JUAN JUQUILA VIJANOS", "SAN JUAN LACHAO", 
+                        "SAN JUAN LACHIGALLA", "SAN JUAN LAJARCIA", "SAN JUAN LALANA", "SAN JUAN DE LOS CUÉS", 
+                        "SAN JUAN MAZATLÁN", "SAN JUAN MIXTEPEC", "SAN JUAN ÑUMÍ", "SAN JUAN OZOLOTEPEC", 
+                        "SAN JUAN PETLAPA", "SAN JUAN QUIAHIJE", "SAN JUAN QUIOTEPEC", "SAN JUAN SAYULTEPEC", 
+                        "SAN JUAN TABAÁ", "SAN JUAN TAMAZOLA", "SAN JUAN TEITA", "SAN JUAN TEITIPAC", 
+                        "SAN JUAN TEPEUXILA", "SAN JUAN TEPOSCOLULA", "SAN JUAN YAEÉ", "SAN JUAN YATZONA", 
+                        "SAN JUAN YUCUITA", "SAN LORENZO", "SAN LORENZO ALBARRADAS", "SAN LORENZO CACAOTEPEC", 
+                        "SAN LORENZO CUAUNECUILTITLA", "SAN LORENZO TEXMELÚCAN", "SAN LORENZO VICTORIA", 
+                        "SAN LUCAS CAMOTLÁN", "SAN LUCAS OJITLÁN", "SAN LUCAS QUIAVINÍ", "SAN LUCAS ZOQUIÁPAM", 
+                        "SAN LUIS AMATLÁN", "SAN MARCIAL OZOLOTEPEC", "SAN MARCOS ARTEAGA", 
+                        "SAN MARTÍN DE LOS CANSECOS", "SAN MARTÍN HUAMELÚLPAM", "SAN MARTÍN ITUNYOSO", 
+                        "SAN MARTÍN LACHILÁ", "SAN MARTÍN PERAS", "SAN MARTÍN TILCAJETE", "SAN MARTÍN TOXPALAN", 
+                        "SAN MARTÍN ZACATEPEC", "SAN MATEO CAJONOS", "CAPULÁLPAM DE MÉNDEZ", "SAN MATEO DEL MAR", 
+                        "SAN MATEO YOLOXOCHITLÁN", "SAN MATEO ETLATONGO", "SAN MATEO NEJÁPAM", "SAN MATEO PEÑASCO", 
+                        "SAN MATEO PIÑAS", "SAN MATEO RÍO HONDO", "SAN MATEO SINDIHUI", "SAN MATEO TLAPILTEPEC", 
+                        "SAN MELCHOR BETAZA", "SAN MIGUEL ACHIUTLA", "SAN MIGUEL AHUEHUETITLÁN", "SAN MIGUEL ALOÁPAM", 
+                        "SAN MIGUEL AMATITLÁN", "SAN MIGUEL AMATLÁN", "SAN MIGUEL COATLÁN", "SAN MIGUEL CHICAHUA", 
+                        "SAN MIGUEL CHIMALAPA", "SAN MIGUEL DEL PUERTO", "SAN MIGUEL DEL RÍO", "SAN MIGUEL EJUTLA", 
+                        "SAN MIGUEL EL GRANDE", "SAN MIGUEL HUAUTLA", "SAN MIGUEL MIXTEPEC", "SAN MIGUEL PANIXTLAHUACA", 
+                        "SAN MIGUEL PERAS", "SAN MIGUEL PIEDRAS", "SAN MIGUEL QUETZALTEPEC", "SAN MIGUEL SANTA FLOR", 
+                        "VILLA SOLA DE VEGA", "SAN MIGUEL SOYALTEPEC", "SAN MIGUEL SUCHIXTEPEC", "VILLA TALEA DE CASTRO", 
+                        "SAN MIGUEL TECOMATLÁN", "SAN MIGUEL TENANGO", "SAN MIGUEL TEQUIXTEPEC", "SAN MIGUEL TILQUIÁPAM", 
+                        "SAN MIGUEL TLACAMAMA", "SAN MIGUEL TLACOTEPEC", "SAN MIGUEL TULANCINGO", "SAN MIGUEL YOTAO", 
+                        "SAN NICOLÁS", "SAN NICOLÁS HIDALGO", "SAN PABLO COATLÁN", "SAN PABLO CUATRO VENADOS", 
+                        "SAN PABLO ETLA", "SAN PABLO HUITZO", "SAN PABLO HUIXTEPEC", "SAN PABLO MACUILTIANGUIS", 
+                        "SAN PABLO TIJALTEPEC", "SAN PABLO VILLA DE MITLA", "SAN PABLO YAGANIZA", "SAN PEDRO AMUZGOS", 
+                        "SAN PEDRO APÓSTOL", "SAN PEDRO ATOYAC", "SAN PEDRO CAJONOS", "SAN PEDRO COXCALTEPEC CÁNTAROS", 
+                        "SAN PEDRO COMITANCILLO", "SAN PEDRO EL ALTO", "SAN PEDRO HUAMELULA", "SAN PEDRO HUILOTEPEC", 
+                        "SAN PEDRO IXCATLÁN", "SAN PEDRO IXTLAHUACA", "SAN PEDRO JALTEPETONGO", "SAN PEDRO JICAYÁN", 
+                        "SAN PEDRO JOCOTIPAC", "SAN PEDRO JUCHATENGO", "SAN PEDRO MÁRTIR", "SAN PEDRO MÁRTIR QUIECHAPA", 
+                        "SAN PEDRO MÁRTIR YUCUXACO", "SAN PEDRO MIXTEPEC", "SAN PEDRO MIXTEPEC", "SAN PEDRO MOLINOS", 
+                        "SAN PEDRO NOPALA", "SAN PEDRO OCOPETATILLO", "SAN PEDRO OCOTEPEC", "SAN PEDRO POCHUTLA", 
+                        "SAN PEDRO QUIATONI", "SAN PEDRO SOCHIÁPAM", "SAN PEDRO TAPANATEPEC", "SAN PEDRO TAVICHE", 
+                        "SAN PEDRO TEOZACOALCO", "SAN PEDRO TEUTILA", "SAN PEDRO TIDAÁ", "SAN PEDRO TOPILTEPEC", 
+                        "SAN PEDRO TOTOLÁPAM", "VILLA DE TUTUTEPEC", "SAN PEDRO YANERI", "SAN PEDRO YÓLOX", 
+                        "SAN PEDRO Y SAN PABLO AYUTLA", "VILLA DE ETLA", "SAN PEDRO Y SAN PABLO TEPOSCOLULA", 
+                        "SAN PEDRO Y SAN PABLO TEQUIXTEPEC", "SAN PEDRO YUCUNAMA", "SAN RAYMUNDO JALPAN", 
+                        "SAN SEBASTIÁN ABASOLO", "SAN SEBASTIÁN COATLÁN", "SAN SEBASTIÁN IXCAPA", 
+                        "SAN SEBASTIÁN NICANANDUTA", "SAN SEBASTIÁN RÍO HONDO", "SAN SEBASTIÁN TECOMAXTLAHUACA", 
+                        "SAN SEBASTIÁN TEITIPAC", "SAN SEBASTIÁN TUTLA", "SAN SIMÓN ALMOLONGAS", "SAN SIMÓN ZAHUATLÁN", 
+                        "SANTA ANA", "SANTA ANA ATEIXTLAHUACA", "SANTA ANA CUAUHTÉMOC", "SANTA ANA DEL VALLE", 
+                        "SANTA ANA TAVELA", "SANTA ANA TLAPACOYAN", "SANTA ANA YARENI", "SANTA ANA ZEGACHE", 
+                        "SANTA CATALINA QUIERÍ", "SANTA CATARINA CUIXTLA", "SANTA CATARINA IXTEPEJI", 
+                        "SANTA CATARINA JUQUILA", "SANTA CATARINA LACHATAO", "SANTA CATARINA LOXICHA", 
+                        "SANTA CATARINA MECHOACÁN", "SANTA CATARINA MINAS", "SANTA CATARINA QUIANÉ", 
+                        "SANTA CATARINA TAYATA", "SANTA CATARINA TICUÁ", "SANTA CATARINA YOSONOTÚ", 
+                        "SANTA CATARINA ZAPOQUILA", "SANTA CRUZ ACATEPEC", "SANTA CRUZ AMILPAS", "SANTA CRUZ DE BRAVO", 
+                        "SANTA CRUZ ITUNDUJIA", "SANTA CRUZ MIXTEPEC", "SANTA CRUZ NUNDACO", "SANTA CRUZ PAPALUTLA", 
+                        "SANTA CRUZ TACACHE DE MINA", "SANTA CRUZ TACAHUA", "SANTA CRUZ TAYATA", "SANTA CRUZ XITLA", 
+                        "SANTA CRUZ XOXOCOTLÁN", "SANTA CRUZ ZENZONTEPEC", "SANTA GERTRUDIS", "SANTA INÉS DEL MONTE", 
+                        "SANTA INÉS YATZECHE", "SANTA LUCÍA DEL CAMINO", "SANTA LUCÍA MIAHUATLÁN", 
+                        "SANTA LUCÍA MONTEVERDE", "SANTA LUCÍA OCOTLÁN", "SANTA MARÍA ALOTEPEC", "SANTA MARÍA APAZCO", 
+                        "SANTA MARÍA LA ASUNCIÓN", "HEROICA CIUDAD DE TLAXIACO", "AYOQUEZCO DE ALDAMA", 
+                        "SANTA MARÍA ATZOMPA", "SANTA MARÍA CAMOTLÁN", "SANTA MARÍA COLOTEPEC", "SANTA MARÍA CORTIJO", 
+                        "SANTA MARÍA COYOTEPEC", "SANTA MARÍA CHACHOÁPAM", "VILLA DE CHILAPA DE DÍAZ", 
+                        "SANTA MARÍA CHILCHOTLA", "SANTA MARÍA CHIMALAPA", "SANTA MARÍA DEL ROSARIO", 
+                        "SANTA MARÍA DEL TULE", "SANTA MARÍA ECATEPEC", "SANTA MARÍA GUELACÉ", "SANTA MARÍA GUIENAGATI", 
+                        "SANTA MARÍA HUATULCO", "SANTA MARÍA HUAZOLOTITLÁN", "SANTA MARÍA IPALAPA", "SANTA MARÍA IXCATLÁN", 
+                        "SANTA MARÍA JACATEPEC", "SANTA MARÍA JALAPA DEL MARQUÉS", "SANTA MARÍA JALTIANGUIS", "SANTA MARÍA LACHIXÍO", 
+                        "SANTA MARÍA MIXTEQUILLA", "SANTA MARÍA NATIVITAS", "SANTA MARÍA NDUAYACO", "SANTA MARÍA OZOLOTEPEC", 
+                        "SANTA MARÍA PÁPALO", "SANTA MARÍA PEÑOLES", "SANTA MARÍA PETAPA", "SANTA MARÍA QUIEGOLANI", 
+                        "SANTA MARÍA SOLA", "SANTA MARÍA TATALTEPEC", "SANTA MARÍA TECOMAVACA", "SANTA MARÍA TEMAXCALAPA", 
+                        "SANTA MARÍA TEMAXCALTEPEC", "SANTA MARÍA TEOPOXCO", "SANTA MARÍA TEPANTLALI", "SANTA MARÍA TEXCATITLÁN", 
+                        "SANTA MARÍA TLAHUITOLTEPEC", "SANTA MARÍA TLALIXTAC", "SANTA MARÍA TONAMECA", "SANTA MARÍA TOTOLAPILLA", 
+                        "SANTA MARÍA XADANI", "SANTA MARÍA YALINA", "SANTA MARÍA YAVESÍA", "SANTA MARÍA YOLOTEPEC", 
+                        "SANTA MARÍA YOSOYÚA", "SANTA MARÍA YUCUHITI", "SANTA MARÍA ZACATEPEC", "SANTA MARÍA ZANIZA", 
+                        "SANTA MARÍA ZOQUITLÁN", "SANTIAGO AMOLTEPEC", "SANTIAGO APOALA", "SANTIAGO APÓSTOL", "SANTIAGO ASTATA", 
+                        "SANTIAGO ATITLÁN", "SANTIAGO AYUQUILILLA", "SANTIAGO CACALOXTEPEC", "SANTIAGO CAMOTLÁN", 
+                        "SANTIAGO COMALTEPEC", "SANTIAGO CHAZUMBA", "SANTIAGO CHOÁPAM", "SANTIAGO DEL RÍO", 
+                        "SANTIAGO HUAJOLOTITLÁN", "SANTIAGO HUAUCLILLA", "SANTIAGO IHUITLÁN PLUMAS", "SANTIAGO IXCUINTEPEC", 
+                        "SANTIAGO IXTAYUTLA", "SANTIAGO JAMILTEPEC", "SANTIAGO JOCOTEPEC", "SANTIAGO JUXTLAHUACA", 
+                        "SANTIAGO LACHIGUIRI", "SANTIAGO LALOPA", "SANTIAGO LAOLLAGA", "SANTIAGO LAXOPA", 
+                        "SANTIAGO LLANO GRANDE", "SANTIAGO MATATLÁN", "SANTIAGO MILTEPEC", "SANTIAGO MINAS", "SANTIAGO NACALTEPEC", 
+                        "SANTIAGO NEJAPILLA", "SANTIAGO NUNDICHE", "SANTIAGO NUYOÓ", "SANTIAGO PINOTEPA NACIONAL", "SANTIAGO SUCHILQUITONGO", 
+                        "SANTIAGO TAMAZOLA", "SANTIAGO TAPEXTLA", "VILLA TEJÚPAM DE LA UNIÓN", "SANTIAGO TENANGO", 
+                        "SANTIAGO TEPETLAPA", "SANTIAGO TETEPEC", "SANTIAGO TEXCALCINGO", "SANTIAGO TEXTITLÁN", 
+                        "SANTIAGO TILANTONGO", "SANTIAGO TILLO", "SANTIAGO TLAZOYALTEPEC", "SANTIAGO XANICA", "SANTIAGO XIACUÍ", 
+                        "SANTIAGO YAITEPEC", "SANTIAGO YAVEO", "SANTIAGO YOLOMÉCATL", "SANTIAGO YOSONDÚA", "SANTIAGO YUCUYACHI", 
+                        "SANTIAGO ZACATEPEC", "SANTIAGO ZOOCHILA", "NUEVO ZOQUIÁPAM", "SANTO DOMINGO INGENIO", 
+                        "SANTO DOMINGO ALBARRADAS", "SANTO DOMINGO ARMENTA", "SANTO DOMINGO CHIHUITÁN", "SANTO DOMINGO DE MORELOS", 
+                        "SANTO DOMINGO IXCATLÁN", "SANTO DOMINGO NUXAÁ", "SANTO DOMINGO OZOLOTEPEC", 
+                        "SANTO DOMINGO PETAPA", "SANTO DOMINGO ROAYAGA", "SANTO DOMINGO TEHUANTEPEC", "SANTO DOMINGO TEOJOMULCO", 
+                        "SANTO DOMINGO TEPUXTEPEC", "SANTO DOMINGO TLATAYÁPAM", "SANTO DOMINGO TOMALTEPEC", 
+                        "SANTO DOMINGO TONALÁ", "SANTO DOMINGO TONALTEPEC", "SANTO DOMINGO XAGACÍA", 
+                        "SANTO DOMINGO YANHUITLÁN", "SANTO DOMINGO YODOHINO", "SANTO DOMINGO ZANATEPEC", "SANTOS REYES NOPALA", 
+                        "SANTOS REYES PÁPALO", "SANTOS REYES TEPEJILLO", "SANTOS REYES YUCUNÁ", "SANTO TOMÁS JALIEZA", 
+                        "SANTO TOMÁS MAZALTEPEC", "SANTO TOMÁS OCOTEPEC", "SANTO TOMÁS TAMAZULAPAN", 
+                        "SAN VICENTE COATLÁN", "SAN VICENTE LACHIXÍO", "SAN VICENTE NUÑÚ", "SILACAYOÁPAM", 
+                        "SITIO DE XITLAPEHUA", "SOLEDAD ETLA", "VILLA DE TAMAZULÁPAM DEL PROGRESO", 
+                        "TANETZE DE ZARAGOZA", "TANICHE", "TATALTEPEC DE VALDÉS", "TEOCOCUILCO DE MARCOS PÉREZ", 
+                        "TEOTITLÁN DE FLORES MAGÓN", "TEOTITLÁN DEL VALLE", "TEOTONGO", "TEPELMEME VILLA DE MORELOS", 
+                        "VILLA TEZOATLÁN DE SEGURA Y LUNA", "SAN JERÓNIMO TLACOCHAHUAYA", "TLACOLULA DE MATAMOROS", 
+                        "TLACOTEPEC PLUMAS", "TLALIXTAC DE CABRERA", "TOTONTEPEC VILLA DE MORELOS", "TRINIDAD ZAACHILA", 
+                        "LA TRINIDAD VISTA HERMOSA", "UNIÓN HIDALGO", "VALERIO TRUJANO", "SAN JUAN BAUTISTA VALLE NACIONAL", 
+                        "VILLA DÍAZ ORDAZ", "YAXE", "MAGDALENA YODOCONO DE PORFIRIO DÍAZ", "YOGANA", "YUTANDUCHI DE GUERRERO", 
+                        "VILLA DE ZAACHILA", "SAN MATEO YUCUTINDOO", "ZAPOTITLÁN LAGUNAS", "ZAPOTITLÁN PALMAS", 
+                        "SANTA INÉS DE ZARAGOZA", "ZIMATLÁN DE ÁLVAREZ" };
                     break;
                 }
                 case 20: // Puebla
                 {
+                    cities = new string[] { "ACAJETE", "ACATENO", "ACATLÁN", "ACATZINGO", "ACTEOPAN",
+                        "AHUACATLÁN", "AHUATLÁN", "AHUAZOTEPEC", "AHUEHUETITLA", "AJALPAN",
+                        "ALBINO ZERTUCHE", "ALJOJUCA", "ALTEPEXI", "AMIXTLÁN", "AMOZOC", "AQUIXTLA",
+                        "ATEMPAN", "ATEXCAL", "ATLIXCO", "ATOYATEMPAN", "ATZALA", "ATZITZIHUACÁN",
+                        "ATZITZINTLA", "AXUTLA", "AYOTOXCO DE GUERRERO", "CALPAN", "CALTEPEC",
+                        "CAMOCUAUTLA", "CAXHUACAN", "COATEPEC", "COATZINGO", "COHETZALA", "COHUECAN",
+                        "CORONANGO", "COXCATLÁN", "COYOMEAPAN", "COYOTEPEC", "CUAPIAXTLA DE MADERO",
+                        "CUAUTEMPAN", "CUAUTINCHÁN", "CUAUTLANCINGO", "CUAYUCA DE ANDRADE",
+                        "CUETZALAN DEL PROGRESO", "CUYOACO", "CHALCHICOMULA DE SESMA", "CHAPULCO",
+                        "CHIAUTLA", "CHIAUTZINGO", "CHICONCUAUTLA", "CHICHIQUILA", "CHIETLA",
+                        "CHIGMECATITLÁN", "CHIGNAHUAPAN", "CHIGNAUTLA", "CHILA", "CHILA DE LA SAL",
+                        "HONEY", "CHILCHOTLA", "CHINANTLA", "DOMINGO ARENAS", "ELOXOCHITLÁN", "EPATLÁN",
+                        "ESPERANZA", "FRANCISCO Z. MENA", "GENERAL FELIPE ÁNGELES", "GUADALUPE",
+                        "GUADALUPE VICTORIA", "HERMENEGILDO GALEANA", "HUAQUECHULA", "HUATLATLAUCA",
+                        "HUAUCHINANGO", "HUEHUETLA", "HUEHUETLÁN EL CHICO", "HUEJOTZINGO", "HUEYAPAN",
+                        "HUEYTAMALCO", "HUEYTLALPAN", "HUITZILAN DE SERDÁN", "HUITZILTEPEC",
+                        "ATLEQUIZAYAN", "IXCAMILPA DE GUERRERO", "IXCAQUIXTLA", "IXTACAMAXTITLÁN",
+                        "IXTEPEC", "IZÚCAR DE MATAMOROS", "JALPAN", "JOLALPAN", "JONOTLA", "JOPALA",
+                        "JUAN C. BONILLA", "JUAN GALINDO", "JUAN N. MÉNDEZ", "LAFRAGUA", "LIBRES",
+                        "LA MAGDALENA TLATLAUQUITEPEC", "MAZAPILTEPEC DE JUÁREZ", "MIXTLA", "MOLCAXAC",
+                        "CAÑADA MORELOS", "NAUPAN", "NAUZONTLA", "NEALTICAN", "NICOLÁS BRAVO",
+                        "NOPALUCAN", "OCOTEPEC", "OCOYUCAN", "OLINTLA", "ORIENTAL", "PAHUATLÁN",
+                        "PALMAR DE BRAVO", "PANTEPEC", "PETLALCINGO", "PIAXTLA", "PUEBLA", "QUECHOLAC",
+                        "QUIMIXTLÁN", "RAFAEL LARA GRAJALES", "LOS REYES DE JUÁREZ", "SAN ANDRÉS CHOLULA",
+                        "SAN ANTONIO CAÑADA", "SAN DIEGO LA MESA TOCHIMILTZINGO",
+                        "SAN FELIPE TEOTLALCINGO", "SAN FELIPE TEPATLÁN", "SAN GABRIEL CHILAC",
+                        "SAN GREGORIO ATZOMPA", "SAN JERÓNIMO TECUANIPAN", "SAN JERÓNIMO XAYACATLÁN", 
+                        "SAN JOSÉ CHIAPA", "SAN JOSÉ MIAHUATLÁN", "SAN JUAN ATENCO", "SAN JUAN ATZOMPA", 
+                        "SAN MARTÍN TEXMELUCAN", "SAN MARTÍN TOTOLTEPEC", "SAN MATÍAS TLALANCALECA", 
+                        "SAN MIGUEL IXITLÁN", "SAN MIGUEL XOXTLA", "SAN NICOLÁS BUENOS AIRES", 
+                        "SAN NICOLÁS DE LOS RANCHOS", "SAN PABLO ANICANO", "SAN PEDRO CHOLULA", 
+                        "SAN PEDRO YELOIXTLAHUACA", "SAN SALVADOR EL SECO", "SAN SALVADOR EL VERDE", 
+                        "SAN SALVADOR HUIXCOLOTLA", "SAN SEBASTIÁN TLACOTEPEC", 
+                        "SANTA CATARINA TLALTEMPAN", "SANTA INÉS AHUATEMPAN", "SANTA ISABEL CHOLULA", 
+                        "SANTIAGO MIAHUATLÁN", "HUEHUETLÁN EL GRANDE", "SANTO TOMÁS HUEYOTLIPAN", 
+                        "SOLTEPEC", "TECALI DE HERRERA", "TECAMACHALCO", "TECOMATLÁN", "TEHUACÁN", 
+                        "TEHUITZINGO", "TENAMPULCO", "TEOPANTLÁN", "TEOTLALCO", "TEPANCO DE LÓPEZ", 
+                        "TEPANGO DE RODRÍGUEZ", "TEPATLAXCO DE HIDALGO", "TEPEACA", "TEPEMAXALCO", 
+                        "TEPEOJUMA", "TEPETZINTLA", "TEPEXCO", "TEPEXI DE RODRÍGUEZ", "TEPEYAHUALCO", 
+                        "TEPEYAHUALCO DE CUAUHTÉMOC", "TETELA DE OCAMPO", "TETELES DE AVILA CASTILLO", 
+                        "TEZIUTLÁN", "TIANGUISMANALCO", "TILAPA", "TLACOTEPEC DE BENITO JUÁREZ", 
+                        "TLACUILOTEPEC", "TLACHICHUCA", "TLAHUAPAN", "TLALTENANGO", "TLANEPANTLA", 
+                        "TLAOLA", "TLAPACOYA", "TLAPANALÁ", "TLATLAUQUITEPEC", "TLAXCO", "TOCHIMILCO", 
+                        "TOCHTEPEC", "TOTOLTEPEC DE GUERRERO", "TULCINGO", "TUZAMAPAN DE GALEANA", 
+                        "TZICATLACOYAN", "VENUSTIANO CARRANZA", "VICENTE GUERRERO", 
+                        "XAYACATLÁN DE BRAVO", "XICOTEPEC", "XICOTLÁN", "XIUTETELCO", "XOCHIAPULCO", 
+                        "XOCHILTEPEC", "XOCHITLÁN DE VICENTE SUÁREZ", "XOCHITLÁN TODOS SANTOS", 
+                        "YAONÁHUAC", "YEHUALTEPEC", "ZACAPALA", "ZACAPOAXTLA", "ZACATLÁN", "ZAPOTITLÁN", 
+                        "ZAPOTITLÁN DE MÉNDEZ", "ZARAGOZA", "ZAUTLA", "ZIHUATEUTLA", "ZINACATEPEC", 
+                        "ZONGOZOTLA", "ZOQUIAPAN", "ZOQUITLÁN" };
                     break;
                 }
                 case 21: // Querétaro
@@ -400,6 +608,52 @@ namespace Ambar.ViewController
                 }
                 case 29: // Veracruz
                 {
+                    cities = new string[] { "ACAJETE", "ACATLÁN", "ACAYUCAN", "ACTOPAN", "ACULA", 
+                        "ACULTZINGO", "CAMARÓN DE TEJEDA", "ALPATLÁHUAC", 
+                        "ALTO LUCERO DE GUTIÉRREZ BARRIOS", "ALTOTONGA", "ALVARADO", "AMATITLÁN", 
+                        "NARANJOS AMATLÁN", "AMATLÁN DE LOS REYES", "ANGEL R. CABADA", "LA ANTIGUA", 
+                        "APAZAPAN", "AQUILA", "ASTACINGA", "ATLAHUILCO", "ATOYAC", "ATZACAN", "ATZALAN", 
+                        "TLALTETELA", "AYAHUALULCO", "BANDERILLA", "BENITO JUÁREZ", "BOCA DEL RÍO", 
+                        "CALCAHUALCO", "CAMERINO Z. MENDOZA", "CARRILLO PUERTO", "CATEMACO", 
+                        "CAZONES DE HERRERA", "CERRO AZUL", "CITLALTÉPETL", "COACOATZINTLA", 
+                        "COAHUITLÁN", "COATEPEC", "COATZACOALCOS", "COATZINTLA", "COETZALA", "COLIPA", 
+                        "COMAPA", "CÓRDOBA", "COSAMALOAPAN DE CARPIO", "COSAUTLÁN DE CARVAJAL", 
+                        "COSCOMATEPEC", "COSOLEACAQUE", "COTAXTLA", "COXQUIHUI", "COYUTLA", "CUICHAPA", 
+                        "CUITLÁHUAC", "CHACALTIANGUIS", "CHALMA", "CHICONAMEL", "CHICONQUIACO", 
+                        "CHICONTEPEC", "CHINAMECA", "CHINAMPA DE GOROSTIZA", "LAS CHOAPAS", "CHOCAMÁN", 
+                        "CHONTLA", "CHUMATLÁN", "EMILIANO ZAPATA", "ESPINAL", "FILOMENO MATA", "FORTÍN", 
+                        "GUTIÉRREZ ZAMORA", "HIDALGOTITLÁN", "HUATUSCO", "HUAYACOCOTLA", 
+                        "HUEYAPAN DE OCAMPO", "HUILOAPAN DE CUAUHTÉMOC", "IGNACIO DE LA LLAVE", 
+                        "ILAMATLÁN", "ISLA", "IXCATEPEC", "IXHUACÁN DE LOS REYES", "IXHUATLÁN DEL CAFÉ", 
+                        "IXHUATLANCILLO", "IXHUATLÁN DEL SURESTE", "IXHUATLÁN DE MADERO", "IXMATLAHUACAN", 
+                        "IXTACZOQUITLÁN", "JALACINGO", "XALAPA", "JALCOMULCO", "JÁLTIPAN", "JAMAPA", 
+                        "JESÚS CARRANZA", "XICO", "JILOTEPEC", "JUAN RODRÍGUEZ CLARA", 
+                        "JUCHIQUE DE FERRER", "LANDERO Y COSS", "LERDO DE TEJADA", "MAGDALENA", 
+                        "MALTRATA", "MANLIO FABIO ALTAMIRANO", "MARIANO ESCOBEDO", 
+                        "MARTÍNEZ DE LA TORRE", "MECATLÁN", "MECAYAPAN", "MEDELLÍN DE BRAVO", 
+                        "MIAHUATLÁN", "LAS MINAS", "MINATITLÁN", "MISANTLA", "MIXTLA DE ALTAMIRANO", 
+                        "MOLOACÁN", "NAOLINCO", "NARANJAL", "NAUTLA", "NOGALES", "OLUTA", "OMEALCA", 
+                        "ORIZABA", "OTATITLÁN", "OTEAPAN", "OZULUAMA DE MASCAREÑAS", "PAJAPAN", "PÁNUCO", 
+                        "PAPANTLA", "PASO DEL MACHO", "PASO DE OVEJAS", "LA PERLA", "PEROTE", 
+                        "PLATÓN SÁNCHEZ", "PLAYA VICENTE", "POZA RICA DE HIDALGO", 
+                        "LAS VIGAS DE RAMÍREZ", "PUEBLO VIEJO", "PUENTE NACIONAL", "RAFAEL DELGADO", 
+                        "RAFAEL LUCIO", "LOS REYES", "RÍO BLANCO", "SALTABARRANCA", 
+                        "SAN ANDRÉS TENEJAPAN", "SAN ANDRÉS TUXTLA", "SAN JUAN EVANGELISTA", 
+                        "SANTIAGO TUXTLA", "SAYULA DE ALEMÁN", "SOCONUSCO", "SOCHIAPA", 
+                        "SOLEDAD ATZOMPA", "SOLEDAD DE DOBLADO", "SOTEAPAN", "TAMALÍN", "TAMIAHUA", 
+                        "TAMPICO ALTO", "TANCOCO", "TANTIMA", "TANTOYUCA", "TATATILA", 
+                        "CASTILLO DE TEAYO", "TECOLUTLA", "TEHUIPANGO", "ÁLAMO TEMAPACHE", "TEMPOAL", 
+                        "TENAMPA", "TENOCHTITLÁN", "TEOCELO", "TEPATLAXCO", "TEPETLÁN", "TEPETZINTLA", 
+                        "TEQUILA", "JOSÉ AZUETA", "TEXCATEPEC", "TEXHUACÁN", "TEXISTEPEC", "TEZONAPA", 
+                        "TIERRA BLANCA", "TIHUATLÁN", "TLACOJALPAN", "TLACOLULAN", "TLACOTALPAN", 
+                        "TLACOTEPEC DE MEJÍA", "TLACHICHILCO", "TLALIXCOYAN", "TLALNELHUAYOCAN", 
+                        "TLAPACOYAN", "TLAQUILPA", "TLILAPAN", "TOMATLÁN", "TONAYÁN", "TOTUTLA", "TUXPAN", 
+                        "TUXTILLA", "URSULO GALVÁN", "VEGA DE ALATORRE", "VERACRUZ", "VILLA ALDAMA", 
+                        "XOXOCOTLA", "YANGA", "YECUATLA", "ZACUALPAN", "ZARAGOZA", "ZENTLA", "ZONGOLICA", 
+                        "ZONTECOMATLÁN DE LÓPEZ Y FUENTES", "ZOZOCOLCO DE HIDALGO", "AGUA DULCE", 
+                        "EL HIGO", "NANCHITAL DE LÁZARO CÁRDENAS DEL RÍO", "TRES VALLES", 
+                        "CARLOS A. CARRILLO", "TATAHUICAPAN DE JUÁREZ", "UXPANAPA", "SAN RAFAEL", 
+                        "SANTIAGO SOCHIAPAN" };
                     break;
                 }
                 case 30: // Yucatan
@@ -425,6 +679,19 @@ namespace Ambar.ViewController
                 }
                 case 31: // Zacatecas
                 {
+                    cities = new string[] { "APOZOL", "APULCO", "ATOLINGA", "BENITO JUÁREZ", "CALERA",
+                    "CAÑITAS DE FELIPE PESCADOR", "CONCEPCIÓN DEL ORO", "CUAUHTÉMOC", "CHALCHIHUITES",
+                    "FRESNILLO", "TRINIDAD GARCÍA DE LA CADENA", "GENARO CODINA",
+                    "GENERAL ENRIQUE ESTRADA", "GENERAL FRANCISCO R. MURGUÍA",
+                    "EL PLATEADO DE JOAQUÍN AMARO", "GENERAL PÁNFILO NATERA", "GUADALUPE", "HUANUSCO",
+                    "JALPA", "JEREZ", "JIMÉNEZ DEL TEUL", "JUAN ALDAMA", "JUCHIPILA", "LORETO",
+                    "LUIS MOYA", "MAZAPIL", "MELCHOR OCAMPO", "MEZQUITAL DEL ORO", "MIGUEL AUZA",
+                    "MOMAX", "MONTE ESCOBEDO", "MORELOS", "MOYAHUA DE ESTRADA", "NOCHISTLÁN DE MEJÍA",
+                    "NORIA DE ÁNGELES", "OJOCALIENTE", "PÁNUCO", "PINOS", "RÍO GRANDE", "SAIN ALTO",
+                    "EL SALVADOR", "SOMBRERETE", "SUSTICACÁN", "TABASCO", "TEPECHITLÁN", "TEPETONGO",
+                    "TEÚL DE GONZÁLEZ ORTEGA", "TLALTENANGO DE SÁNCHEZ ROMÁN", "VALPARAÍSO",
+                    "VETAGRANDE", "VILLA DE COS", "VILLA GARCÍA", "VILLA GONZÁLEZ ORTEGA", 
+                    "VILLA HIDALGO", "VILLANUEVA", "ZACATECAS", "TRANCOSO", "SANTA MARÍA DE LA PAZ" };
                     break;
                 }
             }
@@ -438,11 +705,7 @@ namespace Ambar.ViewController
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            // Agregar un contrato
-            if (txtMeterSerialNumber.Text == string.Empty || txtServiceNumber.Text == string.Empty || 
-                cbService.SelectedIndex == -1 || cbState.SelectedIndex == -1 || cbCity.SelectedIndex == -1 ||
-                txtSuburb.Text == string.Empty || txtStreet.Text == string.Empty || txtNumber.Text == string.Empty || 
-                txtPostalCode.Text == string.Empty)
+            if (txtServiceNumber.Text == string.Empty)
             {
                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                 return;
@@ -454,41 +717,68 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (dao.ContractExists(txtMeterSerialNumber.Text, Convert.ToInt32(txtServiceNumber.Text)))
+            ContractDTO contract = FillContract();
+
+            // Agregar un contrato
+            if (contract.Meter_Serial_Number == string.Empty || contract.Service == string.Empty || 
+                contract.State == string.Empty || contract.City == string.Empty || contract.Suburb == string.Empty ||
+                contract.Street == string.Empty || contract.Number == string.Empty || 
+                contract.Postal_Code == string.Empty || contract.First_Name == string.Empty ||
+                contract.Father_Last_Name == string.Empty || contract.Mother_Last_Name == string.Empty)
+            {
+                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                return;
+            }
+
+            if (contractDao.ContractExists(txtMeterSerialNumber.Text, contract.Service_Number))
             {
                 PrintError("EL NÚMERO DE MEDIDOR O NÚMERO DE SERVICIO YA EXISTE");
                 return;
             }
 
-            ContractDTO contract = FillContract();
-
-            dao.Create(contract);
+            contractDao.Create(contract);
 
             FillContractDataGridView();
 
             ClearForm();
-            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+
+
+            if (contract.Service == "Domestico")
+            {
+                int bimester = (contract.Start_Period_Date.Month - 1) / 2 + 1;
+                int month = (bimester + 1) * 2 - 1;
+
+                DateTime date = new DateTime(contract.Start_Period_Date.Year, month, contract.Start_Period_Date.Day);
+                string message = string.Format("La carga de consumos inicia el {0}", date.ToString("dd 'de' MMMM 'de' yy"));
+
+                MessageBox.Show(message, "Ambar", MessageBoxButtons.OK);
+            }
+            else if (contract.Service == "Industrial")
+            {
+
+            }
         }
 
         private ContractDTO FillContract()
         {
             ContractDTO contract = new ContractDTO();
-            DateTime today = DateTime.Now;
             contract.Contract_ID = Guid.NewGuid();
             contract.Client_ID = (Guid)dtgClients.Rows[dtgPrevIndex].Cells[0].Value;
             contract.First_Name = dtgClients.Rows[dtgPrevIndex].Cells[3].Value.ToString();
             contract.Father_Last_Name = dtgClients.Rows[dtgPrevIndex].Cells[4].Value.ToString();
             contract.Mother_Last_Name = dtgClients.Rows[dtgPrevIndex].Cells[5].Value.ToString();
-            contract.Meter_Serial_Number = StringUtils.GetText(txtMeterSerialNumber);
-            contract.Service_Number = Convert.ToInt32(StringUtils.GetText(txtServiceNumber));
+            contract.Meter_Serial_Number = StringUtils.GetText(txtMeterSerialNumber.Text);
+            contract.Service_Number = Convert.ToInt32(StringUtils.GetText(txtServiceNumber.Text));
             contract.State = cbState.Text;
             contract.City = cbCity.Text;
-            contract.Suburb = txtSuburb.Text;
-            contract.Street = txtStreet.Text;
-            contract.Number = txtNumber.Text;
-            contract.Postal_Code = txtPostalCode.Text;
+            contract.Suburb = StringUtils.GetText(txtSuburb.Text);
+            contract.Street = StringUtils.GetText(txtStreet.Text);
+            contract.Number = StringUtils.GetText(txtNumber.Text);
+            contract.Postal_Code = StringUtils.GetText(txtPostalCode.Text);
             contract.Service = cbService.Text;
-            contract.Start_Period_Date = new LocalDate(today.Year, today.Month, today.Day);
+            DateTime date = dtpStartPeriodDate.Value;
+            contract.Start_Period_Date = new LocalDate(date.Year, date.Month, date.Day);
             return contract;
         }
 
@@ -516,7 +806,7 @@ namespace Ambar.ViewController
         private void FillContractDataGridView()
         {
             // Se encuentra el UUID del Cliente utilizando el username como llave en un map
-            List<ContractDTO> contracts = dao.ReadClientContracts((Guid)dtgClients.Rows[dtgPrevIndex].Cells[0].Value);
+            List<ContractDTO> contracts = contractDao.ReadClientContracts((Guid)dtgClients.Rows[dtgPrevIndex].Cells[0].Value);
             List<ContractDTG> dtgContracts = new List<ContractDTG>();
             // Conversion de un DTO a un DTG
             foreach (var contract in contracts)

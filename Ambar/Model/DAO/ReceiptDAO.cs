@@ -19,25 +19,25 @@ namespace Ambar.Model.DAO
         public void GenerateMassiveReceipts(List<ReceiptDTO> receipts)
         {
             string query1 = "INSERT INTO RECEIPT(RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, " +
-                "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, " +
+                "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, " +
 	            "BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, " +
 	            "BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
             string query2 = "INSERT INTO RECEIPT_BY_METER_SERIAL_NUMBER(RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, " +
-               "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, " +
+               "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, " +
                "BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, " +
                "BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT) " +
-               "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
+               "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
             string query3 = "INSERT INTO RECEIPT_BY_SERVICE_NUMBER(RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, " +
-               "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, " +
+               "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, " +
                "BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, " +
                "BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT) " +
-               "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
+               "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
             string query4 = "INSERT INTO RECEIPT_BY_YEAR(RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, " +
-              "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, " +
+              "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, " +
               "BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, " +
               "BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT) " +
-              "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
+              "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
 
             foreach (var receipt in receipts)
             {
@@ -50,25 +50,25 @@ namespace Ambar.Model.DAO
                 var batch = new BatchStatement()
                     .Add(res1.Bind(id, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
                     receipt.City, receipt.Suburb, receipt.Street, receipt.Number, receipt.Postal_Code, receipt.Service, 
-                    receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Basic_Level,
+                    receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Day, receipt.Basic_Level,
                     receipt.Intermediate_Level, receipt.Surplus_Level, receipt.Basic_KW, receipt.Intermediate_KW,
                     receipt.Surplus_KW, receipt.Total_KW, receipt.Basic_Price, receipt.Intermediate_Price, receipt.Surplus_Price, 
                     receipt.Subtotal_Price, receipt.Tax, receipt.Total_Price, receipt.Amount_Pad, receipt.Pending_Amount))
                     .Add(res2.Bind(id, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
                     receipt.City, receipt.Suburb, receipt.Street, receipt.Number, receipt.Postal_Code, receipt.Service,
-                    receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Basic_Level,
+                    receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Day, receipt.Basic_Level,
                     receipt.Intermediate_Level, receipt.Surplus_Level, receipt.Basic_KW, receipt.Intermediate_KW,
                     receipt.Surplus_KW, receipt.Total_KW, receipt.Basic_Price, receipt.Intermediate_Price, receipt.Surplus_Price,
                     receipt.Subtotal_Price, receipt.Tax, receipt.Total_Price, receipt.Amount_Pad, receipt.Pending_Amount))
                     .Add(res3.Bind(id, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
                     receipt.City, receipt.Suburb, receipt.Street, receipt.Number, receipt.Postal_Code, receipt.Service,
-                    receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Basic_Level,
+                    receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Day, receipt.Basic_Level,
                     receipt.Intermediate_Level, receipt.Surplus_Level, receipt.Basic_KW, receipt.Intermediate_KW,
                     receipt.Surplus_KW, receipt.Total_KW, receipt.Basic_Price, receipt.Intermediate_Price, receipt.Surplus_Price,
                     receipt.Subtotal_Price, receipt.Tax, receipt.Total_Price, receipt.Amount_Pad, receipt.Pending_Amount))
                     .Add(res4.Bind(id, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
                     receipt.City, receipt.Suburb, receipt.Street, receipt.Number, receipt.Postal_Code, receipt.Service,
-                    receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Basic_Level,
+                    receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Day, receipt.Basic_Level,
                     receipt.Intermediate_Level, receipt.Surplus_Level, receipt.Basic_KW, receipt.Intermediate_KW,
                     receipt.Surplus_KW, receipt.Total_KW, receipt.Basic_Price, receipt.Intermediate_Price, receipt.Surplus_Price,
                     receipt.Subtotal_Price, receipt.Tax, receipt.Total_Price, receipt.Amount_Pad, receipt.Pending_Amount));
@@ -77,7 +77,30 @@ namespace Ambar.Model.DAO
 
             }
 
+        }
 
+        public bool ReceiptExists(string meterSerialNumber, int year, short month)
+        {
+            string query = "SELECT COUNT(RECEIPT_ID) FROM RECEIPT_BY_METER_SERIAL_NUMBER WHERE " +
+                "METER_SERIAL_NUMBER = '{0}' AND YEAR = {1} AND MONTH = {2};";
+            query = string.Format(query, meterSerialNumber, year, month);
+
+            var res = session.Execute(query);
+            Int64 count = 0;
+
+            foreach (var row in res)
+            {
+                count = row.GetValue<Int64>("system.count(receipt_id)");
+            }
+
+            if (count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public ReceiptDTO FindReceipt(int year, short month, string meterSerialNumber)
@@ -123,18 +146,44 @@ namespace Ambar.Model.DAO
             return dto;
         }
 
-        public List<ReceiptDTO> HistoricConsumption(int year, string meterSerialNumber)
+        public List<HistoricConsumptionDTO> HistoricConsumption(int year, string meterSerialNumber)
         {
-            string query = "SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT" +
+            string query = "SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT" +
                 " FROM RECEIPT_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}' AND YEAR = {1};";
-            return null;
+            query = string.Format(query, meterSerialNumber, year);
+
+            IEnumerable<HistoricConsumptionDTO> dto;
+
+            try
+            {
+                dto = mapper.Fetch<HistoricConsumptionDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return dto.ToList();
         }
 
-        public List<ReceiptDTO> HistoricConsumption(int year, int serviceNumber)
+        public List<HistoricConsumptionDTO> HistoricConsumption(int year, int serviceNumber)
         {
-            string query = "SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT" +
+            string query = "SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT" +
                 " FROM RECEIPT_BY_SERVICE_NUMBER WHERE SERVICE_NUMBER = {0} AND YEAR = {1};";
-            return null;
+            query = string.Format(query, serviceNumber, year);
+
+            IEnumerable<HistoricConsumptionDTO> dto;
+
+            try
+            {
+                dto = mapper.Fetch<HistoricConsumptionDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return dto.ToList();
         }
 
         public void PaidReceipt(decimal mount, decimal total, decimal paid, decimal pending)

@@ -11,6 +11,8 @@ namespace Ambar.Common
         public static Guid id { get; set; }
         public static string username { get; set; }
         public static string position { get; set; }
-        public static string enabled;
+
+        public static DateTime offset { get; set; }
+
     }
 }

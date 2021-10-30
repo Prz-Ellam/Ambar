@@ -360,6 +360,7 @@
             this.cbEmails.Name = "cbEmails";
             this.cbEmails.Size = new System.Drawing.Size(430, 25);
             this.cbEmails.TabIndex = 4;
+            this.cbEmails.SelectedIndexChanged += new System.EventHandler(this.cbEmails_SelectedIndexChanged);
             this.cbEmails.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbEmails_KeyDown);
             // 
             // lbDisableClients

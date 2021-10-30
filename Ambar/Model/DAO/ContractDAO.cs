@@ -128,17 +128,25 @@ namespace Ambar.Model.DAO
             return contracts.ToList();
         }
 
-        public bool ContractExists(string meterSerialNumber, int serviceNumber)
+        public bool ContractExists(string meterSerialNumber, Int64 serviceNumber)
         {
-            string query = "SELECT COUNT(METER_SERIAL_NUMBER) FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE " +
-                "METER_SERIAL_NUMBER = '{0}' AND SERVICE_NUMBER = {1};";
-            query = string.Format(query, meterSerialNumber, serviceNumber);
+            if (ContractExists(meterSerialNumber)) return true;
+            if (ContractExists(serviceNumber)) return true;
+
+            return false;
+        }
+
+        public bool ContractExists(Int64 serviceNumber)
+        {
+            string query = "SELECT COUNT(SERVICE_NUMBER) FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE " +
+                "SERVICE_NUMBER = {0};";
+            query = string.Format(query, serviceNumber);
 
             var res = session.Execute(query);
             Int64 count = 0;
             foreach (var row in res)
             {
-                count = row.GetValue<Int64>("system.count(meter_serial_number)");
+                count = row.GetValue<Int64>("system.count(service_number)");
             }
 
             if (count > 0)
@@ -233,7 +241,8 @@ namespace Ambar.Model.DAO
         public List<ContractForReceiptDTO> ReadContractsForReceipt(string service)
         {
             string query = "SELECT FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, SUBURB, STREET, NUMBER, " +
-                "POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER FROM CONTRACTS_BY_SERVICE WHERE SERVICE = '{0}'";
+                "POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, START_PERIOD_DATE FROM CONTRACTS_BY_SERVICE " +
+                "WHERE SERVICE = '{0}'";
             query = string.Format(query, service);
 
             IEnumerable<ContractForReceiptDTO> contracts;
@@ -249,6 +258,28 @@ namespace Ambar.Model.DAO
             return contracts.ToList();
         }
 
+        public bool IsClientContractExists(Guid id)
+        {
+            string query = "SELECT COUNT(CONTRACT_ID) FROM CLIENT_CONTRACTS WHERE CLIENT_ID = {0};";
+            query = string.Format(query, id);
+
+            var res = session.Execute(query);
+            Int64 count = 0;
+            foreach (var row in res)
+            {
+                count = row.GetValue<Int64>("system.count(contract_id)");
+            }
+
+            if (count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
     }
 }

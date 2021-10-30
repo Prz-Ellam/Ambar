@@ -14,15 +14,15 @@ namespace Ambar.Model.DAO
         public void Create(ConsumptionDTO dto)
         {
             string queryCon = "INSERT INTO CONSUMPTIONS(CONSUMPTION_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, " +
-                "INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             string queryYear = "INSERT INTO CONSUMPTIONS_BY_YEAR(CONSUMPTION_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, " +
-                "BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             string queryMeter = "INSERT INTO CONSUMPTIONS_BY_METER_SERIAL_NUMBER(CONSUMPTION_ID, METER_SERIAL_NUMBER, " +
-                "SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             string queryService = "INSERT INTO CONSUMPTIONS_BY_SERVICE_NUMBER(CONSUMPTION_ID, METER_SERIAL_NUMBER, " +
-                "SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             var con = session.Prepare(queryCon);
             var year = session.Prepare(queryYear);
@@ -31,13 +31,13 @@ namespace Ambar.Model.DAO
 
             var batch = new BatchStatement()
                            .Add(con.Bind(dto.Consumption_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
-                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month))
+                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day))
                            .Add(year.Bind(dto.Consumption_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
-                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month))
+                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day))
                            .Add(meter.Bind(dto.Consumption_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
-                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month))
+                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day))
                            .Add(service.Bind(dto.Consumption_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
-                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month));
+                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day));
 
             session.Execute(batch);
         }

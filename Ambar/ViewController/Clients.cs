@@ -25,6 +25,7 @@ namespace Ambar.ViewController
 
         int dgvPrevIndex = -1;
         int lbPrevIndex = -1;
+        int cbPrevIndex = -1;
 
         public Clients()
         {
@@ -47,10 +48,10 @@ namespace Ambar.ViewController
             // Objeto de transferencia de datos para la creacion de los datos del cliente
             ClientDTO client = new ClientDTO();
             client.User_ID = Guid.NewGuid();
-            client.First_Name = StringUtils.GetText(txtFirstName);
-            client.Father_Last_Name = StringUtils.GetText(txtFatherLastName);
-            client.Mother_Last_Name = StringUtils.GetText(txtMotherLastName);
-            client.CURP = StringUtils.GetText(txtCURP);
+            client.First_Name = StringUtils.GetText(txtFirstName.Text);
+            client.Father_Last_Name = StringUtils.GetText(txtFatherLastName.Text);
+            client.Mother_Last_Name = StringUtils.GetText(txtMotherLastName.Text);
+            client.CURP = StringUtils.GetText(txtCURP.Text);
             List<string> emailsAux = new List<string>();
             for (int i = 0; i < cbEmails.Items.Count; i++)
             {
@@ -59,9 +60,9 @@ namespace Ambar.ViewController
             client.Emails = emailsAux.AsEnumerable<string>();
             client.Date_Of_Birth = new LocalDate(dtpDateOfBirth.Value.Year, dtpDateOfBirth.Value.Month, dtpDateOfBirth.Value.Day);
             client.Gender = cbGender.Text;
-            client.User_Name = StringUtils.GetText(txtUsername);
-            client.Password = StringUtils.GetText(txtPassword);
-            string confirmPassword = StringUtils.GetText(txtConfirmPassword);
+            client.User_Name = StringUtils.GetText(txtUsername.Text);
+            client.Password = StringUtils.GetText(txtPassword.Text);
+            string confirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
 
             if (client.First_Name == string.Empty || client.Father_Last_Name == string.Empty ||
                 client.Mother_Last_Name == string.Empty || client.CURP == string.Empty ||
@@ -82,6 +83,15 @@ namespace Ambar.ViewController
             {
                 PrintError("VERIFICAR CURP");
                 return;
+            }
+
+            for (int i = 0; i < cbEmails.Items.Count; i++)
+            {
+                if (!RegexUtils.VerifyEmail(cbEmails.Items[i].ToString()))
+                {
+                    PrintError("VERIFICAR EMAILS");
+                    return;
+                }
             }
 
             if (clientDao.UserExists(client.User_Name))
@@ -107,10 +117,10 @@ namespace Ambar.ViewController
 
             ClientDTO client = new ClientDTO();
             client.User_ID = originalID;
-            client.First_Name = StringUtils.GetText(txtFirstName);
-            client.Father_Last_Name = StringUtils.GetText(txtFatherLastName);
-            client.Mother_Last_Name = StringUtils.GetText(txtMotherLastName);
-            client.CURP = StringUtils.GetText(txtCURP);
+            client.First_Name = StringUtils.GetText(txtFirstName.Text);
+            client.Father_Last_Name = StringUtils.GetText(txtFatherLastName.Text);
+            client.Mother_Last_Name = StringUtils.GetText(txtMotherLastName.Text);
+            client.CURP = StringUtils.GetText(txtCURP.Text);
             List<string> emailsAux = new List<string>();
             for (int i = 0; i < cbEmails.Items.Count; i++)
             {
@@ -119,9 +129,9 @@ namespace Ambar.ViewController
             client.Emails = emailsAux.AsEnumerable<string>();
             client.Date_Of_Birth = new LocalDate(dtpDateOfBirth.Value.Year, dtpDateOfBirth.Value.Month, dtpDateOfBirth.Value.Day);
             client.Gender = cbGender.Text;
-            client.User_Name = StringUtils.GetText(txtUsername);
-            client.Password = StringUtils.GetText(txtPassword);
-            string confirmPassword = StringUtils.GetText(txtConfirmPassword);
+            client.User_Name = StringUtils.GetText(txtUsername.Text);
+            client.Password = StringUtils.GetText(txtPassword.Text);
+            string confirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
 
             if (client.First_Name == string.Empty || client.Father_Last_Name == string.Empty ||
                 client.Mother_Last_Name == string.Empty || client.CURP == string.Empty ||
@@ -144,10 +154,13 @@ namespace Ambar.ViewController
                 return;
             }
 
-            if (!VerifyEmails())
+            for (int i = 0; i < cbEmails.Items.Count; i++)
             {
-                PrintError("VERIFICAR EMAILS");
-                return;
+                if (!RegexUtils.VerifyEmail(cbEmails.Items[i].ToString()))
+                {
+                    PrintError("VERIFICAR EMAILS");
+                    return;
+                }
             }
 
             if (clientDao.UserExists(client.User_Name) && originalUsername != client.User_Name)
@@ -182,6 +195,13 @@ namespace Ambar.ViewController
 
             if (res == DialogResult.Yes)
             {
+
+                if (new ContractDAO().IsClientContractExists(originalID))
+                {
+                    PrintError("NO SE PUEDE BORRAR CLIENTE PORQUE POSEE UN CONTRATO");
+                    return;
+                }
+
                 clientDao.Delete(originalID, originalUsername);
                 if (userRemember.RememberUserExists("Client", originalUsername))
                 {
@@ -201,26 +221,29 @@ namespace Ambar.ViewController
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (cbEmails.FindString(cbEmails.Text) == -1 && cbEmails.Text != string.Empty)
+                if (cbPrevIndex != -1)
                 {
-                    cbEmails.Items.Add(cbEmails.Text);
+                    // Si dejo vacio se borra, si escribio un email que ya existe, igual se borra para
+                    // que quede el que ya estaba
+                    if (cbEmails.Text == string.Empty || cbEmails.FindString(cbEmails.Text) != -1)
+                    {
+                        cbEmails.Items.RemoveAt(cbPrevIndex);
+                    }
+                    else
+                    {
+                        cbEmails.Items[cbPrevIndex] = cbEmails.Text;
+                    }
+                    cbPrevIndex = -1;
+                }
+                else
+                {
+                    if (cbEmails.FindString(cbEmails.Text) == -1 && cbEmails.Text != string.Empty)
+                    {
+                        cbEmails.Items.Add(cbEmails.Text);
+                    }
                 }
                 cbEmails.Text = "";
             }
-        }
-     
-        private bool VerifyEmails()
-        {
-            string res = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            for (int i = 0; i < cbEmails.Items.Count; i++)
-            {
-                if (!rx.IsMatch(cbEmails.Items[i].ToString())) {
-                    return false;
-                }
-            }
-            return true;
         }
 
         private void ClearForm()
@@ -347,5 +370,9 @@ namespace Ambar.ViewController
             lblError.Text = error;
         }
 
+        private void cbEmails_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbPrevIndex = cbEmails.SelectedIndex;
+        }
     }
 }
