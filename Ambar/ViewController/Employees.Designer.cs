@@ -65,6 +65,7 @@
             this.btnEnabling = new System.Windows.Forms.Button();
             this.txtDisable = new System.Windows.Forms.TextBox();
             this.lbDisableEmployees = new System.Windows.Forms.ListBox();
+            this.lblBlockedEmployees = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             this.SuspendLayout();
@@ -533,12 +534,25 @@
             this.lbDisableEmployees.TabIndex = 28;
             this.lbDisableEmployees.SelectedIndexChanged += new System.EventHandler(this.lbDisableEmployees_SelectedIndexChanged);
             // 
+            // lblBlockedEmployees
+            // 
+            this.lblBlockedEmployees.AutoSize = true;
+            this.lblBlockedEmployees.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlockedEmployees.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblBlockedEmployees.Location = new System.Drawing.Point(651, 54);
+            this.lblBlockedEmployees.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblBlockedEmployees.Name = "lblBlockedEmployees";
+            this.lblBlockedEmployees.Size = new System.Drawing.Size(226, 20);
+            this.lblBlockedEmployees.TabIndex = 29;
+            this.lblBlockedEmployees.Text = "EMPLEADOS BLOQUEADOS";
+            // 
             // Employees
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(926, 640);
+            this.ClientSize = new System.Drawing.Size(926, 657);
+            this.Controls.Add(this.lblBlockedEmployees);
             this.Controls.Add(this.lbDisableEmployees);
             this.Controls.Add(this.txtDisable);
             this.Controls.Add(this.btnEnabling);
@@ -619,5 +633,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DateOfBirth;
         private System.Windows.Forms.DataGridViewTextBoxColumn RFC;
         private System.Windows.Forms.DataGridViewTextBoxColumn CURP;
+        private System.Windows.Forms.Label lblBlockedEmployees;
     }
 }

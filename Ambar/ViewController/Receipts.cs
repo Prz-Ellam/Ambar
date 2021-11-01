@@ -22,76 +22,111 @@ namespace Ambar.ViewController
     public partial class Receipts : Form
     {
         ReceiptDAO receiptDAO = new ReceiptDAO();
+        DateDAO dateDAO = new DateDAO();
         public Receipts()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnGenerateReceipt_Click(object sender, EventArgs e)
         {
+            DateTime offset = dateDAO.GetDate();
+            string serviceType = cbService.SelectedItem.ToString();
+            if (serviceType == "Domestico" && offset.Month % 2 == 0)
+            {
+                offset = offset.AddMonths(-1); // En caso de que fuese febrero se pasaria a enero
+            }
+
+            DateTime request = new DateTime(dtpYear.Value.Year, ((ComboBoxItem)cbPeriod.SelectedItem).HiddenValue, 1);
+            if (request.Year != offset.Year || request.Month != offset.Month)
+            {
+                PrintError("NO SE PUEDEN EMITIR RECIBOS FUERA DEL PERIODO ACTUAL DE COBRO");
+                return;
+            }
+
+            if (receiptDAO.FindEmission(request.Year, Convert.ToInt16(request.Month), serviceType))
+            {
+                PrintError("YA SE EMITIERON LOS RECIBOS DE ESTE PERIODO");
+                return;
+            }
+
             // Generar los recibos
             ContractDAO contractDAO = new ContractDAO();
             ConsumptionDAO consumptionDAO = new ConsumptionDAO();
+
+            // Se trae todos los contratos de un determinado servicio
             List<ContractForReceiptDTO> contractsInfo = contractDAO.ReadContractsForReceipt(cbService.SelectedItem.ToString());
 
-            int actualYear = dtpYear.Value.Year;
-            short month;
-
-            month = Convert.ToInt16(((ComboBoxItem)cbPeriod.SelectedItem).HiddenValue);
-
+            // Encuentra la tarifa del periodo
             RateDAO rateDao = new RateDAO();
-            RateForReceiptDTO ratesInfo = rateDao.FindActiveRates(cbService.SelectedItem.ToString(), dtpYear.Value.Year, month);
+            RateForReceiptDTO ratesInfo = rateDao.FindActiveRates(cbService.SelectedItem.ToString(), request.Year, 
+                Convert.ToInt16(request.Month));
             if (ratesInfo == null)
             {
                 PrintError("NO HAY TARIFAS REGISTRADAS PARA ESTE PERIODO");
+                return;
                 // ERROR : No hay tarifa registrada para este periodo
             }
 
+
+            decimal iva = Convert.ToDecimal(ConfigurationManager.AppSettings["IVA"].ToString(), CultureInfo.InvariantCulture);
             List<ReceiptDTO> receipts = new List<ReceiptDTO>();
             foreach (var contractInfo in contractsInfo)
             {
-                if (receiptDAO.ReceiptExists(contractInfo.Meter_Serial_Number, actualYear, month))
+                if (receiptDAO.ReceiptExists(contractInfo.Meter_Serial_Number, request.Year, Convert.ToInt16(request.Month)))
                 {
                     continue; // Ignora si ya tiene un recibo en esa fecha
                 }
 
-                ConsumptionForReceiptDTO register;
 
                 // Validar el periodo y validar que no se haya cargado ya el recibo
-                LocalDate startDate = contractInfo.Start_Period_Date;
-                int startPeriod;
-                int actualPeriod;
-                int startYear = startDate.Year;
-                string serviceType = cbService.SelectedItem.ToString();
+                LocalDate startContractDate = contractInfo.Start_Period_Date;
+                DateTime start = new DateTime(startContractDate.Year, startContractDate.Month, 1);
 
-                if (serviceType == "Domestico" || serviceType == "Doméstico")
+                if (serviceType == "Domestico")
                 {
-                    startPeriod = (startDate.Month - 1) / 2;
-                    actualPeriod = (month - 1) / 2;
+                    start = (start.Month % 2 == 0) ? start.AddMonths(1) : start.AddMonths(2); // Mes que empieza el servicio
+                    if (request.Month % 2 == 0) request = request.AddMonths(-1); // el mes del date time picker 
                 }
                 else if (serviceType == "Industrial")
                 {
-                    startPeriod = startDate.Month - 1;
-                    actualPeriod = month - 1;
+                    start = start.AddMonths(1); // mes que empieza el servicio
                 }
                 else
                 {
-                    return; // ERROR (Esto no deberia ocurrir nunca)
+                    return; // ERROR: Todo murio
                 }
 
-                if (actualYear < startYear || (actualYear == startYear && actualPeriod < startPeriod))
+                if (request.Year < start.Year || (request.Year == start.Year && request.Month < start.Month))
                 {
                     continue; // Ignora los contratos que aun no empiezan su periodo de cobro
                 }
 
-                register = consumptionDAO.FindConsumption(dtpYear.Value.Year, month, contractInfo.Meter_Serial_Number);
 
-                if (register == null)
+                ConsumptionForReceiptDTO consumption = consumptionDAO.FindConsumption(request.Year, 
+                    Convert.ToInt16(request.Month), contractInfo.Meter_Serial_Number);
+                if (consumption == null)
                 {
                     PrintError("NO SE HAN CARGADO TODOS LOS CONSUMOS DE LOS CONTRATOS");
-                    // return;
-                    // ERROR: NO SE HAN CARGADO LOS CONSUMOS DE TODOS LOS CONTRATOS
+                    return;
                 }
+
+
+                DateTime prevDate = request;
+                if (serviceType == "Domestico")
+                {
+                    prevDate = request.AddMonths(-2);
+                }
+                else if (serviceType == "Industrial")
+                {
+                    prevDate = request.AddMonths(-1);
+                }
+                else
+                {
+                    return; // ERROR
+                }
+                ReceiptDTO prev = receiptDAO.FindReceipt(prevDate.Year, Convert.ToInt16(prevDate.Month), 
+                    contractInfo.Meter_Serial_Number);
 
                 ReceiptDTO dto = new ReceiptDTO();
                 dto.Receipt_ID = Guid.NewGuid();
@@ -107,21 +142,31 @@ namespace Ambar.ViewController
                 dto.Meter_Serial_Number = contractInfo.Meter_Serial_Number;
                 dto.Service_Number = contractInfo.Service_Number;
                 dto.Service = cbService.SelectedItem.ToString();
-                dto.Year = actualYear;
-                dto.Month = month;
+                dto.Year = request.Year;
+                dto.Month = Convert.ToInt16(request.Month);
+                if (prev == null)
+                {
+                    dto.Day = consumption.Day;
+                }
+                else
+                {
+                    DateTime prueba = new DateTime(prev.Year, prev.Month, DateUtils.ClampDay(prev.Year, prev.Month, prev.Day));
+                    prueba = prueba.AddDays(60);
+                    dto.Day = Convert.ToInt16(prueba.Day);
+                }
                 dto.Basic_Level = ratesInfo.Basic_Level;
                 dto.Intermediate_Level = ratesInfo.Intermediate_Level;
                 dto.Surplus_Level = ratesInfo.Surplus_Level;
-                dto.Basic_KW = register.Basic_KW;
-                dto.Intermediate_KW = register.Intermediate_KW;
-                dto.Surplus_KW = register.Surplus_KW;
+                dto.Basic_KW = consumption.Basic_KW;
+                dto.Intermediate_KW = consumption.Intermediate_KW;
+                dto.Surplus_KW = consumption.Surplus_KW;
                 dto.Total_KW = dto.Basic_KW + dto.Intermediate_KW + dto.Surplus_KW;
-                dto.Basic_Price = dto.Basic_Level * dto.Basic_KW;
-                dto.Intermediate_Price = dto.Intermediate_Level * dto.Intermediate_KW;
-                dto.Surplus_Price = dto.Surplus_Level * dto.Surplus_KW;
-                dto.Tax = Convert.ToDecimal(ConfigurationManager.AppSettings["IVA"].ToString(), CultureInfo.InvariantCulture);
+                dto.Basic_Price = Decimal.Round(dto.Basic_Level * dto.Basic_KW, 2);
+                dto.Intermediate_Price = Decimal.Round(dto.Intermediate_Level * dto.Intermediate_KW, 2);
+                dto.Surplus_Price = Decimal.Round(dto.Surplus_Level * dto.Surplus_KW, 2);
+                dto.Tax = dto.Surplus_Price * iva;
                 dto.Subtotal_Price = dto.Basic_Price + dto.Intermediate_Price + dto.Surplus_Price;
-                dto.Total_Price = dto.Subtotal_Price + dto.Subtotal_Price * dto.Tax;
+                dto.Total_Price = dto.Subtotal_Price + dto.Tax;
                 dto.Amount_Pad = 0;
                 dto.Pending_Amount = dto.Total_Price;
 
@@ -131,27 +176,27 @@ namespace Ambar.ViewController
             if (receipts.Count == 0)
             {
                 // NO HAY NADA QUE GENERAR
-                return;
             }
 
             receiptDAO.GenerateMassiveReceipts(receipts);
+            receiptDAO.EmitReceipt(request.Year, Convert.ToInt16(request.Month), serviceType);
+            dateDAO.UpdateDate(serviceType);
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
-
-            int a = 5;
-            a = 3;
         }
 
         void ClearForm()
         {
             cbService.SelectedIndex = 0;
+            txtSearchID.Clear();
+            rbMeterSerialNumber.Checked = true;
         }
 
-        private void cbService_SelectedIndexChanged(object sender, EventArgs e)
+        private void DateChange()
         {
             cbPeriod.Items.Clear();
-            DateTime offset = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
+            DateTime offset = dateDAO.GetDate();
 
             switch (cbService.SelectedIndex)
             {
@@ -194,19 +239,69 @@ namespace Ambar.ViewController
             }
         }
 
+        private void cbService_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DateChange();
+        }
+
+        private void dtpYear_ValueChanged(object sender, EventArgs e)
+        {
+            DateChange();
+        }
+
         private void Receipts_Load(object sender, EventArgs e)
         {
             cbService.SelectedIndex = 0;
-            dtpYear.MinDate = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
+            dtpYear.MinDate = dateDAO.GetDate();
+            dtpPeriodSearch.Value = dateDAO.GetDate();
         }
 
         private void btnPDF_Click(object sender, EventArgs e)
         {
             if (ofnReceipt.ShowDialog() == DialogResult.OK)
             {
-                ReceiptDTO receipt = receiptDAO.FindReceipt(dtpPeriodSearch.Value.Year, 
-                    Convert.ToInt16(dtpPeriodSearch.Value.Month), 
-                    txtMeterSerialNumber.Text);
+                DateTime request = new DateTime(dtpPeriodSearch.Value.Year, dtpPeriodSearch.Value.Month, 1);
+                ContractDAO contractDAO = new ContractDAO();
+
+                ReceiptDTO receipt = new ReceiptDTO();
+                if (rbMeterSerialNumber.Checked)
+                {
+                    string serviceType = contractDAO.FindServiceType(txtSearchID.Text);
+                    if (serviceType == null)
+                    {
+                        return;
+                    }
+                    if (serviceType == "Domestico" && request.Month % 2 == 0)
+                    {
+                        request = request.AddMonths(-1); // En caso de que fuese febrero se pasaria a enero
+                    }
+                    receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), txtSearchID.Text);
+                    if (receipt == null)
+                    {
+                        return;
+                    }
+                }
+                else if (rbServiceNumber.Checked)
+                {
+                    string serviceType = contractDAO.FindServiceType(Convert.ToInt64(txtSearchID.Text));
+                    if (serviceType == null)
+                    {
+                        return;
+                    }
+                    if (serviceType == "Domestico" && request.Month % 2 == 0)
+                    {
+                        request = request.AddMonths(-1); // En caso de que fuese febrero se pasaria a enero
+                    }
+                    receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), Convert.ToInt64(txtSearchID.Text));
+                    if (receipt == null)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    // ERROR
+                }
 
                 PdfDocument document = new PdfDocument();
                 PdfPage page = document.AddPage();
@@ -242,38 +337,54 @@ namespace Ambar.ViewController
 
 
                 gfx.DrawString("NO. DE SERVICIO: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 200));
-                gfx.DrawString(receipt.Service_Number.ToString(), new XFont("Arial", 14), XBrushes.Black, new XPoint(120, 200));
+                gfx.DrawString(receipt.Service_Number.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 200));
 
                 gfx.DrawString("PERIODO FACTURADO: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 220));
-                //DateTime start = new DateTime(1, receipt.Month, receipt.Year);
-                //DateTime end = start.AddMonths(2);
+                
+                DateTime start = new DateTime(receipt.Year, receipt.Month, 
+                    DateUtils.ClampDay(receipt.Year, receipt.Month, receipt.Day));
+                DateTime end = start.AddDays(60);
 
-                gfx.DrawString("Básico: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 280));
-                gfx.DrawString(receipt.Basic_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 280));
-                gfx.DrawString(receipt.Basic_Level.ToString("0.000"), new XFont("Arial", 12), XBrushes.Black, new XPoint(200, 280));
-                gfx.DrawString(receipt.Basic_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 280));
+                string period = start.ToString("dd MMM yy").ToUpper() + " - " + end.ToString("dd MMM yy").ToUpper();
+                gfx.DrawString(period, new XFont("Arial", 12), XBrushes.Black, new XPoint(160, 220));
 
-                gfx.DrawString("Intermedio: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 300));
-                gfx.DrawString(receipt.Intermediate_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 300));
-                gfx.DrawString(receipt.Intermediate_Level.ToString("0.000"), new XFont("Arial", 12), XBrushes.Black, new XPoint(200, 300));
-                gfx.DrawString(receipt.Intermediate_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 300));
+                gfx.DrawString("LÍMITE DE PAGO: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 240));
+                DateTime expirationDay = end.AddDays(19);
+                gfx.DrawString(expirationDay.ToString("dd MMM yy").ToUpper(), new XFont("Arial", 12), XBrushes.Black, new XPoint(150, 240));
 
-                gfx.DrawString("Excedente: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 320));
-                gfx.DrawString(receipt.Surplus_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 320));
-                gfx.DrawString(receipt.Surplus_Level.ToString("0.000"), new XFont("Arial", 12), XBrushes.Black, new XPoint(200, 320));
-                gfx.DrawString(receipt.Surplus_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 320));
+                gfx.DrawString("CORTE A PARTIR: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 260));
+                DateTime cutDay = expirationDay.AddDays(1);
+                gfx.DrawString(cutDay.ToString("dd MMM yy").ToUpper(), new XFont("Arial", 12), XBrushes.Black, new XPoint(150, 260));
 
-                gfx.DrawString(receipt.Total_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 340));
-                gfx.DrawString(receipt.Subtotal_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 340));
+                gfx.DrawString("NO. MEDIDOR: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 280));
+                gfx.DrawString(receipt.Meter_Serial_Number, new XFont("Arial", 12), XBrushes.Black, new XPoint(100, 280));
+
+                gfx.DrawString("Básico: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 340));
+                gfx.DrawString(receipt.Basic_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 340));
+                gfx.DrawString(receipt.Basic_Level.ToString("0.000"), new XFont("Arial", 12), XBrushes.Black, new XPoint(200, 340));
+                gfx.DrawString(receipt.Basic_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 340));
+
+                gfx.DrawString("Intermedio: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 360));
+                gfx.DrawString(receipt.Intermediate_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 360));
+                gfx.DrawString(receipt.Intermediate_Level.ToString("0.000"), new XFont("Arial", 12), XBrushes.Black, new XPoint(200, 360));
+                gfx.DrawString(receipt.Intermediate_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 360));
+
+                gfx.DrawString("Excedente: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 380));
+                gfx.DrawString(receipt.Surplus_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 380));
+                gfx.DrawString(receipt.Surplus_Level.ToString("0.000"), new XFont("Arial", 12), XBrushes.Black, new XPoint(200, 380));
+                gfx.DrawString(receipt.Surplus_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 380));
+
+                gfx.DrawString(receipt.Total_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 400));
+                gfx.DrawString(receipt.Subtotal_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 400));
 
 
-                gfx.DrawString("Energía", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 400));
-                gfx.DrawString(receipt.Subtotal_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 400));
-                gfx.DrawString("IVA 16%", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 420));
-                gfx.DrawString((receipt.Subtotal_Price * receipt.Tax).ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 420));
-                gfx.DrawString("Fac. del Periodo", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 440));
-                gfx.DrawString("Total", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 460));
-                gfx.DrawString("$" + receipt.Total_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 460));
+                gfx.DrawString("Energía", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 440));
+                gfx.DrawString(receipt.Subtotal_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 440));
+                gfx.DrawString("IVA 16%", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 460));
+                gfx.DrawString(receipt.Tax.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 460));
+                gfx.DrawString("Fac. del Periodo", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 480));
+                gfx.DrawString("Total", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 500));
+                gfx.DrawString("$" + receipt.Total_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 500));
 
 
                 gfx.DrawString("TOTAL A PAGAR", new XFont("Arial", 12), XBrushes.Black, new XPoint(360, 40));
@@ -291,6 +402,8 @@ namespace Ambar.ViewController
 
                 document.Save(ofnReceipt.FileName);
 
+                ClearForm();
+                MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
             }
         }
 
@@ -300,7 +413,6 @@ namespace Ambar.ViewController
             lblError.Visible = true;
             lblError.Text = error;
         }
-
 
 
         private string GetNumberString(int number)
@@ -584,50 +696,5 @@ namespace Ambar.ViewController
 
         }
 
-        private void dtpYear_ValueChanged(object sender, EventArgs e)
-        {
-            cbPeriod.Items.Clear();
-            DateTime offset = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
-
-            switch (cbService.SelectedIndex)
-            {
-                case 1:
-                {
-                    int bimester = 0;
-                    if (dtpYear.Value.Year == offset.Year)
-                    {
-                        bimester = DateUtils.FindBimester(offset) - 1;
-                    }
-
-                    string[] bimesters = new string[] { "ENERO-FEBRERO", "MARZO-ABRIL", "MAYO-JUNIO", "JULIO-AGOSTO",
-                    "SEPTIEMBRE-OCTUBRE", "NOVIEMBRE-DICIEMBRE" };
-                    int[] numbers = new int[] { 1, 3, 5, 7, 9, 11 };
-                    
-                    for (int i = bimester; i < 6; i++)
-                    {
-                        cbPeriod.Items.Add(new ComboBoxItem(bimesters[i], numbers[i]));
-                    }
-                    break;
-                }
-                case 2:
-                {
-                    int month = 0;
-                    if (dtpYear.Value.Year == offset.Year)
-                    {
-                        month = offset.Month - 1;
-                    }
-
-                    string[] months = new string[] { "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO",
-                    "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
-                    int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-
-                    for (int i = month; i < 12; i++)
-                    {
-                        cbPeriod.Items.Add(new ComboBoxItem(months[i], numbers[i]));
-                    }
-                    break;
-                }
-            }
-        }
     }
 }

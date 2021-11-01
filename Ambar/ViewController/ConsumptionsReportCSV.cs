@@ -1,4 +1,5 @@
 ﻿using Ambar.Model.DTO;
+using CsvHelper.Configuration.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,17 @@ namespace Ambar.ViewController
 {
     class ConsumptionsReportCSV
     {
+        [NameAttribute("Año")]
         int year;
+        [NameAttribute("Mes")]
         short month;
+        [NameAttribute("Número de medidor")]
         string meter_serial_number;
+        [NameAttribute("Consumo de kW básico")]
         decimal basic_kw;
+        [NameAttribute("Consumo de kW intermedio")]
         decimal intermediate_kw;
+        [NameAttribute("Consumo de kW excedente")]
         decimal surplus_kw;
 
         public ConsumptionsReportCSV(ConsumptionDTO dto)

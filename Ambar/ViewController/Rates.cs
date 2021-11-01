@@ -16,12 +16,14 @@ using Ambar.Model.DTO;
 using Ambar.Common;
 using System.Globalization;
 using Ambar.Properties;
+using Cassandra;
 
 namespace Ambar.ViewController
 {
     public partial class Rates : Form
     {
         private RateDAO rateDAO = new RateDAO();
+        private DateDAO dateDAO = new DateDAO();
 
         public Rates()
         {
@@ -32,7 +34,8 @@ namespace Ambar.ViewController
         {
             dtgRates.DataSource = rateDAO.ReadRates();
             cbService.SelectedIndex = 0;
-            dtpYear.MinDate = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
+
+            dtpYear.MinDate = dateDAO.GetDate();
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -165,54 +168,13 @@ namespace Ambar.ViewController
 
         private void cbService_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cbPeriod.Items.Clear();
-            DateTime offset = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
-
-            switch (cbService.SelectedIndex)
-            {
-                case 1:
-                {
-                    int bimester = 0;
-                    if (dtpYear.Value.Year == offset.Year)
-                    {
-                        bimester = DateUtils.FindBimester(offset) - 1;
-                    }
-
-                    string[] bimesters = new string[] { "ENERO-FEBRERO", "MARZO-ABRIL", "MAYO-JUNIO", "JULIO-AGOSTO",
-                    "SEPTIEMBRE-OCTUBRE", "NOVIEMBRE-DICIEMBRE" };
-                    int[] numbers = new int[] { 1, 3, 5, 7, 9, 11 };
-
-                    for (int i = bimester; i < 6; i++)
-                    {
-                        cbPeriod.Items.Add(new ComboBoxItem(bimesters[i], numbers[i]));
-                    }
-                    break;
-                }
-                case 2:
-                {
-                    int month = 0;
-                    if (dtpYear.Value.Year == offset.Year)
-                    {
-                        month = offset.Month - 1;
-                    }
-
-                    string[] months = new string[] { "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO",
-                    "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
-                    int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-
-                    for (int i = month; i < 12; i++)
-                    {
-                        cbPeriod.Items.Add(new ComboBoxItem(months[i], numbers[i]));
-                    }
-                    break;
-                }
-            }
+            DateChange();
         }
 
         private void ClearForm()
         {
             cbService.SelectedIndex = 0;
-            dtpYear.Value = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
+            dtpYear.Value = dtpYear.MinDate;
             nudBasic.Value = 0;
             nudIntermediate.Value = 0;
             nudSurplus.Value = 0;
@@ -227,8 +189,13 @@ namespace Ambar.ViewController
 
         private void dtpPeriod_ValueChanged(object sender, EventArgs e)
         {
+            DateChange();
+        }
+
+        public void DateChange()
+        {
             cbPeriod.Items.Clear();
-            DateTime offset = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
+            DateTime offset = dateDAO.GetDate();
 
             switch (cbService.SelectedIndex)
             {

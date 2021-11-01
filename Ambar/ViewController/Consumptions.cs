@@ -23,8 +23,9 @@ namespace Ambar.ViewController
 {
     public partial class Consumptions : Form
     {
-        private ConsumptionDAO dao = new ConsumptionDAO();
+        private ConsumptionDAO consumptionDAO = new ConsumptionDAO();
         private ContractDAO contractDAO = new ContractDAO();
+        private DateDAO dateDAO = new DateDAO();
         public Consumptions()
         {
             InitializeComponent();
@@ -32,16 +33,17 @@ namespace Ambar.ViewController
 
         private void Consumos_Load(object sender, EventArgs e)
         {
-            ContractDAO contractDAO = new ContractDAO();
             List<ContractDTO> contracts = contractDAO.ReadContracts();
-            List<ContractDTG> dtgContracts = new List<ContractDTG>();
+            List<ContractDTG> dtgContractsList = new List<ContractDTG>();
             foreach (var contract in contracts)
             {
-                dtgContracts.Add(new ContractDTG(contract));
+                dtgContractsList.Add(new ContractDTG(contract));
             }
-            this.dtgContracts.DataSource = dtgContracts;
-            dtgConsumptions.DataSource = dao.ReadConsumptions();
-            dtpPeriod.MinDate = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
+            dtgContracts.DataSource = dtgContractsList;
+
+            dtgConsumptions.DataSource = consumptionDAO.ReadConsumptions();
+
+            dtpPeriod.MinDate = dateDAO.GetDate();
         }
 
         private void FillDataGridView()
@@ -50,58 +52,68 @@ namespace Ambar.ViewController
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (!contractDAO.ContractExists(txtMeterSerialNumber.Text))
+            ConsumptionDTO consumption = new ConsumptionDTO();
+            consumption.Consumption_ID = Guid.NewGuid();
+            consumption.Meter_Serial_Number = StringUtils.GetText(txtMeterSerialNumber.Text);
+            consumption.Total_KW = nudKilowatts.Value;
+
+            if (consumption.Meter_Serial_Number == string.Empty)
+            {
+                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                return;
+            }
+
+            if (!contractDAO.ContractExists(consumption.Meter_Serial_Number))
             {
                 PrintError("EL NUMERO DE MEDIDOR NO EXISTE ACTUALMENTE");
                 return;
             }
 
-            string serviceType = contractDAO.FindServiceType(txtMeterSerialNumber.Text);
-            short month = Convert.ToInt16(dtpPeriod.Value.Month);
+            consumption.Service_Number = contractDAO.ReadServiceNumberByMeterSerialNumber(consumption.Meter_Serial_Number);
+            string serviceType = contractDAO.FindServiceType(consumption.Meter_Serial_Number);
 
-            LocalDate startDate = contractDAO.FindStartPeriodDate(txtMeterSerialNumber.Text);
-            int startPeriod;
-            int actualPeriod;
-            int startYear = startDate.Year;
-            int actualYear = dtpPeriod.Value.Year;
+            LocalDate startContractDate = contractDAO.FindStartPeriodDate(consumption.Meter_Serial_Number);
 
-            if (serviceType == "Domestico" || serviceType == "Doméstico")
+            DateTime start = new DateTime(startContractDate.Year, startContractDate.Month, 1);
+            DateTime request = new DateTime(dtpPeriod.Value.Year, dtpPeriod.Value.Month, 1);
+
+            if (serviceType == "Domestico")
             {
-                startPeriod = (startDate.Month - 1) / 2;
-                actualPeriod = (month - 1) / 2;
+                start = (start.Month % 2 == 0) ? start.AddMonths(1) : start.AddMonths(2); // Mes que empieza el servicio
+                if (request.Month % 2 == 0) request = request.AddMonths(-1); // el mes del date time picker 
             }
             else if (serviceType == "Industrial")
             {
-                startPeriod = startDate.Month - 1;
-                actualPeriod = month - 1;
+                start = start.AddMonths(1); // mes que empieza el servicio
             }
             else
             {
-                return; // ERROR
+                return; // ERROR: Todo murio
             }
 
-            if (actualYear < startYear || (actualYear == startYear && actualPeriod < startPeriod))
+            if (request.Year < start.Year || (request.Year == start.Year && request.Month < start.Month))
             {
                 PrintError("NO SE PUEDE CARGAR UN CONSUMO ANTES DEL INICIO DE PERIODO DE COBRO");
                 return;
             }
 
-            if (serviceType == "Doméstico" && month % 2 == 0)
+            DateTime offset = dateDAO.GetDate();
+            if (serviceType == "Domestico" && offset.Month % 2 == 0)
             {
-                month--;
+                offset = offset.AddMonths(-1);
+            }
+            
+            if (request.Year != offset.Year || request.Month != offset.Month)
+            {
+                PrintError("NO SE PUEDE CARGAR UN CONSUMO FUERA DEL PERIODO ACTUAL DE COBRO");
+                return;
             }
 
-            if (dao.ConsumptionExists(txtMeterSerialNumber.Text, dtpPeriod.Value.Year, month))
+            if (consumptionDAO.ConsumptionExists(txtMeterSerialNumber.Text, request.Year, Convert.ToInt16(request.Month)))
             {
                 PrintError("YA FUE CARGADO UN CONSUMO EN ESTE PERIODO DE COBRO");
                 return;
             }
-
-            ConsumptionDTO consumption = new ConsumptionDTO();
-            consumption.Consumption_ID = Guid.NewGuid();
-            consumption.Meter_Serial_Number = StringUtils.GetText(txtMeterSerialNumber.Text);
-            consumption.Service_Number = contractDAO.ReadServiceNumberByMeterSerialNumber(consumption.Meter_Serial_Number);
-            consumption.Total_KW = nudKilowatts.Value;
 
             decimal kwBasic = 0;
             decimal kwInt = 0;
@@ -111,19 +123,14 @@ namespace Ambar.ViewController
             consumption.Basic_KW = kwBasic;
             consumption.Intermediate_KW = kwInt;
             consumption.Surplus_KW = kWSur;
-            consumption.Day = Convert.ToInt16(startDate.Day);
-            consumption.Month = month;
-            consumption.Year = dtpPeriod.Value.Year;
 
-            if (consumption.Meter_Serial_Number == string.Empty)
-            {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
-                return;
-            }
+            consumption.Day = Convert.ToInt16(DateUtils.ClampDay(startContractDate.Year, startContractDate.Month, startContractDate.Day));
+            consumption.Month = Convert.ToInt16(request.Month);
+            consumption.Year = request.Year;
 
-            dao.Create(consumption);
+            consumptionDAO.Create(consumption);
 
-            dtgConsumptions.DataSource = dao.ReadConsumptions();
+            dtgConsumptions.DataSource = consumptionDAO.ReadConsumptions();
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
@@ -147,10 +154,8 @@ namespace Ambar.ViewController
 
                         foreach (var consumptionCSV in consumptionsCSV)
                         {
-                            if (consumptionCSV.Medidor == string.Empty || 
-                                consumptionCSV.Kilowatts == string.Empty ||
-                                consumptionCSV.Anio == string.Empty || 
-                                consumptionCSV.Mes == string.Empty)
+                            if (consumptionCSV.Medidor == string.Empty || consumptionCSV.Kilowatts == string.Empty ||
+                                consumptionCSV.Anio == string.Empty || consumptionCSV.Mes == string.Empty)
                             {
                                 PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                                 finalConsumptions.Clear();
@@ -158,6 +163,7 @@ namespace Ambar.ViewController
                                 break;
                             }
 
+                            // Validar que el kilowatt sea correcto
                             if (!RegexUtils.IsDecimalNumber(consumptionCSV.Kilowatts))
                             {
                                 PrintError("KILOWATTS CONSUMIDOS SOLO ACEPTA NUMEROS DECIMALES");
@@ -222,7 +228,7 @@ namespace Ambar.ViewController
                                 month--;
                             }
 
-                            if (dao.ConsumptionExists(txtMeterSerialNumber.Text, dtpPeriod.Value.Year, month))
+                            if (consumptionDAO.ConsumptionExists(txtMeterSerialNumber.Text, dtpPeriod.Value.Year, month))
                             {
                                 PrintError("YA FUE CARGADO UN CONSUMO EN ESTE PERIODO DE COBRO");
                                 finalConsumptions.Clear();
@@ -252,9 +258,9 @@ namespace Ambar.ViewController
 
                         foreach (var consumption in finalConsumptions)
                         {
-                            dao.Create(consumption);
+                            consumptionDAO.Create(consumption);
                         }
-                        dtgConsumptions.DataSource = dao.ReadConsumptions();
+                        dtgConsumptions.DataSource = consumptionDAO.ReadConsumptions();
 
                         if (isCorrect)
                         {
@@ -289,12 +295,19 @@ namespace Ambar.ViewController
         {
             txtMeterSerialNumber.Clear();
             nudKilowatts.Value = 0;
-            dtpPeriod.Value = Convert.ToDateTime(Settings.Default.DateOffset).AddMonths(1);
+            dtpPeriod.Value = dtpPeriod.MinDate;
             pbWarningIcon.Visible = false;
             lblError.Visible = false;
         }
 
-        static void PaymentBreakdown(decimal value, ref decimal kwBasic, ref decimal kwInt, ref decimal kwExc)
+        private void PrintError(string error)
+        {
+            pbWarningIcon.Visible = true;
+            lblError.Visible = true;
+            lblError.Text = error;
+        }
+
+        private void PaymentBreakdown(decimal value, ref decimal kwBasic, ref decimal kwInt, ref decimal kwExc)
         {
             decimal basic = Convert.ToDecimal(ConfigurationManager.AppSettings["Basic_kW"].ToString());
             decimal intermediate = Convert.ToDecimal(ConfigurationManager.AppSettings["Intermediate_kW"].ToString());
@@ -320,18 +333,6 @@ namespace Ambar.ViewController
             kwInt = intermediate;
             value -= intermediate;
             kwExc = value;
-        }
-
-        private void PrintError(string error)
-        {
-            pbWarningIcon.Visible = true;
-            lblError.Visible = true;
-            lblError.Text = error;
-        }
-
-        private void dtpPeriod_ValueChanged(object sender, EventArgs e)
-        {
-
         }
 
     }

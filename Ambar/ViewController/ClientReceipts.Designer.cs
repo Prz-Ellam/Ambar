@@ -29,56 +29,59 @@ namespace Ambar.ViewController
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblEmpleados = new System.Windows.Forms.Label();
+            this.lblReceipts = new System.Windows.Forms.Label();
             this.dtgContracts = new System.Windows.Forms.DataGridView();
             this.txtMeterSerialNumber = new System.Windows.Forms.TextBox();
             this.btnPDF = new System.Windows.Forms.Button();
-            this.cbPeriod = new System.Windows.Forms.ComboBox();
-            this.dtpYear = new System.Windows.Forms.DateTimePicker();
+            this.dtpPeriodSearch = new System.Windows.Forms.DateTimePicker();
             this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rbTransfer = new System.Windows.Forms.RadioButton();
+            this.rbCredit = new System.Windows.Forms.RadioButton();
+            this.rbDebit = new System.Windows.Forms.RadioButton();
+            this.rbCash = new System.Windows.Forms.RadioButton();
             this.lblImporte = new System.Windows.Forms.Label();
             this.lblTotalPagado = new System.Windows.Forms.Label();
             this.lblTotalPendiente = new System.Windows.Forms.Label();
-            this.txtMount = new System.Windows.Forms.TextBox();
             this.btnPaid = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblImport = new System.Windows.Forms.Label();
+            this.lblAmountPad = new System.Windows.Forms.Label();
+            this.lblPendingPaid = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.nudMount = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMount)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblEmpleados
+            // lblReceipts
             // 
-            this.lblEmpleados.AutoSize = true;
-            this.lblEmpleados.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmpleados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmpleados.Location = new System.Drawing.Point(29, 24);
-            this.lblEmpleados.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblEmpleados.Name = "lblEmpleados";
-            this.lblEmpleados.Size = new System.Drawing.Size(137, 31);
-            this.lblEmpleados.TabIndex = 22;
-            this.lblEmpleados.Text = "RECIBOS";
+            this.lblReceipts.AutoSize = true;
+            this.lblReceipts.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReceipts.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblReceipts.Location = new System.Drawing.Point(15, 15);
+            this.lblReceipts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblReceipts.Name = "lblReceipts";
+            this.lblReceipts.Size = new System.Drawing.Size(137, 31);
+            this.lblReceipts.TabIndex = 22;
+            this.lblReceipts.Text = "RECIBOS";
             // 
             // dtgContracts
             // 
             this.dtgContracts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgContracts.Location = new System.Drawing.Point(26, 76);
+            this.dtgContracts.Location = new System.Drawing.Point(21, 65);
             this.dtgContracts.Name = "dtgContracts";
-            this.dtgContracts.Size = new System.Drawing.Size(735, 185);
+            this.dtgContracts.Size = new System.Drawing.Size(824, 185);
             this.dtgContracts.TabIndex = 23;
             // 
             // txtMeterSerialNumber
             // 
-            this.txtMeterSerialNumber.Location = new System.Drawing.Point(26, 284);
+            this.txtMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.txtMeterSerialNumber.Location = new System.Drawing.Point(183, 284);
             this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
-            this.txtMeterSerialNumber.Size = new System.Drawing.Size(226, 20);
+            this.txtMeterSerialNumber.Size = new System.Drawing.Size(226, 23);
             this.txtMeterSerialNumber.TabIndex = 24;
             // 
             // btnPDF
@@ -86,131 +89,114 @@ namespace Ambar.ViewController
             this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnPDF.FlatAppearance.BorderSize = 0;
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPDF.ForeColor = System.Drawing.Color.White;
-            this.btnPDF.Location = new System.Drawing.Point(288, 284);
+            this.btnPDF.Location = new System.Drawing.Point(435, 284);
             this.btnPDF.Margin = new System.Windows.Forms.Padding(2);
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(200, 87);
             this.btnPDF.TabIndex = 28;
-            this.btnPDF.Text = "Generar Recibo PDF";
+            this.btnPDF.Text = "GENERAR RECIBO PDF";
             this.btnPDF.UseVisualStyleBackColor = false;
             // 
-            // cbPeriod
+            // dtpPeriodSearch
             // 
-            this.cbPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPeriod.FormattingEnabled = true;
-            this.cbPeriod.Items.AddRange(new object[] {
-            "ENERO-FEBRERO",
-            "MARZO-ABRIL",
-            "MAYO-JUNIO",
-            "JULIO-AGOSTO",
-            "SEPTIEMBRE-OCTUBRE",
-            "NOVIEMBRE-DICIEMBRE"});
-            this.cbPeriod.Location = new System.Drawing.Point(26, 328);
-            this.cbPeriod.Name = "cbPeriod";
-            this.cbPeriod.Size = new System.Drawing.Size(121, 21);
-            this.cbPeriod.TabIndex = 29;
-            // 
-            // dtpYear
-            // 
-            this.dtpYear.CustomFormat = "yyyy";
-            this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpYear.Location = new System.Drawing.Point(153, 329);
-            this.dtpYear.Name = "dtpYear";
-            this.dtpYear.ShowUpDown = true;
-            this.dtpYear.Size = new System.Drawing.Size(99, 20);
-            this.dtpYear.TabIndex = 30;
+            this.dtpPeriodSearch.CustomFormat = "MMMM yyyy";
+            this.dtpPeriodSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.dtpPeriodSearch.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpPeriodSearch.Location = new System.Drawing.Point(183, 314);
+            this.dtpPeriodSearch.Name = "dtpPeriodSearch";
+            this.dtpPeriodSearch.ShowUpDown = true;
+            this.dtpPeriodSearch.Size = new System.Drawing.Size(226, 23);
+            this.dtpPeriodSearch.TabIndex = 30;
             // 
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnSearch.FlatAppearance.BorderSize = 0;
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.ForeColor = System.Drawing.Color.White;
-            this.btnSearch.Location = new System.Drawing.Point(35, 374);
+            this.btnSearch.Location = new System.Drawing.Point(26, 358);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(137, 52);
             this.btnSearch.TabIndex = 31;
-            this.btnSearch.Text = "Buscar";
+            this.btnSearch.Text = "BUSCAR";
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton4);
-            this.groupBox1.Controls.Add(this.radioButton3);
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.rbTransfer);
+            this.groupBox1.Controls.Add(this.rbCredit);
+            this.groupBox1.Controls.Add(this.rbDebit);
+            this.groupBox1.Controls.Add(this.rbCash);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.groupBox1.Location = new System.Drawing.Point(520, 284);
+            this.groupBox1.Location = new System.Drawing.Point(659, 284);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 142);
             this.groupBox1.TabIndex = 32;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tipo de pago:";
             // 
-            // radioButton4
+            // rbTransfer
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.radioButton4.Location = new System.Drawing.Point(12, 106);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(165, 20);
-            this.radioButton4.TabIndex = 3;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Transferencia bancaria";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.rbTransfer.AutoSize = true;
+            this.rbTransfer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbTransfer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.rbTransfer.Location = new System.Drawing.Point(12, 106);
+            this.rbTransfer.Name = "rbTransfer";
+            this.rbTransfer.Size = new System.Drawing.Size(165, 20);
+            this.rbTransfer.TabIndex = 3;
+            this.rbTransfer.Text = "Transferencia bancaria";
+            this.rbTransfer.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // rbCredit
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.radioButton3.Location = new System.Drawing.Point(12, 79);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(132, 20);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Tarjeta de credito";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.rbCredit.AutoSize = true;
+            this.rbCredit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbCredit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.rbCredit.Location = new System.Drawing.Point(12, 79);
+            this.rbCredit.Name = "rbCredit";
+            this.rbCredit.Size = new System.Drawing.Size(132, 20);
+            this.rbCredit.TabIndex = 2;
+            this.rbCredit.Text = "Tarjeta de credito";
+            this.rbCredit.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rbDebit
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.radioButton2.Location = new System.Drawing.Point(12, 51);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(129, 20);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Tarjeta de débito";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rbDebit.AutoSize = true;
+            this.rbDebit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbDebit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.rbDebit.Location = new System.Drawing.Point(12, 51);
+            this.rbDebit.Name = "rbDebit";
+            this.rbDebit.Size = new System.Drawing.Size(129, 20);
+            this.rbDebit.TabIndex = 1;
+            this.rbDebit.Text = "Tarjeta de débito";
+            this.rbDebit.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rbCash
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.radioButton1.Location = new System.Drawing.Point(12, 25);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(74, 20);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Efectivo";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbCash.AutoSize = true;
+            this.rbCash.Checked = true;
+            this.rbCash.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbCash.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.rbCash.Location = new System.Drawing.Point(12, 25);
+            this.rbCash.Name = "rbCash";
+            this.rbCash.Size = new System.Drawing.Size(74, 20);
+            this.rbCash.TabIndex = 0;
+            this.rbCash.TabStop = true;
+            this.rbCash.Text = "Efectivo";
+            this.rbCash.UseVisualStyleBackColor = true;
             // 
             // lblImporte
             // 
             this.lblImporte.AutoSize = true;
             this.lblImporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblImporte.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblImporte.Location = new System.Drawing.Point(289, 393);
+            this.lblImporte.Location = new System.Drawing.Point(436, 393);
             this.lblImporte.Name = "lblImporte";
             this.lblImporte.Size = new System.Drawing.Size(64, 16);
             this.lblImporte.TabIndex = 33;
@@ -221,7 +207,7 @@ namespace Ambar.ViewController
             this.lblTotalPagado.AutoSize = true;
             this.lblTotalPagado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalPagado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblTotalPagado.Location = new System.Drawing.Point(289, 425);
+            this.lblTotalPagado.Location = new System.Drawing.Point(436, 425);
             this.lblTotalPagado.Name = "lblTotalPagado";
             this.lblTotalPagado.Size = new System.Drawing.Size(106, 16);
             this.lblTotalPagado.TabIndex = 34;
@@ -232,18 +218,11 @@ namespace Ambar.ViewController
             this.lblTotalPendiente.AutoSize = true;
             this.lblTotalPendiente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalPendiente.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblTotalPendiente.Location = new System.Drawing.Point(289, 457);
+            this.lblTotalPendiente.Location = new System.Drawing.Point(436, 457);
             this.lblTotalPendiente.Name = "lblTotalPendiente";
             this.lblTotalPendiente.Size = new System.Drawing.Size(121, 16);
             this.lblTotalPendiente.TabIndex = 35;
             this.lblTotalPendiente.Text = "Total pendiente:";
-            // 
-            // txtMount
-            // 
-            this.txtMount.Location = new System.Drawing.Point(520, 439);
-            this.txtMount.Name = "txtMount";
-            this.txtMount.Size = new System.Drawing.Size(200, 20);
-            this.txtMount.TabIndex = 36;
             // 
             // btnPaid
             // 
@@ -252,7 +231,7 @@ namespace Ambar.ViewController
             this.btnPaid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPaid.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPaid.ForeColor = System.Drawing.Color.White;
-            this.btnPaid.Location = new System.Drawing.Point(654, 473);
+            this.btnPaid.Location = new System.Drawing.Point(793, 473);
             this.btnPaid.Margin = new System.Windows.Forms.Padding(2);
             this.btnPaid.Name = "btnPaid";
             this.btnPaid.Size = new System.Drawing.Size(66, 31);
@@ -261,38 +240,38 @@ namespace Ambar.ViewController
             this.btnPaid.UseVisualStyleBackColor = false;
             this.btnPaid.Click += new System.EventHandler(this.btnPaid_Click);
             // 
-            // label1
+            // lblImport
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(352, 393);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 16);
-            this.label1.TabIndex = 38;
-            this.label1.Text = "Importe:";
+            this.lblImport.AutoSize = true;
+            this.lblImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblImport.Location = new System.Drawing.Point(499, 393);
+            this.lblImport.Name = "lblImport";
+            this.lblImport.Size = new System.Drawing.Size(17, 16);
+            this.lblImport.TabIndex = 38;
+            this.lblImport.Text = "...";
             // 
-            // label2
+            // lblAmountPad
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label2.Location = new System.Drawing.Point(401, 425);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 16);
-            this.label2.TabIndex = 39;
-            this.label2.Text = "Importe:";
+            this.lblAmountPad.AutoSize = true;
+            this.lblAmountPad.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAmountPad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblAmountPad.Location = new System.Drawing.Point(548, 425);
+            this.lblAmountPad.Name = "lblAmountPad";
+            this.lblAmountPad.Size = new System.Drawing.Size(17, 16);
+            this.lblAmountPad.TabIndex = 39;
+            this.lblAmountPad.Text = "...";
             // 
-            // label3
+            // lblPendingPaid
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label3.Location = new System.Drawing.Point(416, 457);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 16);
-            this.label3.TabIndex = 40;
-            this.label3.Text = "Importe:";
+            this.lblPendingPaid.AutoSize = true;
+            this.lblPendingPaid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPendingPaid.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblPendingPaid.Location = new System.Drawing.Point(563, 457);
+            this.lblPendingPaid.Name = "lblPendingPaid";
+            this.lblPendingPaid.Size = new System.Drawing.Size(17, 16);
+            this.lblPendingPaid.TabIndex = 40;
+            this.lblPendingPaid.Text = "...";
             // 
             // button1
             // 
@@ -301,7 +280,7 @@ namespace Ambar.ViewController
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(520, 473);
+            this.button1.Location = new System.Drawing.Point(659, 473);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(130, 31);
@@ -309,29 +288,63 @@ namespace Ambar.ViewController
             this.button1.Text = "Pago Masivo";
             this.button1.UseVisualStyleBackColor = false;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.label4.Location = new System.Drawing.Point(23, 287);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(103, 17);
+            this.label4.TabIndex = 42;
+            this.label4.Text = "N° de Medidor:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.label5.Location = new System.Drawing.Point(23, 319);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(155, 17);
+            this.label5.TabIndex = 43;
+            this.label5.Text = "Periodo de facturación:";
+            // 
+            // nudMount
+            // 
+            this.nudMount.DecimalPlaces = 2;
+            this.nudMount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.nudMount.Location = new System.Drawing.Point(659, 439);
+            this.nudMount.Name = "nudMount";
+            this.nudMount.Size = new System.Drawing.Size(200, 23);
+            this.nudMount.TabIndex = 44;
+            // 
             // ClientReceipts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(843, 515);
+            this.ClientSize = new System.Drawing.Size(907, 558);
+            this.Controls.Add(this.nudMount);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblPendingPaid);
+            this.Controls.Add(this.lblAmountPad);
+            this.Controls.Add(this.lblImport);
             this.Controls.Add(this.btnPaid);
-            this.Controls.Add(this.txtMount);
             this.Controls.Add(this.lblTotalPendiente);
             this.Controls.Add(this.lblTotalPagado);
             this.Controls.Add(this.lblImporte);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.dtpYear);
-            this.Controls.Add(this.cbPeriod);
+            this.Controls.Add(this.dtpPeriodSearch);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.txtMeterSerialNumber);
             this.Controls.Add(this.dtgContracts);
-            this.Controls.Add(this.lblEmpleados);
+            this.Controls.Add(this.lblReceipts);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ClientReceipts";
             this.Text = "ClientReceipts";
@@ -339,6 +352,7 @@ namespace Ambar.ViewController
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -346,26 +360,27 @@ namespace Ambar.ViewController
 
         #endregion
 
-        private System.Windows.Forms.Label lblEmpleados;
+        private System.Windows.Forms.Label lblReceipts;
         private System.Windows.Forms.DataGridView dtgContracts;
         private System.Windows.Forms.TextBox txtMeterSerialNumber;
         private System.Windows.Forms.Button btnPDF;
-        private System.Windows.Forms.ComboBox cbPeriod;
-        private System.Windows.Forms.DateTimePicker dtpYear;
+        private System.Windows.Forms.DateTimePicker dtpPeriodSearch;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton rbDebit;
+        private System.Windows.Forms.RadioButton rbCash;
+        private System.Windows.Forms.RadioButton rbTransfer;
+        private System.Windows.Forms.RadioButton rbCredit;
         private System.Windows.Forms.Label lblImporte;
         private System.Windows.Forms.Label lblTotalPagado;
         private System.Windows.Forms.Label lblTotalPendiente;
-        private System.Windows.Forms.TextBox txtMount;
         private System.Windows.Forms.Button btnPaid;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblImport;
+        private System.Windows.Forms.Label lblAmountPad;
+        private System.Windows.Forms.Label lblPendingPaid;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown nudMount;
     }
 }

@@ -255,6 +255,7 @@
             this.dtpPeriod.ShowUpDown = true;
             this.dtpPeriod.Size = new System.Drawing.Size(287, 23);
             this.dtpPeriod.TabIndex = 23;
+            this.dtpPeriod.Value = new System.DateTime(2021, 10, 1, 14, 33, 0, 0);
             // 
             // dtgContracts
             // 
@@ -272,7 +273,7 @@
             this.Service,
             this.StartPeriodDate});
             this.dtgContracts.Enabled = false;
-            this.dtgContracts.Location = new System.Drawing.Point(520, 64);
+            this.dtgContracts.Location = new System.Drawing.Point(520, 81);
             this.dtgContracts.Margin = new System.Windows.Forms.Padding(2);
             this.dtgContracts.Name = "dtgContracts";
             this.dtgContracts.ReadOnly = true;

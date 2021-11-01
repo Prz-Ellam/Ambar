@@ -36,17 +36,17 @@ namespace Ambar.ViewController
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnPDF = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.txtMeterSerialNumber = new System.Windows.Forms.TextBox();
+            this.gpSearchOptions = new System.Windows.Forms.GroupBox();
+            this.rbServiceNumber = new System.Windows.Forms.RadioButton();
+            this.rbMeterSerialNumber = new System.Windows.Forms.RadioButton();
+            this.txtSearchID = new System.Windows.Forms.TextBox();
             this.dtpPeriodSearch = new System.Windows.Forms.DateTimePicker();
             this.cbPeriod = new System.Windows.Forms.ComboBox();
             this.ofnReceipt = new System.Windows.Forms.SaveFileDialog();
             this.label2 = new System.Windows.Forms.Label();
             this.lblError = new System.Windows.Forms.Label();
             this.pbWarningIcon = new System.Windows.Forms.PictureBox();
-            this.groupBox1.SuspendLayout();
+            this.gpSearchOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -107,7 +107,7 @@ namespace Ambar.ViewController
             this.btnGenerateReceipt.TabIndex = 24;
             this.btnGenerateReceipt.Text = "Generar Recibos";
             this.btnGenerateReceipt.UseVisualStyleBackColor = false;
-            this.btnGenerateReceipt.Click += new System.EventHandler(this.button1_Click);
+            this.btnGenerateReceipt.Click += new System.EventHandler(this.btnGenerateReceipt_Click);
             // 
             // label5
             // 
@@ -149,54 +149,55 @@ namespace Ambar.ViewController
             this.btnPDF.UseVisualStyleBackColor = false;
             this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
             // 
-            // groupBox1
+            // gpSearchOptions
             // 
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(545, 43);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(204, 82);
-            this.groupBox1.TabIndex = 28;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Buscar por: ";
+            this.gpSearchOptions.Controls.Add(this.rbServiceNumber);
+            this.gpSearchOptions.Controls.Add(this.rbMeterSerialNumber);
+            this.gpSearchOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gpSearchOptions.ForeColor = System.Drawing.Color.White;
+            this.gpSearchOptions.Location = new System.Drawing.Point(545, 43);
+            this.gpSearchOptions.Margin = new System.Windows.Forms.Padding(2);
+            this.gpSearchOptions.Name = "gpSearchOptions";
+            this.gpSearchOptions.Padding = new System.Windows.Forms.Padding(2);
+            this.gpSearchOptions.Size = new System.Drawing.Size(204, 82);
+            this.gpSearchOptions.TabIndex = 28;
+            this.gpSearchOptions.TabStop = false;
+            this.gpSearchOptions.Text = "Buscar por: ";
             // 
-            // radioButton2
+            // rbServiceNumber
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(13, 46);
-            this.radioButton2.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(145, 20);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Número de Servicio";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rbServiceNumber.AutoSize = true;
+            this.rbServiceNumber.Location = new System.Drawing.Point(13, 46);
+            this.rbServiceNumber.Margin = new System.Windows.Forms.Padding(2);
+            this.rbServiceNumber.Name = "rbServiceNumber";
+            this.rbServiceNumber.Size = new System.Drawing.Size(145, 20);
+            this.rbServiceNumber.TabIndex = 1;
+            this.rbServiceNumber.TabStop = true;
+            this.rbServiceNumber.Text = "Número de Servicio";
+            this.rbServiceNumber.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rbMeterSerialNumber
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1.Location = new System.Drawing.Point(13, 22);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(146, 20);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Número de Medidor";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbMeterSerialNumber.AutoSize = true;
+            this.rbMeterSerialNumber.Checked = true;
+            this.rbMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbMeterSerialNumber.Location = new System.Drawing.Point(13, 22);
+            this.rbMeterSerialNumber.Margin = new System.Windows.Forms.Padding(2);
+            this.rbMeterSerialNumber.Name = "rbMeterSerialNumber";
+            this.rbMeterSerialNumber.Size = new System.Drawing.Size(146, 20);
+            this.rbMeterSerialNumber.TabIndex = 0;
+            this.rbMeterSerialNumber.TabStop = true;
+            this.rbMeterSerialNumber.Text = "Número de Medidor";
+            this.rbMeterSerialNumber.UseVisualStyleBackColor = true;
             // 
-            // txtMeterSerialNumber
+            // txtSearchID
             // 
-            this.txtMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMeterSerialNumber.Location = new System.Drawing.Point(545, 138);
-            this.txtMeterSerialNumber.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
-            this.txtMeterSerialNumber.Size = new System.Drawing.Size(204, 22);
-            this.txtMeterSerialNumber.TabIndex = 29;
+            this.txtSearchID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearchID.Location = new System.Drawing.Point(545, 138);
+            this.txtSearchID.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSearchID.Name = "txtSearchID";
+            this.txtSearchID.Size = new System.Drawing.Size(204, 22);
+            this.txtSearchID.TabIndex = 29;
             // 
             // dtpPeriodSearch
             // 
@@ -205,6 +206,8 @@ namespace Ambar.ViewController
             this.dtpPeriodSearch.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpPeriodSearch.Location = new System.Drawing.Point(651, 179);
             this.dtpPeriodSearch.Margin = new System.Windows.Forms.Padding(2);
+            this.dtpPeriodSearch.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dtpPeriodSearch.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpPeriodSearch.Name = "dtpPeriodSearch";
             this.dtpPeriodSearch.ShowUpDown = true;
             this.dtpPeriodSearch.Size = new System.Drawing.Size(151, 23);
@@ -273,8 +276,8 @@ namespace Ambar.ViewController
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbPeriod);
             this.Controls.Add(this.dtpPeriodSearch);
-            this.Controls.Add(this.txtMeterSerialNumber);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.txtSearchID);
+            this.Controls.Add(this.gpSearchOptions);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label5);
@@ -288,8 +291,8 @@ namespace Ambar.ViewController
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Recibos";
             this.Load += new System.EventHandler(this.Receipts_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gpSearchOptions.ResumeLayout(false);
+            this.gpSearchOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -305,10 +308,10 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnPDF;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.TextBox txtMeterSerialNumber;
+        private System.Windows.Forms.GroupBox gpSearchOptions;
+        private System.Windows.Forms.RadioButton rbServiceNumber;
+        private System.Windows.Forms.RadioButton rbMeterSerialNumber;
+        private System.Windows.Forms.TextBox txtSearchID;
         private System.Windows.Forms.DateTimePicker dtpPeriodSearch;
         private System.Windows.Forms.ComboBox cbPeriod;
         private System.Windows.Forms.SaveFileDialog ofnReceipt;

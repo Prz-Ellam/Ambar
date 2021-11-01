@@ -33,14 +33,14 @@ namespace Ambar.ViewController
             this.label4 = new System.Windows.Forms.Label();
             this.dtpYear = new System.Windows.Forms.DateTimePicker();
             this.dtgConsumptionsReport = new System.Windows.Forms.DataGridView();
-            this.btnPDF = new System.Windows.Forms.Button();
-            this.btnCSV = new System.Windows.Forms.Button();
             this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Month = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LevelSerialMeter = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BasicLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IntermediateLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SurplusLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnPDF = new System.Windows.Forms.Button();
+            this.btnCSV = new System.Windows.Forms.Button();
             this.ofnReportCSV = new System.Windows.Forms.SaveFileDialog();
             this.ofnReportPDF = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptionsReport)).BeginInit();
@@ -49,36 +49,39 @@ namespace Ambar.ViewController
             // lblEmpleados
             // 
             this.lblEmpleados.AutoSize = true;
-            this.lblEmpleados.Font = new System.Drawing.Font("Montserrat", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEmpleados.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmpleados.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblEmpleados.Location = new System.Drawing.Point(15, 15);
+            this.lblEmpleados.Location = new System.Drawing.Point(11, 12);
+            this.lblEmpleados.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmpleados.Name = "lblEmpleados";
-            this.lblEmpleados.Size = new System.Drawing.Size(453, 40);
+            this.lblEmpleados.Size = new System.Drawing.Size(358, 31);
             this.lblEmpleados.TabIndex = 23;
             this.lblEmpleados.Text = "REPORTE DE CONSUMOS";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label4.Location = new System.Drawing.Point(31, 91);
+            this.label4.Location = new System.Drawing.Point(23, 74);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 20);
+            this.label4.Size = new System.Drawing.Size(37, 17);
             this.label4.TabIndex = 25;
             this.label4.Text = "Año:";
             // 
             // dtpYear
             // 
-            this.dtpYear.CalendarFont = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpYear.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpYear.CustomFormat = "yyyy";
-            this.dtpYear.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpYear.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dtpYear.Location = new System.Drawing.Point(86, 85);
+            this.dtpYear.Location = new System.Drawing.Point(64, 69);
+            this.dtpYear.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dtpYear.Name = "dtpYear";
             this.dtpYear.ShowUpDown = true;
-            this.dtpYear.Size = new System.Drawing.Size(200, 28);
+            this.dtpYear.Size = new System.Drawing.Size(151, 23);
             this.dtpYear.TabIndex = 24;
             this.dtpYear.ValueChanged += new System.EventHandler(this.dtpYear_ValueChanged);
             // 
@@ -92,44 +95,13 @@ namespace Ambar.ViewController
             this.BasicLevel,
             this.IntermediateLevel,
             this.SurplusLevel});
-            this.dtgConsumptionsReport.Location = new System.Drawing.Point(22, 133);
+            this.dtgConsumptionsReport.Location = new System.Drawing.Point(16, 108);
+            this.dtgConsumptionsReport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dtgConsumptionsReport.Name = "dtgConsumptionsReport";
             this.dtgConsumptionsReport.RowHeadersWidth = 51;
             this.dtgConsumptionsReport.RowTemplate.Height = 24;
-            this.dtgConsumptionsReport.Size = new System.Drawing.Size(870, 310);
+            this.dtgConsumptionsReport.Size = new System.Drawing.Size(832, 384);
             this.dtgConsumptionsReport.TabIndex = 26;
-            // 
-            // btnPDF
-            // 
-            this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            this.btnPDF.FlatAppearance.BorderSize = 0;
-            this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPDF.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPDF.Image = global::Ambar.Properties.Resources.PDF_Logo;
-            this.btnPDF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPDF.Location = new System.Drawing.Point(637, 480);
-            this.btnPDF.Name = "btnPDF";
-            this.btnPDF.Size = new System.Drawing.Size(300, 100);
-            this.btnPDF.TabIndex = 28;
-            this.btnPDF.Text = "          GENERAR PDF";
-            this.btnPDF.UseVisualStyleBackColor = false;
-            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
-            // 
-            // btnCSV
-            // 
-            this.btnCSV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            this.btnCSV.FlatAppearance.BorderSize = 0;
-            this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCSV.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCSV.Image = global::Ambar.Properties.Resources.CSV_Logo;
-            this.btnCSV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCSV.Location = new System.Drawing.Point(276, 480);
-            this.btnCSV.Name = "btnCSV";
-            this.btnCSV.Size = new System.Drawing.Size(300, 100);
-            this.btnCSV.TabIndex = 27;
-            this.btnCSV.Text = "          GENERAR CSV";
-            this.btnCSV.UseVisualStyleBackColor = false;
-            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
             // 
             // Year
             // 
@@ -179,6 +151,42 @@ namespace Ambar.ViewController
             this.SurplusLevel.Name = "SurplusLevel";
             this.SurplusLevel.Width = 125;
             // 
+            // btnPDF
+            // 
+            this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnPDF.FlatAppearance.BorderSize = 0;
+            this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPDF.ForeColor = System.Drawing.Color.White;
+            this.btnPDF.Image = global::Ambar.Properties.Resources.PDF_Logo;
+            this.btnPDF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPDF.Location = new System.Drawing.Point(623, 522);
+            this.btnPDF.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnPDF.Name = "btnPDF";
+            this.btnPDF.Size = new System.Drawing.Size(225, 81);
+            this.btnPDF.TabIndex = 28;
+            this.btnPDF.Text = "          GENERAR PDF";
+            this.btnPDF.UseVisualStyleBackColor = false;
+            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
+            // 
+            // btnCSV
+            // 
+            this.btnCSV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnCSV.FlatAppearance.BorderSize = 0;
+            this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCSV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCSV.ForeColor = System.Drawing.Color.White;
+            this.btnCSV.Image = global::Ambar.Properties.Resources.CSV_Logo;
+            this.btnCSV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCSV.Location = new System.Drawing.Point(352, 522);
+            this.btnCSV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCSV.Name = "btnCSV";
+            this.btnCSV.Size = new System.Drawing.Size(225, 81);
+            this.btnCSV.TabIndex = 27;
+            this.btnCSV.Text = "          GENERAR CSV";
+            this.btnCSV.UseVisualStyleBackColor = false;
+            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
+            // 
             // ofnReportCSV
             // 
             this.ofnReportCSV.Filter = "CSV (*.csv)|*.csv";
@@ -189,10 +197,10 @@ namespace Ambar.ViewController
             // 
             // ConsumptionsReport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1062, 616);
+            this.ClientSize = new System.Drawing.Size(883, 624);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.dtgConsumptionsReport);
@@ -200,6 +208,7 @@ namespace Ambar.ViewController
             this.Controls.Add(this.dtpYear);
             this.Controls.Add(this.lblEmpleados);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ConsumptionsReport";
             this.Text = "ConsumptionsReport";
             this.Load += new System.EventHandler(this.ConsumptionsReport_Load);

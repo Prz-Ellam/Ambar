@@ -202,6 +202,24 @@ namespace Ambar.Model.DAO
             return serviceType;
         }
 
+        public string FindServiceType(long serviceNumber)
+        {
+            string query = "SELECT SERVICE FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE SERVICE_NUMBER = {0} ALLOW FILTERING;";
+            query = string.Format(query, serviceNumber);
+            string serviceType;
+
+            try
+            {
+                serviceType = mapper.Single<string>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return serviceType;
+        }
+
         public LocalDate FindStartPeriodDate(string meterSerialNumber)
         {
             string query = "SELECT START_PERIOD_DATE FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}';";

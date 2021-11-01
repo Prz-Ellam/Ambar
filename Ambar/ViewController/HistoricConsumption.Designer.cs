@@ -29,91 +29,106 @@ namespace Ambar.ViewController
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Period = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TotalKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Import = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Paid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PendingPaid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.dtgHistoricConsumption = new System.Windows.Forms.DataGridView();
+            this.dtpYear = new System.Windows.Forms.DateTimePicker();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rbServiceNumber = new System.Windows.Forms.RadioButton();
+            this.rbMeterSerialNumber = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.btnPDF = new System.Windows.Forms.Button();
             this.btnCSV = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.month = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Import = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Paid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PendingAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgHistoricConsumption)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dtgHistoricConsumption
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Period,
-            this.TotalKW,
+            this.dtgHistoricConsumption.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.dtgHistoricConsumption.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dtgHistoricConsumption.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgHistoricConsumption.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dtgHistoricConsumption.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgHistoricConsumption.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.year,
+            this.month,
+            this.totalKW,
             this.Import,
             this.Paid,
-            this.PendingPaid});
-            this.dataGridView1.Location = new System.Drawing.Point(31, 148);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(827, 277);
-            this.dataGridView1.TabIndex = 1;
+            this.PendingAmount});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgHistoricConsumption.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dtgHistoricConsumption.EnableHeadersVisualStyles = false;
+            this.dtgHistoricConsumption.Location = new System.Drawing.Point(31, 148);
+            this.dtgHistoricConsumption.Name = "dtgHistoricConsumption";
+            this.dtgHistoricConsumption.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgHistoricConsumption.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            this.dtgHistoricConsumption.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.dtgHistoricConsumption.Size = new System.Drawing.Size(834, 403);
+            this.dtgHistoricConsumption.TabIndex = 1;
             // 
-            // Period
+            // dtpYear
             // 
-            this.Period.HeaderText = "Periodo de facturación";
-            this.Period.Name = "Period";
-            // 
-            // TotalKW
-            // 
-            this.TotalKW.HeaderText = "Consumo de KW";
-            this.TotalKW.Name = "TotalKW";
-            // 
-            // Import
-            // 
-            this.Import.HeaderText = "Importe";
-            this.Import.Name = "Import";
-            // 
-            // Paid
-            // 
-            this.Paid.HeaderText = "Pago";
-            this.Paid.Name = "Paid";
-            // 
-            // PendingPaid
-            // 
-            this.PendingPaid.HeaderText = "Pago Pendiente";
-            this.PendingPaid.Name = "PendingPaid";
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.CustomFormat = "yyyy";
-            this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(114, 113);
-            this.dateTimePicker1.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
-            this.dateTimePicker1.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.ShowUpDown = true;
-            this.dateTimePicker1.Size = new System.Drawing.Size(115, 22);
-            this.dateTimePicker1.TabIndex = 5;
+            this.dtpYear.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpYear.CustomFormat = "yyyy";
+            this.dtpYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpYear.Location = new System.Drawing.Point(114, 113);
+            this.dtpYear.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dtpYear.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
+            this.dtpYear.Name = "dtpYear";
+            this.dtpYear.ShowUpDown = true;
+            this.dtpYear.Size = new System.Drawing.Size(115, 23);
+            this.dtpYear.TabIndex = 5;
             // 
             // txtFilter
             // 
-            this.txtFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.txtFilter.Location = new System.Drawing.Point(327, 115);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(239, 22);
+            this.txtFilter.Size = new System.Drawing.Size(239, 23);
             this.txtFilter.TabIndex = 6;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.rbServiceNumber);
+            this.groupBox1.Controls.Add(this.rbMeterSerialNumber);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
             this.groupBox1.Location = new System.Drawing.Point(327, 59);
@@ -123,31 +138,31 @@ namespace Ambar.ViewController
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tipo de filtro";
             // 
-            // radioButton2
+            // rbServiceNumber
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
-            this.radioButton2.Location = new System.Drawing.Point(128, 19);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(92, 20);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "N° Servicio";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rbServiceNumber.AutoSize = true;
+            this.rbServiceNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbServiceNumber.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
+            this.rbServiceNumber.Location = new System.Drawing.Point(128, 19);
+            this.rbServiceNumber.Name = "rbServiceNumber";
+            this.rbServiceNumber.Size = new System.Drawing.Size(92, 20);
+            this.rbServiceNumber.TabIndex = 1;
+            this.rbServiceNumber.Text = "N° Servicio";
+            this.rbServiceNumber.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rbMeterSerialNumber
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
-            this.radioButton1.Location = new System.Drawing.Point(17, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(93, 20);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "N° Medidor";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbMeterSerialNumber.AutoSize = true;
+            this.rbMeterSerialNumber.Checked = true;
+            this.rbMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbMeterSerialNumber.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
+            this.rbMeterSerialNumber.Location = new System.Drawing.Point(17, 19);
+            this.rbMeterSerialNumber.Name = "rbMeterSerialNumber";
+            this.rbMeterSerialNumber.Size = new System.Drawing.Size(93, 20);
+            this.rbMeterSerialNumber.TabIndex = 0;
+            this.rbMeterSerialNumber.TabStop = true;
+            this.rbMeterSerialNumber.Text = "N° Medidor";
+            this.rbMeterSerialNumber.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -179,9 +194,10 @@ namespace Ambar.ViewController
             this.btnPDF.FlatAppearance.BorderSize = 0;
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPDF.ForeColor = System.Drawing.Color.White;
             this.btnPDF.Image = global::Ambar.Properties.Resources.PDF_Logo;
             this.btnPDF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPDF.Location = new System.Drawing.Point(552, 462);
+            this.btnPDF.Location = new System.Drawing.Point(633, 576);
             this.btnPDF.Margin = new System.Windows.Forms.Padding(2);
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(225, 81);
@@ -195,9 +211,10 @@ namespace Ambar.ViewController
             this.btnCSV.FlatAppearance.BorderSize = 0;
             this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCSV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCSV.ForeColor = System.Drawing.Color.White;
             this.btnCSV.Image = global::Ambar.Properties.Resources.CSV_Logo;
             this.btnCSV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCSV.Location = new System.Drawing.Point(261, 462);
+            this.btnCSV.Location = new System.Drawing.Point(376, 576);
             this.btnCSV.Margin = new System.Windows.Forms.Padding(2);
             this.btnCSV.Name = "btnCSV";
             this.btnCSV.Size = new System.Drawing.Size(225, 81);
@@ -205,35 +222,82 @@ namespace Ambar.ViewController
             this.btnCSV.Text = "          GENERAR CSV";
             this.btnCSV.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // btnSearch
             // 
-            this.button1.Location = new System.Drawing.Point(615, 112);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 28;
-            this.button1.Text = "Buscar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnSearch.FlatAppearance.BorderSize = 0;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.btnSearch.ForeColor = System.Drawing.Color.White;
+            this.btnSearch.Location = new System.Drawing.Point(649, 101);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(93, 35);
+            this.btnSearch.TabIndex = 33;
+            this.btnSearch.Text = "BUSCAR";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // year
+            // 
+            this.year.DataPropertyName = "YEAR";
+            this.year.HeaderText = "Año";
+            this.year.Name = "year";
+            // 
+            // month
+            // 
+            this.month.DataPropertyName = "MONTH";
+            this.month.HeaderText = "Mes";
+            this.month.Name = "month";
+            // 
+            // totalKW
+            // 
+            this.totalKW.DataPropertyName = "TOTAL_KW";
+            this.totalKW.HeaderText = "Consumo de kW";
+            this.totalKW.Name = "totalKW";
+            this.totalKW.Width = 150;
+            // 
+            // Import
+            // 
+            this.Import.DataPropertyName = "TOTAL_PRICE";
+            this.Import.HeaderText = "Importe";
+            this.Import.Name = "Import";
+            this.Import.Width = 130;
+            // 
+            // Paid
+            // 
+            this.Paid.DataPropertyName = "AMOUNT_PAD";
+            this.Paid.HeaderText = "Total Pagado";
+            this.Paid.Name = "Paid";
+            this.Paid.Width = 150;
+            // 
+            // PendingAmount
+            // 
+            this.PendingAmount.DataPropertyName = "PENDING_AMOUNT";
+            this.PendingAmount.HeaderText = "Total Pendiente de Pago";
+            this.PendingAmount.Name = "PendingAmount";
+            this.PendingAmount.Width = 160;
             // 
             // HistoricConsumption
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(903, 554);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(903, 705);
+            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.lblEmpleados);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtFilter);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dtpYear);
+            this.Controls.Add(this.dtgHistoricConsumption);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "HistoricConsumption";
             this.Text = "HistoricConsumption";
             this.Load += new System.EventHandler(this.HistoricConsumption_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgHistoricConsumption)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -243,21 +307,22 @@ namespace Ambar.ViewController
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Period;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TotalKW;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Import;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Paid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PendingPaid;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DataGridView dtgHistoricConsumption;
+        private System.Windows.Forms.DateTimePicker dtpYear;
         private System.Windows.Forms.TextBox txtFilter;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rbServiceNumber;
+        private System.Windows.Forms.RadioButton rbMeterSerialNumber;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblEmpleados;
         private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.Button btnCSV;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.DataGridViewTextBoxColumn year;
+        private System.Windows.Forms.DataGridViewTextBoxColumn month;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalKW;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Import;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Paid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PendingAmount;
     }
 }

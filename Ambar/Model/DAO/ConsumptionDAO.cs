@@ -104,7 +104,7 @@ namespace Ambar.Model.DAO
 
         public ConsumptionForReceiptDTO FindConsumption(int year, short month, string meterSerialNumber)
         {
-            string query = string.Format("SELECT BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW FROM CONSUMPTIONS_BY_YEAR WHERE " +
+            string query = string.Format("SELECT BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, DAY FROM CONSUMPTIONS_BY_YEAR WHERE " +
                 "YEAR = {0} AND MONTH = {1} AND METER_SERIAL_NUMBER = '{2}';", year, month, meterSerialNumber);
 
             ConsumptionForReceiptDTO consumptions;

@@ -16,6 +16,7 @@ namespace Ambar.ViewController
     public partial class ClientReceipts : Form
     {
         ReceiptDAO receiptDAO = new ReceiptDAO();
+        ReceiptDTO receipt;
         public ClientReceipts()
         {
             InitializeComponent();
@@ -30,23 +31,77 @@ namespace Ambar.ViewController
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            short month = -1;
-            month = Convert.ToInt16(cbPeriod.SelectedIndex * 2 + 1);
+            DateTime request = new DateTime(dtpPeriodSearch.Value.Year, dtpPeriodSearch.Value.Month, 1);
+            
+            ContractDAO contractDAO = new ContractDAO();
+            string serviceType = contractDAO.FindServiceType(txtMeterSerialNumber.Text);
 
-            ReceiptDTO dto = receiptDAO.FindReceipt(dtpYear.Value.Year, month, txtMeterSerialNumber.Text);
+            if (serviceType == null)
+            {
+                return;
+            }
+            if (serviceType == "Domestico" && request.Month % 2 == 0)
+            {
+                request = request.AddMonths(-1); // En caso de que fuese febrero se pasaria a enero
+            }
+            receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), txtMeterSerialNumber.Text);
+            if (receipt == null)
+            {
+                return;
+            }
 
-            label1.Text = dto.Total_Price.ToString();
-            label2.Text = dto.Amount_Pad.ToString();
-            label3.Text = dto.Pending_Amount.ToString();
+            lblImport.Text = receipt.Total_Price.ToString("0.00");
+            lblAmountPad.Text = receipt.Amount_Pad.ToString("0.00");
+            lblPendingPaid.Text = receipt.Pending_Amount.ToString("0.00");
+            nudMount.Maximum = Convert.ToDecimal(receipt.Pending_Amount.ToString("0.00"));
 
-            int a = 5;
-            a = 3;
         }
 
         private void btnPaid_Click(object sender, EventArgs e)
         {
-            receiptDAO.PaidReceipt(Convert.ToDecimal(txtMount.Text), Convert.ToDecimal(label1.Text),
-                Convert.ToDecimal(label2.Text), Convert.ToDecimal(label3.Text));
+            if (nudMount.Value == 0.0m)
+            {
+                return; // ERROR: No puedes hacer un tramite de nada, no nos hagas perder el tiempo somos una empresa seria
+            }
+
+            string paymentType;
+            if (rbCash.Checked)
+            {
+                paymentType = "Efectivo";
+            }
+            else if (rbDebit.Checked)
+            {
+                paymentType = "Tarjeta de Debito";
+            }
+            else if (rbCredit.Checked)
+            {
+                paymentType = "Tarjeta de Credito";
+            }
+            else if (rbTransfer.Checked)
+            {
+                paymentType = "Transferencia Bancaria";
+            }
+            else
+            {
+                return; // ERROR
+            }
+
+            receiptDAO.PaidReceipt(receipt, nudMount.Value, Convert.ToDecimal(lblAmountPad.Text), 
+                Convert.ToDecimal(lblPendingPaid.Text), paymentType);
+
+            ClearForm();
+            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+        }
+
+
+        private void ClearForm()
+        {
+            txtMeterSerialNumber.Clear();
+            nudMount.Value = 0.0m;
+            rbCash.Checked = true;
+            lblImport.Text = string.Empty;
+            lblAmountPad.Text = string.Empty;
+            lblPendingPaid.Text = string.Empty;
         }
     }
 }

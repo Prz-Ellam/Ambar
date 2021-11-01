@@ -10,7 +10,6 @@ namespace Ambar.Model.DTO
     {
         int year;
         short month;
-        string service;
         decimal total_kw;
         decimal total_price;
         decimal amount_pad;
@@ -18,7 +17,6 @@ namespace Ambar.Model.DTO
 
         public int Year { get => year; set => year = value; }
         public short Month { get => month; set => month = value; }
-        public string Service { get => service; set => service = value; }
         public decimal Total_KW { get => total_kw; set => total_kw = value; }
         public decimal Total_Price { get => total_price; set => total_price = value; }
         public decimal Amount_Pad { get => amount_pad; set => amount_pad = value; }

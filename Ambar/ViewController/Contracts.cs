@@ -19,6 +19,7 @@ namespace Ambar.ViewController
     public partial class Contracts : Form
     {
         ContractDAO contractDao = new ContractDAO();
+        DateDAO dateDAO = new DateDAO();
         int dtgPrevIndex = -1;
 
         public Contracts()
@@ -38,7 +39,15 @@ namespace Ambar.ViewController
             this.dtgClients.DataSource = dtgClients;
             this.dtgClients.Columns["Emails"].Visible = false;
             cbService.SelectedIndex = 0;
-            dtpStartPeriodDate.MinDate = Convert.ToDateTime(Settings.Default.DateOffset);
+
+            if (dateDAO.GetInitial())
+            {
+                dtpStartPeriodDate.MinDate = dateDAO.GetDate().AddMonths(-2);
+            }
+            else
+            {
+                dtpStartPeriodDate.MinDate = dateDAO.GetDate();
+            }
         }
 
         private void cbState_SelectedIndexChanged(object sender, EventArgs e)
@@ -749,13 +758,18 @@ namespace Ambar.ViewController
                 int bimester = (contract.Start_Period_Date.Month - 1) / 2 + 1;
                 int month = (bimester + 1) * 2 - 1;
 
-                DateTime date = new DateTime(contract.Start_Period_Date.Year, month, contract.Start_Period_Date.Day);
-                string message = string.Format("La carga de consumos inicia el {0}", date.ToString("dd 'de' MMMM 'de' yy"));
+                DateTime date = new DateTime(contract.Start_Period_Date.Year, month, 
+                    DateUtils.ClampDay(contract.Start_Period_Date.Year, month, contract.Start_Period_Date.Day));
+                string message = string.Format("La carga de consumos inicia el {0}", date.ToString("dd 'de' MMMM 'del' yyyy"));
 
                 MessageBox.Show(message, "Ambar", MessageBoxButtons.OK);
             }
             else if (contract.Service == "Industrial")
             {
+                DateTime date = new DateTime(contract.Start_Period_Date.Year, contract.Start_Period_Date.Month,
+                    contract.Start_Period_Date.Day);
+                string message = string.Format("La carga de consumos inicia el {0}", 
+                    date.AddDays(30).ToString("dd 'de' MMMM 'del' yyyy"));
 
             }
         }

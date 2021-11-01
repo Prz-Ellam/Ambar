@@ -7,6 +7,7 @@ using Ambar.ViewController;
 using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using Ambar.Properties;
+using System.IO;
 
 namespace Ambar
 {
@@ -18,10 +19,14 @@ namespace Ambar
         // Borrar y actualizar tambien en remember users
         static void Main()
         {
-            if (Settings.Default.DateOffset == string.Empty)
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-US");
+
+            //new TestDAO().Restart();
+
+            DateDAO dateDAO = new DateDAO();
+            if (!dateDAO.DateExists())
             {
-                Settings.Default.DateOffset = DateTime.Now.ToString();
-                Settings.Default.Save();
+                dateDAO.Create();
             }
 
             Application.EnableVisualStyles();

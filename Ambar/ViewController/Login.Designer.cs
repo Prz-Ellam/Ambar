@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.lblLogin = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnAccept = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -44,10 +43,11 @@
             this.pbUsername = new System.Windows.Forms.PictureBox();
             this.lblError = new System.Windows.Forms.Label();
             this.cbPositions = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblPosition = new System.Windows.Forms.Label();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
             this.gradientPanel = new Ambar.Utils.GradientPanel();
             this.pbAmbar = new System.Windows.Forms.PictureBox();
+            this.txtUsername = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
@@ -69,19 +69,6 @@
             this.lblLogin.TabIndex = 1;
             this.lblLogin.Text = "LOGIN";
             // 
-            // txtUsername
-            // 
-            this.txtUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.txtUsername.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsername.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.txtUsername.Location = new System.Drawing.Point(255, 129);
-            this.txtUsername.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(322, 19);
-            this.txtUsername.TabIndex = 2;
-            this.txtUsername.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
-            // 
             // txtPassword
             // 
             this.txtPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
@@ -89,7 +76,7 @@
             this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.txtPassword.Location = new System.Drawing.Point(255, 190);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(2);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(322, 19);
             this.txtPassword.TabIndex = 3;
@@ -104,10 +91,10 @@
             this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
             this.btnAccept.Location = new System.Drawing.Point(210, 294);
-            this.btnAccept.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(368, 39);
-            this.btnAccept.TabIndex = 4;
+            this.btnAccept.TabIndex = 5;
             this.btnAccept.Text = "ACCEDER";
             this.btnAccept.UseVisualStyleBackColor = false;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
@@ -116,7 +103,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.panel1.Location = new System.Drawing.Point(255, 150);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(322, 1);
             this.panel1.TabIndex = 5;
@@ -125,7 +112,7 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.panel2.Location = new System.Drawing.Point(255, 210);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(322, 1);
             this.panel2.TabIndex = 6;
@@ -138,10 +125,10 @@
             this.chkRemember.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkRemember.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.chkRemember.Location = new System.Drawing.Point(254, 230);
-            this.chkRemember.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkRemember.Margin = new System.Windows.Forms.Padding(2);
             this.chkRemember.Name = "chkRemember";
             this.chkRemember.Size = new System.Drawing.Size(109, 22);
-            this.chkRemember.TabIndex = 7;
+            this.chkRemember.TabIndex = 4;
             this.chkRemember.Text = "Recuérdame";
             this.chkRemember.UseVisualStyleBackColor = true;
             // 
@@ -149,7 +136,7 @@
             // 
             this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
             this.pbWarningIcon.Location = new System.Drawing.Point(218, 261);
-            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
             this.pbWarningIcon.Name = "pbWarningIcon";
             this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
             this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -162,7 +149,7 @@
             this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMinimized.Image = global::Ambar.Properties.Resources.Minimized_Button_Logo;
             this.btnMinimized.Location = new System.Drawing.Point(549, 10);
-            this.btnMinimized.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnMinimized.Margin = new System.Windows.Forms.Padding(2);
             this.btnMinimized.Name = "btnMinimized";
             this.btnMinimized.Size = new System.Drawing.Size(19, 20);
             this.btnMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -175,7 +162,7 @@
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClose.Image = global::Ambar.Properties.Resources.Close_Button_Logo;
             this.btnClose.Location = new System.Drawing.Point(572, 10);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(2);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(19, 20);
             this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -187,7 +174,7 @@
             // 
             this.pbPassword.Image = global::Ambar.Properties.Resources.Password_Logo;
             this.pbPassword.Location = new System.Drawing.Point(216, 178);
-            this.pbPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pbPassword.Margin = new System.Windows.Forms.Padding(2);
             this.pbPassword.Name = "pbPassword";
             this.pbPassword.Size = new System.Drawing.Size(30, 32);
             this.pbPassword.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -198,7 +185,7 @@
             // 
             this.pbUsername.Image = global::Ambar.Properties.Resources.Username_Logo;
             this.pbUsername.Location = new System.Drawing.Point(216, 117);
-            this.pbUsername.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pbUsername.Margin = new System.Windows.Forms.Padding(2);
             this.pbUsername.Name = "pbUsername";
             this.pbUsername.Size = new System.Drawing.Size(30, 32);
             this.pbUsername.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -231,23 +218,23 @@
             "Empleado",
             "Cliente"});
             this.cbPositions.Location = new System.Drawing.Point(263, 76);
-            this.cbPositions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbPositions.Margin = new System.Windows.Forms.Padding(2);
             this.cbPositions.Name = "cbPositions";
             this.cbPositions.Size = new System.Drawing.Size(171, 24);
-            this.cbPositions.TabIndex = 14;
+            this.cbPositions.TabIndex = 1;
             this.cbPositions.SelectedIndexChanged += new System.EventHandler(this.cbPositions_SelectedIndexChanged);
             // 
-            // label1
+            // lblPosition
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(214, 77);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 20);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Tipo:";
+            this.lblPosition.AutoSize = true;
+            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPosition.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblPosition.Location = new System.Drawing.Point(214, 77);
+            this.lblPosition.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPosition.Name = "lblPosition";
+            this.lblPosition.Size = new System.Drawing.Size(43, 20);
+            this.lblPosition.TabIndex = 15;
+            this.lblPosition.Text = "Tipo:";
             // 
             // fadeIn
             // 
@@ -262,7 +249,7 @@
             this.gradientPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.gradientPanel.first = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.gradientPanel.Location = new System.Drawing.Point(0, 0);
-            this.gradientPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gradientPanel.Margin = new System.Windows.Forms.Padding(2);
             this.gradientPanel.Name = "gradientPanel";
             this.gradientPanel.second = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.gradientPanel.Size = new System.Drawing.Size(188, 366);
@@ -273,12 +260,25 @@
             this.pbAmbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.pbAmbar.Image = global::Ambar.Properties.Resources.Ambar_Logo;
             this.pbAmbar.Location = new System.Drawing.Point(28, 90);
-            this.pbAmbar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pbAmbar.Margin = new System.Windows.Forms.Padding(2);
             this.pbAmbar.Name = "pbAmbar";
             this.pbAmbar.Size = new System.Drawing.Size(130, 132);
             this.pbAmbar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbAmbar.TabIndex = 14;
             this.pbAmbar.TabStop = false;
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.txtUsername.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUsername.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.txtUsername.Location = new System.Drawing.Point(255, 129);
+            this.txtUsername.Margin = new System.Windows.Forms.Padding(2);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(322, 19);
+            this.txtUsername.TabIndex = 2;
+            this.txtUsername.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
             // Login
             // 
@@ -286,7 +286,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(600, 366);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtUsername);
+            this.Controls.Add(this.lblPosition);
             this.Controls.Add(this.cbPositions);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.pbWarningIcon);
@@ -299,12 +300,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.lblLogin);
             this.Controls.Add(this.gradientPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Login";
             this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -327,7 +327,6 @@
 
         private Utils.GradientPanel gradientPanel;
         private System.Windows.Forms.Label lblLogin;
-        private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Panel panel1;
@@ -341,7 +340,8 @@
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.PictureBox pbAmbar;
         private System.Windows.Forms.ComboBox cbPositions;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblPosition;
         private System.Windows.Forms.Timer fadeIn;
+        private System.Windows.Forms.TextBox txtUsername;
     }
 }
