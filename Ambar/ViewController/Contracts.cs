@@ -39,15 +39,9 @@ namespace Ambar.ViewController
             this.dtgClients.DataSource = dtgClients;
             this.dtgClients.Columns["Emails"].Visible = false;
             cbService.SelectedIndex = 0;
+            dtpStartPeriodDate.Value = dtpStartPeriodDate.MinDate;
 
-            if (dateDAO.GetInitial())
-            {
-                dtpStartPeriodDate.MinDate = dateDAO.GetDate().AddMonths(-2);
-            }
-            else
-            {
-                dtpStartPeriodDate.MinDate = dateDAO.GetDate();
-            }
+            dtpStartPeriodDate.MinDate = dateDAO.GetDate();
         }
 
         private void cbState_SelectedIndexChanged(object sender, EventArgs e)
@@ -714,19 +708,23 @@ namespace Ambar.ViewController
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (txtServiceNumber.Text == string.Empty)
+            if (txtServiceNumber.Text == string.Empty || cbService.SelectedIndex <= 0)
             {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!RegexUtils.OnlyNumbers(txtServiceNumber.Text))
             {
-                PrintError("EL NÚMERO DE SERVICIO SOLO ACEPTA CAMPOS NUMÉRICOS");
+                MessageBox.Show("El número de servicio solo acepta valores numéricos", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             ContractDTO contract = FillContract();
+            if (contract == null)
+            {
+                return;
+            }
 
             // Agregar un contrato
             if (contract.Meter_Serial_Number == string.Empty || contract.Service == string.Empty || 
@@ -735,13 +733,13 @@ namespace Ambar.ViewController
                 contract.Postal_Code == string.Empty || contract.First_Name == string.Empty ||
                 contract.Father_Last_Name == string.Empty || contract.Mother_Last_Name == string.Empty)
             {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (contractDao.ContractExists(txtMeterSerialNumber.Text, contract.Service_Number))
             {
-                PrintError("EL NÚMERO DE MEDIDOR O NÚMERO DE SERVICIO YA EXISTE");
+                MessageBox.Show("El número de medidor o número de servicio ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -752,38 +750,46 @@ namespace Ambar.ViewController
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
 
-
+            DateTime date;
             if (contract.Service == "Domestico")
             {
-                int bimester = (contract.Start_Period_Date.Month - 1) / 2 + 1;
-                int month = (bimester + 1) * 2 - 1;
-
-                DateTime date = new DateTime(contract.Start_Period_Date.Year, month, 
-                    DateUtils.ClampDay(contract.Start_Period_Date.Year, month, contract.Start_Period_Date.Day));
-                string message = string.Format("La carga de consumos inicia el {0}", date.ToString("dd 'de' MMMM 'del' yyyy"));
-
-                MessageBox.Show(message, "Ambar", MessageBoxButtons.OK);
+                date = DateUtils.ToDateTime(contract.Start_Period_Date);
+                date = (date.Month % 2 == 0) ? date.AddMonths(2) : date.AddMonths(3);
             }
             else if (contract.Service == "Industrial")
             {
-                DateTime date = new DateTime(contract.Start_Period_Date.Year, contract.Start_Period_Date.Month,
-                    contract.Start_Period_Date.Day);
-                string message = string.Format("La carga de consumos inicia el {0}", 
-                    date.AddDays(30).ToString("dd 'de' MMMM 'del' yyyy"));
-
+                date = DateUtils.ToDateTime(contract.Start_Period_Date).AddMonths(1);
             }
+            else
+            {
+                MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string message = string.Format("La carga de consumos inicia el {0}", date.ToString("dd 'de' MMMM 'del' yyyy"));
+            MessageBox.Show(message, "Ambar", MessageBoxButtons.OK);
         }
 
         private ContractDTO FillContract()
         {
             ContractDTO contract = new ContractDTO();
             contract.Contract_ID = Guid.NewGuid();
-            contract.Client_ID = (Guid)dtgClients.Rows[dtgPrevIndex].Cells[0].Value;
+            contract.Client_ID = Guid.Parse(dtgClients.Rows[dtgPrevIndex].Cells[0].Value.ToString());
             contract.First_Name = dtgClients.Rows[dtgPrevIndex].Cells[3].Value.ToString();
             contract.Father_Last_Name = dtgClients.Rows[dtgPrevIndex].Cells[4].Value.ToString();
             contract.Mother_Last_Name = dtgClients.Rows[dtgPrevIndex].Cells[5].Value.ToString();
             contract.Meter_Serial_Number = StringUtils.GetText(txtMeterSerialNumber.Text);
-            contract.Service_Number = Convert.ToInt32(StringUtils.GetText(txtServiceNumber.Text));
+
+            try
+            {
+                contract.Service_Number = Convert.ToInt64(StringUtils.GetText(txtServiceNumber.Text));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Número de servicio no válido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
             contract.State = cbState.Text;
             contract.City = cbCity.Text;
             contract.Suburb = StringUtils.GetText(txtSuburb.Text);
@@ -791,16 +797,8 @@ namespace Ambar.ViewController
             contract.Number = StringUtils.GetText(txtNumber.Text);
             contract.Postal_Code = StringUtils.GetText(txtPostalCode.Text);
             contract.Service = cbService.Text;
-            DateTime date = dtpStartPeriodDate.Value;
-            contract.Start_Period_Date = new LocalDate(date.Year, date.Month, date.Day);
+            contract.Start_Period_Date = DateUtils.ToLocalDate(dtpStartPeriodDate.Value);
             return contract;
-        }
-
-        private void PrintError(string error)
-        {
-            pbWarningIcon.Visible = true;
-            lblError.Visible = true;
-            lblError.Text = error;
         }
 
         private void ClearForm()
@@ -814,13 +812,17 @@ namespace Ambar.ViewController
             txtStreet.Clear();
             txtNumber.Clear();
             txtPostalCode.Clear();
-            dtpStartPeriodDate.Value = DateTime.Now;
+            dtpStartPeriodDate.Value = dtpStartPeriodDate.MinDate;
+            dtgPrevIndex = -1;
+            txtClient.Clear();
+            dtgContracts.DataSource = new List<ContractDTO>();
+            btnAccept.Enabled = false;
         }
 
         private void FillContractDataGridView()
         {
             // Se encuentra el UUID del Cliente utilizando el username como llave en un map
-            List<ContractDTO> contracts = contractDao.ReadClientContracts((Guid)dtgClients.Rows[dtgPrevIndex].Cells[0].Value);
+            List<ContractDTO> contracts = contractDao.ReadClientContracts(Guid.Parse(dtgClients.Rows[dtgPrevIndex].Cells[0].Value.ToString()));
             List<ContractDTG> dtgContracts = new List<ContractDTG>();
             // Conversion de un DTO a un DTG
             foreach (var contract in contracts)
@@ -835,10 +837,7 @@ namespace Ambar.ViewController
             int index = e.RowIndex;
             if (dtgPrevIndex == index || index == -1)
             {
-                dtgPrevIndex = -1;
-                txtClient.Clear();
-                dtgContracts.DataSource = new List<ContractDTO>();
-                btnAccept.Enabled = false;
+                ClearForm();
                 return;
             }
             else
@@ -847,6 +846,29 @@ namespace Ambar.ViewController
                 txtClient.Text = dtgClients.Rows[index].Cells[1].Value.ToString();
                 FillContractDataGridView();
                 btnAccept.Enabled = true;
+            }
+        }
+
+        // Si no se ha cargado ningun recibo, el programa te deja empezar un par de meses antes para empezar los
+        // contratos, ya que de no ser asi la primera factura no podria tener ningun contrato
+        // despues del primer recibo empezara a respetar la fecha y no te dejara hacer ningun contrato
+        // en fechas pasadas
+        private void cbService_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (dateDAO.GetInitial())
+            {
+                if (cbService.SelectedIndex == 0)
+                {
+                    dtpStartPeriodDate.MinDate = dateDAO.GetDate();
+                }
+                else if (cbService.SelectedIndex == 1)
+                {
+                    dtpStartPeriodDate.MinDate = dateDAO.GetDate().AddMonths(-2);
+                }
+                else if (cbService.SelectedIndex == 2)
+                {
+                    dtpStartPeriodDate.MinDate = dateDAO.GetDate().AddMonths(-1);
+                }
             }
         }
     }

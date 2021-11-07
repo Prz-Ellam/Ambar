@@ -29,11 +29,16 @@ namespace Ambar.ViewController
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtgGeneralReport = new System.Windows.Forms.DataGridView();
+            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Month = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Service = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total_Pay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PendingAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbPeriod = new System.Windows.Forms.ComboBox();
             this.cbService = new System.Windows.Forms.ComboBox();
             this.dtpYear = new System.Windows.Forms.DateTimePicker();
@@ -44,11 +49,8 @@ namespace Ambar.ViewController
             this.btnPDF = new System.Windows.Forms.Button();
             this.btnCSV = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Month = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Service = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total_Pay = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PendingAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ofnReportCSV = new System.Windows.Forms.SaveFileDialog();
+            this.ofnReportPDF = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dtgGeneralReport)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,14 +60,14 @@ namespace Ambar.ViewController
             this.dtgGeneralReport.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.dtgGeneralReport.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgGeneralReport.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgGeneralReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgGeneralReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgGeneralReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgGeneralReport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Year,
@@ -73,33 +75,68 @@ namespace Ambar.ViewController
             this.Service,
             this.Total_Pay,
             this.PendingAmount});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgGeneralReport.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgGeneralReport.DefaultCellStyle = dataGridViewCellStyle2;
             this.dtgGeneralReport.EnableHeadersVisualStyles = false;
             this.dtgGeneralReport.Location = new System.Drawing.Point(29, 122);
             this.dtgGeneralReport.Name = "dtgGeneralReport";
             this.dtgGeneralReport.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgGeneralReport.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            this.dtgGeneralReport.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgGeneralReport.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            this.dtgGeneralReport.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgGeneralReport.Size = new System.Drawing.Size(823, 428);
             this.dtgGeneralReport.TabIndex = 0;
+            // 
+            // Year
+            // 
+            this.Year.DataPropertyName = "YEAR";
+            this.Year.HeaderText = "Año";
+            this.Year.Name = "Year";
+            this.Year.Width = 150;
+            // 
+            // Month
+            // 
+            this.Month.DataPropertyName = "MONTH";
+            this.Month.HeaderText = "Mes";
+            this.Month.Name = "Month";
+            this.Month.Width = 150;
+            // 
+            // Service
+            // 
+            this.Service.DataPropertyName = "SERVICE";
+            this.Service.HeaderText = "Tipo de Servicio";
+            this.Service.Name = "Service";
+            this.Service.Width = 150;
+            // 
+            // Total_Pay
+            // 
+            this.Total_Pay.DataPropertyName = "AMOUNT_PAD";
+            this.Total_Pay.HeaderText = "Total Pagado";
+            this.Total_Pay.Name = "Total_Pay";
+            this.Total_Pay.Width = 150;
+            // 
+            // PendingAmount
+            // 
+            this.PendingAmount.DataPropertyName = "PENDING_AMOUNT";
+            this.PendingAmount.HeaderText = "Pendiente de Pago";
+            this.PendingAmount.Name = "PendingAmount";
+            this.PendingAmount.Width = 150;
             // 
             // cbPeriod
             // 
@@ -130,7 +167,7 @@ namespace Ambar.ViewController
             this.cbService.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.cbService.FormattingEnabled = true;
             this.cbService.Items.AddRange(new object[] {
-            "Seleccionar",
+            "Todos",
             "Domestico",
             "Industrial"});
             this.cbService.Location = new System.Drawing.Point(565, 77);
@@ -203,6 +240,7 @@ namespace Ambar.ViewController
             // 
             this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnPDF.FlatAppearance.BorderSize = 0;
+            this.btnPDF.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPDF.ForeColor = System.Drawing.Color.White;
@@ -215,11 +253,13 @@ namespace Ambar.ViewController
             this.btnPDF.TabIndex = 28;
             this.btnPDF.Text = "          GENERAR PDF";
             this.btnPDF.UseVisualStyleBackColor = false;
+            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
             // 
             // btnCSV
             // 
             this.btnCSV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnCSV.FlatAppearance.BorderSize = 0;
+            this.btnCSV.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnCSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCSV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCSV.ForeColor = System.Drawing.Color.White;
@@ -232,11 +272,13 @@ namespace Ambar.ViewController
             this.btnCSV.TabIndex = 27;
             this.btnCSV.Text = "          GENERAR CSV";
             this.btnCSV.UseVisualStyleBackColor = false;
+            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
             // 
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnSearch.FlatAppearance.BorderSize = 0;
+            this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.btnSearch.ForeColor = System.Drawing.Color.White;
@@ -249,40 +291,13 @@ namespace Ambar.ViewController
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // Year
+            // ofnReportCSV
             // 
-            this.Year.DataPropertyName = "YEAR";
-            this.Year.HeaderText = "Año";
-            this.Year.Name = "Year";
-            this.Year.Width = 150;
+            this.ofnReportCSV.Filter = "CSV (*.csv)|*.csv";
             // 
-            // Month
+            // ofnReportPDF
             // 
-            this.Month.DataPropertyName = "MONTH";
-            this.Month.HeaderText = "Mes";
-            this.Month.Name = "Month";
-            this.Month.Width = 150;
-            // 
-            // Service
-            // 
-            this.Service.DataPropertyName = "SERVICE";
-            this.Service.HeaderText = "Tipo de Servicio";
-            this.Service.Name = "Service";
-            this.Service.Width = 150;
-            // 
-            // Total_Pay
-            // 
-            this.Total_Pay.DataPropertyName = "AMOUNT_PAD";
-            this.Total_Pay.HeaderText = "Total Pagado";
-            this.Total_Pay.Name = "Total_Pay";
-            this.Total_Pay.Width = 150;
-            // 
-            // PendingAmount
-            // 
-            this.PendingAmount.DataPropertyName = "PENDING_AMOUNT";
-            this.PendingAmount.HeaderText = "Pendiente de Pago";
-            this.PendingAmount.Name = "PendingAmount";
-            this.PendingAmount.Width = 150;
+            this.ofnReportPDF.Filter = "PDF (*.pdf)|*.pdf";
             // 
             // GeneralReport
             // 
@@ -329,5 +344,7 @@ namespace Ambar.ViewController
         private System.Windows.Forms.DataGridViewTextBoxColumn Service;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total_Pay;
         private System.Windows.Forms.DataGridViewTextBoxColumn PendingAmount;
+        private System.Windows.Forms.SaveFileDialog ofnReportCSV;
+        private System.Windows.Forms.SaveFileDialog ofnReportPDF;
     }
 }

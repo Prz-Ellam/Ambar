@@ -47,10 +47,25 @@ namespace Ambar.ViewController
             this.lblImport = new System.Windows.Forms.Label();
             this.lblAmountPad = new System.Windows.Forms.Label();
             this.lblPendingPaid = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnMassivePaid = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.nudMount = new System.Windows.Forms.NumericUpDown();
+            this.ofnReceipt = new System.Windows.Forms.SaveFileDialog();
+            this.consumptionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.meterSerialNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.serviceNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.state = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.city = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.suburb = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.street = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.postalCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.service = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.startPeriodDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMount)).BeginInit();
@@ -71,15 +86,28 @@ namespace Ambar.ViewController
             // dtgContracts
             // 
             this.dtgContracts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgContracts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.consumptionID,
+            this.meterSerialNumber,
+            this.serviceNumber,
+            this.state,
+            this.city,
+            this.suburb,
+            this.street,
+            this.number,
+            this.postalCode,
+            this.service,
+            this.startPeriodDate});
             this.dtgContracts.Location = new System.Drawing.Point(21, 65);
             this.dtgContracts.Name = "dtgContracts";
-            this.dtgContracts.Size = new System.Drawing.Size(824, 185);
+            this.dtgContracts.ReadOnly = true;
+            this.dtgContracts.Size = new System.Drawing.Size(838, 244);
             this.dtgContracts.TabIndex = 23;
             // 
             // txtMeterSerialNumber
             // 
             this.txtMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.txtMeterSerialNumber.Location = new System.Drawing.Point(183, 284);
+            this.txtMeterSerialNumber.Location = new System.Drawing.Point(183, 339);
             this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
             this.txtMeterSerialNumber.Size = new System.Drawing.Size(226, 23);
             this.txtMeterSerialNumber.TabIndex = 24;
@@ -91,20 +119,21 @@ namespace Ambar.ViewController
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPDF.ForeColor = System.Drawing.Color.White;
-            this.btnPDF.Location = new System.Drawing.Point(435, 284);
+            this.btnPDF.Location = new System.Drawing.Point(435, 339);
             this.btnPDF.Margin = new System.Windows.Forms.Padding(2);
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(200, 87);
             this.btnPDF.TabIndex = 28;
             this.btnPDF.Text = "GENERAR RECIBO PDF";
             this.btnPDF.UseVisualStyleBackColor = false;
+            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
             // 
             // dtpPeriodSearch
             // 
             this.dtpPeriodSearch.CustomFormat = "MMMM yyyy";
             this.dtpPeriodSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.dtpPeriodSearch.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpPeriodSearch.Location = new System.Drawing.Point(183, 314);
+            this.dtpPeriodSearch.Location = new System.Drawing.Point(183, 369);
             this.dtpPeriodSearch.Name = "dtpPeriodSearch";
             this.dtpPeriodSearch.ShowUpDown = true;
             this.dtpPeriodSearch.Size = new System.Drawing.Size(226, 23);
@@ -117,7 +146,7 @@ namespace Ambar.ViewController
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.ForeColor = System.Drawing.Color.White;
-            this.btnSearch.Location = new System.Drawing.Point(26, 358);
+            this.btnSearch.Location = new System.Drawing.Point(26, 413);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(137, 52);
@@ -134,7 +163,7 @@ namespace Ambar.ViewController
             this.groupBox1.Controls.Add(this.rbCash);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.groupBox1.Location = new System.Drawing.Point(659, 284);
+            this.groupBox1.Location = new System.Drawing.Point(659, 339);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 142);
             this.groupBox1.TabIndex = 32;
@@ -196,7 +225,7 @@ namespace Ambar.ViewController
             this.lblImporte.AutoSize = true;
             this.lblImporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblImporte.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblImporte.Location = new System.Drawing.Point(436, 393);
+            this.lblImporte.Location = new System.Drawing.Point(436, 448);
             this.lblImporte.Name = "lblImporte";
             this.lblImporte.Size = new System.Drawing.Size(64, 16);
             this.lblImporte.TabIndex = 33;
@@ -207,7 +236,7 @@ namespace Ambar.ViewController
             this.lblTotalPagado.AutoSize = true;
             this.lblTotalPagado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalPagado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblTotalPagado.Location = new System.Drawing.Point(436, 425);
+            this.lblTotalPagado.Location = new System.Drawing.Point(436, 480);
             this.lblTotalPagado.Name = "lblTotalPagado";
             this.lblTotalPagado.Size = new System.Drawing.Size(106, 16);
             this.lblTotalPagado.TabIndex = 34;
@@ -218,7 +247,7 @@ namespace Ambar.ViewController
             this.lblTotalPendiente.AutoSize = true;
             this.lblTotalPendiente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalPendiente.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblTotalPendiente.Location = new System.Drawing.Point(436, 457);
+            this.lblTotalPendiente.Location = new System.Drawing.Point(436, 512);
             this.lblTotalPendiente.Name = "lblTotalPendiente";
             this.lblTotalPendiente.Size = new System.Drawing.Size(121, 16);
             this.lblTotalPendiente.TabIndex = 35;
@@ -231,7 +260,7 @@ namespace Ambar.ViewController
             this.btnPaid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPaid.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPaid.ForeColor = System.Drawing.Color.White;
-            this.btnPaid.Location = new System.Drawing.Point(793, 473);
+            this.btnPaid.Location = new System.Drawing.Point(793, 528);
             this.btnPaid.Margin = new System.Windows.Forms.Padding(2);
             this.btnPaid.Name = "btnPaid";
             this.btnPaid.Size = new System.Drawing.Size(66, 31);
@@ -245,7 +274,7 @@ namespace Ambar.ViewController
             this.lblImport.AutoSize = true;
             this.lblImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblImport.Location = new System.Drawing.Point(499, 393);
+            this.lblImport.Location = new System.Drawing.Point(499, 448);
             this.lblImport.Name = "lblImport";
             this.lblImport.Size = new System.Drawing.Size(17, 16);
             this.lblImport.TabIndex = 38;
@@ -256,7 +285,7 @@ namespace Ambar.ViewController
             this.lblAmountPad.AutoSize = true;
             this.lblAmountPad.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAmountPad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblAmountPad.Location = new System.Drawing.Point(548, 425);
+            this.lblAmountPad.Location = new System.Drawing.Point(548, 480);
             this.lblAmountPad.Name = "lblAmountPad";
             this.lblAmountPad.Size = new System.Drawing.Size(17, 16);
             this.lblAmountPad.TabIndex = 39;
@@ -267,33 +296,34 @@ namespace Ambar.ViewController
             this.lblPendingPaid.AutoSize = true;
             this.lblPendingPaid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPendingPaid.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblPendingPaid.Location = new System.Drawing.Point(563, 457);
+            this.lblPendingPaid.Location = new System.Drawing.Point(563, 512);
             this.lblPendingPaid.Name = "lblPendingPaid";
             this.lblPendingPaid.Size = new System.Drawing.Size(17, 16);
             this.lblPendingPaid.TabIndex = 40;
             this.lblPendingPaid.Text = "...";
             // 
-            // button1
+            // btnMassivePaid
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(659, 473);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(130, 31);
-            this.button1.TabIndex = 41;
-            this.button1.Text = "Pago Masivo";
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnMassivePaid.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnMassivePaid.FlatAppearance.BorderSize = 0;
+            this.btnMassivePaid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMassivePaid.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMassivePaid.ForeColor = System.Drawing.Color.White;
+            this.btnMassivePaid.Location = new System.Drawing.Point(659, 528);
+            this.btnMassivePaid.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMassivePaid.Name = "btnMassivePaid";
+            this.btnMassivePaid.Size = new System.Drawing.Size(130, 31);
+            this.btnMassivePaid.TabIndex = 41;
+            this.btnMassivePaid.Text = "Pago Masivo";
+            this.btnMassivePaid.UseVisualStyleBackColor = false;
+            this.btnMassivePaid.Click += new System.EventHandler(this.btnMassivePaid_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label4.Location = new System.Drawing.Point(23, 287);
+            this.label4.Location = new System.Drawing.Point(23, 342);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(103, 17);
@@ -305,7 +335,7 @@ namespace Ambar.ViewController
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label5.Location = new System.Drawing.Point(23, 319);
+            this.label5.Location = new System.Drawing.Point(23, 374);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(155, 17);
@@ -316,21 +346,130 @@ namespace Ambar.ViewController
             // 
             this.nudMount.DecimalPlaces = 2;
             this.nudMount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.nudMount.Location = new System.Drawing.Point(659, 439);
+            this.nudMount.Location = new System.Drawing.Point(659, 494);
             this.nudMount.Name = "nudMount";
             this.nudMount.Size = new System.Drawing.Size(200, 23);
             this.nudMount.TabIndex = 44;
+            // 
+            // ofnReceipt
+            // 
+            this.ofnReceipt.Filter = "PDF (*.pdf)|.pdf";
+            // 
+            // consumptionID
+            // 
+            this.consumptionID.DataPropertyName = "CONTRACT_ID";
+            this.consumptionID.HeaderText = "ID";
+            this.consumptionID.Name = "consumptionID";
+            this.consumptionID.ReadOnly = true;
+            // 
+            // meterSerialNumber
+            // 
+            this.meterSerialNumber.DataPropertyName = "METER_SERIAL_NUMBER";
+            this.meterSerialNumber.HeaderText = "Número de Medidor";
+            this.meterSerialNumber.Name = "meterSerialNumber";
+            this.meterSerialNumber.ReadOnly = true;
+            // 
+            // serviceNumber
+            // 
+            this.serviceNumber.DataPropertyName = "SERVICE_NUMBER";
+            this.serviceNumber.HeaderText = "Número de Servicio";
+            this.serviceNumber.Name = "serviceNumber";
+            this.serviceNumber.ReadOnly = true;
+            // 
+            // state
+            // 
+            this.state.DataPropertyName = "STATE";
+            this.state.HeaderText = "Estado";
+            this.state.Name = "state";
+            this.state.ReadOnly = true;
+            // 
+            // city
+            // 
+            this.city.DataPropertyName = "CITY";
+            this.city.HeaderText = "Ciudad";
+            this.city.Name = "city";
+            this.city.ReadOnly = true;
+            // 
+            // suburb
+            // 
+            this.suburb.DataPropertyName = "SUBURB";
+            this.suburb.HeaderText = "Colonia";
+            this.suburb.Name = "suburb";
+            this.suburb.ReadOnly = true;
+            // 
+            // street
+            // 
+            this.street.DataPropertyName = "STREET";
+            this.street.HeaderText = "Calle";
+            this.street.Name = "street";
+            this.street.ReadOnly = true;
+            // 
+            // number
+            // 
+            this.number.DataPropertyName = "NUMBER";
+            this.number.HeaderText = "Número";
+            this.number.Name = "number";
+            this.number.ReadOnly = true;
+            // 
+            // postalCode
+            // 
+            this.postalCode.DataPropertyName = "POSTAL_CODE";
+            this.postalCode.HeaderText = "Código Postal";
+            this.postalCode.Name = "postalCode";
+            this.postalCode.ReadOnly = true;
+            // 
+            // service
+            // 
+            this.service.DataPropertyName = "SERVICE";
+            this.service.HeaderText = "Servicio";
+            this.service.Name = "service";
+            this.service.ReadOnly = true;
+            // 
+            // startPeriodDate
+            // 
+            this.startPeriodDate.DataPropertyName = "START_PERIOD_DATE";
+            this.startPeriodDate.HeaderText = "Inicio de Contrato";
+            this.startPeriodDate.Name = "startPeriodDate";
+            this.startPeriodDate.ReadOnly = true;
+            // 
+            // ofnMassive
+            // 
+            this.ofnMassive.Filter = "CSV (*.csv)|*.csv|XLSX (*.xlsx)|*.xlsx";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.label1.Location = new System.Drawing.Point(436, 538);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(63, 16);
+            this.label1.TabIndex = 45;
+            this.label1.Text = "Estatus:";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblStatus.Location = new System.Drawing.Point(501, 539);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(17, 16);
+            this.lblStatus.TabIndex = 46;
+            this.lblStatus.Text = "...";
             // 
             // ClientReceipts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(907, 558);
+            this.ClientSize = new System.Drawing.Size(907, 594);
+            this.Controls.Add(this.lblStatus);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.nudMount);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnMassivePaid);
             this.Controls.Add(this.lblPendingPaid);
             this.Controls.Add(this.lblAmountPad);
             this.Controls.Add(this.lblImport);
@@ -378,9 +517,24 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Label lblImport;
         private System.Windows.Forms.Label lblAmountPad;
         private System.Windows.Forms.Label lblPendingPaid;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnMassivePaid;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown nudMount;
+        private System.Windows.Forms.SaveFileDialog ofnReceipt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn consumptionID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn meterSerialNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn serviceNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn state;
+        private System.Windows.Forms.DataGridViewTextBoxColumn city;
+        private System.Windows.Forms.DataGridViewTextBoxColumn suburb;
+        private System.Windows.Forms.DataGridViewTextBoxColumn street;
+        private System.Windows.Forms.DataGridViewTextBoxColumn number;
+        private System.Windows.Forms.DataGridViewTextBoxColumn postalCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn service;
+        private System.Windows.Forms.DataGridViewTextBoxColumn startPeriodDate;
+        private System.Windows.Forms.OpenFileDialog ofnMassive;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblStatus;
     }
 }

@@ -46,7 +46,15 @@ namespace Ambar.ViewController
                 panelClients.Location = new Point(panelClients.Location.X, panelClients.Location.Y - 60);
                 btnContracts.Location = new Point(btnContracts.Location.X, btnContracts.Location.Y - 60);
                 panelContracts.Location = new Point(panelContracts.Location.X, panelContracts.Location.Y - 60);
-                // -60
+                btnConsumptions.Location = new Point(btnConsumptions.Location.X, btnConsumptions.Location.Y - 60);
+                panelConsumptions.Location = new Point(panelConsumptions.Location.X, panelConsumptions.Location.Y - 60);
+                btnRates.Location = new Point(btnRates.Location.X, btnRates.Location.Y - 60);
+                panelRates.Location = new Point(panelRates.Location.X, panelRates.Location.Y - 60);
+                btnReceipts.Location = new Point(btnReceipts.Location.X, btnReceipts.Location.Y - 60);
+                panelReceipts.Location = new Point(panelReceipts.Location.X, panelReceipts.Location.Y - 60);
+                btnReports.Location = new Point(btnReports.Location.X, btnReports.Location.Y - 60);
+                panelReports.Location = new Point(panelReports.Location.X, panelReports.Location.Y - 60);
+                panelSubmenuReports.Location = new Point(panelSubmenuReports.Location.X, panelSubmenuReports.Location.Y - 60);
             }
             else if (UserCache.position == "Client")
             {
@@ -60,8 +68,20 @@ namespace Ambar.ViewController
                 panelRates.Visible = false;
                 btnConsumptions.Visible = false;
                 panelConsumptions.Visible = false;
+                btnGeneralReport.Visible = false;
+                panelGeneralReport.Visible = false;
+                btnRatesReport.Visible = false;
+                panelRatesReport.Visible = false;
+                btnConsumptionsReport.Visible = false;
+                panelConsumptionsReport.Visible = false;
+                btnReceipts.Location = new Point(btnReceipts.Location.X, btnReceipts.Location.Y - 244);
+                panelReceipts.Location = new Point(panelReceipts.Location.X, panelReceipts.Location.Y - 244);
+                btnReports.Location = new Point(btnReports.Location.X, btnReports.Location.Y - 244);
+                panelReports.Location = new Point(panelReports.Location.X, panelReports.Location.Y - 244);
+                panelSubmenuReports.Location = new Point(panelSubmenuReports.Location.X, panelSubmenuReports.Location.Y - 244);
+                btnHistoricConsumption.Location = new Point(btnHistoricConsumption.Location.X, 0);
+                panelHistoricConsumption.Location = new Point(panelHistoricConsumption.Location.X, 0);
             }
-
         }
 
         private void openFormChild(object son)
@@ -117,8 +137,8 @@ namespace Ambar.ViewController
 
         private void btnReportes_Click(object sender, EventArgs e)
         {
-            SubmenuReportes.Visible = !SubmenuReportes.Visible;
-            int alpha = (SubmenuReportes.Visible) ? 255 : 0;
+            panelSubmenuReports.Visible = !panelSubmenuReports.Visible;
+            int alpha = (panelSubmenuReports.Visible) ? 255 : 0;
             btnReports.BackColor = Color.FromArgb(alpha, 40, 40, 40);
         }
 

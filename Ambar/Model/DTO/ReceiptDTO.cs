@@ -18,9 +18,9 @@ namespace Ambar.Model.DTO
 		string street;
 		string number;
 		string postal_code;
-		string meter_serial_number;
-		long service_number;
         string service;
+        string meter_serial_number;
+		long service_number;
 		int year;
 		short month;
         short day;
@@ -36,9 +36,12 @@ namespace Ambar.Model.DTO
 		decimal surplus_price;
 		decimal subtotal_price;
 		decimal tax;
+        decimal prev_price;
+        decimal prev_amount;
         decimal total_price;
         decimal amount_pad;
 		decimal pending_amount;
+        bool is_paid;
         //IDictionary<string, decimal> payment_history;
 
         public Guid Receipt_ID { get => receipt_id; set => receipt_id = value; }
@@ -55,6 +58,7 @@ namespace Ambar.Model.DTO
         public long Service_Number { get => service_number; set => service_number = value; }
         public int Year { get => year; set => year = value; }
         public short Month { get => month; set => month = value; }
+        public short Day { get => day; set => day = value; }
         public decimal Total_Price { get => total_price; set => total_price = value; }
         public decimal Basic_Price { get => basic_price; set => basic_price = value; }
         public decimal Intermediate_Price { get => intermediate_price; set => intermediate_price = value; }
@@ -72,6 +76,8 @@ namespace Ambar.Model.DTO
         public string Service { get => service; set => service = value; }
        // public IDictionary<string, decimal> Payment_History { get => payment_history; set => payment_history = value; }
         public decimal Total_KW { get => total_kw; set => total_kw = value; }
-        public short Day { get => day; set => day = value; }
+        public bool Is_Paid { get => is_paid; set => is_paid = value; }
+        public decimal Prev_Price { get => prev_price; set => prev_price = value; }
+        public decimal Prev_Amount { get => prev_amount; set => prev_amount = value; }
     }
 }

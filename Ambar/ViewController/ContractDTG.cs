@@ -20,7 +20,6 @@ namespace Ambar.ViewController
         private string number;
         private string postal_code;
         private string service;
-        private Guid client_id;
         private LocalDate start_period_date;
 
         public Guid Contract_ID { get => contract_id; set => contract_id = value; }
@@ -33,7 +32,6 @@ namespace Ambar.ViewController
         public string Number { get => number; set => number = value; }
         public string Postal_Code { get => postal_code; set => postal_code = value; }
         public string Service { get => service; set => service = value; }
-        public Guid Client_ID { get => client_id; set => client_id = value; }
         public LocalDate Start_Period_Date { get => start_period_date; set => start_period_date = value; }
 
         public ContractDTG(ContractDTO dto)
@@ -48,7 +46,6 @@ namespace Ambar.ViewController
             number = dto.Number;
             postal_code = dto.Postal_Code;
             service = dto.Service;
-            client_id = dto.Client_ID;
             start_period_date = dto.Start_Period_Date;
         }
     }

@@ -238,7 +238,7 @@ namespace Ambar.Model.DAO
             return startPeriod;
         }
 
-        public int ReadServiceNumberByMeterSerialNumber(string meterSerialNumber)
+        public long ReadServiceNumberByMeterSerialNumber(string meterSerialNumber)
         {
             string query = string.Format("SELECT SERVICE_NUMBER FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}'",
                 meterSerialNumber);

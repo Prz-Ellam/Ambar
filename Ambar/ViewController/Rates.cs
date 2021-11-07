@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CsvHelper;
 using ExcelDataReader;
@@ -15,8 +9,7 @@ using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using Ambar.Common;
 using System.Globalization;
-using Ambar.Properties;
-using Cassandra;
+using System.Linq;
 
 namespace Ambar.ViewController
 {
@@ -41,10 +34,9 @@ namespace Ambar.ViewController
         private void btnAccept_Click(object sender, EventArgs e)
         {
             // El sistema deberia dejar que haya tarifas de 0 ?
-            if (cbService.SelectedIndex <= 0 ||
-                cbPeriod.SelectedIndex == -1)
+            if (cbService.SelectedIndex <= 0 || cbPeriod.SelectedIndex == -1)
             {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             
@@ -72,59 +64,34 @@ namespace Ambar.ViewController
                 {
                     case 1: // CSV
                     {
-                        var reader = File.OpenText(ofnMassive.FileName);
-                        CsvReader csvReader = new CsvReader(reader, CultureInfo.CurrentCulture);
+                        StreamReader reader;
+                        CsvReader csvReader;
+                        List<RateCSV> ratesCSV;
+                        try
+                        {
+                            reader = File.OpenText(ofnMassive.FileName);
+                            csvReader = new CsvReader(reader, CultureInfo.CurrentCulture);
+                            ratesCSV = csvReader.GetRecords<RateCSV>().ToList();
 
-                        var ratesCSV = csvReader.GetRecords<RateCSV>();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("No se pudo abrir el archivo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
                         List<RateDTO> finalRates = new List<RateDTO>();
                         bool isCorrect = true;
                         foreach (var rateCSV in ratesCSV)
                         {
-                            if (rateCSV.Basica == string.Empty || rateCSV.Intermedia == string.Empty ||
-                                rateCSV.Excedente == string.Empty || rateCSV.Servicio == string.Empty ||
-                                rateCSV.Anio == string.Empty || rateCSV.Mes == string.Empty)
+                            if (!Validate(rateCSV))
                             {
-                                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                                 finalRates.Clear();
                                 isCorrect = false;
                                 break;
                             }
 
-                            if (!RegexUtils.IsDecimalNumber(rateCSV.Basica) ||
-                                !RegexUtils.IsDecimalNumber(rateCSV.Intermedia) ||
-                                !RegexUtils.IsDecimalNumber(rateCSV.Excedente))
-                            {
-                                PrintError("TARIFAS SOLO ACEPTAN NUMEROS DECIMALES");
-                                finalRates.Clear();
-                                isCorrect = false;
-                                break;
-                            }
-
-                            // Validar que mes y anio sean numericos (mes solo 1-12)
-                            if (!RegexUtils.IsMonthNumber(rateCSV.Mes) ||
-                                !RegexUtils.IsYearNumber(rateCSV.Anio))
-                            {
-                                PrintError("FECHA CON FORMATO INCORRECTO");
-                                finalRates.Clear();
-                                isCorrect = false;
-                                break;
-                            }
-
-                            RateDTO rate = new RateDTO();
-                            rate.Basic_Level = Convert.ToDecimal(rateCSV.Basica, CultureInfo.InvariantCulture);
-                            rate.Intermediate_Level = Convert.ToDecimal(rateCSV.Intermedia, CultureInfo.InvariantCulture);
-                            rate.Surplus_Level = Convert.ToDecimal(rateCSV.Excedente, CultureInfo.InvariantCulture);
-                            rate.Year = Convert.ToInt32(rateCSV.Anio, CultureInfo.InvariantCulture);
-                            rate.Service = rateCSV.Servicio;
-                            if (rateCSV.Servicio == "Domestico")
-                            {
-                                short month = Convert.ToInt16(rateCSV.Mes, CultureInfo.InvariantCulture);
-                                if (month % 2 == 0)
-                                {
-                                    month--;
-                                }
-                                rate.Month = month;
-                            }
+                            RateDTO rate = FillRate(rateCSV);
 
                             finalRates.Add(rate);
                         }
@@ -139,30 +106,80 @@ namespace Ambar.ViewController
                         if (isCorrect)
                         {
                             ClearForm();
-                            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+                            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
                         }
+                        reader.Close();
                         break;
                     }
                     case 2: // Excel
                     {
-                        FileStream reader = new FileStream(ofnMassive.FileName, FileMode.Open, FileAccess.Read);
-                        IExcelDataReader xlsxReader = ExcelReaderFactory.CreateReader(reader);
-
-                        DataSet dataSetXLSX = xlsxReader.AsDataSet(new ExcelDataSetConfiguration()
+                        FileStream reader;
+                        IExcelDataReader xlsxReader;
+                        DataSet dataSetXLSX;
+                        List<RateCSV> ratesCSV;
+                        try
                         {
-                            ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
-                            {
-                                UseHeaderRow = true
-                            }
-                        });
+                            reader = new FileStream(ofnMassive.FileName, FileMode.Open, FileAccess.Read);
+                            xlsxReader = ExcelReaderFactory.CreateReader(reader);
 
-                        //dataGridView1.DataSource = dataSetXLSX.Tables[0];
+                            dataSetXLSX = xlsxReader.AsDataSet(new ExcelDataSetConfiguration()
+                            {
+                                ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                                {
+                                    UseHeaderRow = true
+                                }
+                            });
+
+                            var dataTable = dataSetXLSX.Tables[0];
+                            ratesCSV = (from row in dataTable.AsEnumerable() select new RateCSV()
+                                       {
+                                           Basica = row["Tarifa Basica"].ToString(),
+                                           Intermedia = row["Tarifa Intermedia"].ToString(),
+                                           Excedente = row["Tarifa Excedente"].ToString(),
+                                           Mes = row["Mes"].ToString(),
+                                           Anio = row["Anio"].ToString(),
+                                           Servicio = row["Servicio"].ToString()
+                                       }).ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("No se pudo abrir el archivo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        List<RateDTO> finalRates = new List<RateDTO>();
+                        bool isCorrect = true;
+                        foreach (var rateCSV in ratesCSV)
+                        {
+                            if (!Validate(rateCSV))
+                            {
+                                finalRates.Clear();
+                                isCorrect = false;
+                                break;
+                            }
+
+                            RateDTO rate = FillRate(rateCSV);
+
+                            finalRates.Add(rate);
+                        }
+
+                        foreach (var rate in finalRates)
+                        {
+                            rateDAO.Create(rate);
+                        }
+
+                        dtgRates.DataSource = rateDAO.ReadRates();
+
+                        if (isCorrect)
+                        {
+                            ClearForm();
+                            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+                        }
 
                         reader.Close();
                         break;
                     }
                 }
-
             }
         }
 
@@ -178,13 +195,6 @@ namespace Ambar.ViewController
             nudBasic.Value = 0;
             nudIntermediate.Value = 0;
             nudSurplus.Value = 0;
-        }
-
-        private void PrintError(string error)
-        {
-            pbWarningIcon.Visible = true;
-            lblError.Visible = true;
-            lblError.Text = error;
         }
 
         private void dtpPeriod_ValueChanged(object sender, EventArgs e)
@@ -209,7 +219,7 @@ namespace Ambar.ViewController
 
                     string[] bimesters = new string[] { "ENERO-FEBRERO", "MARZO-ABRIL", "MAYO-JUNIO", "JULIO-AGOSTO",
                     "SEPTIEMBRE-OCTUBRE", "NOVIEMBRE-DICIEMBRE" };
-                    int[] numbers = new int[] { 1, 3, 5, 7, 9, 11 };
+                    int[] numbers = new int[] { 2, 4, 6, 8, 10, 12 };
 
                     for (int i = bimester; i < 6; i++)
                     {
@@ -237,5 +247,55 @@ namespace Ambar.ViewController
                 }
             }
         }
+
+        private bool Validate(RateCSV rate)
+        {
+            if (rate.Basica == string.Empty || rate.Intermedia == string.Empty || rate.Excedente == string.Empty || 
+                rate.Servicio == string.Empty || rate.Anio == string.Empty || rate.Mes == string.Empty)
+            {
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.IsDecimalNumber(rate.Basica) || !RegexUtils.IsDecimalNumber(rate.Intermedia) ||
+                !RegexUtils.IsDecimalNumber(rate.Excedente))
+            {
+                MessageBox.Show("Tarifas solo aceptan números decimales", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Validar que mes y anio sean numericos (mes solo 1-12)
+            if (!RegexUtils.IsMonthNumber(rate.Mes) || !RegexUtils.IsYearNumber(rate.Anio))
+            {
+                MessageBox.Show("Fecha con formato incorrecto", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (rate.Servicio != "Domestico" && rate.Servicio != "Industrial")
+            {
+                MessageBox.Show("Servicio con formato incorrecto", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private RateDTO FillRate(RateCSV rate)
+        {
+            RateDTO dto = new RateDTO();
+            dto.Basic_Level = Decimal.Round(Convert.ToDecimal(rate.Basica, CultureInfo.InvariantCulture), 3);
+            dto.Intermediate_Level = Decimal.Round(Convert.ToDecimal(rate.Intermedia, CultureInfo.InvariantCulture), 3);
+            dto.Surplus_Level = Decimal.Round(Convert.ToDecimal(rate.Excedente, CultureInfo.InvariantCulture), 3);
+            dto.Year = Convert.ToInt32(rate.Anio, CultureInfo.InvariantCulture);
+            dto.Service = rate.Servicio;
+            short month = Convert.ToInt16(rate.Mes, CultureInfo.InvariantCulture);
+            if (rate.Servicio == "Domestico" && month % 2 == 1)
+            {
+                month++;
+            }
+            dto.Month = month;
+            return dto;
+        }
+
     }
 }

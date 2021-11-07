@@ -40,14 +40,8 @@ namespace Ambar.ViewController
                 dtgContractsList.Add(new ContractDTG(contract));
             }
             dtgContracts.DataSource = dtgContractsList;
-
             dtgConsumptions.DataSource = consumptionDAO.ReadConsumptions();
-
             dtpPeriod.MinDate = dateDAO.GetDate();
-        }
-
-        private void FillDataGridView()
-        {
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -59,13 +53,13 @@ namespace Ambar.ViewController
 
             if (consumption.Meter_Serial_Number == string.Empty)
             {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!contractDAO.ContractExists(consumption.Meter_Serial_Number))
             {
-                PrintError("EL NUMERO DE MEDIDOR NO EXISTE ACTUALMENTE");
+                MessageBox.Show("El número de medidor no existe actualmente", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -73,45 +67,31 @@ namespace Ambar.ViewController
             string serviceType = contractDAO.FindServiceType(consumption.Meter_Serial_Number);
 
             LocalDate startContractDate = contractDAO.FindStartPeriodDate(consumption.Meter_Serial_Number);
-
             DateTime start = new DateTime(startContractDate.Year, startContractDate.Month, 1);
             DateTime request = new DateTime(dtpPeriod.Value.Year, dtpPeriod.Value.Month, 1);
 
-            if (serviceType == "Domestico")
+            if (!DateUtils.NormalizeDates(serviceType, ref start, ref request))
             {
-                start = (start.Month % 2 == 0) ? start.AddMonths(1) : start.AddMonths(2); // Mes que empieza el servicio
-                if (request.Month % 2 == 0) request = request.AddMonths(-1); // el mes del date time picker 
-            }
-            else if (serviceType == "Industrial")
-            {
-                start = start.AddMonths(1); // mes que empieza el servicio
-            }
-            else
-            {
-                return; // ERROR: Todo murio
+                MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             if (request.Year < start.Year || (request.Year == start.Year && request.Month < start.Month))
             {
-                PrintError("NO SE PUEDE CARGAR UN CONSUMO ANTES DEL INICIO DE PERIODO DE COBRO");
+                MessageBox.Show("No se puede cargar un consumo antes del inicio de periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             DateTime offset = dateDAO.GetDate();
-            if (serviceType == "Domestico" && offset.Month % 2 == 0)
-            {
-                offset = offset.AddMonths(-1);
-            }
-            
             if (request.Year != offset.Year || request.Month != offset.Month)
             {
-                PrintError("NO SE PUEDE CARGAR UN CONSUMO FUERA DEL PERIODO ACTUAL DE COBRO");
+                MessageBox.Show("No se puede cargar un consumo fuera del periodo actual de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (consumptionDAO.ConsumptionExists(txtMeterSerialNumber.Text, request.Year, Convert.ToInt16(request.Month)))
             {
-                PrintError("YA FUE CARGADO UN CONSUMO EN ESTE PERIODO DE COBRO");
+                MessageBox.Show("Ya fue cargado un consumo en este periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -129,7 +109,6 @@ namespace Ambar.ViewController
             consumption.Year = request.Year;
 
             consumptionDAO.Create(consumption);
-
             dtgConsumptions.DataSource = consumptionDAO.ReadConsumptions();
 
             ClearForm();
@@ -144,115 +123,33 @@ namespace Ambar.ViewController
                 {
                     case 1: // CSV
                     {
-                        var reader = File.OpenText(ofnMassive.FileName);
-                        CsvReader csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
+                        StreamReader reader;
+                        CsvReader csvReader;
+                        List<ConsumptionCSV> consumptionsCSV;
+                        try
+                        {
+                            reader = File.OpenText(ofnMassive.FileName);
+                            csvReader = new CsvReader(reader, CultureInfo.CurrentCulture);
+                            consumptionsCSV = csvReader.GetRecords<ConsumptionCSV>().ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("No se pudo abrir el archivo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
 
-                        ContractDAO contractDAO = new ContractDAO();
-                        var consumptionsCSV = csvReader.GetRecords<ConsumptionCSV>().ToList();
                         List<ConsumptionDTO> finalConsumptions = new List<ConsumptionDTO>();
                         bool isCorrect = true;
-
                         foreach (var consumptionCSV in consumptionsCSV)
                         {
-                            if (consumptionCSV.Medidor == string.Empty || consumptionCSV.Kilowatts == string.Empty ||
-                                consumptionCSV.Anio == string.Empty || consumptionCSV.Mes == string.Empty)
+                            if (!Validate(consumptionCSV, finalConsumptions))
                             {
-                                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
                                 finalConsumptions.Clear();
                                 isCorrect = false;
                                 break;
                             }
 
-                            // Validar que el kilowatt sea correcto
-                            if (!RegexUtils.IsDecimalNumber(consumptionCSV.Kilowatts))
-                            {
-                                PrintError("KILOWATTS CONSUMIDOS SOLO ACEPTA NUMEROS DECIMALES");
-                                return;
-                            }
-
-                            // Validar que mes y anio sean numericos (mes solo 1-12)
-                            if (!RegexUtils.IsMonthNumber(consumptionCSV.Mes) ||
-                                !RegexUtils.IsYearNumber(consumptionCSV.Anio))
-                            {
-                                PrintError("FECHA CON FORMATO INCORRECTO");
-                                finalConsumptions.Clear();
-                                isCorrect = false;
-                                break;
-                            }
-
-                            if (!contractDAO.ContractExists(consumptionCSV.Medidor))
-                            {
-                                PrintError("EL NUMERO DE MEDIDOR NO EXISTE ACTUALMENTE");
-                                finalConsumptions.Clear();
-                                isCorrect = false;
-                                return;
-                            }
-
-                            string serviceType = contractDAO.FindServiceType(consumptionCSV.Medidor);
-                            short month = Convert.ToInt16(consumptionCSV.Mes);
-
-                            LocalDate startDate = contractDAO.FindStartPeriodDate(txtMeterSerialNumber.Text);
-                            int startPeriod;
-                            int actualPeriod;
-                            int startYear = startDate.Year;
-                            int actualYear = dtpPeriod.Value.Year;
-
-                            if (serviceType == "Domestico")
-                            {
-                                startPeriod = (startDate.Month - 1) / 2;
-                                actualPeriod = (month - 1) / 2;
-                            }
-                            else if (serviceType == "Industrial")
-                            {
-                                startPeriod = startDate.Month - 1;
-                                actualPeriod = month - 1;
-                            }
-                            else
-                            {
-                                PrintError("ERROR");
-                                finalConsumptions.Clear();
-                                isCorrect = false;
-                                return;
-                            }
-
-                            if (actualYear < startYear || (actualYear == startYear && actualPeriod < startPeriod))
-                            {
-                                PrintError("NO SE PUEDE CARGAR UN CONSUMO ANTES DEL INICIO DE PERIODO DE COBRO");
-                                finalConsumptions.Clear();
-                                isCorrect = false;
-                                return;
-                            }
-
-                            if (serviceType == "Doméstico" && month % 2 == 0)
-                            {
-                                month--;
-                            }
-
-                            if (consumptionDAO.ConsumptionExists(txtMeterSerialNumber.Text, dtpPeriod.Value.Year, month))
-                            {
-                                PrintError("YA FUE CARGADO UN CONSUMO EN ESTE PERIODO DE COBRO");
-                                finalConsumptions.Clear();
-                                isCorrect = false;
-                                return;
-                            }
-
-                            ConsumptionDTO consumption = new ConsumptionDTO();
-                            consumption.Consumption_ID = Guid.NewGuid();
-                            consumption.Meter_Serial_Number = consumptionCSV.Medidor;
-                            consumption.Service_Number = contractDAO.ReadServiceNumberByMeterSerialNumber(consumptionCSV.Medidor);
-                            consumption.Total_KW = Convert.ToDecimal(consumptionCSV.Kilowatts);
-
-                            decimal kwBasic = 0;
-                            decimal kwInt = 0;
-                            decimal kWSur = 0;
-                            PaymentBreakdown(consumption.Total_KW, ref kwBasic, ref kwInt, ref kWSur);
-
-                            consumption.Basic_KW = kwBasic;
-                            consumption.Intermediate_KW = kwInt;
-                            consumption.Surplus_KW = kWSur;
-                            consumption.Month = month;
-                            consumption.Year = dtpPeriod.Value.Year;
-
+                            ConsumptionDTO consumption = FillConsumption(consumptionCSV);
                             finalConsumptions.Add(consumption);
                         }
 
@@ -260,6 +157,7 @@ namespace Ambar.ViewController
                         {
                             consumptionDAO.Create(consumption);
                         }
+
                         dtgConsumptions.DataSource = consumptionDAO.ReadConsumptions();
 
                         if (isCorrect)
@@ -267,23 +165,71 @@ namespace Ambar.ViewController
                             ClearForm();
                             MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
                         }
+                        reader.Close();
                         break;
                     }
                     case 2: // Excel
                     {
-                        FileStream reader = new FileStream(ofnMassive.FileName, FileMode.Open, FileAccess.Read);
-                        IExcelDataReader xlsxReader = ExcelReaderFactory.CreateReader(reader);
-
-                        DataSet dataSetXLSX = xlsxReader.AsDataSet(new ExcelDataSetConfiguration()
+                        FileStream reader;
+                        IExcelDataReader xlsxReader;
+                        DataSet dataSetXLSX;
+                        List<ConsumptionCSV> consumptionsCSV;
+                        try
                         {
-                            ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                            reader = new FileStream(ofnMassive.FileName, FileMode.Open, FileAccess.Read);
+                            xlsxReader = ExcelReaderFactory.CreateReader(reader);
+
+                            dataSetXLSX = xlsxReader.AsDataSet(new ExcelDataSetConfiguration()
                             {
-                                UseHeaderRow = true
+                                ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                                {
+                                    UseHeaderRow = true
+                                }
+                            });
+
+                            var dataTable = dataSetXLSX.Tables[0];
+                            consumptionsCSV = (from row in dataTable.AsEnumerable()
+                                               select new ConsumptionCSV()
+                                               {
+                                                   Medidor = row["Numero de Medidor"].ToString(),
+                                                   Kilowatts = row["Kilowatts"].ToString(),
+                                                   Mes = row["Mes"].ToString(),
+                                                   Anio = row["Anio"].ToString()
+                                               }).ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("No se pudo abrir el archivo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        List<ConsumptionDTO> finalConsumptions = new List<ConsumptionDTO>();
+                        bool isCorrect = true;
+                        foreach (var consumptionCSV in consumptionsCSV)
+                        {
+                            if (!Validate(consumptionCSV, finalConsumptions))
+                            {
+                                finalConsumptions.Clear();
+                                isCorrect = false;
+                                break;
                             }
-                        });
 
-                        //dataGridView1.DataSource = dataSetXLSX.Tables[0];
+                            ConsumptionDTO consumption = FillConsumption(consumptionCSV);
+                            finalConsumptions.Add(consumption);
+                        }
 
+                        foreach (var consumption in finalConsumptions)
+                        {
+                            consumptionDAO.Create(consumption);
+                        }
+
+                        dtgConsumptions.DataSource = consumptionDAO.ReadConsumptions();
+
+                        if (isCorrect)
+                        {
+                            ClearForm();
+                            MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+                        }
                         reader.Close();
                         break;
                     }
@@ -298,13 +244,6 @@ namespace Ambar.ViewController
             dtpPeriod.Value = dtpPeriod.MinDate;
             pbWarningIcon.Visible = false;
             lblError.Visible = false;
-        }
-
-        private void PrintError(string error)
-        {
-            pbWarningIcon.Visible = true;
-            lblError.Visible = true;
-            lblError.Text = error;
         }
 
         private void PaymentBreakdown(decimal value, ref decimal kwBasic, ref decimal kwInt, ref decimal kwExc)
@@ -333,6 +272,103 @@ namespace Ambar.ViewController
             kwInt = intermediate;
             value -= intermediate;
             kwExc = value;
+        }
+
+        private bool Validate(ConsumptionCSV consumption, List<ConsumptionDTO> consumptions)
+        {
+            if (consumption.Medidor == string.Empty || consumption.Kilowatts == string.Empty ||
+                consumption.Anio == string.Empty || consumption.Mes == string.Empty)
+            {
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Validar que el kilowatt sea correcto
+            if (!RegexUtils.IsDecimalNumber(consumption.Kilowatts))
+            {
+                MessageBox.Show("Kilowatts consumidos solo acepta numeros decimales", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Validar que mes y anio sean numericos (mes solo 1-12)
+            if (!RegexUtils.IsMonthNumber(consumption.Mes) || !RegexUtils.IsYearNumber(consumption.Anio))
+            {
+                MessageBox.Show("Fecha con formato incorrecto", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!contractDAO.ContractExists(consumption.Medidor))
+            {
+                MessageBox.Show("El número de medidor no existe actualmente", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            string serviceType = contractDAO.FindServiceType(consumption.Medidor);
+            int year = Convert.ToInt32(consumption.Anio);
+            short month = Convert.ToInt16(consumption.Mes);
+
+            LocalDate startContractDate = contractDAO.FindStartPeriodDate(consumption.Medidor);
+
+            DateTime start = new DateTime(startContractDate.Year, startContractDate.Month, 1);
+            DateTime request = new DateTime(year, month, 1);
+
+            if (!DateUtils.NormalizeDates(serviceType, ref start, ref request))
+            {
+                MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (request.Year < start.Year || (request.Year == start.Year && request.Month < start.Month))
+            {
+                MessageBox.Show("No se puede cargar un consumo antes del inicio del periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            DateTime offset = dateDAO.GetDate();
+            if (request.Year != offset.Year || request.Month != offset.Month)
+            {
+                MessageBox.Show("No se puede cargar un consumo fuera del periodo actual de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (consumptionDAO.ConsumptionExists(consumption.Medidor, request.Year, Convert.ToInt16(request.Month)))
+            {
+                MessageBox.Show("Ya fue cargado un consumo en este periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            var one = consumptions.Where(x => x.Meter_Serial_Number == consumption.Medidor).FirstOrDefault();
+            var two = consumptions.Where(x => x.Month == Convert.ToInt16(consumption.Mes)).FirstOrDefault();
+            var three = consumptions.Where(x => x.Year == Convert.ToInt32(consumption.Anio)).FirstOrDefault();
+
+            if (one != null && two != null && three != null)
+            {
+                MessageBox.Show("Un consumo es cargado dos o más veces en el mismo periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private ConsumptionDTO FillConsumption(ConsumptionCSV consumption)
+        {
+            ConsumptionDTO dto = new ConsumptionDTO();
+            dto.Consumption_ID = Guid.NewGuid();
+            dto.Meter_Serial_Number = consumption.Medidor;
+            dto.Service_Number = contractDAO.ReadServiceNumberByMeterSerialNumber(consumption.Medidor);
+            dto.Total_KW = Convert.ToDecimal(consumption.Kilowatts);
+
+            decimal kwBasic = 0;
+            decimal kwInt = 0;
+            decimal kWSur = 0;
+            PaymentBreakdown(dto.Total_KW, ref kwBasic, ref kwInt, ref kWSur);
+
+            dto.Basic_KW = kwBasic;
+            dto.Intermediate_KW = kwInt;
+            dto.Surplus_KW = kWSur;
+            dto.Month = Convert.ToInt16(consumption.Mes);
+            dto.Year = Convert.ToInt32(consumption.Anio);
+            return dto;
         }
 
     }

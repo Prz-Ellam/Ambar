@@ -44,9 +44,13 @@ namespace Ambar.Model.DAO
         public void UpdateDate(string serviceType) // No pasar nunca un mes 11
         {
             DateTime actualDate = GetDate();
-            if (actualDate.Month % 2 == 0)
+            if (actualDate.Month % 2 == 1 && serviceType == "Industrial")
             {
-                actualDate.AddMonths(-1);
+                string query = "UPDATE DATES SET ACTUAL_DATE = '{0}', INITIAL = false WHERE ID = 0;";
+                query = string.Format(query, actualDate.AddMonths(1).ToString("yyyy-MM-dd"));
+
+                session.Execute(query);
+                return;
             }
 
             string bimester = "SELECT COUNT(YEAR) FROM EMIT_RECEIPT WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = 'Domestico';";
@@ -55,15 +59,11 @@ namespace Ambar.Model.DAO
             string month1 = "SELECT COUNT(YEAR) FROM EMIT_RECEIPT WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = 'Industrial';";
             month1 = string.Format(month1, actualDate.Year, actualDate.Month);
 
-            string month2 = "SELECT COUNT(YEAR) FROM EMIT_RECEIPT WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = 'Industrial';";
-            month2 = string.Format(month2, actualDate.Year, actualDate.Month + 1);
-
-            bool isExisting1, isExisting2, isExisting3;
+            bool isExisting1, isExisting2;
             try
             {
                 isExisting1 = (mapper.Single<int>(bimester) != 0) ? true : false;
                 isExisting2 = (mapper.Single<int>(month1) != 0) ? true : false;
-                isExisting3 = (mapper.Single<int>(month2) != 0) ? true : false;
             }
             catch (Exception e)
             {
@@ -73,9 +73,7 @@ namespace Ambar.Model.DAO
             bool type = (serviceType == "Domestico") ? false : true;
 
 
-            if ((!isExisting1 && isExisting2 && !isExisting3 ||
-                isExisting2 && !isExisting3 && type ||
-                isExisting1 && isExisting2 && isExisting3))
+            if (isExisting1 && isExisting2)
             {
 
                 string query = "UPDATE DATES SET ACTUAL_DATE = '{0}', INITIAL = false WHERE ID = 0;";
@@ -105,7 +103,7 @@ namespace Ambar.Model.DAO
                 return DateTime.MinValue;
             }
 
-            return new DateTime(date.Year, date.Month, date.Day);
+            return new DateTime(date.Year, date.Month, 1);
         }
 
         public bool GetInitial()

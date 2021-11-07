@@ -70,6 +70,7 @@
             this.Username = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtgClients = new System.Windows.Forms.DataGridView();
+            this.lblBlockedClients = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgClients)).BeginInit();
@@ -97,6 +98,7 @@
             this.txtFirstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFirstName.Location = new System.Drawing.Point(184, 81);
             this.txtFirstName.Margin = new System.Windows.Forms.Padding(2);
+            this.txtFirstName.MaxLength = 30;
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(430, 23);
             this.txtFirstName.TabIndex = 1;
@@ -106,6 +108,7 @@
             this.txtFatherLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFatherLastName.Location = new System.Drawing.Point(184, 112);
             this.txtFatherLastName.Margin = new System.Windows.Forms.Padding(2);
+            this.txtFatherLastName.MaxLength = 30;
             this.txtFatherLastName.Name = "txtFatherLastName";
             this.txtFatherLastName.Size = new System.Drawing.Size(430, 23);
             this.txtFatherLastName.TabIndex = 2;
@@ -115,6 +118,7 @@
             this.txtMotherLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMotherLastName.Location = new System.Drawing.Point(184, 143);
             this.txtMotherLastName.Margin = new System.Windows.Forms.Padding(2);
+            this.txtMotherLastName.MaxLength = 30;
             this.txtMotherLastName.Name = "txtMotherLastName";
             this.txtMotherLastName.Size = new System.Drawing.Size(430, 23);
             this.txtMotherLastName.TabIndex = 3;
@@ -124,6 +128,7 @@
             this.txtCURP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCURP.Location = new System.Drawing.Point(184, 205);
             this.txtCURP.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCURP.MaxLength = 30;
             this.txtCURP.Name = "txtCURP";
             this.txtCURP.Size = new System.Drawing.Size(430, 23);
             this.txtCURP.TabIndex = 5;
@@ -243,6 +248,7 @@
             this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUsername.Location = new System.Drawing.Point(184, 297);
             this.txtUsername.Margin = new System.Windows.Forms.Padding(2);
+            this.txtUsername.MaxLength = 30;
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(430, 23);
             this.txtUsername.TabIndex = 8;
@@ -252,6 +258,7 @@
             this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.Location = new System.Drawing.Point(184, 328);
             this.txtPassword.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPassword.MaxLength = 30;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(430, 23);
             this.txtPassword.TabIndex = 9;
@@ -298,6 +305,7 @@
             this.txtConfirmPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtConfirmPassword.Location = new System.Drawing.Point(184, 359);
             this.txtConfirmPassword.Margin = new System.Windows.Forms.Padding(2);
+            this.txtConfirmPassword.MaxLength = 30;
             this.txtConfirmPassword.Name = "txtConfirmPassword";
             this.txtConfirmPassword.Size = new System.Drawing.Size(430, 23);
             this.txtConfirmPassword.TabIndex = 10;
@@ -567,12 +575,25 @@
             this.dtgClients.TabIndex = 22;
             this.dtgClients.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgClients_CellDoubleClick);
             // 
+            // lblBlockedClients
+            // 
+            this.lblBlockedClients.AutoSize = true;
+            this.lblBlockedClients.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlockedClients.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblBlockedClients.Location = new System.Drawing.Point(659, 51);
+            this.lblBlockedClients.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblBlockedClients.Name = "lblBlockedClients";
+            this.lblBlockedClients.Size = new System.Drawing.Size(204, 20);
+            this.lblBlockedClients.TabIndex = 35;
+            this.lblBlockedClients.Text = "CLIENTES BLOQUEADOS";
+            // 
             // Clients
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(926, 630);
+            this.Controls.Add(this.lblBlockedClients);
             this.Controls.Add(this.dtgEmails);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.pbWarningIcon);
@@ -661,5 +682,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Username;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserID;
         private System.Windows.Forms.DataGridView dtgClients;
+        private System.Windows.Forms.Label lblBlockedClients;
     }
 }

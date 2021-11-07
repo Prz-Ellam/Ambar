@@ -30,7 +30,6 @@
         {
             this.btnMasiveCharge = new System.Windows.Forms.Button();
             this.cbService = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.btnAccept = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -93,19 +92,6 @@
             this.cbService.TabIndex = 1;
             this.cbService.SelectedIndexChanged += new System.EventHandler(this.cbService_SelectedIndexChanged);
             // 
-            // comboBox2
-            // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "Monto",
-            "Porcentual"});
-            this.comboBox2.Location = new System.Drawing.Point(777, 15);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(140, 21);
-            this.comboBox2.TabIndex = 2;
-            // 
             // btnAccept
             // 
             this.btnAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
@@ -162,15 +148,15 @@
             // 
             this.dtpYear.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpYear.CustomFormat = "yyyy";
-            this.dtpYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.dtpYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpYear.Location = new System.Drawing.Point(373, 114);
+            this.dtpYear.Location = new System.Drawing.Point(373, 113);
             this.dtpYear.Margin = new System.Windows.Forms.Padding(2);
             this.dtpYear.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.dtpYear.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpYear.Name = "dtpYear";
             this.dtpYear.ShowUpDown = true;
-            this.dtpYear.Size = new System.Drawing.Size(71, 22);
+            this.dtpYear.Size = new System.Drawing.Size(71, 23);
             this.dtpYear.TabIndex = 13;
             this.dtpYear.ValueChanged += new System.EventHandler(this.dtpPeriod_ValueChanged);
             // 
@@ -224,6 +210,7 @@
             this.dtgRates.Location = new System.Drawing.Point(15, 327);
             this.dtgRates.Margin = new System.Windows.Forms.Padding(2);
             this.dtgRates.Name = "dtgRates";
+            this.dtgRates.ReadOnly = true;
             this.dtgRates.RowHeadersWidth = 51;
             this.dtgRates.RowTemplate.Height = 24;
             this.dtgRates.Size = new System.Drawing.Size(929, 235);
@@ -235,6 +222,7 @@
             this.RateID.HeaderText = "ID";
             this.RateID.MinimumWidth = 6;
             this.RateID.Name = "RateID";
+            this.RateID.ReadOnly = true;
             this.RateID.Width = 125;
             // 
             // Service
@@ -243,6 +231,7 @@
             this.Service.HeaderText = "Servicio";
             this.Service.MinimumWidth = 6;
             this.Service.Name = "Service";
+            this.Service.ReadOnly = true;
             this.Service.Width = 125;
             // 
             // Year
@@ -251,6 +240,7 @@
             this.Year.HeaderText = "Año";
             this.Year.MinimumWidth = 6;
             this.Year.Name = "Year";
+            this.Year.ReadOnly = true;
             this.Year.Width = 125;
             // 
             // Month
@@ -259,6 +249,7 @@
             this.Month.HeaderText = "Mes";
             this.Month.MinimumWidth = 6;
             this.Month.Name = "Month";
+            this.Month.ReadOnly = true;
             this.Month.Width = 125;
             // 
             // BasicLevel
@@ -267,6 +258,7 @@
             this.BasicLevel.HeaderText = "Consumo Básico";
             this.BasicLevel.MinimumWidth = 6;
             this.BasicLevel.Name = "BasicLevel";
+            this.BasicLevel.ReadOnly = true;
             this.BasicLevel.Width = 125;
             // 
             // IntermediateLevel
@@ -275,6 +267,7 @@
             this.IntermediateLevel.HeaderText = "Consumo Intermedio";
             this.IntermediateLevel.MinimumWidth = 6;
             this.IntermediateLevel.Name = "IntermediateLevel";
+            this.IntermediateLevel.ReadOnly = true;
             this.IntermediateLevel.Width = 125;
             // 
             // SurplusLevel
@@ -283,6 +276,7 @@
             this.SurplusLevel.HeaderText = "Consumo Excedente";
             this.SurplusLevel.MinimumWidth = 6;
             this.SurplusLevel.Name = "SurplusLevel";
+            this.SurplusLevel.ReadOnly = true;
             this.SurplusLevel.Width = 125;
             // 
             // lblError
@@ -328,7 +322,7 @@
             // nudBasic
             // 
             this.nudBasic.DecimalPlaces = 3;
-            this.nudBasic.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudBasic.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.nudBasic.Location = new System.Drawing.Point(178, 145);
             this.nudBasic.Maximum = new decimal(new int[] {
             1000000000,
@@ -336,13 +330,13 @@
             0,
             0});
             this.nudBasic.Name = "nudBasic";
-            this.nudBasic.Size = new System.Drawing.Size(188, 22);
+            this.nudBasic.Size = new System.Drawing.Size(188, 23);
             this.nudBasic.TabIndex = 28;
             // 
             // nudSurplus
             // 
             this.nudSurplus.DecimalPlaces = 3;
-            this.nudSurplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudSurplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.nudSurplus.Location = new System.Drawing.Point(178, 207);
             this.nudSurplus.Maximum = new decimal(new int[] {
             1000000000,
@@ -350,13 +344,13 @@
             0,
             0});
             this.nudSurplus.Name = "nudSurplus";
-            this.nudSurplus.Size = new System.Drawing.Size(188, 22);
+            this.nudSurplus.Size = new System.Drawing.Size(188, 23);
             this.nudSurplus.TabIndex = 29;
             // 
             // nudIntermediate
             // 
             this.nudIntermediate.DecimalPlaces = 3;
-            this.nudIntermediate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudIntermediate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.nudIntermediate.Location = new System.Drawing.Point(178, 176);
             this.nudIntermediate.Maximum = new decimal(new int[] {
             1000000000,
@@ -364,7 +358,7 @@
             0,
             0});
             this.nudIntermediate.Name = "nudIntermediate";
-            this.nudIntermediate.Size = new System.Drawing.Size(188, 22);
+            this.nudIntermediate.Size = new System.Drawing.Size(188, 23);
             this.nudIntermediate.TabIndex = 30;
             // 
             // Rates
@@ -388,7 +382,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnAccept);
-            this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.cbService);
             this.Controls.Add(this.btnMasiveCharge);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -411,7 +404,6 @@
 
         private System.Windows.Forms.Button btnMasiveCharge;
         private System.Windows.Forms.ComboBox cbService;
-        private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;

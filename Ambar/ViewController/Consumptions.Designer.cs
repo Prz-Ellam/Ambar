@@ -35,14 +35,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.dtgConsumptions = new System.Windows.Forms.DataGridView();
-            this.ConsumptionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MeterSerialNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BasicKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IntermediateKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SurplusKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Month = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TotalKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
             this.dtpPeriod = new System.Windows.Forms.DateTimePicker();
             this.dtgContracts = new System.Windows.Forms.DataGridView();
@@ -61,6 +53,16 @@
             this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
             this.nudKilowatts = new System.Windows.Forms.NumericUpDown();
+            this.ConsumptionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MeterSerialNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ServiceNumberr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BasicKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IntermediateKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SurplusKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalKW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Month = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.day = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
@@ -116,10 +118,10 @@
             this.txtMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMeterSerialNumber.Location = new System.Drawing.Point(194, 81);
             this.txtMeterSerialNumber.Margin = new System.Windows.Forms.Padding(2);
+            this.txtMeterSerialNumber.MaxLength = 30;
             this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
             this.txtMeterSerialNumber.Size = new System.Drawing.Size(287, 23);
             this.txtMeterSerialNumber.TabIndex = 4;
-            this.txtMeterSerialNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
             // 
@@ -151,83 +153,22 @@
             this.dtgConsumptions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ConsumptionID,
             this.MeterSerialNumber,
+            this.ServiceNumberr,
             this.BasicKW,
             this.IntermediateKW,
             this.SurplusKW,
+            this.TotalKW,
             this.Year,
             this.Month,
-            this.TotalKW});
+            this.day});
             this.dtgConsumptions.Location = new System.Drawing.Point(9, 289);
             this.dtgConsumptions.Margin = new System.Windows.Forms.Padding(2);
             this.dtgConsumptions.Name = "dtgConsumptions";
+            this.dtgConsumptions.ReadOnly = true;
             this.dtgConsumptions.RowHeadersWidth = 51;
             this.dtgConsumptions.RowTemplate.Height = 24;
             this.dtgConsumptions.Size = new System.Drawing.Size(870, 249);
             this.dtgConsumptions.TabIndex = 22;
-            // 
-            // ConsumptionID
-            // 
-            this.ConsumptionID.DataPropertyName = "CONSUMPTION_ID";
-            this.ConsumptionID.HeaderText = "ID";
-            this.ConsumptionID.MinimumWidth = 6;
-            this.ConsumptionID.Name = "ConsumptionID";
-            this.ConsumptionID.Width = 125;
-            // 
-            // MeterSerialNumber
-            // 
-            this.MeterSerialNumber.DataPropertyName = "METER_SERIAL_NUMBER";
-            this.MeterSerialNumber.HeaderText = "Número de Medidor";
-            this.MeterSerialNumber.MinimumWidth = 6;
-            this.MeterSerialNumber.Name = "MeterSerialNumber";
-            this.MeterSerialNumber.Width = 125;
-            // 
-            // BasicKW
-            // 
-            this.BasicKW.DataPropertyName = "BASIC_KW";
-            this.BasicKW.HeaderText = "kW Básica";
-            this.BasicKW.MinimumWidth = 6;
-            this.BasicKW.Name = "BasicKW";
-            this.BasicKW.Width = 125;
-            // 
-            // IntermediateKW
-            // 
-            this.IntermediateKW.DataPropertyName = "INTERMEDIATE_KW";
-            this.IntermediateKW.HeaderText = "kW Intermedia";
-            this.IntermediateKW.MinimumWidth = 6;
-            this.IntermediateKW.Name = "IntermediateKW";
-            this.IntermediateKW.Width = 125;
-            // 
-            // SurplusKW
-            // 
-            this.SurplusKW.DataPropertyName = "SURPLUS_KW";
-            this.SurplusKW.HeaderText = "kW Excedente";
-            this.SurplusKW.MinimumWidth = 6;
-            this.SurplusKW.Name = "SurplusKW";
-            this.SurplusKW.Width = 125;
-            // 
-            // Year
-            // 
-            this.Year.DataPropertyName = "YEAR";
-            this.Year.HeaderText = "Año";
-            this.Year.MinimumWidth = 6;
-            this.Year.Name = "Year";
-            this.Year.Width = 125;
-            // 
-            // Month
-            // 
-            this.Month.DataPropertyName = "MONTH";
-            this.Month.HeaderText = "Mes";
-            this.Month.MinimumWidth = 6;
-            this.Month.Name = "Month";
-            this.Month.Width = 125;
-            // 
-            // TotalKW
-            // 
-            this.TotalKW.DataPropertyName = "TOTAL_KW";
-            this.TotalKW.HeaderText = "kW Total";
-            this.TotalKW.MinimumWidth = 6;
-            this.TotalKW.Name = "TotalKW";
-            this.TotalKW.Width = 125;
             // 
             // label5
             // 
@@ -272,7 +213,6 @@
             this.PostalCode,
             this.Service,
             this.StartPeriodDate});
-            this.dtgContracts.Enabled = false;
             this.dtgContracts.Location = new System.Drawing.Point(520, 81);
             this.dtgContracts.Margin = new System.Windows.Forms.Padding(2);
             this.dtgContracts.Name = "dtgContracts";
@@ -413,16 +353,102 @@
             // nudKilowatts
             // 
             this.nudKilowatts.DecimalPlaces = 4;
-            this.nudKilowatts.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudKilowatts.Location = new System.Drawing.Point(194, 114);
+            this.nudKilowatts.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.nudKilowatts.Location = new System.Drawing.Point(194, 112);
             this.nudKilowatts.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.nudKilowatts.Name = "nudKilowatts";
-            this.nudKilowatts.Size = new System.Drawing.Size(287, 22);
+            this.nudKilowatts.Size = new System.Drawing.Size(287, 23);
             this.nudKilowatts.TabIndex = 28;
+            // 
+            // ConsumptionID
+            // 
+            this.ConsumptionID.DataPropertyName = "CONSUMPTION_ID";
+            this.ConsumptionID.HeaderText = "ID";
+            this.ConsumptionID.MinimumWidth = 6;
+            this.ConsumptionID.Name = "ConsumptionID";
+            this.ConsumptionID.ReadOnly = true;
+            this.ConsumptionID.Width = 125;
+            // 
+            // MeterSerialNumber
+            // 
+            this.MeterSerialNumber.DataPropertyName = "METER_SERIAL_NUMBER";
+            this.MeterSerialNumber.HeaderText = "Número de Medidor";
+            this.MeterSerialNumber.MinimumWidth = 6;
+            this.MeterSerialNumber.Name = "MeterSerialNumber";
+            this.MeterSerialNumber.ReadOnly = true;
+            this.MeterSerialNumber.Width = 125;
+            // 
+            // ServiceNumberr
+            // 
+            this.ServiceNumberr.DataPropertyName = "SERVICE_NUMBER";
+            this.ServiceNumberr.HeaderText = "Número de Servicio";
+            this.ServiceNumberr.Name = "ServiceNumberr";
+            this.ServiceNumberr.ReadOnly = true;
+            // 
+            // BasicKW
+            // 
+            this.BasicKW.DataPropertyName = "BASIC_KW";
+            this.BasicKW.HeaderText = "kW Básica";
+            this.BasicKW.MinimumWidth = 6;
+            this.BasicKW.Name = "BasicKW";
+            this.BasicKW.ReadOnly = true;
+            this.BasicKW.Width = 125;
+            // 
+            // IntermediateKW
+            // 
+            this.IntermediateKW.DataPropertyName = "INTERMEDIATE_KW";
+            this.IntermediateKW.HeaderText = "kW Intermedia";
+            this.IntermediateKW.MinimumWidth = 6;
+            this.IntermediateKW.Name = "IntermediateKW";
+            this.IntermediateKW.ReadOnly = true;
+            this.IntermediateKW.Width = 125;
+            // 
+            // SurplusKW
+            // 
+            this.SurplusKW.DataPropertyName = "SURPLUS_KW";
+            this.SurplusKW.HeaderText = "kW Excedente";
+            this.SurplusKW.MinimumWidth = 6;
+            this.SurplusKW.Name = "SurplusKW";
+            this.SurplusKW.ReadOnly = true;
+            this.SurplusKW.Width = 125;
+            // 
+            // TotalKW
+            // 
+            this.TotalKW.DataPropertyName = "TOTAL_KW";
+            this.TotalKW.HeaderText = "kW Total";
+            this.TotalKW.MinimumWidth = 6;
+            this.TotalKW.Name = "TotalKW";
+            this.TotalKW.ReadOnly = true;
+            this.TotalKW.Width = 125;
+            // 
+            // Year
+            // 
+            this.Year.DataPropertyName = "YEAR";
+            this.Year.HeaderText = "Año";
+            this.Year.MinimumWidth = 6;
+            this.Year.Name = "Year";
+            this.Year.ReadOnly = true;
+            this.Year.Width = 125;
+            // 
+            // Month
+            // 
+            this.Month.DataPropertyName = "MONTH";
+            this.Month.HeaderText = "Mes";
+            this.Month.MinimumWidth = 6;
+            this.Month.Name = "Month";
+            this.Month.ReadOnly = true;
+            this.Month.Width = 125;
+            // 
+            // day
+            // 
+            this.day.DataPropertyName = "DAY";
+            this.day.HeaderText = "Dia";
+            this.day.Name = "day";
+            this.day.ReadOnly = true;
             // 
             // Consumptions
             // 
@@ -482,15 +508,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn StartPeriodDate;
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.PictureBox pbWarningIcon;
+        private System.Windows.Forms.OpenFileDialog ofnMassive;
+        private System.Windows.Forms.NumericUpDown nudKilowatts;
         private System.Windows.Forms.DataGridViewTextBoxColumn ConsumptionID;
         private System.Windows.Forms.DataGridViewTextBoxColumn MeterSerialNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ServiceNumberr;
         private System.Windows.Forms.DataGridViewTextBoxColumn BasicKW;
         private System.Windows.Forms.DataGridViewTextBoxColumn IntermediateKW;
         private System.Windows.Forms.DataGridViewTextBoxColumn SurplusKW;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalKW;
         private System.Windows.Forms.DataGridViewTextBoxColumn Year;
         private System.Windows.Forms.DataGridViewTextBoxColumn Month;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TotalKW;
-        private System.Windows.Forms.OpenFileDialog ofnMassive;
-        private System.Windows.Forms.NumericUpDown nudKilowatts;
+        private System.Windows.Forms.DataGridViewTextBoxColumn day;
     }
 }

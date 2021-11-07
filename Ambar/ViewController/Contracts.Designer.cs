@@ -65,8 +65,6 @@ namespace Ambar.ViewController
             this.cbCity = new System.Windows.Forms.ComboBox();
             this.dtpStartPeriodDate = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
-            this.lblError = new System.Windows.Forms.Label();
-            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.dtgClients = new System.Windows.Forms.DataGridView();
             this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Username = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -79,7 +77,6 @@ namespace Ambar.ViewController
             this.Gender = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Emails = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgClients)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,6 +85,7 @@ namespace Ambar.ViewController
             this.txtMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMeterSerialNumber.Location = new System.Drawing.Point(196, 112);
             this.txtMeterSerialNumber.Margin = new System.Windows.Forms.Padding(2);
+            this.txtMeterSerialNumber.MaxLength = 30;
             this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
             this.txtMeterSerialNumber.Size = new System.Drawing.Size(430, 23);
             this.txtMeterSerialNumber.TabIndex = 0;
@@ -97,6 +95,7 @@ namespace Ambar.ViewController
             this.txtServiceNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtServiceNumber.Location = new System.Drawing.Point(196, 143);
             this.txtServiceNumber.Margin = new System.Windows.Forms.Padding(2);
+            this.txtServiceNumber.MaxLength = 8;
             this.txtServiceNumber.Name = "txtServiceNumber";
             this.txtServiceNumber.Size = new System.Drawing.Size(430, 23);
             this.txtServiceNumber.TabIndex = 1;
@@ -176,6 +175,7 @@ namespace Ambar.ViewController
             this.dtgContracts.Location = new System.Drawing.Point(21, 489);
             this.dtgContracts.Margin = new System.Windows.Forms.Padding(2);
             this.dtgContracts.Name = "dtgContracts";
+            this.dtgContracts.ReadOnly = true;
             this.dtgContracts.RowHeadersWidth = 51;
             this.dtgContracts.RowTemplate.Height = 24;
             this.dtgContracts.Size = new System.Drawing.Size(895, 122);
@@ -187,6 +187,7 @@ namespace Ambar.ViewController
             this.ContractID.HeaderText = "ID";
             this.ContractID.MinimumWidth = 6;
             this.ContractID.Name = "ContractID";
+            this.ContractID.ReadOnly = true;
             this.ContractID.Width = 125;
             // 
             // MeterSerialNumber
@@ -195,6 +196,7 @@ namespace Ambar.ViewController
             this.MeterSerialNumber.HeaderText = "Meter Serial Number";
             this.MeterSerialNumber.MinimumWidth = 6;
             this.MeterSerialNumber.Name = "MeterSerialNumber";
+            this.MeterSerialNumber.ReadOnly = true;
             this.MeterSerialNumber.Width = 125;
             // 
             // ServiceNumber
@@ -203,6 +205,7 @@ namespace Ambar.ViewController
             this.ServiceNumber.HeaderText = "Service Number";
             this.ServiceNumber.MinimumWidth = 6;
             this.ServiceNumber.Name = "ServiceNumber";
+            this.ServiceNumber.ReadOnly = true;
             this.ServiceNumber.Width = 125;
             // 
             // State
@@ -211,6 +214,7 @@ namespace Ambar.ViewController
             this.State.HeaderText = "State";
             this.State.MinimumWidth = 6;
             this.State.Name = "State";
+            this.State.ReadOnly = true;
             this.State.Width = 125;
             // 
             // City
@@ -219,6 +223,7 @@ namespace Ambar.ViewController
             this.City.HeaderText = "City";
             this.City.MinimumWidth = 6;
             this.City.Name = "City";
+            this.City.ReadOnly = true;
             this.City.Width = 125;
             // 
             // Suburb
@@ -227,6 +232,7 @@ namespace Ambar.ViewController
             this.Suburb.HeaderText = "Suburb";
             this.Suburb.MinimumWidth = 6;
             this.Suburb.Name = "Suburb";
+            this.Suburb.ReadOnly = true;
             this.Suburb.Width = 125;
             // 
             // Street
@@ -235,6 +241,7 @@ namespace Ambar.ViewController
             this.Street.HeaderText = "Street";
             this.Street.MinimumWidth = 6;
             this.Street.Name = "Street";
+            this.Street.ReadOnly = true;
             this.Street.Width = 125;
             // 
             // Number
@@ -243,6 +250,7 @@ namespace Ambar.ViewController
             this.Number.HeaderText = "Number";
             this.Number.MinimumWidth = 6;
             this.Number.Name = "Number";
+            this.Number.ReadOnly = true;
             this.Number.Width = 125;
             // 
             // PostalCode
@@ -251,6 +259,7 @@ namespace Ambar.ViewController
             this.PostalCode.HeaderText = "Postal Code";
             this.PostalCode.MinimumWidth = 6;
             this.PostalCode.Name = "PostalCode";
+            this.PostalCode.ReadOnly = true;
             this.PostalCode.Width = 125;
             // 
             // Service
@@ -259,6 +268,7 @@ namespace Ambar.ViewController
             this.Service.HeaderText = "Service";
             this.Service.MinimumWidth = 6;
             this.Service.Name = "Service";
+            this.Service.ReadOnly = true;
             this.Service.Width = 125;
             // 
             // StartPeriodDate
@@ -267,6 +277,7 @@ namespace Ambar.ViewController
             this.StartPeriodDate.HeaderText = "Start Period Date";
             this.StartPeriodDate.MinimumWidth = 6;
             this.StartPeriodDate.Name = "StartPeriodDate";
+            this.StartPeriodDate.ReadOnly = true;
             this.StartPeriodDate.Width = 125;
             // 
             // txtSuburb
@@ -274,6 +285,7 @@ namespace Ambar.ViewController
             this.txtSuburb.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.txtSuburb.Location = new System.Drawing.Point(196, 266);
             this.txtSuburb.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSuburb.MaxLength = 30;
             this.txtSuburb.Name = "txtSuburb";
             this.txtSuburb.Size = new System.Drawing.Size(430, 23);
             this.txtSuburb.TabIndex = 5;
@@ -283,6 +295,7 @@ namespace Ambar.ViewController
             this.txtStreet.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.txtStreet.Location = new System.Drawing.Point(196, 297);
             this.txtStreet.Margin = new System.Windows.Forms.Padding(2);
+            this.txtStreet.MaxLength = 30;
             this.txtStreet.Name = "txtStreet";
             this.txtStreet.Size = new System.Drawing.Size(430, 23);
             this.txtStreet.TabIndex = 6;
@@ -292,6 +305,7 @@ namespace Ambar.ViewController
             this.txtNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.txtNumber.Location = new System.Drawing.Point(196, 328);
             this.txtNumber.Margin = new System.Windows.Forms.Padding(2);
+            this.txtNumber.MaxLength = 30;
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(430, 23);
             this.txtNumber.TabIndex = 7;
@@ -301,6 +315,7 @@ namespace Ambar.ViewController
             this.txtPostalCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.txtPostalCode.Location = new System.Drawing.Point(196, 359);
             this.txtPostalCode.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPostalCode.MaxLength = 30;
             this.txtPostalCode.Name = "txtPostalCode";
             this.txtPostalCode.Size = new System.Drawing.Size(430, 23);
             this.txtPostalCode.TabIndex = 8;
@@ -417,6 +432,7 @@ namespace Ambar.ViewController
             this.cbService.Name = "cbService";
             this.cbService.Size = new System.Drawing.Size(430, 25);
             this.cbService.TabIndex = 2;
+            this.cbService.SelectedIndexChanged += new System.EventHandler(this.cbService_SelectedIndexChanged);
             // 
             // lblService
             // 
@@ -435,7 +451,7 @@ namespace Ambar.ViewController
             // 
             this.cbState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbState.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbState.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbState.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.cbState.FormattingEnabled = true;
             this.cbState.Items.AddRange(new object[] {
             "AGUASCALIENTES",
@@ -473,7 +489,7 @@ namespace Ambar.ViewController
             this.cbState.Location = new System.Drawing.Point(196, 205);
             this.cbState.Margin = new System.Windows.Forms.Padding(2);
             this.cbState.Name = "cbState";
-            this.cbState.Size = new System.Drawing.Size(430, 24);
+            this.cbState.Size = new System.Drawing.Size(430, 25);
             this.cbState.TabIndex = 3;
             this.cbState.SelectedIndexChanged += new System.EventHandler(this.cbState_SelectedIndexChanged);
             // 
@@ -481,12 +497,12 @@ namespace Ambar.ViewController
             // 
             this.cbCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbCity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.cbCity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.cbCity.FormattingEnabled = true;
             this.cbCity.Location = new System.Drawing.Point(196, 236);
             this.cbCity.Margin = new System.Windows.Forms.Padding(2);
             this.cbCity.Name = "cbCity";
-            this.cbCity.Size = new System.Drawing.Size(430, 23);
+            this.cbCity.Size = new System.Drawing.Size(430, 25);
             this.cbCity.TabIndex = 4;
             // 
             // dtpStartPeriodDate
@@ -512,31 +528,6 @@ namespace Ambar.ViewController
             this.label4.Size = new System.Drawing.Size(117, 17);
             this.label4.TabIndex = 38;
             this.label4.Text = "Inicio de Periodo:";
-            // 
-            // lblError
-            // 
-            this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(232, 52);
-            this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(84, 15);
-            this.lblError.TabIndex = 40;
-            this.lblError.Text = "ERROR TEXT";
-            this.lblError.Visible = false;
-            // 
-            // pbWarningIcon
-            // 
-            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(202, 47);
-            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
-            this.pbWarningIcon.Name = "pbWarningIcon";
-            this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
-            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbWarningIcon.TabIndex = 39;
-            this.pbWarningIcon.TabStop = false;
-            this.pbWarningIcon.Visible = false;
             // 
             // dtgClients
             // 
@@ -659,8 +650,6 @@ namespace Ambar.ViewController
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1040, 630);
             this.Controls.Add(this.dtgClients);
-            this.Controls.Add(this.lblError);
-            this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dtpStartPeriodDate);
             this.Controls.Add(this.cbCity);
@@ -693,7 +682,6 @@ namespace Ambar.ViewController
             this.Text = "Contratos";
             this.Load += new System.EventHandler(this.Contratos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgClients)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -738,8 +726,6 @@ namespace Ambar.ViewController
         private System.Windows.Forms.DataGridViewTextBoxColumn StartPeriodDate;
         private System.Windows.Forms.DateTimePicker dtpStartPeriodDate;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label lblError;
-        private System.Windows.Forms.PictureBox pbWarningIcon;
         private System.Windows.Forms.DataGridView dtgClients;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Username;

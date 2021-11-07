@@ -1,7 +1,6 @@
 ﻿using Ambar.Common;
 using Ambar.Model.DAO;
 using Ambar.Model.DTO;
-using Ambar.Properties;
 using Cassandra;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
@@ -28,159 +27,44 @@ namespace Ambar.ViewController
             InitializeComponent();
         }
 
+        private void Receipts_Load(object sender, EventArgs e)
+        {
+            cbService.SelectedIndex = 0;
+            dtpYear.MinDate = dateDAO.GetDate();
+            dtpPeriodSearch.Value = dateDAO.GetDate();
+            label7.Text = dateDAO.GetDate().ToString("MMMM yyyy").ToUpper();
+        }
+
         private void btnGenerateReceipt_Click(object sender, EventArgs e)
         {
+            if (cbPeriod.SelectedIndex == -1)
+            {
+                MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             DateTime offset = dateDAO.GetDate();
             string serviceType = cbService.SelectedItem.ToString();
-            if (serviceType == "Domestico" && offset.Month % 2 == 0)
-            {
-                offset = offset.AddMonths(-1); // En caso de que fuese febrero se pasaria a enero
-            }
 
             DateTime request = new DateTime(dtpYear.Value.Year, ((ComboBoxItem)cbPeriod.SelectedItem).HiddenValue, 1);
             if (request.Year != offset.Year || request.Month != offset.Month)
             {
-                PrintError("NO SE PUEDEN EMITIR RECIBOS FUERA DEL PERIODO ACTUAL DE COBRO");
+                MessageBox.Show("No se pueden emitir recibos fuera del periodo actual de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (receiptDAO.FindEmission(request.Year, Convert.ToInt16(request.Month), serviceType))
+            if (serviceType == "Ambos")
             {
-                PrintError("YA SE EMITIERON LOS RECIBOS DE ESTE PERIODO");
-                return;
+                if (request.Month % 2 == 0)
+                {
+                    GenerateReceipts(request, "Domestico");
+                }
+                GenerateReceipts(request, "Industrial");
             }
-
-            // Generar los recibos
-            ContractDAO contractDAO = new ContractDAO();
-            ConsumptionDAO consumptionDAO = new ConsumptionDAO();
-
-            // Se trae todos los contratos de un determinado servicio
-            List<ContractForReceiptDTO> contractsInfo = contractDAO.ReadContractsForReceipt(cbService.SelectedItem.ToString());
-
-            // Encuentra la tarifa del periodo
-            RateDAO rateDao = new RateDAO();
-            RateForReceiptDTO ratesInfo = rateDao.FindActiveRates(cbService.SelectedItem.ToString(), request.Year, 
-                Convert.ToInt16(request.Month));
-            if (ratesInfo == null)
+            else
             {
-                PrintError("NO HAY TARIFAS REGISTRADAS PARA ESTE PERIODO");
-                return;
-                // ERROR : No hay tarifa registrada para este periodo
+                GenerateReceipts(request, serviceType);
             }
-
-
-            decimal iva = Convert.ToDecimal(ConfigurationManager.AppSettings["IVA"].ToString(), CultureInfo.InvariantCulture);
-            List<ReceiptDTO> receipts = new List<ReceiptDTO>();
-            foreach (var contractInfo in contractsInfo)
-            {
-                if (receiptDAO.ReceiptExists(contractInfo.Meter_Serial_Number, request.Year, Convert.ToInt16(request.Month)))
-                {
-                    continue; // Ignora si ya tiene un recibo en esa fecha
-                }
-
-
-                // Validar el periodo y validar que no se haya cargado ya el recibo
-                LocalDate startContractDate = contractInfo.Start_Period_Date;
-                DateTime start = new DateTime(startContractDate.Year, startContractDate.Month, 1);
-
-                if (serviceType == "Domestico")
-                {
-                    start = (start.Month % 2 == 0) ? start.AddMonths(1) : start.AddMonths(2); // Mes que empieza el servicio
-                    if (request.Month % 2 == 0) request = request.AddMonths(-1); // el mes del date time picker 
-                }
-                else if (serviceType == "Industrial")
-                {
-                    start = start.AddMonths(1); // mes que empieza el servicio
-                }
-                else
-                {
-                    return; // ERROR: Todo murio
-                }
-
-                if (request.Year < start.Year || (request.Year == start.Year && request.Month < start.Month))
-                {
-                    continue; // Ignora los contratos que aun no empiezan su periodo de cobro
-                }
-
-
-                ConsumptionForReceiptDTO consumption = consumptionDAO.FindConsumption(request.Year, 
-                    Convert.ToInt16(request.Month), contractInfo.Meter_Serial_Number);
-                if (consumption == null)
-                {
-                    PrintError("NO SE HAN CARGADO TODOS LOS CONSUMOS DE LOS CONTRATOS");
-                    return;
-                }
-
-
-                DateTime prevDate = request;
-                if (serviceType == "Domestico")
-                {
-                    prevDate = request.AddMonths(-2);
-                }
-                else if (serviceType == "Industrial")
-                {
-                    prevDate = request.AddMonths(-1);
-                }
-                else
-                {
-                    return; // ERROR
-                }
-                ReceiptDTO prev = receiptDAO.FindReceipt(prevDate.Year, Convert.ToInt16(prevDate.Month), 
-                    contractInfo.Meter_Serial_Number);
-
-                ReceiptDTO dto = new ReceiptDTO();
-                dto.Receipt_ID = Guid.NewGuid();
-                dto.First_Name = contractInfo.First_Name;
-                dto.Father_Last_Name = contractInfo.Father_Last_Name;
-                dto.Mother_Last_Name = contractInfo.Mother_Last_Name;
-                dto.State = contractInfo.State;
-                dto.City = contractInfo.City;
-                dto.Suburb = contractInfo.Suburb;
-                dto.Street = contractInfo.Street;
-                dto.Number = contractInfo.Number;
-                dto.Postal_Code = contractInfo.Postal_Code;
-                dto.Meter_Serial_Number = contractInfo.Meter_Serial_Number;
-                dto.Service_Number = contractInfo.Service_Number;
-                dto.Service = cbService.SelectedItem.ToString();
-                dto.Year = request.Year;
-                dto.Month = Convert.ToInt16(request.Month);
-                if (prev == null)
-                {
-                    dto.Day = consumption.Day;
-                }
-                else
-                {
-                    DateTime prueba = new DateTime(prev.Year, prev.Month, DateUtils.ClampDay(prev.Year, prev.Month, prev.Day));
-                    prueba = prueba.AddDays(60);
-                    dto.Day = Convert.ToInt16(prueba.Day);
-                }
-                dto.Basic_Level = ratesInfo.Basic_Level;
-                dto.Intermediate_Level = ratesInfo.Intermediate_Level;
-                dto.Surplus_Level = ratesInfo.Surplus_Level;
-                dto.Basic_KW = consumption.Basic_KW;
-                dto.Intermediate_KW = consumption.Intermediate_KW;
-                dto.Surplus_KW = consumption.Surplus_KW;
-                dto.Total_KW = dto.Basic_KW + dto.Intermediate_KW + dto.Surplus_KW;
-                dto.Basic_Price = Decimal.Round(dto.Basic_Level * dto.Basic_KW, 2);
-                dto.Intermediate_Price = Decimal.Round(dto.Intermediate_Level * dto.Intermediate_KW, 2);
-                dto.Surplus_Price = Decimal.Round(dto.Surplus_Level * dto.Surplus_KW, 2);
-                dto.Tax = dto.Surplus_Price * iva;
-                dto.Subtotal_Price = dto.Basic_Price + dto.Intermediate_Price + dto.Surplus_Price;
-                dto.Total_Price = dto.Subtotal_Price + dto.Tax;
-                dto.Amount_Pad = 0;
-                dto.Pending_Amount = dto.Total_Price;
-
-                receipts.Add(dto);
-            }
-
-            if (receipts.Count == 0)
-            {
-                // NO HAY NADA QUE GENERAR
-            }
-
-            receiptDAO.GenerateMassiveReceipts(receipts);
-            receiptDAO.EmitReceipt(request.Year, Convert.ToInt16(request.Month), serviceType);
-            dateDAO.UpdateDate(serviceType);
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
@@ -189,18 +73,19 @@ namespace Ambar.ViewController
         void ClearForm()
         {
             cbService.SelectedIndex = 0;
-            txtSearchID.Clear();
+            txtFilterID.Clear();
             rbMeterSerialNumber.Checked = true;
         }
 
         private void DateChange()
         {
+            dtpYear.MinDate = dateDAO.GetDate();
             cbPeriod.Items.Clear();
             DateTime offset = dateDAO.GetDate();
 
             switch (cbService.SelectedIndex)
             {
-                case 1:
+                case 2:
                 {
                     int bimester = 0;
                     if (dtpYear.Value.Year == offset.Year)
@@ -210,7 +95,7 @@ namespace Ambar.ViewController
 
                     string[] bimesters = new string[] { "ENERO-FEBRERO", "MARZO-ABRIL", "MAYO-JUNIO", "JULIO-AGOSTO",
                     "SEPTIEMBRE-OCTUBRE", "NOVIEMBRE-DICIEMBRE" };
-                    int[] numbers = new int[] { 1, 3, 5, 7, 9, 11 };
+                    int[] numbers = new int[] { 2, 4, 6, 8, 10, 12 };
 
                     for (int i = bimester; i < 6; i++)
                     {
@@ -218,7 +103,8 @@ namespace Ambar.ViewController
                     }
                     break;
                 }
-                case 2:
+                case 1:
+                case 3:
                 {
                     int month = 0;
                     if (dtpYear.Value.Year == offset.Year)
@@ -249,15 +135,13 @@ namespace Ambar.ViewController
             DateChange();
         }
 
-        private void Receipts_Load(object sender, EventArgs e)
-        {
-            cbService.SelectedIndex = 0;
-            dtpYear.MinDate = dateDAO.GetDate();
-            dtpPeriodSearch.Value = dateDAO.GetDate();
-        }
-
         private void btnPDF_Click(object sender, EventArgs e)
         {
+            if (txtFilterID.Text == string.Empty)
+            {
+                return; // ERROR
+            }
+
             if (ofnReceipt.ShowDialog() == DialogResult.OK)
             {
                 DateTime request = new DateTime(dtpPeriodSearch.Value.Year, dtpPeriodSearch.Value.Month, 1);
@@ -266,16 +150,16 @@ namespace Ambar.ViewController
                 ReceiptDTO receipt = new ReceiptDTO();
                 if (rbMeterSerialNumber.Checked)
                 {
-                    string serviceType = contractDAO.FindServiceType(txtSearchID.Text);
+                    string serviceType = contractDAO.FindServiceType(txtFilterID.Text);
                     if (serviceType == null)
                     {
                         return;
                     }
-                    if (serviceType == "Domestico" && request.Month % 2 == 0)
+                    if (serviceType == "Domestico" && request.Month % 2 == 1)
                     {
-                        request = request.AddMonths(-1); // En caso de que fuese febrero se pasaria a enero
+                        request = request.AddMonths(1); // En caso de que fuese enero se pasaria a febrero
                     }
-                    receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), txtSearchID.Text);
+                    receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), txtFilterID.Text);
                     if (receipt == null)
                     {
                         return;
@@ -283,16 +167,27 @@ namespace Ambar.ViewController
                 }
                 else if (rbServiceNumber.Checked)
                 {
-                    string serviceType = contractDAO.FindServiceType(Convert.ToInt64(txtSearchID.Text));
+                    long filter;
+                    try
+                    {
+                        filter = Convert.ToInt64(txtFilterID.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Número de servicio no válido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    string serviceType = contractDAO.FindServiceType(filter);
                     if (serviceType == null)
                     {
                         return;
                     }
-                    if (serviceType == "Domestico" && request.Month % 2 == 0)
+                    if (serviceType == "Domestico" && request.Month % 2 == 1)
                     {
-                        request = request.AddMonths(-1); // En caso de que fuese febrero se pasaria a enero
+                        request = request.AddMonths(1); // En caso de que fuese febrero se pasaria a enero
                     }
-                    receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), Convert.ToInt64(txtSearchID.Text));
+                    receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), filter);
                     if (receipt == null)
                     {
                         return;
@@ -341,9 +236,21 @@ namespace Ambar.ViewController
 
                 gfx.DrawString("PERIODO FACTURADO: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 220));
                 
-                DateTime start = new DateTime(receipt.Year, receipt.Month, 
-                    DateUtils.ClampDay(receipt.Year, receipt.Month, receipt.Day));
-                DateTime end = start.AddDays(60);
+                DateTime start = new DateTime(receipt.Year, receipt.Month, receipt.Day);
+                DateTime end;
+                if (receipt.Service == "Domestico")
+                {
+                    end = start.AddMonths(2);
+                }
+                else if (receipt.Service == "Industrial")
+                {
+                    end = start.AddMonths(1);
+                }
+                else
+                {
+                    return; // ERROR
+                }
+                end = end.AddDays(-1);
 
                 string period = start.ToString("dd MMM yy").ToUpper() + " - " + end.ToString("dd MMM yy").ToUpper();
                 gfx.DrawString(period, new XFont("Arial", 12), XBrushes.Black, new XPoint(160, 220));
@@ -383,22 +290,22 @@ namespace Ambar.ViewController
                 gfx.DrawString("IVA 16%", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 460));
                 gfx.DrawString(receipt.Tax.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 460));
                 gfx.DrawString("Fac. del Periodo", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 480));
-                gfx.DrawString("Total", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 500));
-                gfx.DrawString("$" + receipt.Total_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 500));
+                gfx.DrawString((receipt.Subtotal_Price + receipt.Tax).ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 480));
+
+                gfx.DrawString("Adeudo Anterior", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 500));
+                gfx.DrawString(receipt.Prev_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 500));
+
+                gfx.DrawString("Su pago", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 520));
+                gfx.DrawString(receipt.Prev_Amount.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 520));
+
+                gfx.DrawString("Total", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 540));
+                gfx.DrawString("$" + receipt.Total_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 540));
 
 
                 gfx.DrawString("TOTAL A PAGAR", new XFont("Arial", 12), XBrushes.Black, new XPoint(360, 40));
                 gfx.DrawString("$" + Decimal.Truncate(receipt.Total_Price), new XFont("Arial", 24), XBrushes.Black, new XPoint(360, 70));
-                string number = GetNumberString(Convert.ToInt32(Decimal.Truncate(receipt.Total_Price)));
+                string number = NumericUtils.GetNumberString(Convert.ToInt32(Decimal.Truncate(receipt.Total_Price)));
                 gfx.DrawString("(" + number + " PESOS M.N.)", new XFont("Arial", 8), XBrushes.Black, new XPoint(360, 90));
-                // gfx.DrawString()
-                // Table Header
-                //gfx.DrawString("Mes", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(110, 120));
-                //gfx.DrawString("No. de Medidor", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(210, 120));
-                //gfx.DrawString("Básico", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(310, 120));
-                //gfx.DrawString("Intermedio", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(410, 120));
-                //gfx.DrawString("Excedente", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(510, 120));
-
 
                 document.Save(ofnReceipt.FileName);
 
@@ -413,288 +320,140 @@ namespace Ambar.ViewController
             lblError.Visible = true;
             lblError.Text = error;
         }
+       
 
-
-        private string GetNumberString(int number)
+        private bool GenerateReceipts(DateTime request, string serviceType)
         {
-            string numberStr = "";
-
-            if (number == 0)
+            if (receiptDAO.FindEmission(request.Year, Convert.ToInt16(request.Month), serviceType))
             {
-                numberStr = "CERO";
+                PrintError("YA SE EMITIERON LOS RECIBOS DE ESTE PERIODO");
+                return false;
             }
-            if (number > 0 && number < 10000)
+
+            // Generar los recibos
+            ContractDAO contractDAO = new ContractDAO();
+            ConsumptionDAO consumptionDAO = new ConsumptionDAO();
+
+            // Se trae todos los contratos de un determinado servicio
+            List<ContractForReceiptDTO> contractsInfo = contractDAO.ReadContractsForReceipt(cbService.SelectedItem.ToString());
+
+            // Encuentra la tarifa del periodo
+            RateDAO rateDao = new RateDAO();
+            RateForReceiptDTO ratesInfo = rateDao.FindActiveRates(cbService.SelectedItem.ToString(), request.Year,
+                Convert.ToInt16(request.Month));
+            if (ratesInfo == null)
             {
-                if (number >= 1000)
+                PrintError("NO HAY TARIFAS REGISTRADAS PARA ESTE PERIODO");
+                return false;
+            }
+
+            decimal iva = Convert.ToDecimal(ConfigurationManager.AppSettings["IVA"].ToString(), CultureInfo.InvariantCulture);
+            List<ReceiptDTO> receipts = new List<ReceiptDTO>();
+            foreach (var contractInfo in contractsInfo)
+            {
+                if (receiptDAO.ReceiptExists(contractInfo.Meter_Serial_Number, request.Year, Convert.ToInt16(request.Month)))
                 {
-                    Thousand(ref number, ref numberStr);
+                    continue; // Ignora si ya tiene un recibo en esa fecha, por seguridad
                 }
-                if (number >= 100)
+
+                // Validar el periodo y validar que no se haya cargado ya el recibo
+                LocalDate startContractDate = contractInfo.Start_Period_Date;
+                DateTime start = new DateTime(startContractDate.Year, startContractDate.Month, 1);
+
+                if (!DateUtils.NormalizeDates(serviceType, ref start, ref request))
                 {
-                    Hundred(ref number, ref numberStr);
+                    MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
                 }
-                if (number >= 10)
+
+                if (request.Year < start.Year || (request.Year == start.Year && request.Month < start.Month))
                 {
-                    Teens(ref number, ref numberStr);
+                    continue; // Ignora los contratos que aun no empiezan su periodo de cobro
                 }
-                if (number >= 1)
+
+                ConsumptionForReceiptDTO consumption = consumptionDAO.FindConsumption(request.Year,
+                    Convert.ToInt16(request.Month), contractInfo.Meter_Serial_Number);
+                if (consumption == null)
                 {
-                    Ones(ref number, ref numberStr);
+                    PrintError("NO SE HAN CARGADO TODOS LOS CONSUMOS DE LOS CONTRATOS");
+                    return false;
                 }
+
+                DateTime prevDate = request;
+                if (serviceType == "Domestico")
+                {
+                    prevDate = request.AddMonths(-2);
+                }
+                else if (serviceType == "Industrial")
+                {
+                    prevDate = request.AddMonths(-1);
+                }
+                else
+                {
+                    return false; // ERROR
+                }
+                ReceiptDTO prev = receiptDAO.FindReceipt(prevDate.Year, Convert.ToInt16(prevDate.Month),
+                    contractInfo.Meter_Serial_Number);
+
+                ReceiptDTO dto = new ReceiptDTO();
+                dto.Receipt_ID = Guid.NewGuid();
+                dto.First_Name = contractInfo.First_Name;
+                dto.Father_Last_Name = contractInfo.Father_Last_Name;
+                dto.Mother_Last_Name = contractInfo.Mother_Last_Name;
+                dto.State = contractInfo.State;
+                dto.City = contractInfo.City;
+                dto.Suburb = contractInfo.Suburb;
+                dto.Street = contractInfo.Street;
+                dto.Number = contractInfo.Number;
+                dto.Postal_Code = contractInfo.Postal_Code;
+                dto.Meter_Serial_Number = contractInfo.Meter_Serial_Number;
+                dto.Service_Number = contractInfo.Service_Number;
+                dto.Service = serviceType;
+                dto.Year = consumption.Year;
+                dto.Month = consumption.Month;
+                dto.Day = consumption.Day; // Ya viene ajustado
+                dto.Basic_Level = ratesInfo.Basic_Level;
+                dto.Intermediate_Level = ratesInfo.Intermediate_Level;
+                dto.Surplus_Level = ratesInfo.Surplus_Level;
+                dto.Basic_KW = consumption.Basic_KW;
+                dto.Intermediate_KW = consumption.Intermediate_KW;
+                dto.Surplus_KW = consumption.Surplus_KW;
+                dto.Total_KW = dto.Basic_KW + dto.Intermediate_KW + dto.Surplus_KW;
+                dto.Basic_Price = Decimal.Round(dto.Basic_Level * dto.Basic_KW, 2);
+                dto.Intermediate_Price = Decimal.Round(dto.Intermediate_Level * dto.Intermediate_KW, 2);
+                dto.Surplus_Price = Decimal.Round(dto.Surplus_Level * dto.Surplus_KW, 2);
+                dto.Tax = Decimal.Round(dto.Surplus_Price * iva, 2);
+                dto.Subtotal_Price = Decimal.Round(dto.Basic_Price + dto.Intermediate_Price + dto.Surplus_Price, 2);
+
+                if (prev == null)
+                {
+                    dto.Prev_Amount = 0.0m;
+                    dto.Prev_Price = 0.0m;
+                }
+                else
+                {
+                    dto.Prev_Amount = prev.Amount_Pad;
+                    dto.Prev_Price = prev.Total_Price;
+                }
+
+                dto.Total_Price = Decimal.Round(dto.Subtotal_Price + dto.Tax + (dto.Prev_Price - dto.Prev_Amount), 2);
+                dto.Amount_Pad = 0;
+                dto.Pending_Amount = Decimal.Round(dto.Total_Price, 2);
+
+                receipts.Add(dto);
             }
-            else
+
+            if (receipts.Count == 0)
             {
-                // No es un numero valido
-                return null;
+                // NO HAY NADA QUE GENERAR
             }
 
-            return numberStr;
-
+            receiptDAO.GenerateMassiveReceipts(receipts);
+            receiptDAO.EmitReceipt(request.Year, Convert.ToInt16(request.Month), serviceType);
+            dateDAO.UpdateDate(serviceType);
+            label7.Text = dateDAO.GetDate().ToString("MMMM yyyy").ToUpper();
+            DateChange();
+            return true;
         }
-
-        private void Thousand(ref int number, ref string numberStr)
-        {
-            if (number >= 9000)
-            {
-                numberStr += "NUEVE MIL";
-                number -= 9000;
-            }
-            else if (number >= 8000)
-            {
-                numberStr += "OCHO MIL";
-                number -= 8000;
-            }
-            else if (number >= 7000)
-            {
-                numberStr += "SIETE MIL";
-                number -= 7000;
-            }
-            else if (number >= 6000)
-            {
-                numberStr += "SEIS MIL";
-                number -= 6000;
-            }
-            else if (number >= 5000)
-            {
-                numberStr += "CINCO MIL";
-                number -= 5000;
-            }
-            else if (number >= 4000)
-            {
-                numberStr += "CUATRO MIL";
-                number -= 4000;
-            }
-            else if (number >= 3000)
-            {
-                numberStr += "TRES MIL";
-                number -= 3000;
-            }
-            else if (number >= 2000)
-            {
-                numberStr += "DOS MIL";
-                number -= 2000;
-            }
-            else if (number >= 1000)
-            {
-                numberStr += "MIL";
-                number -= 1000;
-            }
-
-            if (number != 0)
-            {
-                numberStr += " ";
-            }
-
-        }
-
-        private void Hundred(ref int number, ref string numberStr)
-        {
-            if (number >= 900)
-            {
-                numberStr += "NOVECIENTOS ";
-                number -= 900;
-            }
-            else if (number >= 800)
-            {
-                numberStr += "OCHOCIENTOS ";
-                number -= 800;
-            }
-            else if (number >= 700)
-            {
-                numberStr += "SETECIENTOS ";
-                number -= 700;
-            }
-            else if (number >= 600)
-            {
-                numberStr += "SEISCIENTOS ";
-                number -= 600;
-            }
-            else if (number >= 500)
-            {
-                numberStr += "QUINIENTOS ";
-                number -= 500;
-            }
-            else if (number >= 400)
-            {
-                numberStr += "CUATROCIENTOS ";
-                number -= 400;
-            }
-            else if (number >= 300)
-            {
-                numberStr += "TRESCIENTOS ";
-                number -= 300;
-            }
-            else if (number >= 200)
-            {
-                numberStr += "DOSCIENTOS ";
-                number -= 200;
-            }
-            else if (number > 100)
-            {
-                numberStr += "CIENTO ";
-                number -= 100;
-            }
-            else if (number == 100)
-            {
-                numberStr += "CIEN";
-                number -= 100;
-            }
-        }
-
-        private void Teens(ref int number, ref string numberStr)
-        {
-            if (number >= 90)
-            {
-                numberStr += "NOVENTA";
-                number -= 90;
-            }
-            else if (number >= 80)
-            {
-                numberStr += "OCHENTA";
-                number -= 80;
-            }
-            else if (number >= 70)
-            {
-                numberStr += "SETENTA";
-                number -= 70;
-            }
-            else if (number >= 60)
-            {
-                numberStr += "SESENTA";
-                number -= 60;
-            }
-            else if (number >= 50)
-            {
-                numberStr += "CINCUENTA";
-                number -= 50;
-            }
-            else if (number >= 40)
-            {
-                numberStr += "CUARENTA";
-                number -= 40;
-            }
-            else if (number >= 30)
-            {
-                numberStr += "TREINTA";
-                number -= 30;
-            }
-            else if (number > 20)
-            {
-                numberStr += "VEINTI";
-                number -= 20;
-                return;
-            }
-            else if (number == 20)
-            {
-                numberStr += "VEINTE";
-                number -= 20;
-            }
-            else if (number > 15)
-            {
-                numberStr += "DIECI";
-                number -= 10;
-                return;
-            }
-            else if (number == 15)
-            {
-                numberStr += "QUINCE";
-                number -= 15;
-            }
-            else if (number == 14)
-            {
-                numberStr += "CATORCE";
-                number -= 14;
-            }
-            else if (number == 13)
-            {
-                numberStr += "TRECE";
-                number -= 13;
-            }
-            else if (number == 12)
-            {
-                numberStr += "DOCE";
-                number -= 12;
-            }
-            else if (number == 11)
-            {
-                numberStr += "ONCE";
-                number -= 11;
-            }
-            else if (number == 10)
-            {
-                numberStr += "DIEZ";
-                number -= 10;
-            }
-
-            if (number != 0)
-            {
-                numberStr += " Y ";
-            }
-        }
-
-        private void Ones(ref int number, ref string numberStr)
-        {
-            switch (number)
-            {
-                case 9:
-                    numberStr += "NUEVE";
-                    number -= 9;
-                    break;
-                case 8:
-                    numberStr += "OCHO";
-                    number -= 8;
-                    break;
-                case 7:
-                    numberStr += "SIETE";
-                    number -= 7;
-                    break;
-                case 6:
-                    numberStr += "SEIS";
-                    number -= 6;
-                    break;
-                case 5:
-                    numberStr += "CINCO";
-                    number -= 5;
-                    break;
-                case 4:
-                    numberStr += "CUATRO";
-                    number -= 4;
-                    break;
-                case 3:
-                    numberStr += "TRES";
-                    number -= 3;
-                    break;
-                case 2:
-                    numberStr += "DOS";
-                    number -= 2;
-                    break;
-                case 1:
-                    numberStr += "UN";
-                    number -= 20;
-                    break;
-            }
-
-        }
-
     }
 }

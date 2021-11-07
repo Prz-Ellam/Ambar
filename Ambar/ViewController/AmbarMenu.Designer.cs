@@ -40,15 +40,15 @@
             this.lblUsernameLogged = new System.Windows.Forms.Label();
             this.lblPositionLogged = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.SubmenuReportes = new System.Windows.Forms.Panel();
+            this.panelSubmenuReports = new System.Windows.Forms.Panel();
             this.panelHistoricConsumption = new System.Windows.Forms.Panel();
             this.btnHistoricConsumption = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.panelConsumptionsReport = new System.Windows.Forms.Panel();
             this.btnConsumptionsReport = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panelRatesReport = new System.Windows.Forms.Panel();
             this.btnRatesReport = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.panelGeneralReport = new System.Windows.Forms.Panel();
+            this.btnGeneralReport = new System.Windows.Forms.Button();
             this.panelEmployees = new System.Windows.Forms.Panel();
             this.panelClients = new System.Windows.Forms.Panel();
             this.panelContracts = new System.Windows.Forms.Panel();
@@ -67,7 +67,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             this.gradientPanel1.SuspendLayout();
-            this.SubmenuReportes.SuspendLayout();
+            this.panelSubmenuReports.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelStorage
@@ -120,7 +120,7 @@
             this.gradientPanel1.Controls.Add(this.lblUsernameLogged);
             this.gradientPanel1.Controls.Add(this.lblPositionLogged);
             this.gradientPanel1.Controls.Add(this.label1);
-            this.gradientPanel1.Controls.Add(this.SubmenuReportes);
+            this.gradientPanel1.Controls.Add(this.panelSubmenuReports);
             this.gradientPanel1.Controls.Add(this.panelEmployees);
             this.gradientPanel1.Controls.Add(this.panelClients);
             this.gradientPanel1.Controls.Add(this.panelContracts);
@@ -209,23 +209,23 @@
             this.label1.Size = new System.Drawing.Size(0, 17);
             this.label1.TabIndex = 15;
             // 
-            // SubmenuReportes
+            // panelSubmenuReports
             // 
-            this.SubmenuReportes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.SubmenuReportes.Controls.Add(this.panelHistoricConsumption);
-            this.SubmenuReportes.Controls.Add(this.btnHistoricConsumption);
-            this.SubmenuReportes.Controls.Add(this.panel4);
-            this.SubmenuReportes.Controls.Add(this.btnConsumptionsReport);
-            this.SubmenuReportes.Controls.Add(this.panel3);
-            this.SubmenuReportes.Controls.Add(this.btnRatesReport);
-            this.SubmenuReportes.Controls.Add(this.panel2);
-            this.SubmenuReportes.Controls.Add(this.button1);
-            this.SubmenuReportes.Location = new System.Drawing.Point(9, 427);
-            this.SubmenuReportes.Margin = new System.Windows.Forms.Padding(2);
-            this.SubmenuReportes.Name = "SubmenuReportes";
-            this.SubmenuReportes.Size = new System.Drawing.Size(216, 166);
-            this.SubmenuReportes.TabIndex = 0;
-            this.SubmenuReportes.Visible = false;
+            this.panelSubmenuReports.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.panelSubmenuReports.Controls.Add(this.panelHistoricConsumption);
+            this.panelSubmenuReports.Controls.Add(this.btnHistoricConsumption);
+            this.panelSubmenuReports.Controls.Add(this.panelConsumptionsReport);
+            this.panelSubmenuReports.Controls.Add(this.btnConsumptionsReport);
+            this.panelSubmenuReports.Controls.Add(this.panelRatesReport);
+            this.panelSubmenuReports.Controls.Add(this.btnRatesReport);
+            this.panelSubmenuReports.Controls.Add(this.panelGeneralReport);
+            this.panelSubmenuReports.Controls.Add(this.btnGeneralReport);
+            this.panelSubmenuReports.Location = new System.Drawing.Point(9, 427);
+            this.panelSubmenuReports.Margin = new System.Windows.Forms.Padding(2);
+            this.panelSubmenuReports.Name = "panelSubmenuReports";
+            this.panelSubmenuReports.Size = new System.Drawing.Size(216, 166);
+            this.panelSubmenuReports.TabIndex = 0;
+            this.panelSubmenuReports.Visible = false;
             // 
             // panelHistoricConsumption
             // 
@@ -254,14 +254,14 @@
             this.btnHistoricConsumption.UseVisualStyleBackColor = false;
             this.btnHistoricConsumption.Click += new System.EventHandler(this.btnHistoricConsumption_Click);
             // 
-            // panel4
+            // panelConsumptionsReport
             // 
-            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.panel4.Location = new System.Drawing.Point(9, 81);
-            this.panel4.Margin = new System.Windows.Forms.Padding(2);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(10, 32);
-            this.panel4.TabIndex = 12;
+            this.panelConsumptionsReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.panelConsumptionsReport.Location = new System.Drawing.Point(9, 81);
+            this.panelConsumptionsReport.Margin = new System.Windows.Forms.Padding(2);
+            this.panelConsumptionsReport.Name = "panelConsumptionsReport";
+            this.panelConsumptionsReport.Size = new System.Drawing.Size(10, 32);
+            this.panelConsumptionsReport.TabIndex = 12;
             // 
             // btnConsumptionsReport
             // 
@@ -281,14 +281,14 @@
             this.btnConsumptionsReport.UseVisualStyleBackColor = false;
             this.btnConsumptionsReport.Click += new System.EventHandler(this.btnConsumptionsReport_Click);
             // 
-            // panel3
+            // panelRatesReport
             // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.panel3.Location = new System.Drawing.Point(9, 41);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(10, 32);
-            this.panel3.TabIndex = 11;
+            this.panelRatesReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.panelRatesReport.Location = new System.Drawing.Point(9, 41);
+            this.panelRatesReport.Margin = new System.Windows.Forms.Padding(2);
+            this.panelRatesReport.Name = "panelRatesReport";
+            this.panelRatesReport.Size = new System.Drawing.Size(10, 32);
+            this.panelRatesReport.TabIndex = 11;
             // 
             // btnRatesReport
             // 
@@ -308,32 +308,32 @@
             this.btnRatesReport.UseVisualStyleBackColor = false;
             this.btnRatesReport.Click += new System.EventHandler(this.btnRatesReport_Click);
             // 
-            // panel2
+            // panelGeneralReport
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.panel2.Location = new System.Drawing.Point(9, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(10, 32);
-            this.panel2.TabIndex = 10;
+            this.panelGeneralReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.panelGeneralReport.Location = new System.Drawing.Point(9, 0);
+            this.panelGeneralReport.Margin = new System.Windows.Forms.Padding(2);
+            this.panelGeneralReport.Name = "panelGeneralReport";
+            this.panelGeneralReport.Size = new System.Drawing.Size(10, 32);
+            this.panelGeneralReport.TabIndex = 10;
             // 
-            // button1
+            // btnGeneralReport
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(19, 0);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(197, 32);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Reporte General";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnGeneralReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnGeneralReport.FlatAppearance.BorderSize = 0;
+            this.btnGeneralReport.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnGeneralReport.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnGeneralReport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGeneralReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGeneralReport.ForeColor = System.Drawing.Color.White;
+            this.btnGeneralReport.Location = new System.Drawing.Point(19, 0);
+            this.btnGeneralReport.Margin = new System.Windows.Forms.Padding(2);
+            this.btnGeneralReport.Name = "btnGeneralReport";
+            this.btnGeneralReport.Size = new System.Drawing.Size(197, 32);
+            this.btnGeneralReport.TabIndex = 15;
+            this.btnGeneralReport.Text = "Reporte General";
+            this.btnGeneralReport.UseVisualStyleBackColor = false;
+            this.btnGeneralReport.Click += new System.EventHandler(this.button1_Click);
             // 
             // panelEmployees
             // 
@@ -563,7 +563,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             this.gradientPanel1.ResumeLayout(false);
             this.gradientPanel1.PerformLayout();
-            this.SubmenuReportes.ResumeLayout(false);
+            this.panelSubmenuReports.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -588,12 +588,12 @@
         private System.Windows.Forms.Panel panelContracts;
         private System.Windows.Forms.Panel panelConsumptions;
         private System.Windows.Forms.Panel panelRates;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel SubmenuReportes;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panelGeneralReport;
+        private System.Windows.Forms.Panel panelSubmenuReports;
+        private System.Windows.Forms.Button btnGeneralReport;
         private System.Windows.Forms.Button btnRatesReport;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panelConsumptionsReport;
+        private System.Windows.Forms.Panel panelRatesReport;
         private System.Windows.Forms.Button btnConsumptionsReport;
         private System.Windows.Forms.Label lblUsernameLogged;
         private System.Windows.Forms.Label lblPositionLogged;

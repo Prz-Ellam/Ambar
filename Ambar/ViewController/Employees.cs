@@ -46,8 +46,9 @@ namespace Ambar.ViewController
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (btnUpdate.Enabled || btnDelete.Enabled) // Solo por seguridad
+            if (btnUpdate.Enabled || btnDelete.Enabled) // Por seguridad
             {
+                MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -70,31 +71,31 @@ namespace Ambar.ViewController
                 employee.CURP == string.Empty || employee.User_Name == string.Empty ||
                 employee.Password == string.Empty || confirmPassword == string.Empty)
             {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (employee.Password != confirmPassword)
             {
-                PrintError("VERIFICAR CONTRASEÑA");
+                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!RegexUtils.VerifyCURP(employee.CURP))
             {
-                PrintError("VERIFICAR CURP");
+                MessageBox.Show("Verificar CURP", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!RegexUtils.VerifyRFC(employee.RFC))
             {
-                PrintError("VERIFICAR RFC");
+                MessageBox.Show("Verificar RFC", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (employeeDao.UserExists(employee.User_Name))
             {
-                PrintError("EL NOMBRE DE USUARIO YA EXISTE");
+                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -132,31 +133,31 @@ namespace Ambar.ViewController
                 employee.CURP == string.Empty || employee.User_Name == string.Empty ||
                 employee.Password == string.Empty || confirmPassword == string.Empty)
             {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (employee.Password != confirmPassword)
             {
-                PrintError("VERIFICAR CONTRASEÑA");
+                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!RegexUtils.VerifyCURP(employee.CURP))
             {
-                PrintError("VERIFICAR CURP");
+                MessageBox.Show("Verificar CURP", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!RegexUtils.VerifyRFC(employee.RFC))
             {
-                PrintError("VERIFICAR RFC");
+                MessageBox.Show("Verificar RFC", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (employeeDao.UserExists(employee.User_Name) && originalUsername != employee.User_Name)
             {
-                PrintError("EL NOMBRE DE USUARIO YA EXISTE");
+                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -180,7 +181,7 @@ namespace Ambar.ViewController
                 return;
             }
 
-            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "ADVERTENCIA", 
+            DialogResult res = MessageBox.Show("¿Está seguro que desea realizar esta acción?", "Advertencia", 
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (res == DialogResult.Yes)
@@ -195,7 +196,7 @@ namespace Ambar.ViewController
                 FillDisableUsers();
 
                 ClearForm();
-                MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+                MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
             }
         }
 
@@ -213,9 +214,8 @@ namespace Ambar.ViewController
             btnAccept.Enabled = true;
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
-            pbWarningIcon.Visible = false;
-            lblError.Visible = false;
         }
+
         public void FillDataGridView()
         {
             List<EmployeeDTO> employees = employeeDao.Read();
@@ -237,7 +237,7 @@ namespace Ambar.ViewController
             }
             else
             {
-                originalID = (Guid)dtgEmployees.Rows[index].Cells[0].Value;
+                originalID = Guid.Parse(dtgEmployees.Rows[index].Cells[0].Value.ToString());
                 txtUsername.Text = dtgEmployees.Rows[index].Cells[1].Value.ToString();
                 originalUsername = dtgEmployees.Rows[index].Cells[1].Value.ToString();
                 txtPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
@@ -252,8 +252,6 @@ namespace Ambar.ViewController
                 btnAccept.Enabled = false;
                 btnUpdate.Enabled = true;
                 btnDelete.Enabled = true;
-                pbWarningIcon.Visible = false;
-                lblError.Visible = false;
 
                 dtgPrevIndex = index;
             }
@@ -303,9 +301,6 @@ namespace Ambar.ViewController
 
         public void PrintError(string error)
         {
-            pbWarningIcon.Visible = true;
-            lblError.Visible = true;
-            lblError.Text = error;
         }
     }
 }

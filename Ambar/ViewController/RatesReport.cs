@@ -20,7 +20,7 @@ namespace Ambar.ViewController
 {
     public partial class RatesReport : Form
     {
-        RateDAO dao = new RateDAO();
+        RateDAO rateDAO = new RateDAO();
         public RatesReport()
         {
             InitializeComponent();
@@ -28,68 +28,67 @@ namespace Ambar.ViewController
 
         private void btnCSV_Click(object sender, EventArgs e)
         {
+            ofnReportCSV.FileName = string.Format("Reporte-Tarifas-{0} {1}", dtpYear.Value.Year, DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
+
             if (ofnReportCSV.ShowDialog() == DialogResult.OK)
             {
                 var writer = new StreamWriter(ofnReportCSV.FileName);
                 var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
-                IEnumerable<RateDTO> rates = (IEnumerable<RateDTO>)dtgRatesReport.DataSource;
-                List<RatesReportCSV> ratesCSV = new List<RatesReportCSV>();
-                foreach(var rate in rates)
+                IEnumerable<RatesReportDTO> rates = dtgRatesReport.DataSource as IEnumerable<RatesReportDTO>;
+                if (rates == null)
                 {
-                    ratesCSV.Add(new RatesReportCSV(rate));
+                    MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
-                csvWriter.WriteRecords(ratesCSV);
-
+                csvWriter.WriteRecords(rates);
                 csvWriter.Dispose();
                 writer.Close();
+
+                MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
             }
         }
 
         private void btnPDF_Click(object sender, EventArgs e)
         {
+            ofnReportPDF.FileName = string.Format("Reporte-Tarifas-{0} {1}", dtpYear.Value.Year, DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
+
             if (ofnReportPDF.ShowDialog() == DialogResult.OK)
             {
                 PdfDocument document = new PdfDocument();
-
                 PdfPage page = document.AddPage();
-
                 XGraphics gfx = XGraphics.FromPdfPage(page);
-                XFont font = new XFont("Montserrat", 12);
-                XFont titleFont = new XFont("Montserrat", 24, XFontStyle.Bold);
-                XFont subtitleFont = new XFont("Montserrat", 14);
-                XPen pen = new XPen(XColor.FromArgb(255, 0, 0, 0));
                 XImage logo = XImage.FromFile("../../Resources/Ambar_Logo.png");
 
                 gfx.DrawImage(logo, new XRect(10, 20, 30, 42));
 
-                gfx.DrawString("Ambar", titleFont, XBrushes.Black, new XRect(50, 20, page.Width, page.Height),
-                    XStringFormats.TopLeft);
-                gfx.DrawString("Reporte de Tárifas", subtitleFont, XBrushes.Black, new XRect(50, 50, page.Width, page.Height),
-                    XStringFormats.TopLeft);
-                gfx.DrawString(DateTime.Now.ToString(), font, XBrushes.Black, new XRect(10, 25, page.Width - 20, page.Height),
-                    XStringFormats.TopRight);
-                gfx.DrawLine(pen, new XPoint(10, 70), new XPoint(page.Width - 10, 70));
+                gfx.DrawString("Ambar", new XFont("Arial", 24, XFontStyle.Bold), XBrushes.Black, 
+                    new XRect(50, 20, page.Width, page.Height), XStringFormats.TopLeft);
+                gfx.DrawString("Reporte de Tárifas", new XFont("Arial", 14), XBrushes.Black, 
+                    new XRect(50, 50, page.Width, page.Height), XStringFormats.TopLeft);
+                gfx.DrawString(DateTime.Now.ToString(), new XFont("Arial", 12), XBrushes.Black, 
+                    new XRect(10, 25, page.Width - 20, page.Height), XStringFormats.TopRight);
+                gfx.DrawLine(new XPen(XColor.FromArgb(255, 0, 0, 0)), new XPoint(10, 70), 
+                    new XPoint(page.Width - 10, 70));
 
-                string mes = string.Format("{0}", dtpYear.Value.Year);
-                gfx.DrawString("Año: ", new XFont("Montserrat", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 100));
-                gfx.DrawString(mes, new XFont("Montserrat", 12), XBrushes.Black, new XPoint(45, 100));
+                gfx.DrawString("Año: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 100));
+                gfx.DrawString(dtpYear.Value.Year.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(45, 100));
 
                 // Table Header
-                gfx.DrawString("Año", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 120));
-                gfx.DrawString("Mes", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(120, 120));
-                gfx.DrawString("Tárifa Básica", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(230, 120));
-                gfx.DrawString("Tárifa Intermedia", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(340, 120));
-                gfx.DrawString("Tárifa Excedente", new XFont("Montserrat", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(450, 120));
+                gfx.DrawString("Año", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 120));
+                gfx.DrawString("Mes", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(120, 120));
+                gfx.DrawString("Tárifa Básica", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(230, 120));
+                gfx.DrawString("Tárifa Intermedia", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(340, 120));
+                gfx.DrawString("Tárifa Excedente", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(450, 120));
 
                 FillContentPDF(ref document, ref page, ref gfx);
 
                 document.Save(ofnReportPDF.FileName);
 
+                MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
             }
         }
-
         
         private void FillContentPDF(ref PdfDocument document, ref PdfPage page, ref XGraphics gfx)
         {
@@ -124,8 +123,8 @@ namespace Ambar.ViewController
 
                 for (int j = 0, x = 10; j < dtgRatesReport.Columns.Count; j++, x += 110)
                 {
-                    gfx.DrawString(dtgRatesReport.Rows[i].Cells[j].Value.ToString(),
-                        new XFont("Montserrat", 10), XBrushes.Black, new XPoint(x, y));
+                    gfx.DrawString(dtgRatesReport.Rows[i].Cells[j].Value.ToString(), 
+                        new XFont("Arial", 10), XBrushes.Black, new XPoint(x, y));
                 }
             }
 
@@ -135,25 +134,29 @@ namespace Ambar.ViewController
 
         private void dtpYear_ValueChanged(object sender, EventArgs e)
         {
-            List<RateDTO> rates = dao.ReadRatesByYear(dtpYear.Value.Year);
-            List<RatesReportCSV> ratesCSV = new List<RatesReportCSV>();
-            foreach (var rate in rates)
-            {
-                ratesCSV.Add(new RatesReportCSV(rate));
-            }
-
-            dtgRatesReport.DataSource = ratesCSV;
+            FindRates();
         }
 
         private void RatesReport_Load(object sender, EventArgs e)
         {
-            List<RateDTO> rates = dao.ReadRatesByYear(dtpYear.Value.Year);
-            List<RatesReportCSV> ratesCSV = new List<RatesReportCSV>();
+            FindRates();
+        }
+
+        private void FindRates()
+        {
+            List<RateDTO> rates = rateDAO.ReadRatesByYear(dtpYear.Value.Year);
+            List<RatesReportDTO> ratesCSV = new List<RatesReportDTO>();
             foreach (var rate in rates)
             {
-                ratesCSV.Add(new RatesReportCSV(rate));
+                ratesCSV.Add(new RatesReportDTO()
+                {
+                    Year = rate.Year,
+                    Month = rate.Month,
+                    Basic_Level = rate.Basic_Level,
+                    Intermediate_Level = rate.Intermediate_Level,
+                    Surplus_Level = rate.Surplus_Level
+                });
             }
-
             dtgRatesReport.DataSource = ratesCSV;
         }
     }

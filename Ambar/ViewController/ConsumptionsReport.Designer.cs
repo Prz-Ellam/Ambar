@@ -160,7 +160,7 @@ namespace Ambar.ViewController
             this.btnPDF.ForeColor = System.Drawing.Color.White;
             this.btnPDF.Image = global::Ambar.Properties.Resources.PDF_Logo;
             this.btnPDF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPDF.Location = new System.Drawing.Point(623, 522);
+            this.btnPDF.Location = new System.Drawing.Point(623, 576);
             this.btnPDF.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(225, 81);
@@ -178,7 +178,7 @@ namespace Ambar.ViewController
             this.btnCSV.ForeColor = System.Drawing.Color.White;
             this.btnCSV.Image = global::Ambar.Properties.Resources.CSV_Logo;
             this.btnCSV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCSV.Location = new System.Drawing.Point(352, 522);
+            this.btnCSV.Location = new System.Drawing.Point(371, 576);
             this.btnCSV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCSV.Name = "btnCSV";
             this.btnCSV.Size = new System.Drawing.Size(225, 81);
@@ -200,7 +200,7 @@ namespace Ambar.ViewController
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(883, 624);
+            this.ClientSize = new System.Drawing.Size(883, 684);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.dtgConsumptionsReport);

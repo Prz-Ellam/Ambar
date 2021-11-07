@@ -290,7 +290,7 @@ namespace Ambar.ViewController
             }
             else
             {
-                originalID = (Guid)dtgClients.Rows[index].Cells[0].Value;
+                originalID = Guid.Parse(dtgClients.Rows[index].Cells[0].Value.ToString());
                 txtUsername.Text = originalUsername = dtgClients.Rows[index].Cells[1].Value.ToString();
                 txtPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
                 txtConfirmPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
@@ -303,7 +303,12 @@ namespace Ambar.ViewController
 
                 dtgEmails.Rows.Clear();
                 cbEmails.Items.Clear();
-                IEnumerable<string> emails = (IEnumerable<string>)dtgClients.Rows[index].Cells[6].Value;
+                IEnumerable<string> emails = dtgClients.Rows[index].Cells[6].Value as IEnumerable<string>;
+                if (emails == null)
+                {
+                    MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 foreach (var email in emails.ToList())
                 {
                     dtgEmails.Rows.Add(email);
