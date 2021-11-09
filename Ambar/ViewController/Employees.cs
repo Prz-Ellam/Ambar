@@ -17,7 +17,7 @@ using Cassandra;
 
 namespace Ambar.ViewController
 {
-    public partial class Employees : Form, IAmbarForm
+    public partial class Employees : Form
     {
         // DAO para hacer queries a la entidad empleados
         EmployeeDAO employeeDao = new EmployeeDAO();
@@ -299,8 +299,5 @@ namespace Ambar.ViewController
             FillDisableUsers();
         }
 
-        public void PrintError(string error)
-        {
-        }
     }
 }

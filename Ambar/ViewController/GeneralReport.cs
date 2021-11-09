@@ -163,7 +163,7 @@ namespace Ambar.ViewController
 
                 gfx.DrawString("Ambar", new XFont("Arial", 24, XFontStyle.Bold), XBrushes.Black,
                     new XRect(50, 20, page.Width, page.Height), XStringFormats.TopLeft);
-                gfx.DrawString("Reporte de Tárifas", new XFont("Arial", 14), XBrushes.Black,
+                gfx.DrawString("Reporte General", new XFont("Arial", 14), XBrushes.Black,
                     new XRect(50, 50, page.Width, page.Height), XStringFormats.TopLeft);
                 gfx.DrawString(DateTime.Now.ToString(), new XFont("Arial", 12), XBrushes.Black,
                     new XRect(10, 25, page.Width - 20, page.Height), XStringFormats.TopRight);
@@ -177,7 +177,7 @@ namespace Ambar.ViewController
                 gfx.DrawString(dtpYear.Value.Year.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(45, 100));
 
                 short month = Convert.ToInt16(((ComboBoxItem)cbPeriod.SelectedItem).HiddenValue);
-                string monthStr = new DateTime(2010, month, 1).ToString("MMMM").ToUpper();
+                string monthStr = (month == -1) ? "Todos" : new DateTime(2010, month, 1).ToString("MMMM").ToUpper();
                 gfx.DrawString("Mes: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 120));
                 gfx.DrawString(monthStr, new XFont("Arial", 12), XBrushes.Black, new XPoint(45, 120));
 

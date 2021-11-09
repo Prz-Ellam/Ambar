@@ -69,19 +69,19 @@ namespace Ambar.ViewController
                 client.Emails.Count() <= 0 || client.User_Name == string.Empty || client.Gender == string.Empty ||
                 client.Password == string.Empty || confirmPassword == string.Empty)
             {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (client.Password != confirmPassword)
             {
-                PrintError("VERIFICAR CONTRASEÑA");
+                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!RegexUtils.VerifyCURP(client.CURP))
             {
-                PrintError("VERIFICAR CURP");
+                MessageBox.Show("Verificar curp", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -89,14 +89,14 @@ namespace Ambar.ViewController
             {
                 if (!RegexUtils.VerifyEmail(cbEmails.Items[i].ToString()))
                 {
-                    PrintError("VERIFICAR EMAILS");
+                    MessageBox.Show("Verificar emails", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
 
             if (clientDao.UserExists(client.User_Name))
             {
-                PrintError("EL NOMBRE DE USUARIO YA EXISTE");
+                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -138,19 +138,19 @@ namespace Ambar.ViewController
                 client.Emails.Count() <= 0 || client.User_Name == string.Empty ||
                 client.Password == string.Empty || confirmPassword == string.Empty)
             {
-                PrintError("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (client.Password != confirmPassword)
             {
-                PrintError("VERIFICAR CONTRASEÑA");
+                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!RegexUtils.VerifyCURP(client.CURP))
             {
-                PrintError("VERIFICAR CURP");
+                MessageBox.Show("Verificar curp", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -158,14 +158,14 @@ namespace Ambar.ViewController
             {
                 if (!RegexUtils.VerifyEmail(cbEmails.Items[i].ToString()))
                 {
-                    PrintError("VERIFICAR EMAILS");
+                    MessageBox.Show("Verificar emails", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
 
             if (clientDao.UserExists(client.User_Name) && originalUsername != client.User_Name)
             {
-                PrintError("EL NOMBRE DE USUARIO YA EXISTE");
+                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -198,7 +198,7 @@ namespace Ambar.ViewController
 
                 if (new ContractDAO().IsClientContractExists(originalID))
                 {
-                    PrintError("NO SE PUEDE BORRAR CLIENTE PORQUE POSEE UN CONTRATO");
+                    MessageBox.Show("No se puede borrar cliente porque posee un contrato", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -261,8 +261,6 @@ namespace Ambar.ViewController
             btnAccept.Enabled = true;
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
-            pbWarningIcon.Visible = false;
-            lblError.Visible = false;
         }
 
         private void FillDataGridView()
@@ -318,8 +316,6 @@ namespace Ambar.ViewController
                 btnAccept.Enabled = false;
                 btnUpdate.Enabled = true;
                 btnDelete.Enabled = true;
-                pbWarningIcon.Visible = false;
-                lblError.Visible = false;
 
                 dgvPrevIndex = index;
             }
@@ -366,13 +362,6 @@ namespace Ambar.ViewController
             ClearDisableUsers();
 
             FillDisableUsers();
-        }
-
-        private void PrintError(string error)
-        {
-            pbWarningIcon.Visible = true;
-            lblError.Visible = true;
-            lblError.Text = error;
         }
 
         private void cbEmails_SelectedIndexChanged(object sender, EventArgs e)

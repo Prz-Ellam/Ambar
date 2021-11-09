@@ -58,7 +58,7 @@ namespace Ambar.Model.DAO
 
         public void UpdateClientInfo(Guid id, string name, string fatherLastName, string motherLastName)
         {
-            string query = "SELECT CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER FROM CLIENT_CONTRACTS WHERE CLIENT_ID = {0};";
+            string query = "SELECT CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, START_PERIOD_DATE, SERVICE FROM CLIENT_CONTRACTS WHERE CLIENT_ID = {0};";
             query = string.Format(query, id);
 
             var res = session.Execute(query);
@@ -66,26 +66,29 @@ namespace Ambar.Model.DAO
             {
                 string meterSerialNumber = row.GetValue<string>("meter_serial_number");
                 Guid contractID = row.GetValue<Guid>("contract_id");
-                int serviceNumber = row.GetValue<int>("service_number");
+                long serviceNumber = row.GetValue<long>("service_number");
+                string service = row.GetValue<string>("service");
+                LocalDate date = row.GetValue<LocalDate>("start_period_date");
 
                 string query1 = "UPDATE CONTRACTS SET FIRST_NAME = '{0}', FATHER_LAST_NAME = '{1}', MOTHER_LAST_NAME = '{2}' " +
                     "WHERE CONTRACT_ID = {3};";
                 query1 = string.Format(query1, name, fatherLastName, motherLastName, contractID);
                 string query2 = "UPDATE CONTRACTS_BY_SERVICE SET FIRST_NAME = '{0}', FATHER_LAST_NAME = '{1}', " +
-                    "MOTHER_LAST_NAME = '{2}' WHERE SERVICE_NUMBER = {3};";
-                query2 = string.Format(query2, name, fatherLastName, motherLastName, serviceNumber);
+                    "MOTHER_LAST_NAME = '{2}' WHERE SERVICE = '{3}' AND METER_SERIAL_NUMBER = '{4}';";
+                query2 = string.Format(query2, name, fatherLastName, motherLastName, service, meterSerialNumber);
                 string query3 = "UPDATE CONTRACTS_BY_METER_SERIAL_NUMBER SET FIRST_NAME = '{0}', FATHER_LAST_NAME = '{1}', " +
-                   "MOTHER_LAST_NAME = '{2}' WHERE METER_SERIAL_NUMBER = {3};";
-                query3 = string.Format(query3, name, fatherLastName, motherLastName, meterSerialNumber, serviceNumber);
+                   "MOTHER_LAST_NAME = '{2}' WHERE METER_SERIAL_NUMBER = '{3}';";
+                query3 = string.Format(query3, name, fatherLastName, motherLastName, meterSerialNumber);
                 string query4 = "UPDATE CLIENT_CONTRACTS SET FIRST_NAME = '{0}', FATHER_LAST_NAME = '{1}', " +
-                    "MOTHER_LAST_NAME = '{2}' WHERE CLIENT_ID = {3};";
-                query4 = string.Format(query4, name, fatherLastName, motherLastName, id);
+                    "MOTHER_LAST_NAME = '{2}' WHERE CLIENT_ID = {3} AND START_PERIOD_DATE = '{4}' AND CONTRACT_ID = {5};";
+                query4 = string.Format(query4, name, fatherLastName, motherLastName, id, date, contractID);
 
                 session.Execute(query1);
                 session.Execute(query2);
                 session.Execute(query3);
                 session.Execute(query4);
-                break;
+
+                new ReceiptDAO().UpdateClientInfo(meterSerialNumber, serviceNumber, name, fatherLastName, motherLastName);
             }
 
         }
@@ -128,7 +131,7 @@ namespace Ambar.Model.DAO
             return contracts.ToList();
         }
 
-        public bool ContractExists(string meterSerialNumber, Int64 serviceNumber)
+        public bool ContractExists(string meterSerialNumber, long serviceNumber)
         {
             if (ContractExists(meterSerialNumber)) return true;
             if (ContractExists(serviceNumber)) return true;
@@ -136,7 +139,7 @@ namespace Ambar.Model.DAO
             return false;
         }
 
-        public bool ContractExists(Int64 serviceNumber)
+        public bool ContractExists(long serviceNumber)
         {
             string query = "SELECT COUNT(SERVICE_NUMBER) FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE " +
                 "SERVICE_NUMBER = {0};";
@@ -282,10 +285,56 @@ namespace Ambar.Model.DAO
             query = string.Format(query, id);
 
             var res = session.Execute(query);
-            Int64 count = 0;
+            long count = 0;
             foreach (var row in res)
             {
                 count = row.GetValue<Int64>("system.count(contract_id)");
+            }
+
+            if (count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool IsClientContract(Guid id, string meterSerialNumber)
+        {
+            string query = "SELECT COUNT(CLIENT_ID) FROM CLIENT_CONTRACTS WHERE CLIENT_ID = {0} AND METER_SERIAL_NUMBER = '{1}' ALLOW FILTERING;";
+            query = string.Format(query, id, meterSerialNumber);
+
+            var res = session.Execute(query);
+            long count = 0;
+            foreach (var row in res)
+            {
+                count = row.GetValue<long>("system.count(client_id)");
+            }
+
+            if (count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool IsClientContract(Guid id, long serviceNumber)
+        {
+            string query = "SELECT COUNT(CLIENT_ID) FROM CLIENT_CONTRACTS WHERE CLIENT_ID = {0} AND SERVICE_NUMBER = {1} ALLOW FILTERING;";
+            query = string.Format(query, id, serviceNumber);
+
+            var res = session.Execute(query);
+            long count = 0;
+            foreach (var row in res)
+            {
+                count = row.GetValue<long>("system.count(client_id)");
             }
 
             if (count > 0)

@@ -39,7 +39,7 @@ namespace Ambar.ViewController
         private void btnSearch_Click(object sender, EventArgs e)
         {
             DateTime request = new DateTime(dtpPeriodSearch.Value.Year, dtpPeriodSearch.Value.Month, 1);
-            
+
             ContractDAO contractDAO = new ContractDAO();
             string serviceType = contractDAO.FindServiceType(txtMeterSerialNumber.Text);
             if (serviceType == null)
@@ -55,6 +55,10 @@ namespace Ambar.ViewController
             {
                 return;
             }
+            if (!contractDAO.IsClientContract(UserCache.id, txtMeterSerialNumber.Text))
+            {
+                return;
+            }
 
             lblImport.Text = receipt.Total_Price.ToString("0.00");
             lblAmountPad.Text = receipt.Amount_Pad.ToString("0.00");
@@ -67,13 +71,29 @@ namespace Ambar.ViewController
                 btnPaid.Enabled = false;
             }
 
-            DateTime offset = dateDAO.GetDate();
-            if (request.Year != offset.Year || request.Month != offset.Month)
+            DateTime next;
+            if (serviceType == "Domestico")
             {
-                MessageBox.Show("No se puede pagar un recibo fuera del periodo actual de cobro", "Ambar", MessageBoxButtons.OK);
+                next = request.AddMonths(2);
+            }
+            else if (serviceType == "Industrial")
+            {
+                next = request.AddMonths(1);
+            }
+            else
+            {
                 return;
             }
 
+            var nextReceipt = receiptDAO.FindReceipt(next.Year, Convert.ToInt16(next.Month), txtMeterSerialNumber.Text);
+            if (nextReceipt != null)
+            {
+                MessageBox.Show("No se puede pagar este recibo porque ya fue emitido uno en fechas posteriores", "Ambar", MessageBoxButtons.OK);
+                btnPaid.Enabled = false;
+                return;
+            }
+
+            btnPaid.Enabled = true;
         }
 
         private void btnPaid_Click(object sender, EventArgs e)
@@ -105,7 +125,8 @@ namespace Ambar.ViewController
                 return; // ERROR
             }
 
-            receiptDAO.PaidReceipt(receipt, nudMount.Value, Convert.ToDecimal(lblAmountPad.Text), 
+            receiptDAO.PaidReceipt(receipt.Receipt_ID, receipt.Meter_Serial_Number, receipt.Service_Number, 
+                receipt.Service, receipt.Year, receipt.Month, nudMount.Value, Convert.ToDecimal(lblAmountPad.Text),
                 Convert.ToDecimal(lblPendingPaid.Text), paymentType);
 
             ClearForm();
@@ -121,6 +142,7 @@ namespace Ambar.ViewController
             lblImport.Text = string.Empty;
             lblAmountPad.Text = string.Empty;
             lblPendingPaid.Text = string.Empty;
+            lblStatus.Text = string.Empty;
         }
 
         private void btnMassivePaid_Click(object sender, EventArgs e)
@@ -133,12 +155,12 @@ namespace Ambar.ViewController
                     {
                         StreamReader reader;
                         CsvReader csvReader;
-                        List<PaymentCSV> ratesCSV;
+                        List<PaymentCSV> paymentsCSV;
                         try
                         {
                             reader = File.OpenText(ofnMassive.FileName);
                             csvReader = new CsvReader(reader, CultureInfo.CurrentCulture);
-                            ratesCSV = csvReader.GetRecords<PaymentCSV>().ToList();
+                            paymentsCSV = csvReader.GetRecords<PaymentCSV>().ToList();
                         }
                         catch (Exception ex)
                         {
@@ -147,30 +169,28 @@ namespace Ambar.ViewController
                         }
 
 
-                        //List<PaymentDTO> finalPayments = new List<PaymentDTO>();
-                        //bool isCorrect = true;
-                        //foreach (var paymentCSV in finalPayments)
-                        //{
-                        //    if (!Validate(paymentCSV))
-                        //    {
-                        //        finalPayments.Clear();
-                        //        isCorrect = false;
-                        //        break;
-                        //    }
-                        //
-                        //    PaymentDTO consumption = FillPayment(paymentCSV);
-                        //    finalPayments.Add(consumption);
-                        //}
-                        //
-                        //foreach (var payment in finalPayments)
-                        //{
-                        //    receiptDAO.PaidReceipt(payment.receipt_dto, payment.paid, payment.amount_paid,
-                        //    payment.pending_amount, payment.payment_type);
-                        //}
+                        List<PaymentDTO> finalPayments = new List<PaymentDTO>();
+                        bool isCorrect = true;
+                        foreach (var paymentCSV in paymentsCSV)
+                        {
+                            if (!Validate(paymentCSV, finalPayments))
+                            {
+                                finalPayments.Clear();
+                                isCorrect = false;
+                                break;
+                            }
+                            
+                            PaymentDTO payment = FillPayment(paymentCSV);
+                            finalPayments.Add(payment);
+                        }
 
+                      //foreach (var payment in finalPayments)
+                      //{
+                      //    receiptDAO.PaidReceipt(payment.receipt_dto, payment.paid, payment.amount_paid,
+                      //    payment.pending_amount, payment.payment_type);
+                      //}
 
-
-
+                      
 
 
 
@@ -182,7 +202,7 @@ namespace Ambar.ViewController
                         FileStream reader;
                         IExcelDataReader xlsxReader;
                         DataSet dataSetXLSX;
-                        List<PaymentCSV> consumptionsCSV;
+                        List<PaymentCSV> paymentsCSV;
                         try
                         {
                             reader = new FileStream(ofnMassive.FileName, FileMode.Open, FileAccess.Read);
@@ -197,15 +217,15 @@ namespace Ambar.ViewController
                             });
 
                             var dataTable = dataSetXLSX.Tables[0];
-                            consumptionsCSV = (from row in dataTable.AsEnumerable()
-                                               select new PaymentCSV()
-                                               {
-                                                   Medidor = row["Numero de Medidor"].ToString(),
-                                                   MetodoDePago = row["Metodo de Pago"].ToString(),
-                                                   Pago = row["Pago"].ToString(),
-                                                   Mes = row["Mes"].ToString(),
-                                                   Anio = row["Anio"].ToString()
-                                               }).ToList();
+                            paymentsCSV = (from row in dataTable.AsEnumerable()
+                                           select new PaymentCSV()
+                                           {
+                                               Medidor = row["Numero de Medidor"].ToString(),
+                                               MetodoDePago = row["Metodo de Pago"].ToString(),
+                                               Pago = row["Pago"].ToString(),
+                                               Mes = row["Mes"].ToString(),
+                                               Anio = row["Anio"].ToString()
+                                           }).ToList();
                         }
                         catch (Exception ex)
                         {
@@ -213,7 +233,26 @@ namespace Ambar.ViewController
                             return;
                         }
 
+                        List<PaymentDTO> finalPayments = new List<PaymentDTO>();
+                        bool isCorrect = true;
+                        foreach (var paymentCSV in paymentsCSV)
+                        {
+                            if (!Validate(paymentCSV, finalPayments))
+                            {
+                                finalPayments.Clear();
+                                isCorrect = false;
+                                break;
+                            }
+                            //
+                            //    PaymentDTO consumption = FillPayment(paymentCSV);
+                            //   finalPayments.Add(paymentsCSV);
+                        }
 
+                        //foreach (var payment in finalPayments)
+                        //{
+                        //    receiptDAO.PaidReceipt(payment.receipt_dto, payment.paid, payment.amount_paid,
+                        //    payment.pending_amount, payment.payment_type);
+                        //}
 
 
 
@@ -348,6 +387,129 @@ namespace Ambar.ViewController
                 ClearForm();
                 MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
             }
+        }
+
+        private bool Validate(PaymentCSV payment, List<PaymentDTO> payments)
+        {
+            ContractDAO contractDAO = new ContractDAO();
+
+            if (payment.Medidor == string.Empty || payment.MetodoDePago == string.Empty || payment.Pago == string.Empty ||
+               payment.Anio == string.Empty || payment.Mes == string.Empty)
+            {
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Validar que el kilowatt sea correcto
+            if (!RegexUtils.IsDecimalNumber(payment.Pago))
+            {
+                MessageBox.Show("Kilowatts consumidos solo acepta numeros decimales", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Validar que mes y anio sean numericos (mes solo 1-12)
+            if (!RegexUtils.IsMonthNumber(payment.Mes) || !RegexUtils.IsYearNumber(payment.Anio))
+            {
+                MessageBox.Show("Fecha con formato incorrecto", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!new ContractDAO().ContractExists(payment.Medidor))
+            {
+                MessageBox.Show("El número de medidor no existe actualmente", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (payment.MetodoDePago != "Efectivo" && payment.MetodoDePago != "Tarjeta de Credito" &&
+                payment.MetodoDePago != "Tarjeta de Debito" && payment.MetodoDePago != "Transferencia Bancaria")
+            {
+                MessageBox.Show("Metodo de pago con formato incorrecto", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            DateTime request = new DateTime(Convert.ToInt32(payment.Anio), Convert.ToInt16(payment.Mes), 1);
+            string serviceType = contractDAO.FindServiceType(payment.Medidor);
+
+            if (serviceType == null)
+            {
+                return false;
+            }
+            if (serviceType == "Domestico" && request.Month % 2 == 1)
+            {
+                request = request.AddMonths(1); // En caso de que fuese enero se pasaria a febrero
+            }
+            receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), payment.Medidor);
+            if (receipt == null)
+            {
+                return false;
+            }
+
+            if (receipt.Is_Paid)
+            {
+                return false;
+            }
+
+            decimal pago = Convert.ToDecimal(payment.Pago);
+            if (pago > receipt.Pending_Amount)
+            {
+                return false;
+            }
+
+            if (pago == 0.00m)
+            {
+                return false;
+            }
+
+            DateTime next;
+            if (serviceType == "Domestico")
+            {
+                next = request.AddMonths(2);
+            }
+            else if (serviceType == "Industrial")
+            {
+                next = request.AddMonths(1);
+            }
+            else
+            {
+                return false;
+            }
+
+            var nextReceipt = receiptDAO.FindReceipt(next.Year, Convert.ToInt16(next.Month), payment.Medidor);
+            if (nextReceipt != null)
+            {
+                MessageBox.Show("No se puede pagar un recibo porque ya fue emitido uno en fechas posteriores", "Ambar", MessageBoxButtons.OK);
+                return false;
+            }
+
+
+            var one = payments.Where(x => x.Meter_Serial_Number == payment.Medidor).FirstOrDefault();
+            var two = payments.Where(x => x.Receipt_DTO.Month == Convert.ToInt16(payment.Mes)).FirstOrDefault();
+            var three = payments.Where(x => x.Receipt_DTO.Year == Convert.ToInt32(payment.Anio)).FirstOrDefault();
+
+            if (one != null && two != null && three != null)
+            {
+                MessageBox.Show("No es posible pagar dos veces el mismo recibo en un archivo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+
+
+
+            return true;
+        }
+
+        private PaymentDTO FillPayment(PaymentCSV payment)
+        {
+            PaymentDTO dto = new PaymentDTO();
+            dto.Meter_Serial_Number = payment.Medidor;
+            dto.Payment_Type = payment.MetodoDePago;
+            dto.Paid = Convert.ToDecimal(payment.Pago);
+            dto.Receipt_DTO = receiptDAO.FindReceipt(Convert.ToInt32(payment.Anio), 
+                                                    Convert.ToInt16(payment.Mes), 
+                                                    payment.Medidor);
+            dto.Amount_Paid = dto.Receipt_DTO.Amount_Pad;
+            dto.Pending_Amount = dto.Receipt_DTO.Pending_Amount;
+            return dto;
         }
     }
 }

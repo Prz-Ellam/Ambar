@@ -29,6 +29,10 @@ namespace Ambar.ViewController
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.cbService = new System.Windows.Forms.ComboBox();
             this.dtpYear = new System.Windows.Forms.DateTimePicker();
@@ -51,9 +55,11 @@ namespace Ambar.ViewController
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnPDF = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.chartHC = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.gpSearchOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartHC)).BeginInit();
             this.SuspendLayout();
             // 
             // lblEmpleados
@@ -335,12 +341,32 @@ namespace Ambar.ViewController
             this.label7.TabIndex = 40;
             this.label7.Text = "label7";
             // 
+            // chartHC
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chartHC.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartHC.Legends.Add(legend1);
+            this.chartHC.Location = new System.Drawing.Point(432, 357);
+            this.chartHC.Name = "chartHC";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "HC";
+            this.chartHC.Series.Add(series1);
+            this.chartHC.Size = new System.Drawing.Size(373, 300);
+            this.chartHC.TabIndex = 41;
+            this.chartHC.Text = "chart1";
+            title1.Name = "Historic Consumption";
+            title1.Text = "Historic Consumption";
+            this.chartHC.Titles.Add(title1);
+            // 
             // Receipts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(986, 714);
+            this.Controls.Add(this.chartHC);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.label6);
@@ -370,6 +396,7 @@ namespace Ambar.ViewController
             this.gpSearchOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartHC)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -399,5 +426,6 @@ namespace Ambar.ViewController
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartHC;
     }
 }

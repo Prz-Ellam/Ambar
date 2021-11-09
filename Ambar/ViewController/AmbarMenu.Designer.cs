@@ -31,12 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AmbarMenu));
             this.panelStorage = new System.Windows.Forms.Panel();
-            this.btnMinimized = new System.Windows.Forms.PictureBox();
-            this.btnClose = new System.Windows.Forms.PictureBox();
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
             this.gradientPanel1 = new Ambar.Utils.GradientPanel();
             this.panelReceipts = new System.Windows.Forms.Panel();
-            this.btnReceipts = new System.Windows.Forms.Button();
             this.lblUsernameLogged = new System.Windows.Forms.Label();
             this.lblPositionLogged = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -56,18 +53,21 @@
             this.panelRates = new System.Windows.Forms.Panel();
             this.panelReports = new System.Windows.Forms.Panel();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.lblPosition = new System.Windows.Forms.Label();
+            this.lblUsername = new System.Windows.Forms.Label();
+            this.btnMinimized = new System.Windows.Forms.PictureBox();
+            this.btnClose = new System.Windows.Forms.PictureBox();
+            this.btnReceipts = new System.Windows.Forms.Button();
             this.btnConsumptions = new System.Windows.Forms.Button();
             this.btnRates = new System.Windows.Forms.Button();
-            this.lblPosition = new System.Windows.Forms.Label();
             this.btnReports = new System.Windows.Forms.Button();
-            this.lblUsername = new System.Windows.Forms.Label();
             this.btnEmployees = new System.Windows.Forms.Button();
             this.btnContracts = new System.Windows.Forms.Button();
             this.btnClients = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             this.gradientPanel1.SuspendLayout();
             this.panelSubmenuReports.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             this.SuspendLayout();
             // 
             // panelStorage
@@ -77,34 +77,6 @@
             this.panelStorage.Name = "panelStorage";
             this.panelStorage.Size = new System.Drawing.Size(926, 687);
             this.panelStorage.TabIndex = 8;
-            // 
-            // btnMinimized
-            // 
-            this.btnMinimized.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMinimized.Image = global::Ambar.Properties.Resources.Minimized_Button_Logo;
-            this.btnMinimized.Location = new System.Drawing.Point(1115, 8);
-            this.btnMinimized.Margin = new System.Windows.Forms.Padding(2);
-            this.btnMinimized.Name = "btnMinimized";
-            this.btnMinimized.Size = new System.Drawing.Size(19, 20);
-            this.btnMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnMinimized.TabIndex = 5;
-            this.btnMinimized.TabStop = false;
-            this.btnMinimized.Click += new System.EventHandler(this.btnMinimized_Click);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClose.Image = global::Ambar.Properties.Resources.Close_Button_Logo;
-            this.btnClose.Location = new System.Drawing.Point(1138, 8);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(2);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(19, 20);
-            this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnClose.TabIndex = 4;
-            this.btnClose.TabStop = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // fadeIn
             // 
@@ -152,26 +124,6 @@
             this.panelReceipts.Name = "panelReceipts";
             this.panelReceipts.Size = new System.Drawing.Size(10, 41);
             this.panelReceipts.TabIndex = 19;
-            // 
-            // btnReceipts
-            // 
-            this.btnReceipts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnReceipts.FlatAppearance.BorderSize = 0;
-            this.btnReceipts.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReceipts.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReceipts.ForeColor = System.Drawing.Color.White;
-            this.btnReceipts.Image = global::Ambar.Properties.Resources.Reports_Logo1;
-            this.btnReceipts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReceipts.Location = new System.Drawing.Point(9, 333);
-            this.btnReceipts.Margin = new System.Windows.Forms.Padding(2);
-            this.btnReceipts.Name = "btnReceipts";
-            this.btnReceipts.Size = new System.Drawing.Size(216, 41);
-            this.btnReceipts.TabIndex = 18;
-            this.btnReceipts.Text = "Recibos";
-            this.btnReceipts.UseVisualStyleBackColor = false;
-            this.btnReceipts.Click += new System.EventHandler(this.btnReceipts_Click);
             // 
             // lblUsernameLogged
             // 
@@ -401,6 +353,78 @@
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
+            // lblPosition
+            // 
+            this.lblPosition.AutoSize = true;
+            this.lblPosition.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPosition.Location = new System.Drawing.Point(4, 8);
+            this.lblPosition.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPosition.Name = "lblPosition";
+            this.lblPosition.Size = new System.Drawing.Size(76, 17);
+            this.lblPosition.TabIndex = 2;
+            this.lblPosition.Text = "Position: ";
+            // 
+            // lblUsername
+            // 
+            this.lblUsername.AutoSize = true;
+            this.lblUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsername.Location = new System.Drawing.Point(4, 43);
+            this.lblUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUsername.Name = "lblUsername";
+            this.lblUsername.Size = new System.Drawing.Size(91, 17);
+            this.lblUsername.TabIndex = 1;
+            this.lblUsername.Text = "Username: ";
+            // 
+            // btnMinimized
+            // 
+            this.btnMinimized.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnMinimized.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMinimized.Image = global::Ambar.Properties.Resources.Minimized_Button_Logo;
+            this.btnMinimized.Location = new System.Drawing.Point(1115, 8);
+            this.btnMinimized.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMinimized.Name = "btnMinimized";
+            this.btnMinimized.Size = new System.Drawing.Size(19, 20);
+            this.btnMinimized.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnMinimized.TabIndex = 5;
+            this.btnMinimized.TabStop = false;
+            this.btnMinimized.Click += new System.EventHandler(this.btnMinimized_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.Image = global::Ambar.Properties.Resources.Close_Button_Logo;
+            this.btnClose.Location = new System.Drawing.Point(1138, 8);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(2);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(19, 20);
+            this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnClose.TabIndex = 4;
+            this.btnClose.TabStop = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnReceipts
+            // 
+            this.btnReceipts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnReceipts.FlatAppearance.BorderSize = 0;
+            this.btnReceipts.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReceipts.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReceipts.ForeColor = System.Drawing.Color.White;
+            this.btnReceipts.Image = global::Ambar.Properties.Resources.Receipt_Logo;
+            this.btnReceipts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnReceipts.Location = new System.Drawing.Point(9, 333);
+            this.btnReceipts.Margin = new System.Windows.Forms.Padding(2);
+            this.btnReceipts.Name = "btnReceipts";
+            this.btnReceipts.Size = new System.Drawing.Size(216, 41);
+            this.btnReceipts.TabIndex = 18;
+            this.btnReceipts.Text = "Recibos";
+            this.btnReceipts.UseVisualStyleBackColor = false;
+            this.btnReceipts.Click += new System.EventHandler(this.btnReceipts_Click);
+            // 
             // btnConsumptions
             // 
             this.btnConsumptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
@@ -410,6 +434,8 @@
             this.btnConsumptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConsumptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConsumptions.ForeColor = System.Drawing.Color.White;
+            this.btnConsumptions.Image = global::Ambar.Properties.Resources.Consumption_Logo;
+            this.btnConsumptions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnConsumptions.Location = new System.Drawing.Point(9, 236);
             this.btnConsumptions.Margin = new System.Windows.Forms.Padding(2);
             this.btnConsumptions.Name = "btnConsumptions";
@@ -428,6 +454,8 @@
             this.btnRates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRates.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRates.ForeColor = System.Drawing.Color.White;
+            this.btnRates.Image = global::Ambar.Properties.Resources.Rates_Logo;
+            this.btnRates.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRates.Location = new System.Drawing.Point(9, 284);
             this.btnRates.Margin = new System.Windows.Forms.Padding(2);
             this.btnRates.Name = "btnRates";
@@ -436,18 +464,6 @@
             this.btnRates.Text = "Tarifas";
             this.btnRates.UseVisualStyleBackColor = false;
             this.btnRates.Click += new System.EventHandler(this.btnTarifas_Click);
-            // 
-            // lblPosition
-            // 
-            this.lblPosition.AutoSize = true;
-            this.lblPosition.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPosition.Location = new System.Drawing.Point(4, 8);
-            this.lblPosition.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(76, 17);
-            this.lblPosition.TabIndex = 2;
-            this.lblPosition.Text = "Position: ";
             // 
             // btnReports
             // 
@@ -468,18 +484,6 @@
             this.btnReports.Text = "Reportes";
             this.btnReports.UseVisualStyleBackColor = false;
             this.btnReports.Click += new System.EventHandler(this.btnReportes_Click);
-            // 
-            // lblUsername
-            // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsername.Location = new System.Drawing.Point(4, 43);
-            this.lblUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(91, 17);
-            this.lblUsername.TabIndex = 1;
-            this.lblUsername.Text = "Username: ";
             // 
             // btnEmployees
             // 
@@ -559,11 +563,11 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
             this.Load += new System.EventHandler(this.AmbarMenu_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             this.gradientPanel1.ResumeLayout(false);
             this.gradientPanel1.PerformLayout();
             this.panelSubmenuReports.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -31,6 +31,17 @@ namespace Ambar.ViewController
         {
             this.lblReceipts = new System.Windows.Forms.Label();
             this.dtgContracts = new System.Windows.Forms.DataGridView();
+            this.consumptionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.meterSerialNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.serviceNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.state = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.city = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.suburb = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.street = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.postalCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.service = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.startPeriodDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtMeterSerialNumber = new System.Windows.Forms.TextBox();
             this.btnPDF = new System.Windows.Forms.Button();
             this.dtpPeriodSearch = new System.Windows.Forms.DateTimePicker();
@@ -52,17 +63,6 @@ namespace Ambar.ViewController
             this.label5 = new System.Windows.Forms.Label();
             this.nudMount = new System.Windows.Forms.NumericUpDown();
             this.ofnReceipt = new System.Windows.Forms.SaveFileDialog();
-            this.consumptionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.meterSerialNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.serviceNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.state = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.city = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.suburb = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.street = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.postalCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.service = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.startPeriodDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
@@ -103,6 +103,83 @@ namespace Ambar.ViewController
             this.dtgContracts.ReadOnly = true;
             this.dtgContracts.Size = new System.Drawing.Size(838, 244);
             this.dtgContracts.TabIndex = 23;
+            // 
+            // consumptionID
+            // 
+            this.consumptionID.DataPropertyName = "CONTRACT_ID";
+            this.consumptionID.HeaderText = "ID";
+            this.consumptionID.Name = "consumptionID";
+            this.consumptionID.ReadOnly = true;
+            // 
+            // meterSerialNumber
+            // 
+            this.meterSerialNumber.DataPropertyName = "METER_SERIAL_NUMBER";
+            this.meterSerialNumber.HeaderText = "Número de Medidor";
+            this.meterSerialNumber.Name = "meterSerialNumber";
+            this.meterSerialNumber.ReadOnly = true;
+            // 
+            // serviceNumber
+            // 
+            this.serviceNumber.DataPropertyName = "SERVICE_NUMBER";
+            this.serviceNumber.HeaderText = "Número de Servicio";
+            this.serviceNumber.Name = "serviceNumber";
+            this.serviceNumber.ReadOnly = true;
+            // 
+            // state
+            // 
+            this.state.DataPropertyName = "STATE";
+            this.state.HeaderText = "Estado";
+            this.state.Name = "state";
+            this.state.ReadOnly = true;
+            // 
+            // city
+            // 
+            this.city.DataPropertyName = "CITY";
+            this.city.HeaderText = "Ciudad";
+            this.city.Name = "city";
+            this.city.ReadOnly = true;
+            // 
+            // suburb
+            // 
+            this.suburb.DataPropertyName = "SUBURB";
+            this.suburb.HeaderText = "Colonia";
+            this.suburb.Name = "suburb";
+            this.suburb.ReadOnly = true;
+            // 
+            // street
+            // 
+            this.street.DataPropertyName = "STREET";
+            this.street.HeaderText = "Calle";
+            this.street.Name = "street";
+            this.street.ReadOnly = true;
+            // 
+            // number
+            // 
+            this.number.DataPropertyName = "NUMBER";
+            this.number.HeaderText = "Número";
+            this.number.Name = "number";
+            this.number.ReadOnly = true;
+            // 
+            // postalCode
+            // 
+            this.postalCode.DataPropertyName = "POSTAL_CODE";
+            this.postalCode.HeaderText = "Código Postal";
+            this.postalCode.Name = "postalCode";
+            this.postalCode.ReadOnly = true;
+            // 
+            // service
+            // 
+            this.service.DataPropertyName = "SERVICE";
+            this.service.HeaderText = "Servicio";
+            this.service.Name = "service";
+            this.service.ReadOnly = true;
+            // 
+            // startPeriodDate
+            // 
+            this.startPeriodDate.DataPropertyName = "START_PERIOD_DATE";
+            this.startPeriodDate.HeaderText = "Inicio de Contrato";
+            this.startPeriodDate.Name = "startPeriodDate";
+            this.startPeriodDate.ReadOnly = true;
             // 
             // txtMeterSerialNumber
             // 
@@ -312,7 +389,7 @@ namespace Ambar.ViewController
             this.btnMassivePaid.Location = new System.Drawing.Point(659, 528);
             this.btnMassivePaid.Margin = new System.Windows.Forms.Padding(2);
             this.btnMassivePaid.Name = "btnMassivePaid";
-            this.btnMassivePaid.Size = new System.Drawing.Size(130, 31);
+            this.btnMassivePaid.Size = new System.Drawing.Size(130, 55);
             this.btnMassivePaid.TabIndex = 41;
             this.btnMassivePaid.Text = "Pago Masivo";
             this.btnMassivePaid.UseVisualStyleBackColor = false;
@@ -354,83 +431,6 @@ namespace Ambar.ViewController
             // ofnReceipt
             // 
             this.ofnReceipt.Filter = "PDF (*.pdf)|.pdf";
-            // 
-            // consumptionID
-            // 
-            this.consumptionID.DataPropertyName = "CONTRACT_ID";
-            this.consumptionID.HeaderText = "ID";
-            this.consumptionID.Name = "consumptionID";
-            this.consumptionID.ReadOnly = true;
-            // 
-            // meterSerialNumber
-            // 
-            this.meterSerialNumber.DataPropertyName = "METER_SERIAL_NUMBER";
-            this.meterSerialNumber.HeaderText = "Número de Medidor";
-            this.meterSerialNumber.Name = "meterSerialNumber";
-            this.meterSerialNumber.ReadOnly = true;
-            // 
-            // serviceNumber
-            // 
-            this.serviceNumber.DataPropertyName = "SERVICE_NUMBER";
-            this.serviceNumber.HeaderText = "Número de Servicio";
-            this.serviceNumber.Name = "serviceNumber";
-            this.serviceNumber.ReadOnly = true;
-            // 
-            // state
-            // 
-            this.state.DataPropertyName = "STATE";
-            this.state.HeaderText = "Estado";
-            this.state.Name = "state";
-            this.state.ReadOnly = true;
-            // 
-            // city
-            // 
-            this.city.DataPropertyName = "CITY";
-            this.city.HeaderText = "Ciudad";
-            this.city.Name = "city";
-            this.city.ReadOnly = true;
-            // 
-            // suburb
-            // 
-            this.suburb.DataPropertyName = "SUBURB";
-            this.suburb.HeaderText = "Colonia";
-            this.suburb.Name = "suburb";
-            this.suburb.ReadOnly = true;
-            // 
-            // street
-            // 
-            this.street.DataPropertyName = "STREET";
-            this.street.HeaderText = "Calle";
-            this.street.Name = "street";
-            this.street.ReadOnly = true;
-            // 
-            // number
-            // 
-            this.number.DataPropertyName = "NUMBER";
-            this.number.HeaderText = "Número";
-            this.number.Name = "number";
-            this.number.ReadOnly = true;
-            // 
-            // postalCode
-            // 
-            this.postalCode.DataPropertyName = "POSTAL_CODE";
-            this.postalCode.HeaderText = "Código Postal";
-            this.postalCode.Name = "postalCode";
-            this.postalCode.ReadOnly = true;
-            // 
-            // service
-            // 
-            this.service.DataPropertyName = "SERVICE";
-            this.service.HeaderText = "Servicio";
-            this.service.Name = "service";
-            this.service.ReadOnly = true;
-            // 
-            // startPeriodDate
-            // 
-            this.startPeriodDate.DataPropertyName = "START_PERIOD_DATE";
-            this.startPeriodDate.HeaderText = "Inicio de Contrato";
-            this.startPeriodDate.Name = "startPeriodDate";
-            this.startPeriodDate.ReadOnly = true;
             // 
             // ofnMassive
             // 

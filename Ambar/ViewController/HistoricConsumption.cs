@@ -1,4 +1,5 @@
-﻿using Ambar.Model.DAO;
+﻿using Ambar.Common;
+using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using CsvHelper;
 using PdfSharp.Drawing;
@@ -51,6 +52,12 @@ namespace Ambar.ViewController
                     ClearForm();
                     return;
                 }
+                if (UserCache.position == "Client" && !contractDAO.IsClientContract(UserCache.id, filter))
+                {
+                    MessageBox.Show("No se puede tener acceso al numero de medidor", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ClearForm();
+                    return;
+                }
 
                 historicConsumption = receiptDAO.HistoricConsumption(year, filter);
             }
@@ -59,6 +66,12 @@ namespace Ambar.ViewController
                 if (!contractDAO.ContractExists(Convert.ToInt64(filter)))
                 {
                     MessageBox.Show("El número de servicio no existe actualmente", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ClearForm();
+                    return;
+                }
+                if (UserCache.position == "Client" && !contractDAO.IsClientContract(UserCache.id, Convert.ToInt64(filter)))
+                {
+                    MessageBox.Show("No se puede tener acceso al numero de medidor", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ClearForm();
                     return;
                 }
@@ -106,56 +119,62 @@ namespace Ambar.ViewController
 
         private void btnPDF_Click(object sender, EventArgs e)
         {
-            PdfDocument document = new PdfDocument();
-            PdfPage page = document.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-            XImage logo = XImage.FromFile("../../Resources/Ambar_Logo.png");
+            ofnReportPDF.FileName = string.Format("Historico-{0} {1} {2}", dtpYear.Value.Year, txtFilter.Text, DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
 
-            gfx.DrawImage(logo, new XRect(10, 20, 30, 42));
-
-            gfx.DrawString("Ambar", new XFont("Arial", 24, XFontStyle.Bold), XBrushes.Black,
-                new XRect(50, 20, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString("Consumo Histórico", new XFont("Arial", 14), XBrushes.Black,
-                new XRect(50, 50, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString(DateTime.Now.ToString(), new XFont("Arial", 12), XBrushes.Black,
-                new XRect(10, 25, page.Width - 20, page.Height), XStringFormats.TopRight);
-            gfx.DrawLine(new XPen(XColor.FromArgb(255, 0, 0, 0)), new XPoint(10, 70),
-                new XPoint(page.Width - 10, 70));
-
-
-
-            gfx.DrawString("Año: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 100));
-            gfx.DrawString(dtpYear.Value.Year.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(45, 100));
-
-            if (rbMeterSerialNumber.Checked)
+            if (ofnReportPDF.ShowDialog() == DialogResult.OK)
             {
-                gfx.DrawString("Número de Medidor: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 120));
-                gfx.DrawString(txtFilter.Text, new XFont("Arial", 12), XBrushes.Black, new XPoint(45, 120));
-            }
-            else if (rbServiceNumber.Checked)
-            {
-                gfx.DrawString("Número de Servicio: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 120));
-                gfx.DrawString(txtFilter.Text, new XFont("Arial", 12), XBrushes.Black, new XPoint(45, 120));
-            }
-            else
-            {
-                // ERROR TODO MURIO
-                return;
-            }
 
-            // Table Header
-            gfx.DrawString("Año", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 140));
-            gfx.DrawString("Mes", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(110, 140));
-            gfx.DrawString("Consumo de kW", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(210, 140));
-            gfx.DrawString("Importe", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(310, 140));
-            gfx.DrawString("Pago", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(410, 140));
-            gfx.DrawString("Pendiente de pago", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(510, 140));
-            // 120 TO 160
-            FillContentPDF(ref document, ref page, ref gfx);
+                PdfDocument document = new PdfDocument();
+                PdfPage page = document.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                XImage logo = XImage.FromFile("../../Resources/Ambar_Logo.png");
 
-            document.Save(ofnReportPDF.FileName);
+                gfx.DrawImage(logo, new XRect(10, 20, 30, 42));
 
-            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+                gfx.DrawString("Ambar", new XFont("Arial", 24, XFontStyle.Bold), XBrushes.Black,
+                    new XRect(50, 20, page.Width, page.Height), XStringFormats.TopLeft);
+                gfx.DrawString("Consumo Historico", new XFont("Arial", 14), XBrushes.Black,
+                    new XRect(50, 50, page.Width, page.Height), XStringFormats.TopLeft);
+                gfx.DrawString(DateTime.Now.ToString(), new XFont("Arial", 12), XBrushes.Black,
+                    new XRect(10, 25, page.Width - 20, page.Height), XStringFormats.TopRight);
+                gfx.DrawLine(new XPen(XColor.FromArgb(255, 0, 0, 0)), new XPoint(10, 70),
+                    new XPoint(page.Width - 10, 70));
+
+
+
+                gfx.DrawString("Año: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 100));
+                gfx.DrawString(dtpYear.Value.Year.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(45, 100));
+
+                if (rbMeterSerialNumber.Checked)
+                {
+                    gfx.DrawString("Numero de Medidor: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 120));
+                    gfx.DrawString(txtFilter.Text, new XFont("Arial", 12), XBrushes.Black, new XPoint(130, 120));
+                }
+                else if (rbServiceNumber.Checked)
+                {
+                    gfx.DrawString("Numero de Servicio: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 120));
+                    gfx.DrawString(txtFilter.Text, new XFont("Arial", 12), XBrushes.Black, new XPoint(130, 120));
+                }
+                else
+                {
+                    // ERROR TODO MURIO
+                    return;
+                }
+
+                // Table Header
+                gfx.DrawString("Año", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 140));
+                gfx.DrawString("Mes", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(110, 140));
+                gfx.DrawString("Consumo de kW", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(210, 140));
+                gfx.DrawString("Importe", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(310, 140));
+                gfx.DrawString("Pago", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(410, 140));
+                gfx.DrawString("Pendiente de pago", new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(510, 140));
+                // 120 TO 160
+                FillContentPDF(ref document, ref page, ref gfx);
+
+                document.Save(ofnReportPDF.FileName);
+
+                MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+            }
         }
 
         private void FillContentPDF(ref PdfDocument document, ref PdfPage page, ref XGraphics gfx)
@@ -189,7 +208,7 @@ namespace Ambar.ViewController
                     return false;
                 }
 
-                for (int j = 0, x = 10; j < dtgHistoricConsumption.Columns.Count; j++, x += 110)
+                for (int j = 0, x = 10; j < dtgHistoricConsumption.Columns.Count; j++, x += 100)
                 {
                     gfx.DrawString(dtgHistoricConsumption.Rows[i].Cells[j].Value.ToString(),
                         new XFont("Arial", 10), XBrushes.Black, new XPoint(x, y));

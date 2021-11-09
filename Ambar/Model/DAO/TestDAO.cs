@@ -10,6 +10,7 @@ namespace Ambar.Model.DAO
     {
         public void Restart()
         {
+			/*
             string query1 = "DROP TABLE IF EXISTS CONTRACTS;";
 
 			string query2 = @"CREATE TABLE IF NOT EXISTS CONTRACTS(
@@ -425,6 +426,57 @@ namespace Ambar.Model.DAO
 			session.Execute(query33);
 			session.Execute(query34);
 			session.Execute(query35);
+			*/
+			string tQuery1 = "TRUNCATE EMPLOYEES;";
+			string tQuery2 = "TRUNCATE EMPLOYEES_LOGIN;";
+			string tQuery3 = "TRUNCATE EMPLOYEES_ENABLED;";
+			string tQuery4 = "TRUNCATE CLIENTS;";
+			string tQuery5 = "TRUNCATE CLIENTS_LOGIN;";
+			string tQuery6 = "TRUNCATE CLIENTS_ENABLED;";
+			string tQuery7 = "TRUNCATE USERS_REMEMBER;";
+			string tQuery8 = "TRUNCATE CONTRACTS;";
+			string tQuery9 = "TRUNCATE CONTRACTS_BY_METER_SERIAL_NUMBER;";
+			string tQuery10 = "TRUNCATE CONTRACTS_BY_SERVICE;";
+			string tQuery11 = "TRUNCATE CLIENT_CONTRACTS;";
+			string tQuery12 = "TRUNCATE RATES;";
+			string tQuery13 = "TRUNCATE RATES_BY_YEAR;";
+			string tQuery14 = "TRUNCATE RATES_ACTIVE;";
+			string tQuery15 = "TRUNCATE CONSUMPTIONS;";
+			string tQuery16 = "TRUNCATE CONSUMPTIONS_BY_YEAR;";
+			string tQuery17 = "TRUNCATE CONSUMPTIONS_BY_METER_SERIAL_NUMBER;";
+			string tQuery18 = "TRUNCATE CONSUMPTIONS_BY_SERVICE_NUMBER;";
+			string tQuery19 = "TRUNCATE DATES;";
+			string tQuery20 = "TRUNCATE RECEIPT;";
+			string tQuery21 = "TRUNCATE RECEIPT_BY_METER_SERIAL_NUMBER;";
+			string tQuery22 = "TRUNCATE RECEIPT_BY_SERVICE_NUMBER;";
+			string tQuery23 = "TRUNCATE RECEIPT_BY_YEAR;";
+			string tQuery24 = "TRUNCATE EMIT_RECEIPT;";
+
+			session.Execute(tQuery1);
+			session.Execute(tQuery2); 
+			session.Execute(tQuery3);
+			session.Execute(tQuery4);
+			session.Execute(tQuery5);
+			session.Execute(tQuery6);
+			session.Execute(tQuery7);
+			session.Execute(tQuery8);
+			session.Execute(tQuery9);
+			session.Execute(tQuery10);
+			session.Execute(tQuery11);
+			session.Execute(tQuery12);
+			session.Execute(tQuery13);
+			session.Execute(tQuery14);
+			session.Execute(tQuery15);
+			session.Execute(tQuery16);
+			session.Execute(tQuery17);
+			session.Execute(tQuery18);
+			session.Execute(tQuery19);
+			session.Execute(tQuery20);
+			session.Execute(tQuery21);
+			session.Execute(tQuery22);
+			session.Execute(tQuery23);
+			session.Execute(tQuery24);
+
 
 		}
 	}

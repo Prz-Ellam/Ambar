@@ -55,10 +55,8 @@
             this.lbDisableClients = new System.Windows.Forms.ListBox();
             this.txtDisable = new System.Windows.Forms.TextBox();
             this.btnEnabling = new System.Windows.Forms.Button();
-            this.lblError = new System.Windows.Forms.Label();
             this.dtgEmails = new System.Windows.Forms.DataGridView();
             this.Emails2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.Emails = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gender = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CURP = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,7 +70,6 @@
             this.dtgClients = new System.Windows.Forms.DataGridView();
             this.lblBlockedClients = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmails)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgClients)).BeginInit();
             this.SuspendLayout();
             // 
@@ -413,19 +410,6 @@
             this.btnEnabling.UseVisualStyleBackColor = false;
             this.btnEnabling.Click += new System.EventHandler(this.btnEnabling_Click);
             // 
-            // lblError
-            // 
-            this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(213, 56);
-            this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(84, 15);
-            this.lblError.TabIndex = 33;
-            this.lblError.Text = "ERROR TEXT";
-            this.lblError.Visible = false;
-            // 
             // dtgEmails
             // 
             this.dtgEmails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -448,18 +432,6 @@
             this.Emails2.Name = "Emails2";
             this.Emails2.ReadOnly = true;
             this.Emails2.Width = 125;
-            // 
-            // pbWarningIcon
-            // 
-            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(184, 51);
-            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
-            this.pbWarningIcon.Name = "pbWarningIcon";
-            this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
-            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbWarningIcon.TabIndex = 32;
-            this.pbWarningIcon.TabStop = false;
-            this.pbWarningIcon.Visible = false;
             // 
             // Emails
             // 
@@ -595,8 +567,6 @@
             this.ClientSize = new System.Drawing.Size(926, 630);
             this.Controls.Add(this.lblBlockedClients);
             this.Controls.Add(this.dtgEmails);
-            this.Controls.Add(this.lblError);
-            this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.lbDisableClients);
             this.Controls.Add(this.txtDisable);
             this.Controls.Add(this.btnEnabling);
@@ -631,7 +601,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Clients_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmails)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgClients)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -667,8 +636,6 @@
         private System.Windows.Forms.ListBox lbDisableClients;
         private System.Windows.Forms.TextBox txtDisable;
         private System.Windows.Forms.Button btnEnabling;
-        private System.Windows.Forms.Label lblError;
-        private System.Windows.Forms.PictureBox pbWarningIcon;
         private System.Windows.Forms.DataGridView dtgEmails;
         private System.Windows.Forms.DataGridViewTextBoxColumn Emails2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Emails;

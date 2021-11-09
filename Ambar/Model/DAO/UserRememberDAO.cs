@@ -95,5 +95,53 @@ namespace Ambar.Model.DAO
             return false;
         }
 
+        public Guid GetUserID(string position, string username)
+        {
+            string query;
+            switch (position)
+            {
+                case "Administrator":
+                {
+                    query = "SELECT USER_ID FROM ADMINISTRATORS WHERE USER_NAME = '{0}' ALLOW FILTERING;";
+                    break;
+                }
+                case "Employee":
+                {
+                    query = "SELECT USER_ID FROM EMPLOYEES WHERE USER_NAME = '{0}' ALLOW FILTERING;";
+                    break;
+                }
+                case "Client":
+                {
+                    query = "SELECT USER_ID FROM CLIENTS WHERE USER_NAME = '{0}' ALLOW FILTERING;";
+                    break;
+                }
+                default:
+                {
+                    return Guid.Empty;
+                }
+            }
+            query = string.Format(query, username);
+
+            Guid id;
+            try
+            {
+                id = mapper.Single<Guid>(query);
+            }
+            catch (Exception e)
+            {
+                return Guid.Empty;
+            }
+
+            return id;
+        }
+
+        public void Action(Guid id, string action)
+        {
+            string query = "INSERT INTO ACTIVITY(USER_ID, ACTION, OFFSET) VALUES({0}, '{1}', toUnixTimestamp(now()));";
+            query = string.Format(query, id, action);
+
+            session.Execute(query);
+        }
+
     }
 }

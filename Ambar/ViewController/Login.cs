@@ -144,6 +144,7 @@ namespace Ambar.ViewController
         {
             UserCache.position = position;
             UserCache.username = username;
+            UserCache.id = userRemember.GetUserID(position, username);
             AmbarMenu menu = new AmbarMenu();
             menu.Show();
             this.Hide();

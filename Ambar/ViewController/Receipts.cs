@@ -142,6 +142,8 @@ namespace Ambar.ViewController
                 return; // ERROR
             }
 
+            ofnReceipt.FileName = string.Format("{0} {1} {2}", txtFilterID.Text, dtpYear.Value.Year, DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
+
             if (ofnReceipt.ShowDialog() == DialogResult.OK)
             {
                 DateTime request = new DateTime(dtpPeriodSearch.Value.Year, dtpPeriodSearch.Value.Month, 1);
@@ -196,6 +198,7 @@ namespace Ambar.ViewController
                 else
                 {
                     // ERROR
+                    return;
                 }
 
                 PdfDocument document = new PdfDocument();
@@ -309,24 +312,43 @@ namespace Ambar.ViewController
 
                 document.Save(ofnReceipt.FileName);
 
+
+                List<HistoricConsumptionDTO> historicConsumptions;
+                if (rbMeterSerialNumber.Checked)
+                {
+                    historicConsumptions = receiptDAO.HistoricConsumption(txtFilterID.Text);
+                }
+                else if (rbServiceNumber.Checked)
+                {
+                    historicConsumptions = receiptDAO.HistoricConsumption(Convert.ToInt64(txtFilterID.Text));
+                }
+                else
+                {
+                    return;
+                }
+
+                chartHC.Series["HC"].Points.Clear();
+                historicConsumptions.Reverse();
+                int index = historicConsumptions.FindIndex(o => o.Month == request.Month && o.Year == request.Year);
+                historicConsumptions.RemoveRange(0, index + 1);
+
+                int count = (historicConsumptions.Count > 11) ? 11 : historicConsumptions.Count;
+
+                for (int i = 0; i < count; i++) {
+                    DateTime d = new DateTime(2010, historicConsumptions[i].Month, 1);
+                    chartHC.Series["HC"].Points.AddXY(d.ToString("MMM").ToUpper(), historicConsumptions[i].Total_KW);
+                }
+
                 ClearForm();
-                MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+                MessageBox.Show("La operacion se realizo exitosamente", "Ambar", MessageBoxButtons.OK);
             }
         }
-
-        private void PrintError(string error)
-        {
-            pbWarningIcon.Visible = true;
-            lblError.Visible = true;
-            lblError.Text = error;
-        }
-       
 
         private bool GenerateReceipts(DateTime request, string serviceType)
         {
             if (receiptDAO.FindEmission(request.Year, Convert.ToInt16(request.Month), serviceType))
             {
-                PrintError("YA SE EMITIERON LOS RECIBOS DE ESTE PERIODO");
+                MessageBox.Show("Ya se emitieron los recibos de este periodo\nServicio: " + serviceType, "Ambar", MessageBoxButtons.OK);
                 return false;
             }
 
@@ -335,15 +357,14 @@ namespace Ambar.ViewController
             ConsumptionDAO consumptionDAO = new ConsumptionDAO();
 
             // Se trae todos los contratos de un determinado servicio
-            List<ContractForReceiptDTO> contractsInfo = contractDAO.ReadContractsForReceipt(cbService.SelectedItem.ToString());
+            List<ContractForReceiptDTO> contractsInfo = contractDAO.ReadContractsForReceipt(serviceType);
 
             // Encuentra la tarifa del periodo
             RateDAO rateDao = new RateDAO();
-            RateForReceiptDTO ratesInfo = rateDao.FindActiveRates(cbService.SelectedItem.ToString(), request.Year,
-                Convert.ToInt16(request.Month));
+            RateForReceiptDTO ratesInfo = rateDao.FindActiveRates(serviceType, request.Year, Convert.ToInt16(request.Month));
             if (ratesInfo == null)
             {
-                PrintError("NO HAY TARIFAS REGISTRADAS PARA ESTE PERIODO");
+                MessageBox.Show("No hay tarifas registradas para este periodo\nServicio: " + serviceType, "Ambar", MessageBoxButtons.OK);
                 return false;
             }
 
@@ -375,7 +396,7 @@ namespace Ambar.ViewController
                     Convert.ToInt16(request.Month), contractInfo.Meter_Serial_Number);
                 if (consumption == null)
                 {
-                    PrintError("NO SE HAN CARGADO TODOS LOS CONSUMOS DE LOS CONTRATOS");
+                    MessageBox.Show("No se han cargado todos los consumos de los contratos\nServicio: " + serviceType, "Ambar", MessageBoxButtons.OK);
                     return false;
                 }
 

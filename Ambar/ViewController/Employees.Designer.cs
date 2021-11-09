@@ -60,14 +60,11 @@
             this.CURP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.lblError = new System.Windows.Forms.Label();
-            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.btnEnabling = new System.Windows.Forms.Button();
             this.txtDisable = new System.Windows.Forms.TextBox();
             this.lbDisableEmployees = new System.Windows.Forms.ListBox();
             this.lblBlockedEmployees = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // txtNames
@@ -467,31 +464,6 @@
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // lblError
-            // 
-            this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(213, 56);
-            this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(84, 15);
-            this.lblError.TabIndex = 24;
-            this.lblError.Text = "ERROR TEXT";
-            this.lblError.Visible = false;
-            // 
-            // pbWarningIcon
-            // 
-            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(184, 51);
-            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
-            this.pbWarningIcon.Name = "pbWarningIcon";
-            this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
-            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbWarningIcon.TabIndex = 23;
-            this.pbWarningIcon.TabStop = false;
-            this.pbWarningIcon.Visible = false;
-            // 
             // btnEnabling
             // 
             this.btnEnabling.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
@@ -556,8 +528,6 @@
             this.Controls.Add(this.lbDisableEmployees);
             this.Controls.Add(this.txtDisable);
             this.Controls.Add(this.btnEnabling);
-            this.Controls.Add(this.lblError);
-            this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.dtgEmployees);
@@ -588,7 +558,6 @@
             this.Text = "Empleados";
             this.Load += new System.EventHandler(this.Empleados_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -619,8 +588,6 @@
         private System.Windows.Forms.DataGridView dtgEmployees;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Label lblError;
-        private System.Windows.Forms.PictureBox pbWarningIcon;
         private System.Windows.Forms.Button btnEnabling;
         private System.Windows.Forms.TextBox txtDisable;
         private System.Windows.Forms.ListBox lbDisableEmployees;
