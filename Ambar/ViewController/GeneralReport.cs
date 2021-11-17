@@ -31,97 +31,60 @@ namespace Ambar.ViewController
         private void GeneralReport_Load(object sender, EventArgs e)
         {
             cbService.SelectedIndex = 0;
+            FindGeneralReport();
         }
 
         private void cbService_SelectedIndexChanged(object sender, EventArgs e)
         {
             DateChange();
+            FindGeneralReport();
+        }
+
+        private void cbPeriod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FindGeneralReport();
         }
 
         private void dtpYear_ValueChanged(object sender, EventArgs e)
         {
-            DateChange();
+            FindGeneralReport();
         }
 
         private void DateChange()
         {
-            cbPeriod.Items.Clear();
-
             switch (cbService.SelectedIndex)
             {
                 case 0:
                 case 1:
                 {
-                    string[] bimesters = new string[] { "TODOS", "ENERO-FEBRERO", "MARZO-ABRIL", "MAYO-JUNIO", 
-                        "JULIO-AGOSTO", "SEPTIEMBRE-OCTUBRE", "NOVIEMBRE-DICIEMBRE" };
-                    int[] numbers = new int[] { -1, 1, 3, 5, 7, 9, 11 };
-
-                    for (int i = 0; i < bimesters.Length; i++)
+                    var periods = new[]
                     {
-                        cbPeriod.Items.Add(new ComboBoxItem(bimesters[i], numbers[i]));
-                    }
+                        new ComboBoxItem("Todos", -1), new ComboBoxItem("Enero-Febrero", 2),
+                        new ComboBoxItem("Marzo-Abril", 4), new ComboBoxItem("Mayo-Junio", 6),
+                        new ComboBoxItem("Julio-Agosto", 8), new ComboBoxItem("Septiembre-Octubre", 10),
+                        new ComboBoxItem("Noviembre-Diciembre", 12)
+                    };
 
+                    cbPeriod.DataSource = periods;
                     cbPeriod.SelectedIndex = 0;
                     break;
                 }
                 case 2:
                 {
-                    string[] months = new string[] { "TODOS", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", 
-                        "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
-                    int[] numbers = new int[] { -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-
-                    for (int i = 0; i < months.Length; i++)
+                    var periods = new[]
                     {
-                        cbPeriod.Items.Add(new ComboBoxItem(months[i], numbers[i]));
-                    }
+                        new ComboBoxItem("Todos", -1), new ComboBoxItem("Enero", 1), new ComboBoxItem("Febrero", 2),
+                        new ComboBoxItem("Marzo", 3), new ComboBoxItem("Abril", 4), new ComboBoxItem("Mayo", 5),
+                        new ComboBoxItem("Junio", 6), new ComboBoxItem("Julio", 7), new ComboBoxItem("Agosto", 8),
+                        new ComboBoxItem("Septiembre", 9), new ComboBoxItem("Octubre", 10), 
+                        new ComboBoxItem("Noviembre", 11), new ComboBoxItem("Diciembre", 12)
+                    };
 
+                    cbPeriod.DataSource = periods;
                     cbPeriod.SelectedIndex = 0;
                     break;
                 }
-                default:
-                {
-                    cbPeriod.SelectedIndex = -1;
-                    break;
-                }
             }
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            if (cbPeriod.SelectedIndex < 0 || cbService.SelectedIndex < 0)
-            {
-                MessageBox.Show("No se ha escogido un mes o tipo de servicio", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            int year = dtpYear.Value.Year;
-            short period = Convert.ToInt16(((ComboBoxItem)cbPeriod.SelectedItem).HiddenValue);
-            string service = cbService.SelectedItem.ToString();
-            List<GeneralReportDTO> generalReport;
-            if (service == "Todos")
-            {
-                if (period == -1)
-                {
-                    generalReport = receiptDAO.GeneralReport(year);
-                }
-                else
-                {
-                    generalReport = receiptDAO.GeneralReport(year, period);
-                }
-            }
-            else
-            {
-                if (period == -1)
-                {
-                    generalReport = receiptDAO.GeneralReport(year, service);
-                }
-                else
-                {
-                    generalReport = receiptDAO.GeneralReport(year, period, service);
-                }
-            }
-
-            dtgGeneralReport.DataSource = generalReport;
         }
 
         private void btnCSV_Click(object sender, EventArgs e)
@@ -170,9 +133,6 @@ namespace Ambar.ViewController
                 gfx.DrawLine(new XPen(XColor.FromArgb(255, 0, 0, 0)), new XPoint(10, 70),
                     new XPoint(page.Width - 10, 70));
 
-
-
-
                 gfx.DrawString("Año: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 100));
                 gfx.DrawString(dtpYear.Value.Year.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(45, 100));
 
@@ -202,7 +162,7 @@ namespace Ambar.ViewController
         private void FillContentPDF(ref PdfDocument document, ref PdfPage page, ref XGraphics gfx)
         {
             int i = 0;
-            bool isFinish = false;
+            bool isFinish;
             PdfPage actualPage = page;
             XGraphics actualGfx = gfx;
 
@@ -238,6 +198,39 @@ namespace Ambar.ViewController
             }
 
             return true;
+        }
+
+        private void FindGeneralReport()
+        {
+            int year = dtpYear.Value.Year;
+            int period = ((ComboBoxItem)cbPeriod.SelectedItem).HiddenValue;
+            string service = cbService.SelectedItem.ToString();
+
+            List<GeneralReportDTO> generalReport;
+            if (service == "Todos")
+            {
+                if (period == -1)
+                {
+                    generalReport = receiptDAO.GeneralReport(year);
+                }
+                else
+                {
+                    generalReport = receiptDAO.GeneralReport(year, period);
+                }
+            }
+            else
+            {
+                if (period == -1)
+                {
+                    generalReport = receiptDAO.GeneralReport(year, service);
+                }
+                else
+                {
+                    generalReport = receiptDAO.GeneralReport(year, period, service);
+                }
+            }
+
+            dtgGeneralReport.DataSource = generalReport;
         }
 
     }

@@ -14,21 +14,14 @@ namespace Ambar.Model.DAO
             string query = "SELECT COUNT(ID) FROM DATES;";
 
             var res = session.Execute(query);
-            Int64 count = 0;
+            long count = 0;
 
             foreach (var row in res)
             {
-                count = row.GetValue<Int64>("system.count(id)");
+                count = row.GetValue<long>("system.count(id)");
             }
 
-            if (count < 1)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return (count > 0) ? true : false;
         }
 
         public void Create()

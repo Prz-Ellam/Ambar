@@ -1,4 +1,5 @@
 ﻿using Ambar.Model.DTO;
+using Ambar.ViewController.Objects;
 using Cassandra;
 using System;
 using System.Collections.Generic;
@@ -10,34 +11,36 @@ namespace Ambar.Model.DAO
 {
     class ReceiptDAO : CassandraConnection
     {
-        public void GenerateReceipts(int positionCode, short month, int year)
-        {
-
-
-        }
-
         public void GenerateMassiveReceipts(List<ReceiptDTO> receipts)
         {
-            string queryID = @"INSERT INTO RECEIPT(RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY,
+            string queryID = @"INSERT INTO RECEIPT(RECEIPT_ID, CONTRACT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY,
                 SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY,  
 	            BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, 
-	            BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, PREV_AMOUNT, PREV_PRICE, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT) 
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
-            string queryMeter = @"INSERT INTO RECEIPT_BY_METER_SERIAL_NUMBER(RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY,
+	            BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, PREV_AMOUNT, PREV_PRICE, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT, 
+                PAYMENT_HISTORY, PAYMENT_TYPE_HISTORY, IS_PAID) 
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                ?, ?, { toUnixTimestamp(now()) : 0 }, ['Default'], ?); ";
+            string queryMeter = @"INSERT INTO RECEIPT_BY_METER_SERIAL_NUMBER(RECEIPT_ID, CONTRACT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY,
                 SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY,  
 	            BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, 
-	            BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, PREV_AMOUNT, PREV_PRICE, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT) 
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
-            string queryService = @"INSERT INTO RECEIPT_BY_SERVICE_NUMBER(RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY,
+	            BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, PREV_AMOUNT, PREV_PRICE, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT, 
+                PAYMENT_HISTORY, PAYMENT_TYPE_HISTORY, IS_PAID) 
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                ?, ?, { toUnixTimestamp(now()) : 0 }, ['Default'], ?); ";
+            string queryService = @"INSERT INTO RECEIPT_BY_SERVICE_NUMBER(RECEIPT_ID, CONTRACT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY,
                 SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, 
 	            BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, 
-	            BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, PREV_AMOUNT, PREV_PRICE, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT) 
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
-            string queryYear = @"INSERT INTO RECEIPT_BY_YEAR(RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY,
+	            BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, PREV_AMOUNT, PREV_PRICE, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT, 
+                PAYMENT_HISTORY, PAYMENT_TYPE_HISTORY, IS_PAID) 
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                ?, ?, { toUnixTimestamp(now()) : 0 }, ['Default'], ?); ";
+            string queryYear = @"INSERT INTO RECEIPT_BY_YEAR(RECEIPT_ID, CONTRACT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY,
                 SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, 
 	            BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, 
-	            BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, PREV_AMOUNT, PREV_PRICE, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT) 
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
+	            BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, PREV_AMOUNT, PREV_PRICE, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT,
+                PAYMENT_HISTORY, PAYMENT_TYPE_HISTORY, IS_PAID) 
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                ?, ?, { toUnixTimestamp(now()) : 0 }, ['Default'], ?); ";
 
             foreach (var receipt in receipts)
             {
@@ -45,44 +48,43 @@ namespace Ambar.Model.DAO
                 var res2 = session.Prepare(queryMeter);
                 var res3 = session.Prepare(queryService);
                 var res4 = session.Prepare(queryYear);
-                Guid id = Guid.NewGuid();
 
                 var batch = new BatchStatement()
-                    .Add(res1.Bind(id, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
+                    .Add(res1.Bind(receipt.Receipt_ID, receipt.Contract_ID, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
                     receipt.City, receipt.Suburb, receipt.Street, receipt.Number, receipt.Postal_Code, receipt.Service,
                     receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Day,
                     receipt.Basic_Level, receipt.Intermediate_Level,
                     receipt.Surplus_Level, receipt.Basic_KW, receipt.Intermediate_KW, receipt.Surplus_KW, receipt.Total_KW,
                     receipt.Basic_Price, receipt.Intermediate_Price, receipt.Surplus_Price, receipt.Subtotal_Price, receipt.Tax,
-                    receipt.Prev_Amount, receipt.Prev_Price, receipt.Total_Price, receipt.Amount_Pad, receipt.Pending_Amount))
-                    .Add(res2.Bind(id, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
+                    receipt.Prev_Amount, receipt.Prev_Price, receipt.Total_Price, receipt.Amount_Paid, receipt.Pending_Amount, receipt.Is_Paid))
+                    .Add(res2.Bind(receipt.Receipt_ID, receipt.Contract_ID, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
                     receipt.City, receipt.Suburb, receipt.Street, receipt.Number, receipt.Postal_Code, receipt.Service,
                     receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Day,
                     receipt.Basic_Level, receipt.Intermediate_Level,
                     receipt.Surplus_Level, receipt.Basic_KW, receipt.Intermediate_KW, receipt.Surplus_KW, receipt.Total_KW,
                     receipt.Basic_Price, receipt.Intermediate_Price, receipt.Surplus_Price, receipt.Subtotal_Price, receipt.Tax,
-                    receipt.Prev_Amount, receipt.Prev_Price, receipt.Total_Price, receipt.Amount_Pad, receipt.Pending_Amount))
-                    .Add(res3.Bind(id, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
+                    receipt.Prev_Amount, receipt.Prev_Price, receipt.Total_Price, receipt.Amount_Paid, receipt.Pending_Amount, receipt.Is_Paid))
+                    .Add(res3.Bind(receipt.Receipt_ID, receipt.Contract_ID, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
                     receipt.City, receipt.Suburb, receipt.Street, receipt.Number, receipt.Postal_Code, receipt.Service,
                     receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Day,
                     receipt.Basic_Level, receipt.Intermediate_Level,
                     receipt.Surplus_Level, receipt.Basic_KW, receipt.Intermediate_KW, receipt.Surplus_KW, receipt.Total_KW,
                     receipt.Basic_Price, receipt.Intermediate_Price, receipt.Surplus_Price, receipt.Subtotal_Price, receipt.Tax,
-                    receipt.Prev_Amount, receipt.Prev_Price, receipt.Total_Price, receipt.Amount_Pad, receipt.Pending_Amount))
-                    .Add(res4.Bind(id, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
+                    receipt.Prev_Amount, receipt.Prev_Price, receipt.Total_Price, receipt.Amount_Paid, receipt.Pending_Amount, receipt.Is_Paid))
+                    .Add(res4.Bind(receipt.Receipt_ID, receipt.Contract_ID, receipt.First_Name, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.State,
                     receipt.City, receipt.Suburb, receipt.Street, receipt.Number, receipt.Postal_Code, receipt.Service,
                     receipt.Meter_Serial_Number, receipt.Service_Number, receipt.Year, receipt.Month, receipt.Day,
                     receipt.Basic_Level, receipt.Intermediate_Level,
                     receipt.Surplus_Level, receipt.Basic_KW, receipt.Intermediate_KW, receipt.Surplus_KW, receipt.Total_KW,
                     receipt.Basic_Price, receipt.Intermediate_Price, receipt.Surplus_Price, receipt.Subtotal_Price, receipt.Tax,
-                    receipt.Prev_Amount, receipt.Prev_Price, receipt.Total_Price, receipt.Amount_Pad, receipt.Pending_Amount));
+                    receipt.Prev_Amount, receipt.Prev_Price, receipt.Total_Price, receipt.Amount_Paid, receipt.Pending_Amount, receipt.Is_Paid));
 
                 session.Execute(batch);
             }
 
         }
 
-        public void EmitReceipt(int year, short month, string service)
+        public void EmitReceipt(int year, int month, string service)
         {
             string query = "INSERT INTO EMIT_RECEIPT(YEAR, MONTH, SERVICE) VALUES({0}, {1}, '{2}');";
             query = string.Format(query, year, month, service);
@@ -90,86 +92,56 @@ namespace Ambar.Model.DAO
             session.Execute(query);
         }
 
-        public bool FindEmission(int year, short month, string service)
+        public void EmitReceipt(ReceiptForm receipt)
+        {
+            string query = "INSERT INTO EMIT_RECEIPT(YEAR, MONTH, SERVICE) VALUES({0}, {1}, '{2}');";
+            query = string.Format(query, receipt.Year, receipt.Period, receipt.ServiceType);
+
+            session.Execute(query);
+        }
+
+        public bool FindEmission(int year, int month, string service)
         {
             string query = "SELECT COUNT(YEAR) FROM EMIT_RECEIPT WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = '{2}';";
             query = string.Format(query, year, month, service);
 
             var res = session.Execute(query);
-            Int64 count = 0;
+            long count = 0;
             foreach (var row in res)
             {
-                count = row.GetValue<Int64>("system.count(year)");
+                count = row.GetValue<long>("system.count(year)");
             }
 
-            if (count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (count > 0) ? true : false;
         }
 
-        public bool ReceiptExists(string meterSerialNumber, int year, short month)
+        public bool ReceiptExists(string meterSerialNumber, int year, int month)
         {
-            string query = "SELECT COUNT(RECEIPT_ID) FROM RECEIPT_BY_METER_SERIAL_NUMBER WHERE " +
-                "METER_SERIAL_NUMBER = '{0}' AND YEAR = {1} AND MONTH = {2};";
+            string query = @"SELECT COUNT(RECEIPT_ID) FROM RECEIPT_BY_METER_SERIAL_NUMBER WHERE 
+                            METER_SERIAL_NUMBER = '{0}' AND YEAR = {1} AND MONTH = {2};";
             query = string.Format(query, meterSerialNumber, year, month);
 
             var res = session.Execute(query);
-            Int64 count = 0;
-
+            long count = 0;
             foreach (var row in res)
             {
-                count = row.GetValue<Int64>("system.count(receipt_id)");
+                count = row.GetValue<long>("system.count(receipt_id)");
             }
 
-            if (count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (count > 0) ? true : false;
         }
 
-        public ReceiptDTO FindReceipt(int year, short month, string meterSerialNumber)
-        {
-            string query = "SELECT RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, " + 
-            "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, " +
-            "BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, " +
-            "BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT, " +
-            "IS_PAID, PAYMENT_HISTORY, PAYMENT_TYPE_HISTORY, PREV_AMOUNT, PREV_PRICE " +
-            "FROM RECEIPT_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}' AND YEAR = {1} AND MONTH = {2};";
-            query = string.Format(query, meterSerialNumber, year, month);
-            ReceiptDTO dto;
-
-            try
-            {
-                dto = mapper.Single<ReceiptDTO>(query);
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-
-            return dto;
-        }
-
-        public ReceiptDTO FindReceipt(int year, short month, long serviceNumber)
+        public ReceiptDTO FindReceipt(ClientReceiptForm clientReceipt)
         {
             string query = "SELECT RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, " +
             "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, " +
             "BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, " +
-            "BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT, " +
+            "BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT, " +
             "IS_PAID, PAYMENT_HISTORY, PAYMENT_TYPE_HISTORY, PREV_AMOUNT, PREV_PRICE " +
-            "FROM RECEIPT_BY_SERVICE_NUMBER WHERE SERVICE_NUMBER = {0} AND YEAR = {1} AND MONTH = {2};";
-            query = string.Format(query, serviceNumber, year, month);
-            ReceiptDTO dto;
+            "FROM RECEIPT_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}' AND YEAR = {1} AND MONTH = {2};";
+            query = string.Format(query, clientReceipt.MeterSerialNumber, clientReceipt.Period.Year, clientReceipt.Period.Month);
 
+            ReceiptDTO dto;
             try
             {
                 dto = mapper.Single<ReceiptDTO>(query);
@@ -182,10 +154,56 @@ namespace Ambar.Model.DAO
             return dto;
         }
 
-        public List<GeneralReportDTO> GeneralReport(int year, short month, string service)
+        public ReceiptDTO FindReceipt(int year, int month, string meterSerialNumber)
         {
-            string query = @"SELECT YEAR, MONTH, SERVICE, AMOUNT_PAD, PENDING_AMOUNT
-                FROM RECEIPT_BY_YEAR WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = '{2}' ALLOW FILTERING";
+            string query = "SELECT RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, " + 
+            "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, " +
+            "BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, " +
+            "BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT, " +
+            "IS_PAID, PAYMENT_HISTORY, PAYMENT_TYPE_HISTORY, PREV_AMOUNT, PREV_PRICE " +
+            "FROM RECEIPT_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}' AND YEAR = {1} AND MONTH = {2};";
+            query = string.Format(query, meterSerialNumber, year, month);
+
+            ReceiptDTO dto;
+            try
+            {
+                dto = mapper.Single<ReceiptDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return dto;
+        }
+
+        public ReceiptDTO FindReceipt(int year, int month, long serviceNumber)
+        {
+            string query = "SELECT RECEIPT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, " +
+            "SUBURB, STREET, NUMBER, POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, YEAR, MONTH, DAY, " +
+            "BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, " +
+            "BASIC_PRICE, INTERMEDIATE_PRICE, SURPLUS_PRICE, SUBTOTAL_PRICE, TAX, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT, " +
+            "IS_PAID, PAYMENT_HISTORY, PAYMENT_TYPE_HISTORY, PREV_AMOUNT, PREV_PRICE " +
+            "FROM RECEIPT_BY_SERVICE_NUMBER WHERE SERVICE_NUMBER = {0} AND YEAR = {1} AND MONTH = {2};";
+            query = string.Format(query, serviceNumber, year, month);
+
+            ReceiptDTO dto;
+            try
+            {
+                dto = mapper.Single<ReceiptDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return dto;
+        }
+
+        public List<GeneralReportDTO> GeneralReport(int year, int month, string service)
+        {
+            string query = @"SELECT YEAR, MONTH, SERVICE, AMOUNT_PAID, PENDING_AMOUNT
+                FROM RECEIPT_BY_YEAR WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = '{2}';";
             query = string.Format(query, year, month, service);
 
             IEnumerable<GeneralReportDTO> dto;
@@ -201,10 +219,10 @@ namespace Ambar.Model.DAO
             return dto.ToList();
         }
 
-        public List<GeneralReportDTO> GeneralReport(int year, short month)
+        public List<GeneralReportDTO> GeneralReport(int year, int month)
         {
-            string query = @"SELECT YEAR, MONTH, SERVICE, AMOUNT_PAD, PENDING_AMOUNT
-                FROM RECEIPT_BY_YEAR WHERE YEAR = {0} AND MONTH = {1}";
+            string query = @"SELECT YEAR, MONTH, SERVICE, AMOUNT_PAID, PENDING_AMOUNT FROM RECEIPT_BY_YEAR 
+                            WHERE YEAR = {0} AND MONTH = {1}";
             query = string.Format(query, year, month);
 
             IEnumerable<GeneralReportDTO> dto;
@@ -222,8 +240,8 @@ namespace Ambar.Model.DAO
 
         public List<GeneralReportDTO> GeneralReport(int year, string service)
         {
-            string query = @"SELECT YEAR, MONTH, SERVICE, AMOUNT_PAD, PENDING_AMOUNT
-                FROM RECEIPT_BY_YEAR WHERE YEAR = {0} AND SERVICE = '{1}' ALLOW FILTERING";
+            string query = @"SELECT YEAR, MONTH, SERVICE, AMOUNT_PAID, PENDING_AMOUNT FROM RECEIPT_BY_YEAR 
+                            WHERE YEAR = {0} AND SERVICE = '{1}' ALLOW FILTERING";
             query = string.Format(query, year, service);
 
             IEnumerable<GeneralReportDTO> dto;
@@ -241,8 +259,8 @@ namespace Ambar.Model.DAO
 
         public List<GeneralReportDTO> GeneralReport(int year)
         {
-            string query = @"SELECT YEAR, MONTH, SERVICE, AMOUNT_PAD, PENDING_AMOUNT
-                FROM RECEIPT_BY_YEAR WHERE YEAR = {0}";
+            string query = @"SELECT YEAR, MONTH, SERVICE, AMOUNT_PAID, PENDING_AMOUNT FROM RECEIPT_BY_YEAR 
+                            WHERE YEAR = {0}";
             query = string.Format(query, year);
 
             IEnumerable<GeneralReportDTO> dto;
@@ -260,7 +278,7 @@ namespace Ambar.Model.DAO
 
         public List<HistoricConsumptionDTO> HistoricConsumption(int year, string meterSerialNumber)
         {
-            string query = @"SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT
+            string query = @"SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT
                 FROM RECEIPT_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}' AND YEAR = {1};";
             query = string.Format(query, meterSerialNumber, year);
 
@@ -279,7 +297,7 @@ namespace Ambar.Model.DAO
 
         public List<HistoricConsumptionDTO> HistoricConsumption(int year, long serviceNumber)
         {
-            string query = @"SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT
+            string query = @"SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT
                 FROM RECEIPT_BY_SERVICE_NUMBER WHERE SERVICE_NUMBER = {0} AND YEAR = {1};";
             query = string.Format(query, serviceNumber, year);
 
@@ -298,7 +316,7 @@ namespace Ambar.Model.DAO
 
         public List<HistoricConsumptionDTO> HistoricConsumption(long serviceNumber)
         {
-            string query = @"SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT
+            string query = @"SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT
                 FROM RECEIPT_BY_SERVICE_NUMBER WHERE SERVICE_NUMBER = {0};";
             query = string.Format(query, serviceNumber);
 
@@ -317,7 +335,7 @@ namespace Ambar.Model.DAO
 
         public List<HistoricConsumptionDTO> HistoricConsumption(string meterSerialNumber)
         {
-            string query = @"SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAD, PENDING_AMOUNT
+            string query = @"SELECT YEAR, MONTH, SERVICE, TOTAL_KW, TOTAL_PRICE, AMOUNT_PAID, PENDING_AMOUNT
                 FROM RECEIPT_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}';";
             query = string.Format(query, meterSerialNumber);
 
@@ -335,32 +353,32 @@ namespace Ambar.Model.DAO
         }
 
         public void PaidReceipt(Guid id, string meterSerialNumber, long serviceNumber, string service, int year,
-            short month, decimal mount, decimal paid, decimal pending, string paymentType)
+            int month, decimal mount, decimal paid, decimal pending, string paymentType)
         {
             decimal newPaid = paid + mount;
             decimal newPending = pending - mount;
             bool isPaid = (newPending == 0.0m) ? true : false;
 
-            string queryID = @"UPDATE RECEIPT SET AMOUNT_PAD = {0}, PENDING_AMOUNT = {1}, 
+            string queryID = @"UPDATE RECEIPT SET AMOUNT_PAID = {0}, PENDING_AMOUNT = {1}, 
                 PAYMENT_HISTORY = PAYMENT_HISTORY + {{  toUnixTimestamp(now()) : {2} }}, 
                 PAYMENT_TYPE_HISTORY = PAYMENT_TYPE_HISTORY + ['{3}'], IS_PAID = {4} WHERE RECEIPT_ID = {5};";
             queryID = string.Format(queryID, newPaid, newPending, mount, paymentType, isPaid, id);
 
-            string queryMeter = @"UPDATE RECEIPT_BY_METER_SERIAL_NUMBER SET AMOUNT_PAD = {0}, PENDING_AMOUNT = {1}, 
+            string queryMeter = @"UPDATE RECEIPT_BY_METER_SERIAL_NUMBER SET AMOUNT_PAID = {0}, PENDING_AMOUNT = {1}, 
                 PAYMENT_HISTORY = PAYMENT_HISTORY + {{  toUnixTimestamp(now()) : {2} }}, 
                 PAYMENT_TYPE_HISTORY = PAYMENT_TYPE_HISTORY + ['{3}'], IS_PAID = {4} WHERE METER_SERIAL_NUMBER = '{5}'
                 AND YEAR = {6} AND MONTH = {7};";
             queryMeter = string.Format(queryMeter, newPaid, newPending, mount, paymentType, isPaid, 
                 meterSerialNumber, year, month);
 
-            string queryService = @"UPDATE RECEIPT_BY_SERVICE_NUMBER SET AMOUNT_PAD = {0}, PENDING_AMOUNT = {1}, 
+            string queryService = @"UPDATE RECEIPT_BY_SERVICE_NUMBER SET AMOUNT_PAID = {0}, PENDING_AMOUNT = {1}, 
                 PAYMENT_HISTORY = PAYMENT_HISTORY + {{  toUnixTimestamp(now()) : {2} }}, 
                 PAYMENT_TYPE_HISTORY = PAYMENT_TYPE_HISTORY + ['{3}'], IS_PAID = {4} WHERE SERVICE_NUMBER = {5}
                 AND YEAR = {6} AND MONTH = {7};";
             queryService = string.Format(queryService, newPaid, newPending, mount, paymentType, isPaid, serviceNumber,
                 year, month);
 
-            string queryYear = @"UPDATE RECEIPT_BY_YEAR SET AMOUNT_PAD = {0}, PENDING_AMOUNT = {1}, 
+            string queryYear = @"UPDATE RECEIPT_BY_YEAR SET AMOUNT_PAID = {0}, PENDING_AMOUNT = {1}, 
                 PAYMENT_HISTORY = PAYMENT_HISTORY + {{  toUnixTimestamp(now()) : {2} }}, 
                 PAYMENT_TYPE_HISTORY = PAYMENT_TYPE_HISTORY + ['{3}'], IS_PAID = {4} WHERE YEAR = {5} AND MONTH = {6} 
                 AND SERVICE = '{7}' AND RECEIPT_ID = {8};";

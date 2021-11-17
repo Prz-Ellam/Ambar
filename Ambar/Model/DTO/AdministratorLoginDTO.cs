@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ambar.ViewController
+namespace Ambar.Model.DTO
 {
-    class ReceiptAttributes
+    class AdministratorLoginDTO : LoginDTO
     {
     }
 }

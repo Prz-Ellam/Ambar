@@ -163,6 +163,7 @@ namespace Ambar.ViewController
             // 
             this.txtFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.txtFilter.Location = new System.Drawing.Point(327, 115);
+            this.txtFilter.MaxLength = 30;
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(239, 23);
             this.txtFilter.TabIndex = 6;
@@ -273,6 +274,7 @@ namespace Ambar.ViewController
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnSearch.FlatAppearance.BorderSize = 0;
+            this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.btnSearch.ForeColor = System.Drawing.Color.White;

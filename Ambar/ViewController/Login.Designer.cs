@@ -77,6 +77,7 @@
             this.txtPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.txtPassword.Location = new System.Drawing.Point(255, 190);
             this.txtPassword.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPassword.MaxLength = 30;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(322, 19);
             this.txtPassword.TabIndex = 3;
@@ -275,6 +276,7 @@
             this.txtUsername.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.txtUsername.Location = new System.Drawing.Point(255, 129);
             this.txtUsername.Margin = new System.Windows.Forms.Padding(2);
+            this.txtUsername.MaxLength = 30;
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(322, 19);
             this.txtUsername.TabIndex = 2;

@@ -451,6 +451,7 @@ namespace Ambar.Model.DAO
 			string tQuery22 = "TRUNCATE RECEIPT_BY_SERVICE_NUMBER;";
 			string tQuery23 = "TRUNCATE RECEIPT_BY_YEAR;";
 			string tQuery24 = "TRUNCATE EMIT_RECEIPT;";
+			string tQuery25 = "TRUNCATE ACTIVITY";
 
 			session.Execute(tQuery1);
 			session.Execute(tQuery2); 
@@ -476,6 +477,7 @@ namespace Ambar.Model.DAO
 			session.Execute(tQuery22);
 			session.Execute(tQuery23);
 			session.Execute(tQuery24);
+			session.Execute(tQuery25);
 
 
 		}

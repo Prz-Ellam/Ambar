@@ -1,6 +1,7 @@
 ﻿using Ambar.Common;
 using Ambar.Model.DAO;
 using Ambar.Model.DTO;
+using Ambar.ViewController.Objects;
 using CsvHelper;
 using ExcelDataReader;
 using PdfSharp.Drawing;
@@ -24,6 +25,7 @@ namespace Ambar.ViewController
         ReceiptDAO receiptDAO = new ReceiptDAO();
         ReceiptDTO receipt;
         DateDAO dateDAO = new DateDAO();
+        int dtgPrevIndex = -1;
         public ClientReceipts()
         {
             InitializeComponent();
@@ -31,69 +33,96 @@ namespace Ambar.ViewController
 
         private void ClientReceipts_Load(object sender, EventArgs e)
         {
+            FillContractsDataGridView();
+        }
+
+        private void FillContractsDataGridView()
+        {
             ContractDAO contractDAO = new ContractDAO();
-            ClientDAO clientDAO = new ClientDAO();
-            dtgContracts.DataSource = contractDAO.ReadClientContracts(clientDAO.FindClientID(UserCache.username));
+            List<ContractDTO> contracts = contractDAO.ReadClientContracts(UserCache.id);
+            List<ContractDTG> dtgContractsList = new List<ContractDTG>();
+            foreach (var contract in contracts)
+            {
+                dtgContractsList.Add(new ContractDTG(contract));
+            }
+            dtgContracts.DataSource = dtgContractsList;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            DateTime request = new DateTime(dtpPeriodSearch.Value.Year, dtpPeriodSearch.Value.Month, 1);
+            ClientReceiptForm clientReceipt = FillClientReceipt();
+            if (!Validate(clientReceipt))
+            {
+                return;
+            }
 
-            ContractDAO contractDAO = new ContractDAO();
-            string serviceType = contractDAO.FindServiceType(txtMeterSerialNumber.Text);
-            if (serviceType == null)
-            {
-                return;
-            }
-            if (serviceType == "Domestico" && request.Month % 2 == 1)
-            {
-                request = request.AddMonths(1); // En caso de que fuese enero se pasaria a febrero
-            }
-            receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), txtMeterSerialNumber.Text);
+            receipt = receiptDAO.FindReceipt(clientReceipt);
             if (receipt == null)
-            {
-                return;
-            }
-            if (!contractDAO.IsClientContract(UserCache.id, txtMeterSerialNumber.Text))
             {
                 return;
             }
 
             lblImport.Text = receipt.Total_Price.ToString("0.00");
-            lblAmountPad.Text = receipt.Amount_Pad.ToString("0.00");
+            lblAmountPad.Text = receipt.Amount_Paid.ToString("0.00");
             lblPendingPaid.Text = receipt.Pending_Amount.ToString("0.00");
             lblStatus.Text = string.Format("{0:Pagado;0;No Pagado}", receipt.Is_Paid.GetHashCode());
             nudMount.Maximum = Convert.ToDecimal(receipt.Pending_Amount.ToString("0.00"));
+            btnPaid.Enabled = true;
 
             if (receipt.Is_Paid)
             {
                 btnPaid.Enabled = false;
             }
 
-            DateTime next;
-            if (serviceType == "Domestico")
-            {
-                next = request.AddMonths(2);
-            }
-            else if (serviceType == "Industrial")
-            {
-                next = request.AddMonths(1);
-            }
-            else
-            {
-                return;
-            }
-
-            var nextReceipt = receiptDAO.FindReceipt(next.Year, Convert.ToInt16(next.Month), txtMeterSerialNumber.Text);
+            DateTime next = DateUtils.FindNextPeriod(clientReceipt.ServiceType, clientReceipt.Period);
+            ReceiptDTO nextReceipt = receiptDAO.FindReceipt(next.Year, next.Month, clientReceipt.ServiceType);
             if (nextReceipt != null)
             {
                 MessageBox.Show("No se puede pagar este recibo porque ya fue emitido uno en fechas posteriores", "Ambar", MessageBoxButtons.OK);
                 btnPaid.Enabled = false;
-                return;
             }
 
-            btnPaid.Enabled = true;
+        }
+
+        private ClientReceiptForm FillClientReceipt()
+        {
+            ClientReceiptForm clientReceipt = new ClientReceiptForm();
+            clientReceipt.MeterSerialNumber = StringUtils.GetText(txtMeterSerialNumber.Text);
+            clientReceipt.Period = dtpPeriod.Value;
+            clientReceipt.ServiceType = dtgContracts.Rows[dtgPrevIndex].Cells[9].Value.ToString();
+            return clientReceipt;
+        }
+
+        private bool Validate(ClientReceiptForm clientReceipt)
+        {
+            if (clientReceipt.MeterSerialNumber == string.Empty)
+            {
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            ContractDAO contractDAO = new ContractDAO();
+            if (!contractDAO.ContractExists(clientReceipt.MeterSerialNumber))
+            {
+                MessageBox.Show("El número de medidor no existe actualmente", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!contractDAO.IsClientContract(UserCache.id, txtMeterSerialNumber.Text))
+            {
+                MessageBox.Show("No se puede tener acceso al numero de medidor", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (clientReceipt.ServiceType != "Domestico" && clientReceipt.ServiceType != "Industrial")
+            {
+                MessageBox.Show("Tipo de servicio no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            clientReceipt.Period = DateUtils.FindPeriod(clientReceipt.ServiceType, clientReceipt.Period);
+
+            return true;
         }
 
         private void btnPaid_Click(object sender, EventArgs e)
@@ -126,8 +155,8 @@ namespace Ambar.ViewController
             }
 
             receiptDAO.PaidReceipt(receipt.Receipt_ID, receipt.Meter_Serial_Number, receipt.Service_Number, 
-                receipt.Service, receipt.Year, receipt.Month, nudMount.Value, Convert.ToDecimal(lblAmountPad.Text),
-                Convert.ToDecimal(lblPendingPaid.Text), paymentType);
+                receipt.Service, receipt.Year, receipt.Month, nudMount.Value, receipt.Amount_Paid,
+                receipt.Pending_Amount, paymentType);
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
@@ -143,6 +172,7 @@ namespace Ambar.ViewController
             lblAmountPad.Text = string.Empty;
             lblPendingPaid.Text = string.Empty;
             lblStatus.Text = string.Empty;
+            dtgPrevIndex = -1;
         }
 
         private void btnMassivePaid_Click(object sender, EventArgs e)
@@ -168,7 +198,6 @@ namespace Ambar.ViewController
                             return;
                         }
 
-
                         List<PaymentDTO> finalPayments = new List<PaymentDTO>();
                         bool isCorrect = true;
                         foreach (var paymentCSV in paymentsCSV)
@@ -184,16 +213,12 @@ namespace Ambar.ViewController
                             finalPayments.Add(payment);
                         }
 
-                      //foreach (var payment in finalPayments)
-                      //{
-                      //    receiptDAO.PaidReceipt(payment.receipt_dto, payment.paid, payment.amount_paid,
-                      //    payment.pending_amount, payment.payment_type);
-                      //}
-
-                      
-
-
-
+                        foreach (var payment in finalPayments)
+                        {
+                            receiptDAO.PaidReceipt(payment.Receipt_ID, payment.Meter_Serial_Number, payment.Service_Number,
+                                payment.Service, payment.Year, payment.Month, payment.Mount, payment.Amount_Paid,
+                                payment.Pending_Amount, payment.Payment_Type);
+                        }
 
                         break;
                     }
@@ -243,24 +268,17 @@ namespace Ambar.ViewController
                                 isCorrect = false;
                                 break;
                             }
-                            //
-                            //    PaymentDTO consumption = FillPayment(paymentCSV);
-                            //   finalPayments.Add(paymentsCSV);
+                            
+                            PaymentDTO payment = FillPayment(paymentCSV);
+                            finalPayments.Add(payment);
                         }
 
-                        //foreach (var payment in finalPayments)
-                        //{
-                        //    receiptDAO.PaidReceipt(payment.receipt_dto, payment.paid, payment.amount_paid,
-                        //    payment.pending_amount, payment.payment_type);
-                        //}
-
-
-
-
-
-
-
-
+                        foreach (var payment in finalPayments)
+                        {
+                            receiptDAO.PaidReceipt(payment.Receipt_ID, payment.Meter_Serial_Number, payment.Service_Number,
+                                payment.Service, payment.Year, payment.Month, payment.Mount, payment.Amount_Paid,
+                                payment.Pending_Amount, payment.Payment_Type);
+                        }
 
                         break;
                     }
@@ -432,6 +450,7 @@ namespace Ambar.ViewController
 
             if (serviceType == null)
             {
+                MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (serviceType == "Domestico" && request.Month % 2 == 1)
@@ -441,22 +460,31 @@ namespace Ambar.ViewController
             receipt = receiptDAO.FindReceipt(request.Year, Convert.ToInt16(request.Month), payment.Medidor);
             if (receipt == null)
             {
+                MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (!contractDAO.IsClientContract(UserCache.id, payment.Medidor))
+            {
+                MessageBox.Show("No se puede tener acceso al numero de medidor", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
             if (receipt.Is_Paid)
             {
+                MessageBox.Show("Uno de los recibos ya fue pagado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             decimal pago = Convert.ToDecimal(payment.Pago);
             if (pago > receipt.Pending_Amount)
             {
+                MessageBox.Show("Un pago excede la cifra del pago pendiente", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             if (pago == 0.00m)
             {
+                MessageBox.Show("No se pueden pagar en 0", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -471,6 +499,7 @@ namespace Ambar.ViewController
             }
             else
             {
+                MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -483,8 +512,8 @@ namespace Ambar.ViewController
 
 
             var one = payments.Where(x => x.Meter_Serial_Number == payment.Medidor).FirstOrDefault();
-            var two = payments.Where(x => x.Receipt_DTO.Month == Convert.ToInt16(payment.Mes)).FirstOrDefault();
-            var three = payments.Where(x => x.Receipt_DTO.Year == Convert.ToInt32(payment.Anio)).FirstOrDefault();
+            var two = payments.Where(x => x.Month == Convert.ToInt16(payment.Mes)).FirstOrDefault();
+            var three = payments.Where(x => x.Year == Convert.ToInt32(payment.Anio)).FirstOrDefault();
 
             if (one != null && two != null && three != null)
             {
@@ -503,13 +532,31 @@ namespace Ambar.ViewController
             PaymentDTO dto = new PaymentDTO();
             dto.Meter_Serial_Number = payment.Medidor;
             dto.Payment_Type = payment.MetodoDePago;
-            dto.Paid = Convert.ToDecimal(payment.Pago);
-            dto.Receipt_DTO = receiptDAO.FindReceipt(Convert.ToInt32(payment.Anio), 
-                                                    Convert.ToInt16(payment.Mes), 
-                                                    payment.Medidor);
-            dto.Amount_Paid = dto.Receipt_DTO.Amount_Pad;
-            dto.Pending_Amount = dto.Receipt_DTO.Pending_Amount;
+            dto.Mount = Convert.ToDecimal(payment.Pago);
+            dto.Year = Convert.ToInt32(payment.Anio);
+            dto.Month = Convert.ToInt32(payment.Mes);
+            ReceiptDTO receipt = receiptDAO.FindReceipt(dto.Year, dto.Month, dto.Meter_Serial_Number);
+            dto.Receipt_ID = receipt.Receipt_ID;
+            dto.Service_Number = receipt.Service_Number;
+            dto.Service = receipt.Service;
+            dto.Amount_Paid = receipt.Amount_Paid;
+            dto.Pending_Amount = receipt.Pending_Amount;
             return dto;
+        }
+
+        private void dtgContracts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (dtgPrevIndex == index || index == -1)
+            {
+                ClearForm();
+            }
+            else
+            {
+                txtMeterSerialNumber.Text = dtgContracts.Rows[index].Cells[1].Value.ToString();
+                btnPaid.Enabled = true;
+                dtgPrevIndex = index;
+            }
         }
     }
 }

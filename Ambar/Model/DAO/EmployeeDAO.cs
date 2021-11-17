@@ -9,26 +9,26 @@ using Cassandra.Mapping;
 
 namespace Ambar.Model.DAO
 {
-    class EmployeeDAO : CassandraConnection
+    class EmployeeDAO : CassandraConnection, IEnableable
     {
 
         public void Create(EmployeeDTO employee)
         {
-            string queryEmp = "INSERT INTO EMPLOYEES(USER_ID, USER_NAME, PASSWORD, CREATED_AT, MODIFICATE_AT, " +
-                "FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, DATE_OF_BIRTH, RFC, CURP)" + 
-                "VALUES(uuid(), ?, ?, toUnixTimestamp(now()), [ toUnixTimestamp(now()) ], ?, ?, ?, ?, ?, ?);";
-            string queryLog = "INSERT INTO EMPLOYEES_LOGIN(USER_NAME, PASSWORD, ENABLED) VALUES(?, ?, true);";
-            string queryRem = "INSERT INTO EMPLOYEES_ENABLED(USER_NAME, ENABLED) VALUES(?, true);";
+            string queryID = @"INSERT INTO EMPLOYEES(USER_ID, USER_NAME, PASSWORD, CREATED_AT, MODIFICATE_AT, 
+                            FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, DATE_OF_BIRTH, RFC, CURP) 
+                            VALUES(uuid(), ?, ?, toUnixTimestamp(now()), [ toUnixTimestamp(now()) ], ?, ?, ?, ?, ?, ?);";
+            string queryLog = "INSERT INTO EMPLOYEES_LOGIN(USER_NAME, PASSWORD, ENABLED) VALUES(?, ?, TRUE);";
+            string queryEn = "INSERT INTO EMPLOYEES_ENABLED(USER_NAME, ENABLED) VALUES(?, TRUE);";
 
-            var emp = session.Prepare(queryEmp);
+            var id = session.Prepare(queryID);
             var log = session.Prepare(queryLog);
-            var rem = session.Prepare(queryRem);
+            var en = session.Prepare(queryEn);
 
             var batch = new BatchStatement()
-                           .Add(emp.Bind(employee.User_Name, employee.Password, employee.First_Name, employee.Father_Last_Name,
-                           employee.Mother_Last_Name, employee.Date_Of_Birth, employee.RFC, employee.CURP))
-                           .Add(log.Bind(employee.User_Name, employee.Password))
-                           .Add(rem.Bind(employee.User_Name));
+                        .Add(id.Bind(employee.User_Name, employee.Password, employee.First_Name, employee.Father_Last_Name,
+                        employee.Mother_Last_Name, employee.Date_Of_Birth, employee.RFC, employee.CURP))
+                        .Add(log.Bind(employee.User_Name, employee.Password))
+                        .Add(en.Bind(employee.User_Name));
 
             session.Execute(batch);
         }
@@ -93,12 +93,12 @@ namespace Ambar.Model.DAO
             session.Execute(queryDelEnabled);
         }
 
-        public List<EmployeeDTO> Read()
+        public List<EmployeeDTO> ReadAll()
         {
-            string query = "SELECT USER_ID, USER_NAME, PASSWORD, CREATED_AT, MODIFICATE_AT, FIRST_NAME, FATHER_LAST_NAME, " +
-                "MOTHER_LAST_NAME, DATE_OF_BIRTH, RFC, CURP FROM EMPLOYEES;";
-            IEnumerable<EmployeeDTO> employees;
+            string query = @"SELECT USER_ID, USER_NAME, PASSWORD, CREATED_AT, MODIFICATE_AT, FIRST_NAME, 
+                            FATHER_LAST_NAME, MOTHER_LAST_NAME, DATE_OF_BIRTH, RFC, CURP FROM EMPLOYEES;";
 
+            IEnumerable<EmployeeDTO> employees;
             try
             {
                 employees = mapper.Fetch<EmployeeDTO>(query);
@@ -127,8 +127,8 @@ namespace Ambar.Model.DAO
 
         public EmployeeLoginDTO Login(string username, string password)
         {
-            string query = "SELECT USER_NAME, PASSWORD, ENABLED FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}' " +
-                "AND PASSWORD = '{1}';";
+            string query = @"SELECT USER_NAME, PASSWORD, ENABLED FROM EMPLOYEES_LOGIN WHERE USER_NAME = '{0}' 
+                            AND PASSWORD = '{1}';";
             query = string.Format(query, username, password);
 
             EmployeeLoginDTO user;            

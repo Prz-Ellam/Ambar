@@ -14,13 +14,14 @@ using Ambar.Model.DTO;
 using System.Text.RegularExpressions;
 using Ambar.Common;
 using Cassandra;
+using Ambar.Model.AmbarMapper;
 
 namespace Ambar.ViewController
 {
     public partial class Employees : Form
     {
         // DAO para hacer queries a la entidad empleados
-        EmployeeDAO employeeDao = new EmployeeDAO();
+        EmployeeDAO employeeDAO = new EmployeeDAO();
         UserRememberDAO userRemember = new UserRememberDAO();
         /* 
            Guardamos el username y el ID original de un empleado al que se le este aplicando una edicion o borrado para 
@@ -52,130 +53,53 @@ namespace Ambar.ViewController
                 return;
             }
 
-            // Creamos un objeto de transferencia de datos para la entidad empleado y lo rellenamos
-            EmployeeDTO employee = new EmployeeDTO();
-            employee.User_ID = Guid.NewGuid();
-            employee.First_Name = StringUtils.GetText(txtNames.Text);
-            employee.Father_Last_Name = StringUtils.GetText(txtFatherLastName.Text);
-            employee.Mother_Last_Name = StringUtils.GetText(txtMotherLastName.Text);
-            employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
-            employee.RFC = StringUtils.GetText(txtRFC.Text);
-            employee.CURP = StringUtils.GetText(txtCURP.Text);
-            employee.User_Name = StringUtils.GetText(txtUsername.Text);
-            employee.Password = StringUtils.GetText(txtPassword.Text);
-            string confirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
-
-            // Se realizan las validaciones necesarias
-            if (employee.First_Name == string.Empty || employee.Father_Last_Name == string.Empty ||
-                employee.Mother_Last_Name == string.Empty || employee.RFC == string.Empty ||
-                employee.CURP == string.Empty || employee.User_Name == string.Empty ||
-                employee.Password == string.Empty || confirmPassword == string.Empty)
+            EmployeeForm employee = FillEmployee(Operations.Create);
+            if (!Validate(employee, Operations.Create))
             {
-                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (employee.Password != confirmPassword)
-            {
-                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            EmployeeDTO employeeDTO = EmployeeMapper.CreateDTO(employee);
+            employeeDAO.Create(employeeDTO);
 
-            if (!RegexUtils.VerifyCURP(employee.CURP))
-            {
-                MessageBox.Show("Verificar CURP", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!RegexUtils.VerifyRFC(employee.RFC))
-            {
-                MessageBox.Show("Verificar RFC", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (employeeDao.UserExists(employee.User_Name))
-            {
-                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // Se crea en la base de datos
-            employeeDao.Create(employee);
+            string action = "[Empleado] Fue creado: " + employee.Username + ", con ID: " + employee.ID;
+            userRemember.Action(UserCache.id, action);
 
             FillDataGridView();
-
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            // Nunca se deberia dar este caso, pero en caso de cualquier error se previene con este if
             if (btnAccept.Enabled)
             {
                 return;
             }
 
-            EmployeeDTO employee = new EmployeeDTO();
-            employee.User_ID = originalID;
-            employee.First_Name = StringUtils.GetText(txtNames.Text);
-            employee.Father_Last_Name = StringUtils.GetText(txtFatherLastName.Text);
-            employee.Mother_Last_Name = StringUtils.GetText(txtMotherLastName.Text);
-            employee.Date_Of_Birth = new LocalDate(dtpBirthday.Value.Year, dtpBirthday.Value.Month, dtpBirthday.Value.Day);
-            employee.RFC = StringUtils.GetText(txtRFC.Text);
-            employee.CURP = StringUtils.GetText(txtCURP.Text);
-            employee.User_Name = StringUtils.GetText(txtUsername.Text);
-            employee.Password = StringUtils.GetText(txtPassword.Text);
-            string confirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
-
-            if (employee.First_Name == string.Empty || employee.Father_Last_Name == string.Empty ||
-                employee.Mother_Last_Name == string.Empty || employee.RFC == string.Empty ||
-                employee.CURP == string.Empty || employee.User_Name == string.Empty ||
-                employee.Password == string.Empty || confirmPassword == string.Empty)
+            EmployeeForm employee = FillEmployee(Operations.Update);
+            if (!Validate(employee, Operations.Update)) 
             {
-                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (employee.Password != confirmPassword)
-            {
-                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!RegexUtils.VerifyCURP(employee.CURP))
-            {
-                MessageBox.Show("Verificar CURP", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!RegexUtils.VerifyRFC(employee.RFC))
-            {
-                MessageBox.Show("Verificar RFC", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (employeeDao.UserExists(employee.User_Name) && originalUsername != employee.User_Name)
-            {
-                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            employeeDao.Update(employee, originalUsername);
+            EmployeeDTO employeeDTO = EmployeeMapper.CreateDTO(employee);
+            employeeDAO.Update(employeeDTO, originalUsername);
             if (userRemember.RememberUserExists("Employee", originalUsername)) {
-                userRemember.UpdateRememberUser("Employee", originalUsername, employee.User_Name, employee.Password);
+                userRemember.UpdateRememberUser("Employee", originalUsername, employee.Username, employee.Password);
             }
+
+            string action = "[Empleado] Fue modificado: " + originalUsername + ", por " + employee.Username + ", con ID: " + employee.ID;
+            userRemember.Action(UserCache.id, action);
 
             FillDataGridView();
             FillDisableUsers();
-
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            // Nunca se deberia dar este caso, pero en caso de cualquier error se previene con este if
             if (btnAccept.Enabled)
             {
                 return;
@@ -186,26 +110,99 @@ namespace Ambar.ViewController
 
             if (res == DialogResult.Yes)
             {
-                employeeDao.Delete(originalID, originalUsername);
+                employeeDAO.Delete(originalID, originalUsername);
                 if (userRemember.RememberUserExists("Employee", originalUsername))
                 {
                     userRemember.ForgerPassword("Employee", originalUsername);
                 }
 
+                string action = "[Empleado] Fue eliminado: " + originalUsername + ", con ID: " + originalID;
+                userRemember.Action(UserCache.id, action);
+
                 FillDataGridView();
                 FillDisableUsers();
-
                 ClearForm();
                 MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
             }
         }
 
+        private void btnEnabling_Click(object sender, EventArgs e)
+        {
+            employeeDAO.Enabled(txtDisable.Text, true);
+            ClearDisableUsers();
+            FillDisableUsers();
+            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+        }
+
+        private EmployeeForm FillEmployee(Operations operationCode)
+        {
+            EmployeeForm employee = new EmployeeForm();
+            employee.ID = (operationCode == Operations.Update) ? originalID : Guid.NewGuid();
+            employee.FirstName = StringUtils.GetText(txtFirstName.Text);
+            employee.FatherLastName = StringUtils.GetText(txtFatherLastName.Text);
+            employee.MotherLastName = StringUtils.GetText(txtMotherLastName.Text);
+            employee.DateOfBirth = dtpDateOfBirth.Value;
+            employee.RFC = StringUtils.GetText(txtRFC.Text);
+            employee.CURP = StringUtils.GetText(txtCURP.Text);
+            employee.Username = StringUtils.GetText(txtUsername.Text);
+            employee.Password = StringUtils.GetText(txtPassword.Text);
+            employee.ConfirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
+            return employee;
+        }
+
+        private bool Validate(EmployeeForm employee, Operations operationCode)
+        {
+            if (employee.FirstName == string.Empty || employee.FatherLastName == string.Empty ||
+                employee.MotherLastName == string.Empty || employee.RFC == string.Empty ||
+                employee.CURP == string.Empty || employee.Username == string.Empty ||
+                employee.Password == string.Empty || employee.ConfirmPassword == string.Empty)
+            {
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (employee.Password != employee.ConfirmPassword)
+            {
+                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (employee.DateOfBirth > DateTime.Now)
+            {
+                MessageBox.Show("Fecha de nacimiento no valida", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.VerifyCURP(employee.CURP))
+            {
+                MessageBox.Show("Verificar CURP", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.VerifyRFC(employee.RFC))
+            {
+                MessageBox.Show("Verificar RFC", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // No se permite agregar usernames ya existentes, a menos que se quiera sobreescribir el que ya se tenia
+            // originalmente
+            bool userExists = employeeDAO.UserExists(employee.Username);
+            if (userExists && operationCode != Operations.Update || userExists && originalUsername != employee.Username)
+            {
+                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
         public void ClearForm()
         {
-            txtNames.Clear();
+            txtFirstName.Clear();
             txtFatherLastName.Clear();
             txtMotherLastName.Clear();
-            dtpBirthday.Value = DateTime.Now;
+            dtpDateOfBirth.Value = DateTime.Now;
             txtRFC.Clear();
             txtCURP.Clear();
             txtUsername.Clear();
@@ -214,11 +211,13 @@ namespace Ambar.ViewController
             btnAccept.Enabled = true;
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
+            txtFirstName.Focus();
+            dtgPrevIndex = -1;
         }
 
         public void FillDataGridView()
         {
-            List<EmployeeDTO> employees = employeeDao.Read();
+            List<EmployeeDTO> employees = employeeDAO.ReadAll();
             List<EmployeeDTG> dtgEmployeesList = new List<EmployeeDTG>();
             foreach (var employee in employees)
             {
@@ -230,24 +229,24 @@ namespace Ambar.ViewController
         private void dtgEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-            if (dtgPrevIndex == index)
+            if (dtgPrevIndex == index || index == -1)
             {
                 ClearForm();
-                dtgPrevIndex = -1;
             }
             else
             {
-                originalID = Guid.Parse(dtgEmployees.Rows[index].Cells[0].Value.ToString());
-                txtUsername.Text = dtgEmployees.Rows[index].Cells[1].Value.ToString();
-                originalUsername = dtgEmployees.Rows[index].Cells[1].Value.ToString();
-                txtPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
-                txtConfirmPassword.Text = dtgEmployees.Rows[index].Cells[2].Value.ToString();
-                txtNames.Text = dtgEmployees.Rows[index].Cells[3].Value.ToString();
-                txtFatherLastName.Text = dtgEmployees.Rows[index].Cells[4].Value.ToString();
-                txtMotherLastName.Text = dtgEmployees.Rows[index].Cells[5].Value.ToString();
-                dtpBirthday.Value = Convert.ToDateTime(dtgEmployees.Rows[index].Cells[6].Value.ToString());
-                txtRFC.Text = dtgEmployees.Rows[index].Cells[7].Value.ToString();
-                txtCURP.Text = dtgEmployees.Rows[index].Cells[8].Value.ToString();
+                var row = dtgEmployees.Rows[index];
+                originalID = Guid.Parse(row.Cells[0].Value.ToString());
+                txtUsername.Text = row.Cells[1].Value.ToString();
+                originalUsername = row.Cells[1].Value.ToString();
+                txtPassword.Text = row.Cells[2].Value.ToString();
+                txtConfirmPassword.Text = row.Cells[2].Value.ToString();
+                txtFirstName.Text = row.Cells[3].Value.ToString();
+                txtFatherLastName.Text = row.Cells[4].Value.ToString();
+                txtMotherLastName.Text = row.Cells[5].Value.ToString();
+                dtpDateOfBirth.Value = Convert.ToDateTime(row.Cells[6].Value.ToString());
+                txtRFC.Text = row.Cells[7].Value.ToString();
+                txtCURP.Text = row.Cells[8].Value.ToString();
 
                 btnAccept.Enabled = false;
                 btnUpdate.Enabled = true;
@@ -261,42 +260,28 @@ namespace Ambar.ViewController
         {
             txtDisable.Clear();
             btnEnabling.Enabled = false;
-            lbPrevIndex = -1;
             lbDisableEmployees.ClearSelected();
+            lbPrevIndex = -1;
         }
 
         public void FillDisableUsers()
         {
-            lbDisableEmployees.Items.Clear();
-            List<string> names = employeeDao.ReadAllDisable();
-            foreach (var name in names)
-            {
-                lbDisableEmployees.Items.Add(name);
-            }
+            lbDisableEmployees.DataSource = employeeDAO.ReadAllDisable();
+            lbDisableEmployees.ClearSelected();
         }
 
-        private void lbDisableEmployees_SelectedIndexChanged(object sender, EventArgs e)
+        private void lbDisableEmployees_Click(object sender, EventArgs e)
         {
-            if (lbPrevIndex == lbDisableEmployees.SelectedIndex)
+            if (lbDisableEmployees.SelectedIndex == lbPrevIndex)
             {
                 ClearDisableUsers();
-                return;
             }
             else
             {
-                txtDisable.Text = lbDisableEmployees.Items[lbDisableEmployees.SelectedIndex].ToString();
+                txtDisable.Text = lbDisableEmployees.SelectedItem.ToString();
                 btnEnabling.Enabled = true;
                 lbPrevIndex = lbDisableEmployees.SelectedIndex;
             }
-        }
-
-        private void btnEnabling_Click(object sender, EventArgs e)
-        {
-            employeeDao.Enabled(txtDisable.Text, true);
-
-            ClearDisableUsers();
-
-            FillDisableUsers();
         }
 
     }

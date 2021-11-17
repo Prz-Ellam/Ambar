@@ -178,7 +178,7 @@ namespace Ambar.ViewController
             this.dtgContracts.ReadOnly = true;
             this.dtgContracts.RowHeadersWidth = 51;
             this.dtgContracts.RowTemplate.Height = 24;
-            this.dtgContracts.Size = new System.Drawing.Size(895, 122);
+            this.dtgContracts.Size = new System.Drawing.Size(895, 182);
             this.dtgContracts.TabIndex = 10;
             // 
             // ContractID
@@ -193,7 +193,7 @@ namespace Ambar.ViewController
             // MeterSerialNumber
             // 
             this.MeterSerialNumber.DataPropertyName = "METER_SERIAL_NUMBER";
-            this.MeterSerialNumber.HeaderText = "Meter Serial Number";
+            this.MeterSerialNumber.HeaderText = "Número de Medidor";
             this.MeterSerialNumber.MinimumWidth = 6;
             this.MeterSerialNumber.Name = "MeterSerialNumber";
             this.MeterSerialNumber.ReadOnly = true;
@@ -202,7 +202,7 @@ namespace Ambar.ViewController
             // ServiceNumber
             // 
             this.ServiceNumber.DataPropertyName = "SERVICE_NUMBER";
-            this.ServiceNumber.HeaderText = "Service Number";
+            this.ServiceNumber.HeaderText = "Número de Servicio";
             this.ServiceNumber.MinimumWidth = 6;
             this.ServiceNumber.Name = "ServiceNumber";
             this.ServiceNumber.ReadOnly = true;
@@ -211,7 +211,7 @@ namespace Ambar.ViewController
             // State
             // 
             this.State.DataPropertyName = "STATE";
-            this.State.HeaderText = "State";
+            this.State.HeaderText = "Estado";
             this.State.MinimumWidth = 6;
             this.State.Name = "State";
             this.State.ReadOnly = true;
@@ -220,7 +220,7 @@ namespace Ambar.ViewController
             // City
             // 
             this.City.DataPropertyName = "CITY";
-            this.City.HeaderText = "City";
+            this.City.HeaderText = "Ciudad";
             this.City.MinimumWidth = 6;
             this.City.Name = "City";
             this.City.ReadOnly = true;
@@ -229,7 +229,7 @@ namespace Ambar.ViewController
             // Suburb
             // 
             this.Suburb.DataPropertyName = "SUBURB";
-            this.Suburb.HeaderText = "Suburb";
+            this.Suburb.HeaderText = "Colonia";
             this.Suburb.MinimumWidth = 6;
             this.Suburb.Name = "Suburb";
             this.Suburb.ReadOnly = true;
@@ -238,7 +238,7 @@ namespace Ambar.ViewController
             // Street
             // 
             this.Street.DataPropertyName = "STREET";
-            this.Street.HeaderText = "Street";
+            this.Street.HeaderText = "Calle";
             this.Street.MinimumWidth = 6;
             this.Street.Name = "Street";
             this.Street.ReadOnly = true;
@@ -247,7 +247,7 @@ namespace Ambar.ViewController
             // Number
             // 
             this.Number.DataPropertyName = "NUMBER";
-            this.Number.HeaderText = "Number";
+            this.Number.HeaderText = "Número";
             this.Number.MinimumWidth = 6;
             this.Number.Name = "Number";
             this.Number.ReadOnly = true;
@@ -256,7 +256,7 @@ namespace Ambar.ViewController
             // PostalCode
             // 
             this.PostalCode.DataPropertyName = "POSTAL_CODE";
-            this.PostalCode.HeaderText = "Postal Code";
+            this.PostalCode.HeaderText = "Código Postal";
             this.PostalCode.MinimumWidth = 6;
             this.PostalCode.Name = "PostalCode";
             this.PostalCode.ReadOnly = true;
@@ -265,7 +265,7 @@ namespace Ambar.ViewController
             // Service
             // 
             this.Service.DataPropertyName = "SERVICE";
-            this.Service.HeaderText = "Service";
+            this.Service.HeaderText = "Servicio";
             this.Service.MinimumWidth = 6;
             this.Service.Name = "Service";
             this.Service.ReadOnly = true;
@@ -274,7 +274,7 @@ namespace Ambar.ViewController
             // StartPeriodDate
             // 
             this.StartPeriodDate.DataPropertyName = "START_PERIOD_DATE";
-            this.StartPeriodDate.HeaderText = "Start Period Date";
+            this.StartPeriodDate.HeaderText = "Inicio de Periodo";
             this.StartPeriodDate.MinimumWidth = 6;
             this.StartPeriodDate.Name = "StartPeriodDate";
             this.StartPeriodDate.ReadOnly = true;
@@ -412,6 +412,7 @@ namespace Ambar.ViewController
             this.txtClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtClient.Location = new System.Drawing.Point(196, 81);
             this.txtClient.Margin = new System.Windows.Forms.Padding(2);
+            this.txtClient.MaxLength = 30;
             this.txtClient.Name = "txtClient";
             this.txtClient.ReadOnly = true;
             this.txtClient.Size = new System.Drawing.Size(430, 23);
@@ -454,6 +455,7 @@ namespace Ambar.ViewController
             this.cbState.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.cbState.FormattingEnabled = true;
             this.cbState.Items.AddRange(new object[] {
+            "Seleccionar",
             "AGUASCALIENTES",
             "BAJA CALIFORNIA",
             "BAJA CALIFORNIA SUR",
@@ -565,7 +567,7 @@ namespace Ambar.ViewController
             // Username
             // 
             this.Username.DataPropertyName = "USER_NAME";
-            this.Username.HeaderText = "Username";
+            this.Username.HeaderText = "Usuario";
             this.Username.MinimumWidth = 6;
             this.Username.Name = "Username";
             this.Username.ReadOnly = true;
@@ -574,7 +576,7 @@ namespace Ambar.ViewController
             // Password
             // 
             this.Password.DataPropertyName = "PASSWORD";
-            this.Password.HeaderText = "Password";
+            this.Password.HeaderText = "Contraseña";
             this.Password.MinimumWidth = 6;
             this.Password.Name = "Password";
             this.Password.ReadOnly = true;
@@ -583,7 +585,7 @@ namespace Ambar.ViewController
             // FirstName
             // 
             this.FirstName.DataPropertyName = "FIRST_NAME";
-            this.FirstName.HeaderText = "First Name";
+            this.FirstName.HeaderText = "Nombre(s):";
             this.FirstName.MinimumWidth = 6;
             this.FirstName.Name = "FirstName";
             this.FirstName.ReadOnly = true;
@@ -592,7 +594,7 @@ namespace Ambar.ViewController
             // FatherLastName
             // 
             this.FatherLastName.DataPropertyName = "FATHER_LAST_NAME";
-            this.FatherLastName.HeaderText = "Father Last Name";
+            this.FatherLastName.HeaderText = "Apellido Paterno";
             this.FatherLastName.MinimumWidth = 6;
             this.FatherLastName.Name = "FatherLastName";
             this.FatherLastName.ReadOnly = true;
@@ -601,7 +603,7 @@ namespace Ambar.ViewController
             // MotherLastName
             // 
             this.MotherLastName.DataPropertyName = "MOTHER_LAST_NAME";
-            this.MotherLastName.HeaderText = "Mother Last Name";
+            this.MotherLastName.HeaderText = "Apellido Materno";
             this.MotherLastName.MinimumWidth = 6;
             this.MotherLastName.Name = "MotherLastName";
             this.MotherLastName.ReadOnly = true;
@@ -610,7 +612,7 @@ namespace Ambar.ViewController
             // DateOfBirth
             // 
             this.DateOfBirth.DataPropertyName = "DATE_OF_BIRTH";
-            this.DateOfBirth.HeaderText = "Date of Birth";
+            this.DateOfBirth.HeaderText = "Fecha de Nacimiento";
             this.DateOfBirth.MinimumWidth = 6;
             this.DateOfBirth.Name = "DateOfBirth";
             this.DateOfBirth.ReadOnly = true;
@@ -628,7 +630,7 @@ namespace Ambar.ViewController
             // Gender
             // 
             this.Gender.DataPropertyName = "GENDER";
-            this.Gender.HeaderText = "Gender";
+            this.Gender.HeaderText = "Genero";
             this.Gender.MinimumWidth = 6;
             this.Gender.Name = "Gender";
             this.Gender.ReadOnly = true;
@@ -648,7 +650,7 @@ namespace Ambar.ViewController
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(1040, 630);
+            this.ClientSize = new System.Drawing.Size(1040, 682);
             this.Controls.Add(this.dtgClients);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dtpStartPeriodDate);
@@ -713,6 +715,9 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Label lblService;
         private System.Windows.Forms.ComboBox cbState;
         private System.Windows.Forms.ComboBox cbCity;
+        private System.Windows.Forms.DateTimePicker dtpStartPeriodDate;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridView dtgClients;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContractID;
         private System.Windows.Forms.DataGridViewTextBoxColumn MeterSerialNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn ServiceNumber;
@@ -724,9 +729,6 @@ namespace Ambar.ViewController
         private System.Windows.Forms.DataGridViewTextBoxColumn PostalCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn Service;
         private System.Windows.Forms.DataGridViewTextBoxColumn StartPeriodDate;
-        private System.Windows.Forms.DateTimePicker dtpStartPeriodDate;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridView dtgClients;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Username;
         private System.Windows.Forms.DataGridViewTextBoxColumn Password;

@@ -36,22 +36,22 @@ namespace Ambar.Model.DAO
             var client = session.Prepare(queryClient);
 
             var batch = new BatchStatement()
-                           .Add(contracts.Bind(contract.Contract_ID, contract.Meter_Serial_Number, contract.Service_Number, contract.State, 
-                           contract.City, contract.Suburb, contract.Street, contract.Number, contract.Postal_Code,
-                           contract.Service, contract.Client_ID, contract.First_Name, contract.Father_Last_Name,
-                           contract.Mother_Last_Name, contract.Start_Period_Date))
-                           .Add(meter.Bind(contract.Contract_ID, contract.Meter_Serial_Number, contract.Service_Number, contract.State,
-                           contract.City, contract.Suburb, contract.Street, contract.Number, contract.Postal_Code,
-                           contract.Service, contract.Client_ID, contract.First_Name, contract.Father_Last_Name, 
-                           contract.Mother_Last_Name, contract.Start_Period_Date))
-                           .Add(service.Bind(contract.Contract_ID, contract.Meter_Serial_Number, contract.Service_Number, contract.State,
-                           contract.City, contract.Suburb, contract.Street, contract.Number, contract.Postal_Code,
-                           contract.Service, contract.Client_ID, contract.First_Name, contract.Father_Last_Name, 
-                           contract.Mother_Last_Name, contract.Start_Period_Date))
-                           .Add(client.Bind(contract.Contract_ID, contract.Meter_Serial_Number, contract.Service_Number, contract.State,
-                           contract.City, contract.Suburb, contract.Street, contract.Number, contract.Postal_Code,
-                           contract.Service, contract.Client_ID, contract.First_Name, contract.Father_Last_Name, 
-                           contract.Mother_Last_Name, contract.Start_Period_Date));
+                        .Add(contracts.Bind(contract.Contract_ID, contract.Meter_Serial_Number, contract.Service_Number, contract.State, 
+                        contract.City, contract.Suburb, contract.Street, contract.Number, contract.Postal_Code,
+                        contract.Service, contract.Client_ID, contract.First_Name, contract.Father_Last_Name,
+                        contract.Mother_Last_Name, contract.Start_Period_Date))
+                        .Add(meter.Bind(contract.Contract_ID, contract.Meter_Serial_Number, contract.Service_Number, contract.State,
+                        contract.City, contract.Suburb, contract.Street, contract.Number, contract.Postal_Code,
+                        contract.Service, contract.Client_ID, contract.First_Name, contract.Father_Last_Name, 
+                        contract.Mother_Last_Name, contract.Start_Period_Date))
+                        .Add(service.Bind(contract.Contract_ID, contract.Meter_Serial_Number, contract.Service_Number, contract.State,
+                        contract.City, contract.Suburb, contract.Street, contract.Number, contract.Postal_Code,
+                        contract.Service, contract.Client_ID, contract.First_Name, contract.Father_Last_Name, 
+                        contract.Mother_Last_Name, contract.Start_Period_Date))
+                        .Add(client.Bind(contract.Contract_ID, contract.Meter_Serial_Number, contract.Service_Number, contract.State,
+                        contract.City, contract.Suburb, contract.Street, contract.Number, contract.Postal_Code,
+                        contract.Service, contract.Client_ID, contract.First_Name, contract.Father_Last_Name, 
+                        contract.Mother_Last_Name, contract.Start_Period_Date));
 
             session.Execute(batch);
         }
@@ -146,21 +146,13 @@ namespace Ambar.Model.DAO
             query = string.Format(query, serviceNumber);
 
             var res = session.Execute(query);
-            Int64 count = 0;
+            long count = 0;
             foreach (var row in res)
             {
-                count = row.GetValue<Int64>("system.count(service_number)");
+                count = row.GetValue<long>("system.count(service_number)");
             }
 
-            if (count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return (count > 0) ? true : false;
         }
 
         public bool ContractExists(string meterSerialNumber)
@@ -176,15 +168,7 @@ namespace Ambar.Model.DAO
                 count = row.GetValue<Int64>("system.count(meter_serial_number)");
             }
 
-            if (count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return (count > 0) ? true : false;
         }
 
         public string FindServiceType(string meterSerialNumber)
@@ -259,6 +243,26 @@ namespace Ambar.Model.DAO
             return serviceNumber;
         }
 
+        public List<ContractDTO> ReadContractsByService(string serviceType)
+        {
+            string query = @"SELECT CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, STATE, CITY, SUBURB, 
+                STREET, NUMBER, POSTAL_CODE, SERVICE, CLIENT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, 
+                CREATED_AT, START_PERIOD_DATE, CREATED_AT FROM CONTRACTS_BY_SERVICE WHERE SERVICE = '{0}'";
+            query = string.Format(query, serviceType);
+
+            IEnumerable<ContractDTO> contracts;
+            try
+            {
+                contracts = mapper.Fetch<ContractDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return contracts.ToList();
+        }
+
         public List<ContractForReceiptDTO> ReadContractsForReceipt(string service)
         {
             string query = "SELECT FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, SUBURB, STREET, NUMBER, " +
@@ -288,18 +292,10 @@ namespace Ambar.Model.DAO
             long count = 0;
             foreach (var row in res)
             {
-                count = row.GetValue<Int64>("system.count(contract_id)");
+                count = row.GetValue<long>("system.count(contract_id)");
             }
 
-            if (count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return (count > 0) ? true : false;
         }
 
         public bool IsClientContract(Guid id, string meterSerialNumber)
@@ -314,15 +310,7 @@ namespace Ambar.Model.DAO
                 count = row.GetValue<long>("system.count(client_id)");
             }
 
-            if (count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return (count > 0) ? true : false;
         }
 
         public bool IsClientContract(Guid id, long serviceNumber)
@@ -337,15 +325,7 @@ namespace Ambar.Model.DAO
                 count = row.GetValue<long>("system.count(client_id)");
             }
 
-            if (count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return (count > 0) ? true : false;
         }
 
     }

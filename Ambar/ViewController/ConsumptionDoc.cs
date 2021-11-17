@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ambar.ViewController
 {
-    class ConsumptionCSV
+    class ConsumptionDoc
     {
         [CsvHelper.Configuration.Attributes.Name("Numero de Medidor")]
         public string Medidor { get; set; }

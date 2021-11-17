@@ -11,6 +11,64 @@ namespace Ambar.Common
 {
     class DateUtils
     {
+        public static bool IsLessPeriod(DateTime request, DateTime start)
+        {
+            return (request.Year < start.Year || (request.Year == start.Year && request.Month < start.Month));
+        }
+
+        public static bool ComparePeriod(DateTime one, DateTime two)
+        {
+            return (one.Year != two.Year || one.Month != two.Month);
+        }
+
+        public static DateTime FindPeriod(string serviceType, DateTime date)
+        {
+            if (serviceType == "Domestico" && date.Month % 2 == 1)
+            {
+                date.AddMonths(1);
+            }
+            return date;
+        }
+
+        public static DateTime FindStartPeriod(string serviceType, DateTime start)
+        {
+            if (serviceType == "Domestico")
+            {
+                start = (start.Month % 2 == 0) ? start.AddMonths(2) : start.AddMonths(3);
+            }
+            else if (serviceType == "Industrial")
+            {
+                start = start.AddMonths(1);
+            }
+            return start;
+        }
+
+        public static DateTime FindPrevPeriod(string serviceType, DateTime period)
+        {
+            if (serviceType == "Domestico")
+            {
+                period = period.AddMonths(-2);
+            }
+            else if (serviceType == "Industrial")
+            {
+                period = period.AddMonths(-1);
+            }
+            return period;
+        }
+
+        public static DateTime FindNextPeriod(string serviceType, DateTime period)
+        {
+            if (serviceType == "Domestico")
+            {
+                period = period.AddMonths(2);
+            }
+            else if (serviceType == "Industrial")
+            {
+                period = period.AddMonths(1);
+            }
+            return period;
+        }
+
         public static bool NormalizeDates(string serviceType, ref DateTime start, ref DateTime request)
         {
             if (serviceType == "Domestico")

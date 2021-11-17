@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtNames = new System.Windows.Forms.TextBox();
+            this.txtFirstName = new System.Windows.Forms.TextBox();
             this.txtFatherLastName = new System.Windows.Forms.TextBox();
             this.txtMotherLastName = new System.Windows.Forms.TextBox();
             this.txtRFC = new System.Windows.Forms.TextBox();
-            this.dtpBirthday = new System.Windows.Forms.DateTimePicker();
+            this.dtpDateOfBirth = new System.Windows.Forms.DateTimePicker();
             this.txtCURP = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -67,15 +67,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmployees)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtNames
+            // txtFirstName
             // 
-            this.txtNames.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNames.Location = new System.Drawing.Point(184, 81);
-            this.txtNames.Margin = new System.Windows.Forms.Padding(2);
-            this.txtNames.MaxLength = 30;
-            this.txtNames.Name = "txtNames";
-            this.txtNames.Size = new System.Drawing.Size(430, 23);
-            this.txtNames.TabIndex = 0;
+            this.txtFirstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFirstName.Location = new System.Drawing.Point(184, 81);
+            this.txtFirstName.Margin = new System.Windows.Forms.Padding(2);
+            this.txtFirstName.MaxLength = 30;
+            this.txtFirstName.Name = "txtFirstName";
+            this.txtFirstName.Size = new System.Drawing.Size(430, 23);
+            this.txtFirstName.TabIndex = 0;
             // 
             // txtFatherLastName
             // 
@@ -107,15 +107,17 @@
             this.txtRFC.Size = new System.Drawing.Size(430, 23);
             this.txtRFC.TabIndex = 4;
             // 
-            // dtpBirthday
+            // dtpDateOfBirth
             // 
-            this.dtpBirthday.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpBirthday.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpBirthday.Location = new System.Drawing.Point(184, 174);
-            this.dtpBirthday.Margin = new System.Windows.Forms.Padding(2);
-            this.dtpBirthday.Name = "dtpBirthday";
-            this.dtpBirthday.Size = new System.Drawing.Size(204, 23);
-            this.dtpBirthday.TabIndex = 3;
+            this.dtpDateOfBirth.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpDateOfBirth.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDateOfBirth.Location = new System.Drawing.Point(184, 174);
+            this.dtpDateOfBirth.Margin = new System.Windows.Forms.Padding(2);
+            this.dtpDateOfBirth.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dtpDateOfBirth.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
+            this.dtpDateOfBirth.Name = "dtpDateOfBirth";
+            this.dtpDateOfBirth.Size = new System.Drawing.Size(204, 23);
+            this.dtpDateOfBirth.TabIndex = 3;
             // 
             // txtCURP
             // 
@@ -344,7 +346,7 @@
             this.dtgEmployees.RowHeadersWidth = 51;
             this.dtgEmployees.RowTemplate.Height = 24;
             this.dtgEmployees.Size = new System.Drawing.Size(602, 182);
-            this.dtgEmployees.TabIndex = 20;
+            this.dtgEmployees.TabIndex = 12;
             this.dtgEmployees.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEmployees_CellDoubleClick);
             // 
             // UserID
@@ -441,7 +443,7 @@
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(2);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(112, 41);
-            this.btnUpdate.TabIndex = 21;
+            this.btnUpdate.TabIndex = 10;
             this.btnUpdate.Text = "ACTUALIZAR";
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
@@ -459,7 +461,7 @@
             this.btnDelete.Margin = new System.Windows.Forms.Padding(2);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(112, 41);
-            this.btnDelete.TabIndex = 22;
+            this.btnDelete.TabIndex = 11;
             this.btnDelete.Text = "BORRAR";
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -477,7 +479,7 @@
             this.btnEnabling.Margin = new System.Windows.Forms.Padding(2);
             this.btnEnabling.Name = "btnEnabling";
             this.btnEnabling.Size = new System.Drawing.Size(112, 41);
-            this.btnEnabling.TabIndex = 26;
+            this.btnEnabling.TabIndex = 14;
             this.btnEnabling.Text = "HABILITAR";
             this.btnEnabling.UseVisualStyleBackColor = false;
             this.btnEnabling.Click += new System.EventHandler(this.btnEnabling_Click);
@@ -503,8 +505,8 @@
             this.lbDisableEmployees.Margin = new System.Windows.Forms.Padding(2);
             this.lbDisableEmployees.Name = "lbDisableEmployees";
             this.lbDisableEmployees.Size = new System.Drawing.Size(230, 425);
-            this.lbDisableEmployees.TabIndex = 28;
-            this.lbDisableEmployees.SelectedIndexChanged += new System.EventHandler(this.lbDisableEmployees_SelectedIndexChanged);
+            this.lbDisableEmployees.TabIndex = 13;
+            this.lbDisableEmployees.Click += new System.EventHandler(this.lbDisableEmployees_Click);
             // 
             // lblBlockedEmployees
             // 
@@ -546,11 +548,11 @@
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.txtCURP);
-            this.Controls.Add(this.dtpBirthday);
+            this.Controls.Add(this.dtpDateOfBirth);
             this.Controls.Add(this.txtRFC);
             this.Controls.Add(this.txtMotherLastName);
             this.Controls.Add(this.txtFatherLastName);
-            this.Controls.Add(this.txtNames);
+            this.Controls.Add(this.txtFirstName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Employees";
@@ -565,11 +567,11 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtNames;
+        private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.TextBox txtFatherLastName;
         private System.Windows.Forms.TextBox txtMotherLastName;
         private System.Windows.Forms.TextBox txtRFC;
-        private System.Windows.Forms.DateTimePicker dtpBirthday;
+        private System.Windows.Forms.DateTimePicker dtpDateOfBirth;
         private System.Windows.Forms.TextBox txtCURP;
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.TextBox txtPassword;

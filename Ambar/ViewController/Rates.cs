@@ -10,6 +10,8 @@ using Ambar.Model.DTO;
 using Ambar.Common;
 using System.Globalization;
 using System.Linq;
+using Ambar.ViewController.Objects;
+using Ambar.Model.AmbarMapper;
 
 namespace Ambar.ViewController
 {
@@ -27,33 +29,60 @@ namespace Ambar.ViewController
         {
             dtgRates.DataSource = rateDAO.ReadRates();
             cbService.SelectedIndex = 0;
-
             dtpYear.MinDate = dateDAO.GetDate();
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            // El sistema deberia dejar que haya tarifas de 0 ?
-            if (cbService.SelectedIndex <= 0 || cbPeriod.SelectedIndex == -1)
+            RateForm rate = FillRate();
+            if (!Validate(rate))
             {
-                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
-            RateDTO rate = new RateDTO();
-            rate.Basic_Level = nudBasic.Value;
-            rate.Intermediate_Level = nudIntermediate.Value;
-            rate.Surplus_Level = nudSurplus.Value;
-            rate.Year = dtpYear.Value.Year;
-            rate.Month = Convert.ToInt16(((ComboBoxItem)cbPeriod.SelectedItem).HiddenValue);
-            rate.Service = cbService.SelectedItem.ToString();
 
-            rateDAO.Create(rate);
+            RateDTO rateDTO = RateMapper.CreateDTO(rate);
+            rateDAO.Create(rateDTO);
+
+            string action = "[Tarifas] Fue creada tarifa Mes: " + rate.Month + ", Año: " + rate.Year + ", Servicio" + rate.ServiceType;
+            new UserRememberDAO().Action(UserCache.id, action);
 
             dtgRates.DataSource = rateDAO.ReadRates();
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+        }
+
+        private RateForm FillRate()
+        {
+            RateForm rate = new RateForm();
+            rate.ID = Guid.NewGuid();
+            rate.ServiceType = cbService.SelectedItem.ToString();
+            rate.Year = dtpYear.Value.Year;
+            rate.Month = ((ComboBoxItem)cbPeriod.SelectedItem).HiddenValue;
+            rate.BasicLevel = nudBasic.Value;
+            rate.IntermediateLevel = nudIntermediate.Value;
+            rate.SurplusLevel = nudSurplus.Value;
+            return rate;
+        }
+
+        private bool Validate(RateForm rate)
+        {
+            if (rate.Month == -1 || rate.ServiceType == "Seleccionar")
+            {
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void ClearForm()
+        {
+            cbService.SelectedIndex = 0;
+            dtpYear.Value = dtpYear.MinDate;
+            nudBasic.Value = 0;
+            nudIntermediate.Value = 0;
+            nudSurplus.Value = 0;
         }
 
         private void btnMasiveCharge_Click(object sender, EventArgs e)
@@ -72,7 +101,6 @@ namespace Ambar.ViewController
                             reader = File.OpenText(ofnMassive.FileName);
                             csvReader = new CsvReader(reader, CultureInfo.CurrentCulture);
                             ratesCSV = csvReader.GetRecords<RateCSV>().ToList();
-
                         }
                         catch (Exception ex)
                         {
@@ -100,6 +128,8 @@ namespace Ambar.ViewController
                         {
                             rateDAO.Create(rate);
                         }
+                        string action = "[Tarifas] Carga masiva de tarifas";
+                        new UserRememberDAO().Action(UserCache.id, action);
 
                         dtgRates.DataSource = rateDAO.ReadRates();
 
@@ -157,7 +187,6 @@ namespace Ambar.ViewController
                                 isCorrect = false;
                                 break;
                             }
-
                             RateDTO rate = FillRate(rateCSV);
 
                             finalRates.Add(rate);
@@ -167,6 +196,8 @@ namespace Ambar.ViewController
                         {
                             rateDAO.Create(rate);
                         }
+                        string action = "[Tarifas] Carga masiva de tarifas";
+                        new UserRememberDAO().Action(UserCache.id, action);
 
                         dtgRates.DataSource = rateDAO.ReadRates();
 
@@ -188,15 +219,6 @@ namespace Ambar.ViewController
             DateChange();
         }
 
-        private void ClearForm()
-        {
-            cbService.SelectedIndex = 0;
-            dtpYear.Value = dtpYear.MinDate;
-            nudBasic.Value = 0;
-            nudIntermediate.Value = 0;
-            nudSurplus.Value = 0;
-        }
-
         private void dtpPeriod_ValueChanged(object sender, EventArgs e)
         {
             DateChange();
@@ -205,8 +227,9 @@ namespace Ambar.ViewController
         public void DateChange()
         {
             cbPeriod.Items.Clear();
-            DateTime offset = dateDAO.GetDate();
+            cbPeriod.Items.Add(new ComboBoxItem("Seleccionar", -1));
 
+            DateTime offset = dateDAO.GetDate();
             switch (cbService.SelectedIndex)
             {
                 case 1:
@@ -217,13 +240,16 @@ namespace Ambar.ViewController
                         bimester = DateUtils.FindBimester(offset) - 1;
                     }
 
-                    string[] bimesters = new string[] { "ENERO-FEBRERO", "MARZO-ABRIL", "MAYO-JUNIO", "JULIO-AGOSTO",
-                    "SEPTIEMBRE-OCTUBRE", "NOVIEMBRE-DICIEMBRE" };
-                    int[] numbers = new int[] { 2, 4, 6, 8, 10, 12 };
+                    var bimesters = new[]
+                    {
+                        new ComboBoxItem("Enero-Febrero", 2), new ComboBoxItem("Marzo-Abril", 4),
+                        new ComboBoxItem("Mayo-Junio", 6), new ComboBoxItem("Julio-Agosto", 8),
+                        new ComboBoxItem("Septiembre-Octubre", 10), new ComboBoxItem("Noviembre-Diciembre", 12)
+                    };
 
                     for (int i = bimester; i < 6; i++)
                     {
-                        cbPeriod.Items.Add(new ComboBoxItem(bimesters[i], numbers[i]));
+                        cbPeriod.Items.Add(bimesters[i]);
                     }
                     break;
                 }
@@ -235,17 +261,22 @@ namespace Ambar.ViewController
                         month = offset.Month - 1;
                     }
 
-                    string[] months = new string[] { "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO",
-                    "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
-                    int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+                    var months = new[]
+                    {
+                        new ComboBoxItem("Enero", 1), new ComboBoxItem("Febrero", 2), new ComboBoxItem("Marzo", 3), 
+                        new ComboBoxItem("Abril", 4), new ComboBoxItem("Mayo", 5), new ComboBoxItem("Junio", 6), 
+                        new ComboBoxItem("Julio", 7), new ComboBoxItem("Agosto", 8), new ComboBoxItem("Septiembre", 9), 
+                        new ComboBoxItem("Octubre", 10), new ComboBoxItem("Noviembre", 11), new ComboBoxItem("Diciembre", 12)
+                    };
 
                     for (int i = month; i < 12; i++)
                     {
-                        cbPeriod.Items.Add(new ComboBoxItem(months[i], numbers[i]));
+                        cbPeriod.Items.Add(months[i]);
                     }
                     break;
                 }
             }
+            cbPeriod.SelectedIndex = 0;
         }
 
         private bool Validate(RateCSV rate)
@@ -283,6 +314,7 @@ namespace Ambar.ViewController
         private RateDTO FillRate(RateCSV rate)
         {
             RateDTO dto = new RateDTO();
+            dto.Rate_ID = Guid.NewGuid();
             dto.Basic_Level = Decimal.Round(Convert.ToDecimal(rate.Basica, CultureInfo.InvariantCulture), 3);
             dto.Intermediate_Level = Decimal.Round(Convert.ToDecimal(rate.Intermedia, CultureInfo.InvariantCulture), 3);
             dto.Surplus_Level = Decimal.Round(Convert.ToDecimal(rate.Excedente, CultureInfo.InvariantCulture), 3);

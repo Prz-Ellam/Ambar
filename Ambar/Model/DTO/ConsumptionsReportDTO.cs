@@ -13,7 +13,7 @@ namespace Ambar.ViewController
         [CsvHelper.Configuration.Attributes.Name("Anio")]
         int year;
         [CsvHelper.Configuration.Attributes.Name("Mes")]
-        short month;
+        int month;
         [CsvHelper.Configuration.Attributes.Name("Numero de Medidor")]
         string meter_serial_number;
         [CsvHelper.Configuration.Attributes.Name("Consumo de kW Basico")]
@@ -26,7 +26,7 @@ namespace Ambar.ViewController
         [CsvHelper.Configuration.Attributes.Name("Anio")]
         public int Year { get => year; set => year = value; }
         [CsvHelper.Configuration.Attributes.Name("Mes")]
-        public short Month { get => month; set => month = value; }
+        public int Month { get => month; set => month = value; }
         [CsvHelper.Configuration.Attributes.Name("Numero de Medidor")]
         public string Meter_Serial_Number { get => meter_serial_number; set => meter_serial_number = value; }
         [CsvHelper.Configuration.Attributes.Name("Consumo de kW Basico")]

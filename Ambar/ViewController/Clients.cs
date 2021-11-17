@@ -12,12 +12,14 @@ using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using Ambar.Common;
 using Cassandra;
+using Ambar.ViewController.Objects;
+using Ambar.Model.AmbarMapper;
 
 namespace Ambar.ViewController
 {
     public partial class Clients : Form
     {
-        ClientDAO clientDao = new ClientDAO();
+        ClientDAO clientDAO = new ClientDAO();
         UserRememberDAO userRemember = new UserRememberDAO();
 
         string originalUsername;
@@ -36,6 +38,7 @@ namespace Ambar.ViewController
         {
             FillDataGridView();
             FillDisableUsers();
+            cbGender.SelectedIndex = 0;
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -46,64 +49,19 @@ namespace Ambar.ViewController
             }
 
             // Objeto de transferencia de datos para la creacion de los datos del cliente
-            ClientDTO client = new ClientDTO();
-            client.User_ID = Guid.NewGuid();
-            client.First_Name = StringUtils.GetText(txtFirstName.Text);
-            client.Father_Last_Name = StringUtils.GetText(txtFatherLastName.Text);
-            client.Mother_Last_Name = StringUtils.GetText(txtMotherLastName.Text);
-            client.CURP = StringUtils.GetText(txtCURP.Text);
-            List<string> emailsAux = new List<string>();
-            for (int i = 0; i < cbEmails.Items.Count; i++)
+            ClientForm client = FillClient(Operations.Create);
+            if (!Validate(client, Operations.Create))
             {
-                emailsAux.Add(StringUtils.GetText(cbEmails.Items[i].ToString()));
-            }
-            client.Emails = emailsAux.AsEnumerable<string>();
-            client.Date_Of_Birth = new LocalDate(dtpDateOfBirth.Value.Year, dtpDateOfBirth.Value.Month, dtpDateOfBirth.Value.Day);
-            client.Gender = cbGender.Text;
-            client.User_Name = StringUtils.GetText(txtUsername.Text);
-            client.Password = StringUtils.GetText(txtPassword.Text);
-            string confirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
-
-            if (client.First_Name == string.Empty || client.Father_Last_Name == string.Empty ||
-                client.Mother_Last_Name == string.Empty || client.CURP == string.Empty ||
-                client.Emails.Count() <= 0 || client.User_Name == string.Empty || client.Gender == string.Empty ||
-                client.Password == string.Empty || confirmPassword == string.Empty)
-            {
-                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (client.Password != confirmPassword)
-            {
-                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            ClientDTO clientDTO = ClientMapper.CreateDTO(client);
+            clientDAO.Create(clientDTO);
 
-            if (!RegexUtils.VerifyCURP(client.CURP))
-            {
-                MessageBox.Show("Verificar curp", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            for (int i = 0; i < cbEmails.Items.Count; i++)
-            {
-                if (!RegexUtils.VerifyEmail(cbEmails.Items[i].ToString()))
-                {
-                    MessageBox.Show("Verificar emails", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-
-            if (clientDao.UserExists(client.User_Name))
-            {
-                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            clientDao.Create(client);
+            string action = "[Cliente] Fue creado: " + client.Username + ", con ID: " + client.ID;
+            userRemember.Action(UserCache.id, action);
 
             FillDataGridView();
-
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
         }
@@ -115,70 +73,24 @@ namespace Ambar.ViewController
                 return;
             }
 
-            ClientDTO client = new ClientDTO();
-            client.User_ID = originalID;
-            client.First_Name = StringUtils.GetText(txtFirstName.Text);
-            client.Father_Last_Name = StringUtils.GetText(txtFatherLastName.Text);
-            client.Mother_Last_Name = StringUtils.GetText(txtMotherLastName.Text);
-            client.CURP = StringUtils.GetText(txtCURP.Text);
-            List<string> emailsAux = new List<string>();
-            for (int i = 0; i < cbEmails.Items.Count; i++)
+            ClientForm client = FillClient(Operations.Update);
+            if (!Validate(client, Operations.Update))
             {
-                emailsAux.Add(StringUtils.GetText(cbEmails.Items[i].ToString()));
-            }
-            client.Emails = emailsAux.AsEnumerable<string>();
-            client.Date_Of_Birth = new LocalDate(dtpDateOfBirth.Value.Year, dtpDateOfBirth.Value.Month, dtpDateOfBirth.Value.Day);
-            client.Gender = cbGender.Text;
-            client.User_Name = StringUtils.GetText(txtUsername.Text);
-            client.Password = StringUtils.GetText(txtPassword.Text);
-            string confirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
-
-            if (client.First_Name == string.Empty || client.Father_Last_Name == string.Empty ||
-                client.Mother_Last_Name == string.Empty || client.CURP == string.Empty ||
-                client.Emails.Count() <= 0 || client.User_Name == string.Empty ||
-                client.Password == string.Empty || confirmPassword == string.Empty)
-            {
-                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (client.Password != confirmPassword)
-            {
-                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!RegexUtils.VerifyCURP(client.CURP))
-            {
-                MessageBox.Show("Verificar curp", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            for (int i = 0; i < cbEmails.Items.Count; i++)
-            {
-                if (!RegexUtils.VerifyEmail(cbEmails.Items[i].ToString()))
-                {
-                    MessageBox.Show("Verificar emails", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-
-            if (clientDao.UserExists(client.User_Name) && originalUsername != client.User_Name)
-            {
-                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            clientDao.Update(client, originalUsername);
+            ClientDTO clientDTO = ClientMapper.CreateDTO(client);
+            clientDAO.Update(clientDTO, originalUsername);
             if (userRemember.RememberUserExists("Client", originalUsername))
             {
-                userRemember.UpdateRememberUser("Client", originalUsername, client.User_Name, client.Password);
+                userRemember.UpdateRememberUser("Client", originalUsername, client.Username, client.Password);
             }
+
+            string action = "[Cliente] Fue modificado: " + originalUsername + ", por " + client.Username + ", con ID: " + client.ID;
+            userRemember.Action(UserCache.id, action);
 
             FillDataGridView();
             FillDisableUsers();
-            dtgEmails.Rows.Clear();
-
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
         }
@@ -202,18 +114,201 @@ namespace Ambar.ViewController
                     return;
                 }
 
-                clientDao.Delete(originalID, originalUsername);
+                clientDAO.Delete(originalID, originalUsername);
                 if (userRemember.RememberUserExists("Client", originalUsername))
                 {
                     userRemember.ForgerPassword("Client", originalUsername);
                 }
 
+                string action = "[Cliente] Fue eliminado: " + originalUsername + ", con ID: " + originalID;
+                userRemember.Action(UserCache.id, action);
+
                 FillDataGridView();
                 FillDisableUsers();
-                dtgEmails.Rows.Clear();
-
                 ClearForm();
-                MessageBox.Show("La operación se realizó exitosamente", "", MessageBoxButtons.OK);
+                MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+            }
+        }
+
+        private void btnEnabling_Click(object sender, EventArgs e)
+        {
+            clientDAO.Enabled(txtDisable.Text, true);
+            ClearDisableUsers();
+            FillDisableUsers();
+            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+        }
+
+        private ClientForm FillClient(Operations operationCode)
+        {
+            ClientForm client = new ClientForm();
+            client.ID = (operationCode == Operations.Update) ? originalID : Guid.NewGuid();
+            client.FirstName = StringUtils.GetText(txtFirstName.Text);
+            client.FatherLastName = StringUtils.GetText(txtFatherLastName.Text);
+            client.MotherLastName = StringUtils.GetText(txtMotherLastName.Text);
+            client.CURP = StringUtils.GetText(txtCURP.Text);
+            for (int i = 0; i < cbEmails.Items.Count; i++)
+            {
+                client.Emails.Add(StringUtils.GetText(cbEmails.Items[i].ToString()));
+            }
+            client.DateOfBirth = dtpDateOfBirth.Value;
+            client.Gender = cbGender.Text;
+            client.Username = StringUtils.GetText(txtUsername.Text);
+            client.Password = StringUtils.GetText(txtPassword.Text);
+            client.ConfirmPassword = StringUtils.GetText(txtConfirmPassword.Text);
+            return client;
+        }
+
+        private bool Validate(ClientForm client, Operations operationCode)
+        {
+            if (client.FirstName == string.Empty || client.FatherLastName == string.Empty ||
+                client.MotherLastName == string.Empty || client.CURP == string.Empty ||
+                client.Emails.Count() <= 0 || client.Username == string.Empty || client.Gender == "Seleccionar" ||
+                client.Password == string.Empty || client.ConfirmPassword == string.Empty)
+            {
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (client.Password != client.ConfirmPassword)
+            {
+                MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.VerifyCURP(client.CURP))
+            {
+                MessageBox.Show("Verificar curp", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (client.DateOfBirth > DateTime.Now)
+            {
+                MessageBox.Show("Fecha de nacimiento no valida", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            for (int i = 0; i < cbEmails.Items.Count; i++)
+            {
+                if (!RegexUtils.VerifyEmail(cbEmails.Items[i].ToString()))
+                {
+                    MessageBox.Show("Verificar emails", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
+            bool userExists = clientDAO.UserExists(client.Username);
+            if (userExists && operationCode != Operations.Update || userExists && originalUsername != client.Username)
+            {
+                MessageBox.Show("El nombre de usuario ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void ClearForm()
+        {
+            txtFirstName.Clear();
+            txtFirstName.Focus();
+            txtFatherLastName.Clear();
+            txtMotherLastName.Clear();
+            dtpDateOfBirth.Value = DateTime.Now;
+            cbEmails.Items.Clear();
+            txtCURP.Clear();
+            cbGender.SelectedIndex = 0;
+            txtUsername.Clear();
+            txtPassword.Clear();
+            txtConfirmPassword.Clear();
+            btnAccept.Enabled = true;
+            btnUpdate.Enabled = false;
+            btnDelete.Enabled = false;
+            dgvPrevIndex = -1;
+            dtgEmails.Rows.Clear();
+        }
+
+        private void FillDataGridView()
+        {
+            List<ClientDTO> clients = clientDAO.ReadAll();
+            List<ClientDTG> dtgClients = new List<ClientDTG>();
+            foreach (var client in clients)
+            {
+                dtgClients.Add(new ClientDTG(client));
+            }
+            this.dtgClients.DataSource = dtgClients;
+            this.dtgClients.Columns["Emails"].Visible = false;
+        }
+
+        private void dtgClients_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            if (dgvPrevIndex == index || index == -1)
+            {
+                ClearForm();
+                dtgEmails.Rows.Clear();
+            }
+            else
+            {
+                var row = dtgClients.Rows[index];
+                originalID = Guid.Parse(row.Cells[0].Value.ToString());
+                txtUsername.Text = row.Cells[1].Value.ToString();
+                originalUsername = row.Cells[1].Value.ToString();
+                txtPassword.Text = row.Cells[2].Value.ToString();
+                txtConfirmPassword.Text = row.Cells[2].Value.ToString();
+                txtFirstName.Text = row.Cells[3].Value.ToString();
+                txtFatherLastName.Text = row.Cells[4].Value.ToString();
+                txtMotherLastName.Text = row.Cells[5].Value.ToString();
+                dtpDateOfBirth.Value = Convert.ToDateTime(row.Cells[7].Value.ToString());
+                txtCURP.Text = row.Cells[8].Value.ToString();
+                cbGender.SelectedIndex = cbGender.FindString(row.Cells[9].Value.ToString());
+
+                dtgEmails.Rows.Clear();
+                cbEmails.Items.Clear();
+                IEnumerable<string> emails = row.Cells[6].Value as IEnumerable<string>;
+                if (emails == null)
+                {
+                    MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                foreach (var email in emails.ToList())
+                {
+                    dtgEmails.Rows.Add(email);
+                    cbEmails.Items.Add(email);
+                }
+
+                btnAccept.Enabled = false;
+                btnUpdate.Enabled = true;
+                btnDelete.Enabled = true;
+
+                dgvPrevIndex = index;
+            }
+
+        }
+
+        public void ClearDisableUsers()
+        {
+            txtDisable.Clear();
+            btnEnabling.Enabled = false;
+            lbDisableClients.ClearSelected();
+            lbPrevIndex = -1;
+        }
+
+        public void FillDisableUsers()
+        {
+            lbDisableClients.DataSource = clientDAO.ReadAllDisable();
+            lbDisableClients.ClearSelected();
+        }
+
+        private void lbDisableClients_Click(object sender, EventArgs e)
+        {
+            if (lbPrevIndex == lbDisableClients.SelectedIndex)
+            {
+                ClearDisableUsers();
+            }
+            else
+            {
+                txtDisable.Text = lbDisableClients.SelectedItem.ToString();
+                btnEnabling.Enabled = true;
+                lbPrevIndex = lbDisableClients.SelectedIndex;
             }
         }
 
@@ -246,127 +341,10 @@ namespace Ambar.ViewController
             }
         }
 
-        private void ClearForm()
-        {
-            txtFirstName.Clear();
-            txtFatherLastName.Clear();
-            txtMotherLastName.Clear();
-            dtpDateOfBirth.Value = DateTime.Now;
-            cbEmails.Items.Clear();
-            txtCURP.Clear();
-            cbGender.SelectedIndex = -1;
-            txtUsername.Clear();
-            txtPassword.Clear();
-            txtConfirmPassword.Clear();
-            btnAccept.Enabled = true;
-            btnUpdate.Enabled = false;
-            btnDelete.Enabled = false;
-        }
-
-        private void FillDataGridView()
-        {
-            List<ClientDTO> clients = clientDao.ReadAll();
-            List<ClientDTG> dtgClients = new List<ClientDTG>();
-            foreach (var client in clients)
-            {
-                dtgClients.Add(new ClientDTG(client));
-            }
-            this.dtgClients.DataSource = dtgClients;
-            this.dtgClients.Columns["Emails"].Visible = false;
-        }
-
-        private void dtgClients_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int index = e.RowIndex;
-            if (dgvPrevIndex == index || index == -1)
-            {
-                ClearForm();
-                dtgEmails.Rows.Clear();
-                cbEmails.Items.Clear();
-                dgvPrevIndex = -1;
-                return;
-            }
-            else
-            {
-                originalID = Guid.Parse(dtgClients.Rows[index].Cells[0].Value.ToString());
-                txtUsername.Text = originalUsername = dtgClients.Rows[index].Cells[1].Value.ToString();
-                txtPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
-                txtConfirmPassword.Text = dtgClients.Rows[index].Cells[2].Value.ToString();
-                txtFirstName.Text = dtgClients.Rows[index].Cells[3].Value.ToString();
-                txtFatherLastName.Text = dtgClients.Rows[index].Cells[4].Value.ToString();
-                txtMotherLastName.Text = dtgClients.Rows[index].Cells[5].Value.ToString();
-                dtpDateOfBirth.Value = Convert.ToDateTime(dtgClients.Rows[index].Cells[7].Value.ToString());
-                txtCURP.Text = dtgClients.Rows[index].Cells[8].Value.ToString();
-                cbGender.SelectedIndex = cbGender.FindString(dtgClients.Rows[index].Cells[9].Value.ToString());
-
-                dtgEmails.Rows.Clear();
-                cbEmails.Items.Clear();
-                IEnumerable<string> emails = dtgClients.Rows[index].Cells[6].Value as IEnumerable<string>;
-                if (emails == null)
-                {
-                    MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                foreach (var email in emails.ToList())
-                {
-                    dtgEmails.Rows.Add(email);
-                    cbEmails.Items.Add(email);
-                }
-
-                btnAccept.Enabled = false;
-                btnUpdate.Enabled = true;
-                btnDelete.Enabled = true;
-
-                dgvPrevIndex = index;
-            }
-
-        }
-
-        public void ClearDisableUsers()
-        {
-            txtDisable.Clear();
-            btnEnabling.Enabled = false;
-            lbPrevIndex = -1;
-            lbDisableClients.ClearSelected();
-        }
-
-        public void FillDisableUsers()
-        {
-            lbDisableClients.Items.Clear();
-            List<string> names = clientDao.ReadAllDisable();
-            foreach (var name in names)
-            {
-                lbDisableClients.Items.Add(name);
-            }
-        }
-
-        private void lbDisableClients_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lbPrevIndex == lbDisableClients.SelectedIndex)
-            {
-                ClearDisableUsers();
-                return;
-            }
-            else
-            {
-                txtDisable.Text = lbDisableClients.Items[lbDisableClients.SelectedIndex].ToString();
-                btnEnabling.Enabled = true;
-                lbPrevIndex = lbDisableClients.SelectedIndex;
-            }
-        }
-
-        private void btnEnabling_Click(object sender, EventArgs e)
-        {
-            clientDao.Enabled(txtDisable.Text, true);
-
-            ClearDisableUsers();
-
-            FillDisableUsers();
-        }
-
         private void cbEmails_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbPrevIndex = cbEmails.SelectedIndex;
         }
+
     }
 }

@@ -48,7 +48,6 @@ namespace Ambar.ViewController
             this.label2 = new System.Windows.Forms.Label();
             this.btnPDF = new System.Windows.Forms.Button();
             this.btnCSV = new System.Windows.Forms.Button();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.ofnReportCSV = new System.Windows.Forms.SaveFileDialog();
             this.ofnReportPDF = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dtgGeneralReport)).BeginInit();
@@ -160,6 +159,7 @@ namespace Ambar.ViewController
             this.cbPeriod.Name = "cbPeriod";
             this.cbPeriod.Size = new System.Drawing.Size(208, 25);
             this.cbPeriod.TabIndex = 2;
+            this.cbPeriod.SelectedIndexChanged += new System.EventHandler(this.cbPeriod_SelectedIndexChanged);
             // 
             // cbService
             // 
@@ -274,23 +274,6 @@ namespace Ambar.ViewController
             this.btnCSV.UseVisualStyleBackColor = false;
             this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
             // 
-            // btnSearch
-            // 
-            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            this.btnSearch.FlatAppearance.BorderSize = 0;
-            this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.btnSearch.ForeColor = System.Drawing.Color.White;
-            this.btnSearch.Location = new System.Drawing.Point(759, 72);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(2);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(93, 35);
-            this.btnSearch.TabIndex = 32;
-            this.btnSearch.Text = "BUSCAR";
-            this.btnSearch.UseVisualStyleBackColor = false;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
             // ofnReportCSV
             // 
             this.ofnReportCSV.Filter = "CSV (*.csv)|*.csv";
@@ -305,7 +288,6 @@ namespace Ambar.ViewController
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(908, 701);
-            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.label2);
@@ -338,7 +320,6 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.Button btnCSV;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.DataGridViewTextBoxColumn Year;
         private System.Windows.Forms.DataGridViewTextBoxColumn Month;
         private System.Windows.Forms.DataGridViewTextBoxColumn Service;

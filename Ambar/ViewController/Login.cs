@@ -18,7 +18,8 @@ namespace Ambar.ViewController
     public partial class Login : Form
     {
         UserRememberDAO userRemember = new UserRememberDAO();
-        (string, uint) loginIntents = ("", 0);
+        string loginIntentsUsername = "";
+        uint loginIntentsCount = 0;
 
         public Login()
         {
@@ -34,9 +35,12 @@ namespace Ambar.ViewController
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (txtUsername.Text == "" || txtPassword.Text == "")
+            string username = StringUtils.GetText(txtUsername.Text);
+            string password = StringUtils.GetText(txtPassword.Text);
+
+            if (username == string.Empty || password == string.Empty)
             {
-                printErrorLogin("TODOS LOS CAMPOS SON OBLIGATORIOS");
+                PrintErrorLogin("TODOS LOS CAMPOS SON OBLIGATORIOS");
             }
             else
             {
@@ -45,17 +49,16 @@ namespace Ambar.ViewController
                     case "Administrador":
                     {
                         AdministratorDAO dao = new AdministratorDAO();
-                        AdministratorDTO dto = dao.Login(StringUtils.GetText(txtUsername.Text),  
-                            StringUtils.GetText(txtPassword.Text));
+                        AdministratorLoginDTO dto = dao.Login(username, password);
 
                         if (dto == null)
                         {
-                            printErrorLogin("SUS CREDENCIALES NO COINCIDEN");
+                            PrintErrorLogin("SUS CREDENCIALES NO COINCIDEN");
                         }
                         else
                         {
-                            RememberMe("Administrator");
-                            ShowMenu("Administrator", dto.User_Name);
+                            RememberMe("Administrator", dto);
+                            ShowMenu("Administrator", dto.User_name);
                         }
 
                         break;
@@ -63,30 +66,24 @@ namespace Ambar.ViewController
                     case "Empleado":
                     {
                         EmployeeDAO dao = new EmployeeDAO();
-                        EmployeeLoginDTO dto = dao.Login(StringUtils.GetText(txtUsername.Text), 
-                            StringUtils.GetText(txtPassword.Text));
+                        EmployeeLoginDTO dto = dao.Login(username, password);
 
-                        if (dto == null)
+                        if (dto == null) // Credenciales incorrectas y/o usuario inexistente
                         {
-                            bool exists = dao.EmployeeExists(txtUsername.Text);
+                            bool exists = dao.EmployeeExists(username);
                             if (exists)
                             {
-                                FailedLogin();
-
-                                if (loginIntents.Item2 == 2)
-                                {
-                                    dao.Enabled(loginIntents.Item1, false);
-                                }
+                                FailedLogin(dao, username);
                             }
-                            printErrorLogin("SUS CREDENCIALES NO COINCIDEN");
+                            PrintErrorLogin("SUS CREDENCIALES NO COINCIDEN");
                         }
                         else if (dto.Enabled == false)
                         {
-                            printErrorLogin("SU USUARIO SE ENCUENTRA BLOQUEADO");
+                            PrintErrorLogin("SU USUARIO SE ENCUENTRA BLOQUEADO");
                         }
                         else
                         {
-                            RememberMe("Employee");
+                            RememberMe("Employee", dto);
                             ShowMenu("Employee", dto.User_name);
                         }
 
@@ -95,30 +92,24 @@ namespace Ambar.ViewController
                     case "Cliente":
                     {
                         ClientDAO dao = new ClientDAO();
-                        ClientLoginDTO dto = dao.Login(StringUtils.GetText(txtUsername.Text), 
-                            StringUtils.GetText(txtPassword.Text));
+                        ClientLoginDTO dto = dao.Login(username, password);
 
-                        if (dto == null) // Credenciales incorrectas e usuario inexistente
+                        if (dto == null) // Credenciales incorrectas y/o usuario inexistente
                         {
-                            bool exists = dao.ClientExists(txtUsername.Text);
+                            bool exists = dao.ClientExists(username);
                             if (exists)
                             {
-                                FailedLogin();
-
-                                if (loginIntents.Item2 == 2)
-                                {
-                                    dao.Enabled(loginIntents.Item1, false);
-                                }
+                                FailedLogin(dao, username);
                             }
-                            printErrorLogin("SUS CREDENCIALES NO COINCIDEN");
+                            PrintErrorLogin("SUS CREDENCIALES NO COINCIDEN");
                         }
                         else if (dto.Enabled == false)
                         {
-                            printErrorLogin("SU USUARIO SE ENCUENTRA BLOQUEADO");
+                            PrintErrorLogin("SU USUARIO SE ENCUENTRA BLOQUEADO");
                         }
                         else
                         {
-                            RememberMe("Client");
+                            RememberMe("Client", dto);
                             ShowMenu("Client", dto.User_name);
                         }
                         break;
@@ -127,16 +118,21 @@ namespace Ambar.ViewController
             }
         }
 
-        private void FailedLogin()
+        private void FailedLogin<T>(T dao, string username) where T : IEnableable
         {
-            if (loginIntents.Item1 != txtUsername.Text)
+            if (loginIntentsUsername != username)
             {
-                loginIntents.Item1 = txtUsername.Text;
-                loginIntents.Item2 = 0;
+                loginIntentsUsername = username;
+                loginIntentsCount = 0;
             }
             else
             {
-                loginIntents.Item2++;
+                loginIntentsCount++;
+            }
+
+            if (loginIntentsCount == 2)
+            {
+                dao.Enabled(loginIntentsUsername, false);
             }
         }
 
@@ -150,26 +146,76 @@ namespace Ambar.ViewController
             this.Hide();
         }
 
-        private void RememberMe(string position)
+        private void RememberMe<T>(string position, T dto) where T : LoginDTO
         {
             if (chkRemember.Checked)
             {
-                userRemember.RememberPassword(position, txtUsername.Text, txtPassword.Text);
+                userRemember.RememberPassword(position, dto.User_name, dto.Password);
             }
             else
             {
-                userRemember.ForgerPassword(position, txtUsername.Text);
+                userRemember.ForgerPassword(position, dto.User_name);
             }
         }
 
-        private void btnMinimized_Click(object sender, EventArgs e)
+        void PrintErrorLogin(string error)
         {
-            this.WindowState = FormWindowState.Minimized;
+            chkRemember.Checked = false;
+            pbWarningIcon.Visible = true;
+            lblError.Text = error;
+            lblError.Visible = true;
+            txtUsername.Clear();
+            txtPassword.Clear();
+            txtUsername.Focus();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void cbPositions_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Application.Exit();
+            if (cbPositions.SelectedIndex == -1) // Evitar que sea -1 en algun momento
+            {
+                cbPositions.SelectedIndex = 0;
+            }
+
+            string position = GetComboboxPosition();
+            AutoCompleteStringCollection allowedTypes = new AutoCompleteStringCollection();
+            allowedTypes.AddRange(userRemember.GetRememberUsers(position).ToArray());
+            txtUsername.AutoCompleteCustomSource = allowedTypes;
+            txtUsername.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txtUsername.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+            if (txtUsername.AutoCompleteCustomSource.Contains(txtUsername.Text))
+            {
+                string position = GetComboboxPosition();
+                txtPassword.Text = userRemember.ReadPassword(position, txtUsername.Text);
+                chkRemember.Checked = true;
+                txtPassword.Focus();
+            }
+        }
+
+        private string GetComboboxPosition()
+        {
+            switch (cbPositions.SelectedItem)
+            {
+                case "Administrador":
+                {
+                    return "Administrator";
+                }
+                case "Empleado":
+                {
+                    return "Employee";
+                }
+                case "Cliente":
+                {
+                    return "Client";
+                }
+                default:
+                {
+                    return null;
+                }
+            }
         }
 
         private void Login_MouseDown(object sender, MouseEventArgs e)
@@ -184,98 +230,19 @@ namespace Ambar.ViewController
             WinAPI.SendMessage(this.Handle, WinAPI.WM_SYSCOMMAND, 0xf012, 0);
         }
 
-        void printErrorLogin(string error)
-        {
-            chkRemember.Checked = false;
-            pbWarningIcon.Visible = true;
-            lblError.Text = error;
-            lblError.Visible = true;
-            txtUsername.Clear();
-            txtPassword.Clear();
-            txtUsername.Focus();
-        }
-
-        private void cbPositions_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbPositions.SelectedIndex == -1)
-            {
-                cbPositions.SelectedIndex = 0;
-            }
-
-            string position;
-            switch (cbPositions.SelectedItem)
-            {
-                case "Administrador":
-                {
-                    position = "Administrator";
-                    break;
-                }
-                case "Empleado":
-                {
-                    position = "Employee";
-                    break;
-                }
-                case "Cliente":
-                {
-                    position = "Client";
-                    break;
-                }
-                default:
-                {
-                    position = null;
-                    break;
-                }
-            }
-
-            AutoCompleteStringCollection allowedTypes = new AutoCompleteStringCollection();
-            allowedTypes.AddRange(userRemember.GetRememberUsers(position).ToArray());
-            txtUsername.AutoCompleteCustomSource = allowedTypes;
-            txtUsername.AutoCompleteMode = AutoCompleteMode.Suggest;
-            txtUsername.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        }
-
-        private void txtUsername_TextChanged(object sender, EventArgs e)
-        {
-            if (txtUsername.AutoCompleteCustomSource.Contains(txtUsername.Text))
-            {
-                string position;
-                switch (cbPositions.SelectedItem)
-                {
-                    case "Administrador":
-                    {
-                        position = "Administrator";
-                        break;
-                    }
-                    case "Empleado":
-                    {
-                        position = "Employee";
-                        break;
-                    }
-                    case "Cliente":
-                    {
-                        position = "Client";
-                        break;
-                    }
-                    default:
-                    {
-                        position = null;
-                        break;
-                    }
-                }
-
-                txtPassword.Text = userRemember.ReadPassword(position, txtUsername.Text);
-                chkRemember.Checked = true;
-                txtPassword.Focus();
-            }
-        }
-
         private void fadeIn_Tick(object sender, EventArgs e)
         {
-            if (this.Opacity < 1)
-            {
-                this.Opacity += 0.05f;
-            }
+            Opacity = Opacity + 0.05f % 1;
         }
 
+        private void btnMinimized_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

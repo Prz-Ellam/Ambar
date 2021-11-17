@@ -44,7 +44,7 @@ namespace Ambar.ViewController
             this.startPeriodDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtMeterSerialNumber = new System.Windows.Forms.TextBox();
             this.btnPDF = new System.Windows.Forms.Button();
-            this.dtpPeriodSearch = new System.Windows.Forms.DateTimePicker();
+            this.dtpPeriod = new System.Windows.Forms.DateTimePicker();
             this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbTransfer = new System.Windows.Forms.RadioButton();
@@ -66,9 +66,11 @@ namespace Ambar.ViewController
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblReceipts
@@ -101,8 +103,9 @@ namespace Ambar.ViewController
             this.dtgContracts.Location = new System.Drawing.Point(21, 65);
             this.dtgContracts.Name = "dtgContracts";
             this.dtgContracts.ReadOnly = true;
-            this.dtgContracts.Size = new System.Drawing.Size(838, 244);
+            this.dtgContracts.Size = new System.Drawing.Size(874, 218);
             this.dtgContracts.TabIndex = 23;
+            this.dtgContracts.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgContracts_CellDoubleClick);
             // 
             // consumptionID
             // 
@@ -183,9 +186,12 @@ namespace Ambar.ViewController
             // 
             // txtMeterSerialNumber
             // 
+            this.txtMeterSerialNumber.Enabled = false;
             this.txtMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.txtMeterSerialNumber.Location = new System.Drawing.Point(183, 339);
+            this.txtMeterSerialNumber.Location = new System.Drawing.Point(183, 310);
+            this.txtMeterSerialNumber.MaxLength = 30;
             this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
+            this.txtMeterSerialNumber.ReadOnly = true;
             this.txtMeterSerialNumber.Size = new System.Drawing.Size(226, 23);
             this.txtMeterSerialNumber.TabIndex = 24;
             // 
@@ -193,37 +199,39 @@ namespace Ambar.ViewController
             // 
             this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnPDF.FlatAppearance.BorderSize = 0;
+            this.btnPDF.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPDF.ForeColor = System.Drawing.Color.White;
-            this.btnPDF.Location = new System.Drawing.Point(435, 339);
+            this.btnPDF.Location = new System.Drawing.Point(26, 470);
             this.btnPDF.Margin = new System.Windows.Forms.Padding(2);
             this.btnPDF.Name = "btnPDF";
-            this.btnPDF.Size = new System.Drawing.Size(200, 87);
+            this.btnPDF.Size = new System.Drawing.Size(137, 74);
             this.btnPDF.TabIndex = 28;
             this.btnPDF.Text = "GENERAR RECIBO PDF";
             this.btnPDF.UseVisualStyleBackColor = false;
             this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
             // 
-            // dtpPeriodSearch
+            // dtpPeriod
             // 
-            this.dtpPeriodSearch.CustomFormat = "MMMM yyyy";
-            this.dtpPeriodSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.dtpPeriodSearch.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpPeriodSearch.Location = new System.Drawing.Point(183, 369);
-            this.dtpPeriodSearch.Name = "dtpPeriodSearch";
-            this.dtpPeriodSearch.ShowUpDown = true;
-            this.dtpPeriodSearch.Size = new System.Drawing.Size(226, 23);
-            this.dtpPeriodSearch.TabIndex = 30;
+            this.dtpPeriod.CustomFormat = "MMMM yyyy";
+            this.dtpPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.dtpPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpPeriod.Location = new System.Drawing.Point(183, 340);
+            this.dtpPeriod.Name = "dtpPeriod";
+            this.dtpPeriod.ShowUpDown = true;
+            this.dtpPeriod.Size = new System.Drawing.Size(226, 23);
+            this.dtpPeriod.TabIndex = 30;
             // 
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnSearch.FlatAppearance.BorderSize = 0;
+            this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.ForeColor = System.Drawing.Color.White;
-            this.btnSearch.Location = new System.Drawing.Point(26, 413);
+            this.btnSearch.Location = new System.Drawing.Point(26, 389);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(137, 52);
@@ -240,7 +248,7 @@ namespace Ambar.ViewController
             this.groupBox1.Controls.Add(this.rbCash);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.groupBox1.Location = new System.Drawing.Point(659, 339);
+            this.groupBox1.Location = new System.Drawing.Point(679, 299);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 142);
             this.groupBox1.TabIndex = 32;
@@ -302,7 +310,7 @@ namespace Ambar.ViewController
             this.lblImporte.AutoSize = true;
             this.lblImporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblImporte.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblImporte.Location = new System.Drawing.Point(436, 448);
+            this.lblImporte.Location = new System.Drawing.Point(183, 398);
             this.lblImporte.Name = "lblImporte";
             this.lblImporte.Size = new System.Drawing.Size(64, 16);
             this.lblImporte.TabIndex = 33;
@@ -313,7 +321,7 @@ namespace Ambar.ViewController
             this.lblTotalPagado.AutoSize = true;
             this.lblTotalPagado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalPagado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblTotalPagado.Location = new System.Drawing.Point(436, 480);
+            this.lblTotalPagado.Location = new System.Drawing.Point(183, 430);
             this.lblTotalPagado.Name = "lblTotalPagado";
             this.lblTotalPagado.Size = new System.Drawing.Size(106, 16);
             this.lblTotalPagado.TabIndex = 34;
@@ -324,7 +332,7 @@ namespace Ambar.ViewController
             this.lblTotalPendiente.AutoSize = true;
             this.lblTotalPendiente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalPendiente.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblTotalPendiente.Location = new System.Drawing.Point(436, 512);
+            this.lblTotalPendiente.Location = new System.Drawing.Point(183, 462);
             this.lblTotalPendiente.Name = "lblTotalPendiente";
             this.lblTotalPendiente.Size = new System.Drawing.Size(121, 16);
             this.lblTotalPendiente.TabIndex = 35;
@@ -334,15 +342,16 @@ namespace Ambar.ViewController
             // 
             this.btnPaid.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnPaid.FlatAppearance.BorderSize = 0;
+            this.btnPaid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnPaid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPaid.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPaid.ForeColor = System.Drawing.Color.White;
-            this.btnPaid.Location = new System.Drawing.Point(793, 528);
+            this.btnPaid.Location = new System.Drawing.Point(720, 490);
             this.btnPaid.Margin = new System.Windows.Forms.Padding(2);
             this.btnPaid.Name = "btnPaid";
-            this.btnPaid.Size = new System.Drawing.Size(66, 31);
+            this.btnPaid.Size = new System.Drawing.Size(120, 45);
             this.btnPaid.TabIndex = 37;
-            this.btnPaid.Text = "Pagar";
+            this.btnPaid.Text = "PAGAR";
             this.btnPaid.UseVisualStyleBackColor = false;
             this.btnPaid.Click += new System.EventHandler(this.btnPaid_Click);
             // 
@@ -351,7 +360,7 @@ namespace Ambar.ViewController
             this.lblImport.AutoSize = true;
             this.lblImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblImport.Location = new System.Drawing.Point(499, 448);
+            this.lblImport.Location = new System.Drawing.Point(246, 398);
             this.lblImport.Name = "lblImport";
             this.lblImport.Size = new System.Drawing.Size(17, 16);
             this.lblImport.TabIndex = 38;
@@ -362,7 +371,7 @@ namespace Ambar.ViewController
             this.lblAmountPad.AutoSize = true;
             this.lblAmountPad.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAmountPad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblAmountPad.Location = new System.Drawing.Point(548, 480);
+            this.lblAmountPad.Location = new System.Drawing.Point(295, 430);
             this.lblAmountPad.Name = "lblAmountPad";
             this.lblAmountPad.Size = new System.Drawing.Size(17, 16);
             this.lblAmountPad.TabIndex = 39;
@@ -373,7 +382,7 @@ namespace Ambar.ViewController
             this.lblPendingPaid.AutoSize = true;
             this.lblPendingPaid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPendingPaid.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblPendingPaid.Location = new System.Drawing.Point(563, 512);
+            this.lblPendingPaid.Location = new System.Drawing.Point(310, 462);
             this.lblPendingPaid.Name = "lblPendingPaid";
             this.lblPendingPaid.Size = new System.Drawing.Size(17, 16);
             this.lblPendingPaid.TabIndex = 40;
@@ -383,15 +392,16 @@ namespace Ambar.ViewController
             // 
             this.btnMassivePaid.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnMassivePaid.FlatAppearance.BorderSize = 0;
+            this.btnMassivePaid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnMassivePaid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMassivePaid.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMassivePaid.ForeColor = System.Drawing.Color.White;
-            this.btnMassivePaid.Location = new System.Drawing.Point(659, 528);
+            this.btnMassivePaid.Location = new System.Drawing.Point(720, 544);
             this.btnMassivePaid.Margin = new System.Windows.Forms.Padding(2);
             this.btnMassivePaid.Name = "btnMassivePaid";
-            this.btnMassivePaid.Size = new System.Drawing.Size(130, 55);
+            this.btnMassivePaid.Size = new System.Drawing.Size(120, 45);
             this.btnMassivePaid.TabIndex = 41;
-            this.btnMassivePaid.Text = "Pago Masivo";
+            this.btnMassivePaid.Text = "PAGO MASIVO";
             this.btnMassivePaid.UseVisualStyleBackColor = false;
             this.btnMassivePaid.Click += new System.EventHandler(this.btnMassivePaid_Click);
             // 
@@ -400,7 +410,7 @@ namespace Ambar.ViewController
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label4.Location = new System.Drawing.Point(23, 342);
+            this.label4.Location = new System.Drawing.Point(75, 313);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(103, 17);
@@ -412,7 +422,7 @@ namespace Ambar.ViewController
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label5.Location = new System.Drawing.Point(23, 374);
+            this.label5.Location = new System.Drawing.Point(23, 345);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(155, 17);
@@ -423,7 +433,7 @@ namespace Ambar.ViewController
             // 
             this.nudMount.DecimalPlaces = 2;
             this.nudMount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.nudMount.Location = new System.Drawing.Point(659, 494);
+            this.nudMount.Location = new System.Drawing.Point(679, 454);
             this.nudMount.Name = "nudMount";
             this.nudMount.Size = new System.Drawing.Size(200, 23);
             this.nudMount.TabIndex = 44;
@@ -441,7 +451,7 @@ namespace Ambar.ViewController
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(436, 538);
+            this.label1.Location = new System.Drawing.Point(183, 488);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 16);
             this.label1.TabIndex = 45;
@@ -452,18 +462,27 @@ namespace Ambar.ViewController
             this.lblStatus.AutoSize = true;
             this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblStatus.Location = new System.Drawing.Point(501, 539);
+            this.lblStatus.Location = new System.Drawing.Point(248, 489);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(17, 16);
             this.lblStatus.TabIndex = 46;
             this.lblStatus.Text = "...";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(400, 389);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(249, 200);
+            this.dataGridView1.TabIndex = 47;
             // 
             // ClientReceipts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(907, 594);
+            this.ClientSize = new System.Drawing.Size(907, 613);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nudMount);
@@ -479,7 +498,7 @@ namespace Ambar.ViewController
             this.Controls.Add(this.lblImporte);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.dtpPeriodSearch);
+            this.Controls.Add(this.dtpPeriod);
             this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.txtMeterSerialNumber);
             this.Controls.Add(this.dtgContracts);
@@ -492,6 +511,7 @@ namespace Ambar.ViewController
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -503,7 +523,7 @@ namespace Ambar.ViewController
         private System.Windows.Forms.DataGridView dtgContracts;
         private System.Windows.Forms.TextBox txtMeterSerialNumber;
         private System.Windows.Forms.Button btnPDF;
-        private System.Windows.Forms.DateTimePicker dtpPeriodSearch;
+        private System.Windows.Forms.DateTimePicker dtpPeriod;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rbDebit;
@@ -536,5 +556,6 @@ namespace Ambar.ViewController
         private System.Windows.Forms.OpenFileDialog ofnMassive;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

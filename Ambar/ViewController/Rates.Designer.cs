@@ -46,15 +46,12 @@
             this.BasicLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IntermediateLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SurplusLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblError = new System.Windows.Forms.Label();
-            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
             this.cbPeriod = new System.Windows.Forms.ComboBox();
             this.nudBasic = new System.Windows.Forms.NumericUpDown();
             this.nudSurplus = new System.Windows.Forms.NumericUpDown();
             this.nudIntermediate = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dtgRates)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBasic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSurplus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudIntermediate)).BeginInit();
@@ -64,6 +61,7 @@
             // 
             this.btnMasiveCharge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnMasiveCharge.FlatAppearance.BorderSize = 0;
+            this.btnMasiveCharge.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnMasiveCharge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMasiveCharge.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMasiveCharge.ForeColor = System.Drawing.Color.White;
@@ -71,7 +69,7 @@
             this.btnMasiveCharge.Margin = new System.Windows.Forms.Padding(2);
             this.btnMasiveCharge.Name = "btnMasiveCharge";
             this.btnMasiveCharge.Size = new System.Drawing.Size(129, 41);
-            this.btnMasiveCharge.TabIndex = 0;
+            this.btnMasiveCharge.TabIndex = 8;
             this.btnMasiveCharge.Text = "CARGA MASIVA";
             this.btnMasiveCharge.UseVisualStyleBackColor = false;
             this.btnMasiveCharge.Click += new System.EventHandler(this.btnMasiveCharge_Click);
@@ -79,6 +77,7 @@
             // cbService
             // 
             this.cbService.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbService.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbService.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbService.FormattingEnabled = true;
             this.cbService.Items.AddRange(new object[] {
@@ -96,6 +95,7 @@
             // 
             this.btnAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnAccept.FlatAppearance.BorderSize = 0;
+            this.btnAccept.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
@@ -103,7 +103,7 @@
             this.btnAccept.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(112, 41);
-            this.btnAccept.TabIndex = 3;
+            this.btnAccept.TabIndex = 7;
             this.btnAccept.Text = "ACEPTAR";
             this.btnAccept.UseVisualStyleBackColor = false;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
@@ -157,7 +157,7 @@
             this.dtpYear.Name = "dtpYear";
             this.dtpYear.ShowUpDown = true;
             this.dtpYear.Size = new System.Drawing.Size(71, 23);
-            this.dtpYear.TabIndex = 13;
+            this.dtpYear.TabIndex = 3;
             this.dtpYear.ValueChanged += new System.EventHandler(this.dtpPeriod_ValueChanged);
             // 
             // lblEmpleados
@@ -214,7 +214,7 @@
             this.dtgRates.RowHeadersWidth = 51;
             this.dtgRates.RowTemplate.Height = 24;
             this.dtgRates.Size = new System.Drawing.Size(929, 235);
-            this.dtgRates.TabIndex = 23;
+            this.dtgRates.TabIndex = 9;
             // 
             // RateID
             // 
@@ -255,7 +255,7 @@
             // BasicLevel
             // 
             this.BasicLevel.DataPropertyName = "BASIC_LEVEL";
-            this.BasicLevel.HeaderText = "Consumo Básico";
+            this.BasicLevel.HeaderText = "Nivel Básico";
             this.BasicLevel.MinimumWidth = 6;
             this.BasicLevel.Name = "BasicLevel";
             this.BasicLevel.ReadOnly = true;
@@ -264,7 +264,7 @@
             // IntermediateLevel
             // 
             this.IntermediateLevel.DataPropertyName = "INTERMEDIATE_LEVEL";
-            this.IntermediateLevel.HeaderText = "Consumo Intermedio";
+            this.IntermediateLevel.HeaderText = "Nivel Intermedio";
             this.IntermediateLevel.MinimumWidth = 6;
             this.IntermediateLevel.Name = "IntermediateLevel";
             this.IntermediateLevel.ReadOnly = true;
@@ -273,36 +273,11 @@
             // SurplusLevel
             // 
             this.SurplusLevel.DataPropertyName = "SURPLUS_LEVEL";
-            this.SurplusLevel.HeaderText = "Consumo Excedente";
+            this.SurplusLevel.HeaderText = "Nivel Excedente";
             this.SurplusLevel.MinimumWidth = 6;
             this.SurplusLevel.Name = "SurplusLevel";
             this.SurplusLevel.ReadOnly = true;
             this.SurplusLevel.Width = 125;
-            // 
-            // lblError
-            // 
-            this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(207, 55);
-            this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(84, 15);
-            this.lblError.TabIndex = 25;
-            this.lblError.Text = "ERROR TEXT";
-            this.lblError.Visible = false;
-            // 
-            // pbWarningIcon
-            // 
-            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(178, 50);
-            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
-            this.pbWarningIcon.Name = "pbWarningIcon";
-            this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
-            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbWarningIcon.TabIndex = 24;
-            this.pbWarningIcon.TabStop = false;
-            this.pbWarningIcon.Visible = false;
             // 
             // ofnMassive
             // 
@@ -311,13 +286,14 @@
             // cbPeriod
             // 
             this.cbPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPeriod.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPeriod.FormattingEnabled = true;
             this.cbPeriod.Location = new System.Drawing.Point(178, 112);
             this.cbPeriod.Margin = new System.Windows.Forms.Padding(2);
             this.cbPeriod.Name = "cbPeriod";
             this.cbPeriod.Size = new System.Drawing.Size(188, 25);
-            this.cbPeriod.TabIndex = 27;
+            this.cbPeriod.TabIndex = 2;
             // 
             // nudBasic
             // 
@@ -325,13 +301,13 @@
             this.nudBasic.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.nudBasic.Location = new System.Drawing.Point(178, 145);
             this.nudBasic.Maximum = new decimal(new int[] {
-            1000000000,
+            1000,
             0,
             0,
             0});
             this.nudBasic.Name = "nudBasic";
             this.nudBasic.Size = new System.Drawing.Size(188, 23);
-            this.nudBasic.TabIndex = 28;
+            this.nudBasic.TabIndex = 4;
             // 
             // nudSurplus
             // 
@@ -339,13 +315,13 @@
             this.nudSurplus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.nudSurplus.Location = new System.Drawing.Point(178, 207);
             this.nudSurplus.Maximum = new decimal(new int[] {
-            1000000000,
+            1000,
             0,
             0,
             0});
             this.nudSurplus.Name = "nudSurplus";
             this.nudSurplus.Size = new System.Drawing.Size(188, 23);
-            this.nudSurplus.TabIndex = 29;
+            this.nudSurplus.TabIndex = 6;
             // 
             // nudIntermediate
             // 
@@ -353,13 +329,13 @@
             this.nudIntermediate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.nudIntermediate.Location = new System.Drawing.Point(178, 176);
             this.nudIntermediate.Maximum = new decimal(new int[] {
-            1000000000,
+            1000,
             0,
             0,
             0});
             this.nudIntermediate.Name = "nudIntermediate";
             this.nudIntermediate.Size = new System.Drawing.Size(188, 23);
-            this.nudIntermediate.TabIndex = 30;
+            this.nudIntermediate.TabIndex = 5;
             // 
             // Rates
             // 
@@ -371,8 +347,6 @@
             this.Controls.Add(this.nudSurplus);
             this.Controls.Add(this.nudBasic);
             this.Controls.Add(this.cbPeriod);
-            this.Controls.Add(this.lblError);
-            this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.dtgRates);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -391,7 +365,6 @@
             this.Text = "Tarifas";
             this.Load += new System.EventHandler(this.Rates_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgRates)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBasic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSurplus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudIntermediate)).EndInit();
@@ -413,8 +386,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridView dtgRates;
-        private System.Windows.Forms.Label lblError;
-        private System.Windows.Forms.PictureBox pbWarningIcon;
+        private System.Windows.Forms.OpenFileDialog ofnMassive;
+        private System.Windows.Forms.ComboBox cbPeriod;
+        private System.Windows.Forms.NumericUpDown nudBasic;
+        private System.Windows.Forms.NumericUpDown nudSurplus;
+        private System.Windows.Forms.NumericUpDown nudIntermediate;
         private System.Windows.Forms.DataGridViewTextBoxColumn RateID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Service;
         private System.Windows.Forms.DataGridViewTextBoxColumn Year;
@@ -422,10 +398,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn BasicLevel;
         private System.Windows.Forms.DataGridViewTextBoxColumn IntermediateLevel;
         private System.Windows.Forms.DataGridViewTextBoxColumn SurplusLevel;
-        private System.Windows.Forms.OpenFileDialog ofnMassive;
-        private System.Windows.Forms.ComboBox cbPeriod;
-        private System.Windows.Forms.NumericUpDown nudBasic;
-        private System.Windows.Forms.NumericUpDown nudSurplus;
-        private System.Windows.Forms.NumericUpDown nudIntermediate;
     }
 }

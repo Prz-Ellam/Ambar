@@ -11,16 +11,16 @@ namespace Ambar.Model.DAO
     class AdministratorDAO : CassandraConnection
     {
 
-        public AdministratorDTO Login(string username, string password)
+        public AdministratorLoginDTO Login(string username, string password)
         {
-            string query = "SELECT USER_NAME, PASSWORD FROM ADMINISTRATORS_LOGIN WHERE USER_NAME = '{0}' " +
-                "AND PASSWORD = '{1}';";
+            string query = @"SELECT USER_NAME, PASSWORD FROM ADMINISTRATORS_LOGIN WHERE USER_NAME = '{0}'
+                            AND PASSWORD = '{1}';";
             query = string.Format(query, username, password);
 
-            AdministratorDTO user;
+            AdministratorLoginDTO user;
             try
             {
-                user = mapper.Single<AdministratorDTO>(query);
+                user = mapper.Single<AdministratorLoginDTO>(query);
             }
             catch (Exception e)
             {

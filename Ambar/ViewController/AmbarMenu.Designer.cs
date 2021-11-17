@@ -34,6 +34,7 @@
             this.fadeIn = new System.Windows.Forms.Timer(this.components);
             this.gradientPanel1 = new Ambar.Utils.GradientPanel();
             this.panelReceipts = new System.Windows.Forms.Panel();
+            this.btnReceipts = new System.Windows.Forms.Button();
             this.lblUsernameLogged = new System.Windows.Forms.Label();
             this.lblPositionLogged = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -53,17 +54,16 @@
             this.panelRates = new System.Windows.Forms.Panel();
             this.panelReports = new System.Windows.Forms.Panel();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.lblPosition = new System.Windows.Forms.Label();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.btnMinimized = new System.Windows.Forms.PictureBox();
-            this.btnClose = new System.Windows.Forms.PictureBox();
-            this.btnReceipts = new System.Windows.Forms.Button();
             this.btnConsumptions = new System.Windows.Forms.Button();
             this.btnRates = new System.Windows.Forms.Button();
+            this.lblPosition = new System.Windows.Forms.Label();
             this.btnReports = new System.Windows.Forms.Button();
+            this.lblUsername = new System.Windows.Forms.Label();
             this.btnEmployees = new System.Windows.Forms.Button();
             this.btnContracts = new System.Windows.Forms.Button();
             this.btnClients = new System.Windows.Forms.Button();
+            this.btnMinimized = new System.Windows.Forms.PictureBox();
+            this.btnClose = new System.Windows.Forms.PictureBox();
             this.gradientPanel1.SuspendLayout();
             this.panelSubmenuReports.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimized)).BeginInit();
@@ -125,25 +125,44 @@
             this.panelReceipts.Size = new System.Drawing.Size(10, 41);
             this.panelReceipts.TabIndex = 19;
             // 
+            // btnReceipts
+            // 
+            this.btnReceipts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnReceipts.FlatAppearance.BorderSize = 0;
+            this.btnReceipts.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReceipts.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReceipts.ForeColor = System.Drawing.Color.White;
+            this.btnReceipts.Image = global::Ambar.Properties.Resources.Receipt_Logo;
+            this.btnReceipts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnReceipts.Location = new System.Drawing.Point(9, 333);
+            this.btnReceipts.Margin = new System.Windows.Forms.Padding(2);
+            this.btnReceipts.Name = "btnReceipts";
+            this.btnReceipts.Size = new System.Drawing.Size(216, 41);
+            this.btnReceipts.TabIndex = 18;
+            this.btnReceipts.Text = "Recibos";
+            this.btnReceipts.UseVisualStyleBackColor = false;
+            this.btnReceipts.Click += new System.EventHandler(this.btnReceipts_Click);
+            // 
             // lblUsernameLogged
             // 
             this.lblUsernameLogged.AutoSize = true;
             this.lblUsernameLogged.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.lblUsernameLogged.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsernameLogged.Location = new System.Drawing.Point(6, 60);
+            this.lblUsernameLogged.Location = new System.Drawing.Point(6, 59);
             this.lblUsernameLogged.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUsernameLogged.Name = "lblUsernameLogged";
             this.lblUsernameLogged.Size = new System.Drawing.Size(87, 17);
             this.lblUsernameLogged.TabIndex = 17;
             this.lblUsernameLogged.Text = "@Username";
-            this.lblUsernameLogged.Click += new System.EventHandler(this.lblUsernameLogged_Click);
             // 
             // lblPositionLogged
             // 
             this.lblPositionLogged.AutoSize = true;
             this.lblPositionLogged.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.lblPositionLogged.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPositionLogged.Location = new System.Drawing.Point(6, 24);
+            this.lblPositionLogged.Location = new System.Drawing.Point(6, 22);
             this.lblPositionLogged.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPositionLogged.Name = "lblPositionLogged";
             this.lblPositionLogged.Size = new System.Drawing.Size(76, 17);
@@ -285,7 +304,7 @@
             this.btnGeneralReport.TabIndex = 15;
             this.btnGeneralReport.Text = "Reporte General";
             this.btnGeneralReport.UseVisualStyleBackColor = false;
-            this.btnGeneralReport.Click += new System.EventHandler(this.button1_Click);
+            this.btnGeneralReport.Click += new System.EventHandler(this.btnGeneralReport_Click);
             // 
             // panelEmployees
             // 
@@ -353,29 +372,149 @@
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
+            // btnConsumptions
+            // 
+            this.btnConsumptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnConsumptions.FlatAppearance.BorderSize = 0;
+            this.btnConsumptions.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnConsumptions.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnConsumptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConsumptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConsumptions.ForeColor = System.Drawing.Color.White;
+            this.btnConsumptions.Image = global::Ambar.Properties.Resources.Consumption_Logo;
+            this.btnConsumptions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnConsumptions.Location = new System.Drawing.Point(9, 236);
+            this.btnConsumptions.Margin = new System.Windows.Forms.Padding(2);
+            this.btnConsumptions.Name = "btnConsumptions";
+            this.btnConsumptions.Size = new System.Drawing.Size(216, 41);
+            this.btnConsumptions.TabIndex = 4;
+            this.btnConsumptions.Text = "Consumos";
+            this.btnConsumptions.UseVisualStyleBackColor = false;
+            this.btnConsumptions.Click += new System.EventHandler(this.btnConsumptions_Click);
+            // 
+            // btnRates
+            // 
+            this.btnRates.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnRates.FlatAppearance.BorderSize = 0;
+            this.btnRates.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnRates.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnRates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRates.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRates.ForeColor = System.Drawing.Color.White;
+            this.btnRates.Image = global::Ambar.Properties.Resources.Rates_Logo;
+            this.btnRates.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRates.Location = new System.Drawing.Point(9, 284);
+            this.btnRates.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRates.Name = "btnRates";
+            this.btnRates.Size = new System.Drawing.Size(216, 41);
+            this.btnRates.TabIndex = 3;
+            this.btnRates.Text = "Tarifas";
+            this.btnRates.UseVisualStyleBackColor = false;
+            this.btnRates.Click += new System.EventHandler(this.btnRates_Click);
+            // 
             // lblPosition
             // 
             this.lblPosition.AutoSize = true;
             this.lblPosition.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPosition.Location = new System.Drawing.Point(4, 8);
+            this.lblPosition.Location = new System.Drawing.Point(4, 6);
             this.lblPosition.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPosition.Name = "lblPosition";
             this.lblPosition.Size = new System.Drawing.Size(76, 17);
             this.lblPosition.TabIndex = 2;
             this.lblPosition.Text = "Position: ";
             // 
+            // btnReports
+            // 
+            this.btnReports.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnReports.FlatAppearance.BorderSize = 0;
+            this.btnReports.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnReports.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReports.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReports.ForeColor = System.Drawing.Color.White;
+            this.btnReports.Image = global::Ambar.Properties.Resources.Reports_Logo1;
+            this.btnReports.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnReports.Location = new System.Drawing.Point(9, 382);
+            this.btnReports.Margin = new System.Windows.Forms.Padding(2);
+            this.btnReports.Name = "btnReports";
+            this.btnReports.Size = new System.Drawing.Size(216, 41);
+            this.btnReports.TabIndex = 1;
+            this.btnReports.Text = "Reportes";
+            this.btnReports.UseVisualStyleBackColor = false;
+            this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
+            // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
             this.lblUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.lblUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsername.Location = new System.Drawing.Point(4, 43);
+            this.lblUsername.Location = new System.Drawing.Point(4, 42);
             this.lblUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(91, 17);
             this.lblUsername.TabIndex = 1;
             this.lblUsername.Text = "Username: ";
+            // 
+            // btnEmployees
+            // 
+            this.btnEmployees.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnEmployees.FlatAppearance.BorderSize = 0;
+            this.btnEmployees.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnEmployees.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnEmployees.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEmployees.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEmployees.ForeColor = System.Drawing.Color.White;
+            this.btnEmployees.Image = global::Ambar.Properties.Resources.Employee_Logo;
+            this.btnEmployees.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEmployees.Location = new System.Drawing.Point(9, 89);
+            this.btnEmployees.Margin = new System.Windows.Forms.Padding(2);
+            this.btnEmployees.Name = "btnEmployees";
+            this.btnEmployees.Size = new System.Drawing.Size(216, 41);
+            this.btnEmployees.TabIndex = 1;
+            this.btnEmployees.Text = "Empleados";
+            this.btnEmployees.UseVisualStyleBackColor = false;
+            this.btnEmployees.Click += new System.EventHandler(this.btnEmployees_Click);
+            // 
+            // btnContracts
+            // 
+            this.btnContracts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnContracts.FlatAppearance.BorderSize = 0;
+            this.btnContracts.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnContracts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnContracts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnContracts.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnContracts.ForeColor = System.Drawing.Color.White;
+            this.btnContracts.Image = global::Ambar.Properties.Resources.Contract_Logo;
+            this.btnContracts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnContracts.Location = new System.Drawing.Point(9, 187);
+            this.btnContracts.Margin = new System.Windows.Forms.Padding(2);
+            this.btnContracts.Name = "btnContracts";
+            this.btnContracts.Size = new System.Drawing.Size(216, 41);
+            this.btnContracts.TabIndex = 1;
+            this.btnContracts.Text = "Contratos";
+            this.btnContracts.UseVisualStyleBackColor = false;
+            this.btnContracts.Click += new System.EventHandler(this.btnContracts_Click);
+            // 
+            // btnClients
+            // 
+            this.btnClients.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnClients.FlatAppearance.BorderSize = 0;
+            this.btnClients.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.btnClients.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnClients.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClients.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClients.ForeColor = System.Drawing.Color.White;
+            this.btnClients.Image = global::Ambar.Properties.Resources.Client_Logo;
+            this.btnClients.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnClients.Location = new System.Drawing.Point(9, 138);
+            this.btnClients.Margin = new System.Windows.Forms.Padding(2);
+            this.btnClients.Name = "btnClients";
+            this.btnClients.Size = new System.Drawing.Size(216, 41);
+            this.btnClients.TabIndex = 1;
+            this.btnClients.Text = "Clientes";
+            this.btnClients.UseVisualStyleBackColor = false;
+            this.btnClients.Click += new System.EventHandler(this.btnClients_Click);
             // 
             // btnMinimized
             // 
@@ -404,146 +543,6 @@
             this.btnClose.TabIndex = 4;
             this.btnClose.TabStop = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // btnReceipts
-            // 
-            this.btnReceipts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnReceipts.FlatAppearance.BorderSize = 0;
-            this.btnReceipts.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnReceipts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnReceipts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReceipts.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReceipts.ForeColor = System.Drawing.Color.White;
-            this.btnReceipts.Image = global::Ambar.Properties.Resources.Receipt_Logo;
-            this.btnReceipts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReceipts.Location = new System.Drawing.Point(9, 333);
-            this.btnReceipts.Margin = new System.Windows.Forms.Padding(2);
-            this.btnReceipts.Name = "btnReceipts";
-            this.btnReceipts.Size = new System.Drawing.Size(216, 41);
-            this.btnReceipts.TabIndex = 18;
-            this.btnReceipts.Text = "Recibos";
-            this.btnReceipts.UseVisualStyleBackColor = false;
-            this.btnReceipts.Click += new System.EventHandler(this.btnReceipts_Click);
-            // 
-            // btnConsumptions
-            // 
-            this.btnConsumptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnConsumptions.FlatAppearance.BorderSize = 0;
-            this.btnConsumptions.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnConsumptions.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnConsumptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConsumptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConsumptions.ForeColor = System.Drawing.Color.White;
-            this.btnConsumptions.Image = global::Ambar.Properties.Resources.Consumption_Logo;
-            this.btnConsumptions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnConsumptions.Location = new System.Drawing.Point(9, 236);
-            this.btnConsumptions.Margin = new System.Windows.Forms.Padding(2);
-            this.btnConsumptions.Name = "btnConsumptions";
-            this.btnConsumptions.Size = new System.Drawing.Size(216, 41);
-            this.btnConsumptions.TabIndex = 4;
-            this.btnConsumptions.Text = "Consumos";
-            this.btnConsumptions.UseVisualStyleBackColor = false;
-            this.btnConsumptions.Click += new System.EventHandler(this.btnConsumos_Click);
-            // 
-            // btnRates
-            // 
-            this.btnRates.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnRates.FlatAppearance.BorderSize = 0;
-            this.btnRates.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnRates.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnRates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRates.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRates.ForeColor = System.Drawing.Color.White;
-            this.btnRates.Image = global::Ambar.Properties.Resources.Rates_Logo;
-            this.btnRates.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRates.Location = new System.Drawing.Point(9, 284);
-            this.btnRates.Margin = new System.Windows.Forms.Padding(2);
-            this.btnRates.Name = "btnRates";
-            this.btnRates.Size = new System.Drawing.Size(216, 41);
-            this.btnRates.TabIndex = 3;
-            this.btnRates.Text = "Tarifas";
-            this.btnRates.UseVisualStyleBackColor = false;
-            this.btnRates.Click += new System.EventHandler(this.btnTarifas_Click);
-            // 
-            // btnReports
-            // 
-            this.btnReports.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnReports.FlatAppearance.BorderSize = 0;
-            this.btnReports.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnReports.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReports.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReports.ForeColor = System.Drawing.Color.White;
-            this.btnReports.Image = global::Ambar.Properties.Resources.Reports_Logo1;
-            this.btnReports.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReports.Location = new System.Drawing.Point(9, 382);
-            this.btnReports.Margin = new System.Windows.Forms.Padding(2);
-            this.btnReports.Name = "btnReports";
-            this.btnReports.Size = new System.Drawing.Size(216, 41);
-            this.btnReports.TabIndex = 1;
-            this.btnReports.Text = "Reportes";
-            this.btnReports.UseVisualStyleBackColor = false;
-            this.btnReports.Click += new System.EventHandler(this.btnReportes_Click);
-            // 
-            // btnEmployees
-            // 
-            this.btnEmployees.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnEmployees.FlatAppearance.BorderSize = 0;
-            this.btnEmployees.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnEmployees.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnEmployees.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEmployees.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEmployees.ForeColor = System.Drawing.Color.White;
-            this.btnEmployees.Image = global::Ambar.Properties.Resources.Employee_Logo;
-            this.btnEmployees.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEmployees.Location = new System.Drawing.Point(9, 89);
-            this.btnEmployees.Margin = new System.Windows.Forms.Padding(2);
-            this.btnEmployees.Name = "btnEmployees";
-            this.btnEmployees.Size = new System.Drawing.Size(216, 41);
-            this.btnEmployees.TabIndex = 1;
-            this.btnEmployees.Text = "Empleados";
-            this.btnEmployees.UseVisualStyleBackColor = false;
-            this.btnEmployees.Click += new System.EventHandler(this.btnEmpleados_Click);
-            // 
-            // btnContracts
-            // 
-            this.btnContracts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnContracts.FlatAppearance.BorderSize = 0;
-            this.btnContracts.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnContracts.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnContracts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnContracts.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnContracts.ForeColor = System.Drawing.Color.White;
-            this.btnContracts.Image = global::Ambar.Properties.Resources.Contract_Logo;
-            this.btnContracts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnContracts.Location = new System.Drawing.Point(9, 187);
-            this.btnContracts.Margin = new System.Windows.Forms.Padding(2);
-            this.btnContracts.Name = "btnContracts";
-            this.btnContracts.Size = new System.Drawing.Size(216, 41);
-            this.btnContracts.TabIndex = 1;
-            this.btnContracts.Text = "Contratos";
-            this.btnContracts.UseVisualStyleBackColor = false;
-            this.btnContracts.Click += new System.EventHandler(this.btnContratos_Click);
-            // 
-            // btnClients
-            // 
-            this.btnClients.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnClients.FlatAppearance.BorderSize = 0;
-            this.btnClients.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.btnClients.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.btnClients.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClients.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClients.ForeColor = System.Drawing.Color.White;
-            this.btnClients.Image = global::Ambar.Properties.Resources.Client_Logo;
-            this.btnClients.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClients.Location = new System.Drawing.Point(9, 138);
-            this.btnClients.Margin = new System.Windows.Forms.Padding(2);
-            this.btnClients.Name = "btnClients";
-            this.btnClients.Size = new System.Drawing.Size(216, 41);
-            this.btnClients.TabIndex = 1;
-            this.btnClients.Text = "Clientes";
-            this.btnClients.UseVisualStyleBackColor = false;
-            this.btnClients.Click += new System.EventHandler(this.btnClientes_Click);
             // 
             // AmbarMenu
             // 

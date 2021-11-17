@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -287,6 +288,34 @@ namespace Ambar.Common
                     break;
             }
 
+        }
+
+        public static void PaymentBreakdown(decimal value, ref decimal kwBasic, ref decimal kwInt, ref decimal kwExc)
+        {
+            decimal basic = Convert.ToDecimal(ConfigurationManager.AppSettings["Basic_kW"].ToString());
+            decimal intermediate = Convert.ToDecimal(ConfigurationManager.AppSettings["Intermediate_kW"].ToString());
+
+            decimal offset = value - basic;
+
+            if (offset <= 0)
+            {
+                kwBasic = value;
+                return;
+            }
+
+            kwBasic = basic;
+            offset -= intermediate;
+            value -= basic;
+
+            if (offset <= 0)
+            {
+                kwInt = value;
+                return;
+            }
+
+            kwInt = intermediate;
+            value -= intermediate;
+            kwExc = value;
         }
     }
 }

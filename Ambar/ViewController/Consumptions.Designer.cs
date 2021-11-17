@@ -51,28 +51,27 @@
             this.ContractID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ServiceNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Service = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.City = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Suburb = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Street = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PostalCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Service = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StartPeriodDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblError = new System.Windows.Forms.Label();
-            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
             this.nudKilowatts = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudKilowatts)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAccept
             // 
             this.btnAccept.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnAccept.Enabled = false;
             this.btnAccept.FlatAppearance.BorderSize = 0;
+            this.btnAccept.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAccept.ForeColor = System.Drawing.Color.White;
@@ -80,7 +79,7 @@
             this.btnAccept.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(112, 41);
-            this.btnAccept.TabIndex = 1;
+            this.btnAccept.TabIndex = 4;
             this.btnAccept.Text = "ACEPTAR";
             this.btnAccept.UseVisualStyleBackColor = false;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
@@ -89,6 +88,7 @@
             // 
             this.btnMassiveCharge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnMassiveCharge.FlatAppearance.BorderSize = 0;
+            this.btnMassiveCharge.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnMassiveCharge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMassiveCharge.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMassiveCharge.ForeColor = System.Drawing.Color.White;
@@ -96,7 +96,7 @@
             this.btnMassiveCharge.Margin = new System.Windows.Forms.Padding(2);
             this.btnMassiveCharge.Name = "btnMassiveCharge";
             this.btnMassiveCharge.Size = new System.Drawing.Size(129, 41);
-            this.btnMassiveCharge.TabIndex = 2;
+            this.btnMassiveCharge.TabIndex = 5;
             this.btnMassiveCharge.Text = "CARGA MASIVA";
             this.btnMassiveCharge.UseVisualStyleBackColor = false;
             this.btnMassiveCharge.Click += new System.EventHandler(this.btnMassiveCharge_Click);
@@ -115,13 +115,15 @@
             // 
             // txtMeterSerialNumber
             // 
+            this.txtMeterSerialNumber.Enabled = false;
             this.txtMeterSerialNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMeterSerialNumber.Location = new System.Drawing.Point(194, 81);
             this.txtMeterSerialNumber.Margin = new System.Windows.Forms.Padding(2);
             this.txtMeterSerialNumber.MaxLength = 30;
             this.txtMeterSerialNumber.Name = "txtMeterSerialNumber";
+            this.txtMeterSerialNumber.ReadOnly = true;
             this.txtMeterSerialNumber.Size = new System.Drawing.Size(287, 23);
-            this.txtMeterSerialNumber.TabIndex = 4;
+            this.txtMeterSerialNumber.TabIndex = 1;
             // 
             // label2
             // 
@@ -168,7 +170,7 @@
             this.dtgConsumptions.RowHeadersWidth = 51;
             this.dtgConsumptions.RowTemplate.Height = 24;
             this.dtgConsumptions.Size = new System.Drawing.Size(870, 329);
-            this.dtgConsumptions.TabIndex = 22;
+            this.dtgConsumptions.TabIndex = 7;
             // 
             // ConsumptionID
             // 
@@ -281,7 +283,7 @@
             this.dtpPeriod.Name = "dtpPeriod";
             this.dtpPeriod.ShowUpDown = true;
             this.dtpPeriod.Size = new System.Drawing.Size(287, 23);
-            this.dtpPeriod.TabIndex = 23;
+            this.dtpPeriod.TabIndex = 3;
             this.dtpPeriod.Value = new System.DateTime(2021, 10, 1, 14, 33, 0, 0);
             // 
             // dtgContracts
@@ -291,13 +293,13 @@
             this.ContractID,
             this.dataGridViewTextBoxColumn1,
             this.ServiceNumber,
+            this.Service,
             this.State,
             this.City,
             this.Suburb,
             this.Street,
             this.Number,
             this.PostalCode,
-            this.Service,
             this.StartPeriodDate});
             this.dtgContracts.Location = new System.Drawing.Point(520, 81);
             this.dtgContracts.Margin = new System.Windows.Forms.Padding(2);
@@ -306,7 +308,8 @@
             this.dtgContracts.RowHeadersWidth = 51;
             this.dtgContracts.RowTemplate.Height = 24;
             this.dtgContracts.Size = new System.Drawing.Size(359, 183);
-            this.dtgContracts.TabIndex = 25;
+            this.dtgContracts.TabIndex = 6;
+            this.dtgContracts.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgContracts_CellDoubleClick);
             // 
             // ContractID
             // 
@@ -320,7 +323,7 @@
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.DataPropertyName = "METER_SERIAL_NUMBER";
-            this.dataGridViewTextBoxColumn1.HeaderText = "Meter Serial Number";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Número de Medidor";
             this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -329,16 +332,25 @@
             // ServiceNumber
             // 
             this.ServiceNumber.DataPropertyName = "SERVICE_NUMBER";
-            this.ServiceNumber.HeaderText = "Service Number";
+            this.ServiceNumber.HeaderText = "Número de Servicio";
             this.ServiceNumber.MinimumWidth = 6;
             this.ServiceNumber.Name = "ServiceNumber";
             this.ServiceNumber.ReadOnly = true;
             this.ServiceNumber.Width = 125;
             // 
+            // Service
+            // 
+            this.Service.DataPropertyName = "SERVICE";
+            this.Service.HeaderText = "Servicio";
+            this.Service.MinimumWidth = 6;
+            this.Service.Name = "Service";
+            this.Service.ReadOnly = true;
+            this.Service.Width = 125;
+            // 
             // State
             // 
             this.State.DataPropertyName = "STATE";
-            this.State.HeaderText = "State";
+            this.State.HeaderText = "Estado";
             this.State.MinimumWidth = 6;
             this.State.Name = "State";
             this.State.ReadOnly = true;
@@ -347,7 +359,7 @@
             // City
             // 
             this.City.DataPropertyName = "CITY";
-            this.City.HeaderText = "City";
+            this.City.HeaderText = "Ciudad";
             this.City.MinimumWidth = 6;
             this.City.Name = "City";
             this.City.ReadOnly = true;
@@ -356,7 +368,7 @@
             // Suburb
             // 
             this.Suburb.DataPropertyName = "SUBURB";
-            this.Suburb.HeaderText = "Suburb";
+            this.Suburb.HeaderText = "Colonia";
             this.Suburb.MinimumWidth = 6;
             this.Suburb.Name = "Suburb";
             this.Suburb.ReadOnly = true;
@@ -365,7 +377,7 @@
             // Street
             // 
             this.Street.DataPropertyName = "STREET";
-            this.Street.HeaderText = "Street";
+            this.Street.HeaderText = "Calle";
             this.Street.MinimumWidth = 6;
             this.Street.Name = "Street";
             this.Street.ReadOnly = true;
@@ -374,7 +386,7 @@
             // Number
             // 
             this.Number.DataPropertyName = "NUMBER";
-            this.Number.HeaderText = "Number";
+            this.Number.HeaderText = "Número";
             this.Number.MinimumWidth = 6;
             this.Number.Name = "Number";
             this.Number.ReadOnly = true;
@@ -383,54 +395,20 @@
             // PostalCode
             // 
             this.PostalCode.DataPropertyName = "POSTAL_CODE";
-            this.PostalCode.HeaderText = "Postal Code";
+            this.PostalCode.HeaderText = "Código Postal";
             this.PostalCode.MinimumWidth = 6;
             this.PostalCode.Name = "PostalCode";
             this.PostalCode.ReadOnly = true;
             this.PostalCode.Width = 125;
             // 
-            // Service
-            // 
-            this.Service.DataPropertyName = "SERVICE";
-            this.Service.HeaderText = "Service";
-            this.Service.MinimumWidth = 6;
-            this.Service.Name = "Service";
-            this.Service.ReadOnly = true;
-            this.Service.Width = 125;
-            // 
             // StartPeriodDate
             // 
             this.StartPeriodDate.DataPropertyName = "START_PERIOD_DATE";
-            this.StartPeriodDate.HeaderText = "Start Period Date";
+            this.StartPeriodDate.HeaderText = "Inicio de Periodo";
             this.StartPeriodDate.MinimumWidth = 6;
             this.StartPeriodDate.Name = "StartPeriodDate";
             this.StartPeriodDate.ReadOnly = true;
             this.StartPeriodDate.Width = 125;
-            // 
-            // lblError
-            // 
-            this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(223, 54);
-            this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(84, 15);
-            this.lblError.TabIndex = 27;
-            this.lblError.Text = "ERROR TEXT";
-            this.lblError.Visible = false;
-            // 
-            // pbWarningIcon
-            // 
-            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(194, 49);
-            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
-            this.pbWarningIcon.Name = "pbWarningIcon";
-            this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
-            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbWarningIcon.TabIndex = 26;
-            this.pbWarningIcon.TabStop = false;
-            this.pbWarningIcon.Visible = false;
             // 
             // ofnMassive
             // 
@@ -442,13 +420,13 @@
             this.nudKilowatts.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.nudKilowatts.Location = new System.Drawing.Point(194, 112);
             this.nudKilowatts.Maximum = new decimal(new int[] {
-            1000000000,
+            1000000,
             0,
             0,
             0});
             this.nudKilowatts.Name = "nudKilowatts";
             this.nudKilowatts.Size = new System.Drawing.Size(287, 23);
-            this.nudKilowatts.TabIndex = 28;
+            this.nudKilowatts.TabIndex = 2;
             // 
             // Consumptions
             // 
@@ -457,8 +435,6 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(976, 638);
             this.Controls.Add(this.nudKilowatts);
-            this.Controls.Add(this.lblError);
-            this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.dtgContracts);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.dtpPeriod);
@@ -477,7 +453,6 @@
             this.Load += new System.EventHandler(this.Consumos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptions)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudKilowatts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -495,19 +470,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DateTimePicker dtpPeriod;
         private System.Windows.Forms.DataGridView dtgContracts;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ContractID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ServiceNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn State;
-        private System.Windows.Forms.DataGridViewTextBoxColumn City;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Suburb;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Street;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Number;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PostalCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Service;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StartPeriodDate;
-        private System.Windows.Forms.Label lblError;
-        private System.Windows.Forms.PictureBox pbWarningIcon;
         private System.Windows.Forms.OpenFileDialog ofnMassive;
         private System.Windows.Forms.NumericUpDown nudKilowatts;
         private System.Windows.Forms.DataGridViewTextBoxColumn ConsumptionID;
@@ -520,5 +482,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Year;
         private System.Windows.Forms.DataGridViewTextBoxColumn Month;
         private System.Windows.Forms.DataGridViewTextBoxColumn day;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContractID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ServiceNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Service;
+        private System.Windows.Forms.DataGridViewTextBoxColumn State;
+        private System.Windows.Forms.DataGridViewTextBoxColumn City;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Suburb;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Street;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Number;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PostalCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StartPeriodDate;
     }
 }

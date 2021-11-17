@@ -123,7 +123,7 @@ namespace Ambar.ViewController
                 for (int j = 0, x = 10; j < dtgConsumptionsReport.Columns.Count; j++, x += 100)
                 {
                     gfx.DrawString(dtgConsumptionsReport.Rows[i].Cells[j].Value.ToString(),
-                        new XFont("Montserrat", 10), XBrushes.Black, new XPoint(x, y));
+                        new XFont("Arial", 10), XBrushes.Black, new XPoint(x, y));
                 }
             }
 

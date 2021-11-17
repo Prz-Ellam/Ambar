@@ -9,7 +9,7 @@ using Cassandra;
 
 namespace Ambar.Model.DAO
 {
-    class ClientDAO : CassandraConnection
+    class ClientDAO : CassandraConnection, IEnableable
     {
         public void Create(ClientDTO client)
         {
@@ -228,21 +228,6 @@ namespace Ambar.Model.DAO
             }
 
             return clients;
-        }
-
-        public Guid FindClientID(string username)
-        {
-            string query = "SELECT USER_ID FROM CLIENTS WHERE USER_NAME = '{0}' ALLOW FILTERING";
-            query = string.Format(query, username);
-
-            var rs = session.Execute(query);
-            foreach(var row in rs)
-            {
-                Guid id;
-                id = row.GetValue<Guid>("user_id");
-                return id;
-            }
-            return Guid.Empty;
         }
 
     }

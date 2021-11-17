@@ -13,16 +13,16 @@ namespace Ambar.Model.DAO
     {
         public void Create(ConsumptionDTO dto)
         {
-            string queryCon = "INSERT INTO CONSUMPTIONS(CONSUMPTION_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, " +
-                "INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            string queryYear = "INSERT INTO CONSUMPTIONS_BY_YEAR(CONSUMPTION_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, " +
-                "BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            string queryMeter = "INSERT INTO CONSUMPTIONS_BY_METER_SERIAL_NUMBER(CONSUMPTION_ID, METER_SERIAL_NUMBER, " +
+            string queryCon = "INSERT INTO CONSUMPTIONS(CONSUMPTION_ID, CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, " +
+                "INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            string queryYear = "INSERT INTO CONSUMPTIONS_BY_YEAR(CONSUMPTION_ID, CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, " +
+                "BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            string queryMeter = "INSERT INTO CONSUMPTIONS_BY_METER_SERIAL_NUMBER(CONSUMPTION_ID, CONTRACT_ID, METER_SERIAL_NUMBER, " +
                 "SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            string queryService = "INSERT INTO CONSUMPTIONS_BY_SERVICE_NUMBER(CONSUMPTION_ID, METER_SERIAL_NUMBER, " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            string queryService = "INSERT INTO CONSUMPTIONS_BY_SERVICE_NUMBER(CONSUMPTION_ID, CONTRACT_ID, METER_SERIAL_NUMBER, " +
                 "SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             var con = session.Prepare(queryCon);
             var year = session.Prepare(queryYear);
@@ -30,14 +30,14 @@ namespace Ambar.Model.DAO
             var service = session.Prepare(queryService);
 
             var batch = new BatchStatement()
-                           .Add(con.Bind(dto.Consumption_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
-                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day))
-                           .Add(year.Bind(dto.Consumption_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
-                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day))
-                           .Add(meter.Bind(dto.Consumption_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
-                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day))
-                           .Add(service.Bind(dto.Consumption_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
-                           dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day));
+                        .Add(con.Bind(dto.Consumption_ID, dto.Contract_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
+                        dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day))
+                        .Add(year.Bind(dto.Consumption_ID, dto.Contract_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
+                        dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day))
+                        .Add(meter.Bind(dto.Consumption_ID, dto.Contract_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
+                        dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day))
+                        .Add(service.Bind(dto.Consumption_ID, dto.Contract_ID, dto.Meter_Serial_Number, dto.Service_Number, dto.Basic_KW,
+                        dto.Intermediate_KW, dto.Surplus_KW, dto.Total_KW, dto.Year, dto.Month, dto.Day));
 
             session.Execute(batch);
         }
@@ -45,7 +45,7 @@ namespace Ambar.Model.DAO
         public List<ConsumptionDTO> ReadConsumptions()
         {
             string query = "SELECT CONSUMPTION_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, " +
-                "SURPLUS_KW, TOTAL_KW, YEAR, MONTH FROM CONSUMPTIONS;";
+                "SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY FROM CONSUMPTIONS;";
 
             IEnumerable<ConsumptionDTO> rates;
             try
@@ -78,39 +78,33 @@ namespace Ambar.Model.DAO
             return consumptions.ToList();
         }
 
-        public bool ConsumptionExists(string meterSerialNumber, int year, short month)
+        public bool ConsumptionExists(string meterSerialNumber, int year, int month)
         {
             string query = "SELECT COUNT(YEAR) FROM CONSUMPTIONS_BY_METER_SERIAL_NUMBER" +
                 " WHERE METER_SERIAL_NUMBER = '{0}' AND YEAR = {1} AND MONTH = {2};";
             query = string.Format(query, meterSerialNumber, year, month);
 
             var res = session.Execute(query);
-            Int64 count = 0;
-
+            long count = 0;
             foreach (var row in res)
             {
-                count = row.GetValue<Int64>("system.count(year)");
+                count = row.GetValue<long>("system.count(year)");
             }
 
-            if (count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (count > 0) ? true : false;
         }
 
-        public ConsumptionForReceiptDTO FindConsumption(int year, short month, string meterSerialNumber)
+        public ConsumptionDTO FindConsumption(int year, int month, string meterSerialNumber)
         {
-            string query = string.Format("SELECT BASIC_KW, INTERMEDIATE_KW, SURPLUS_KW, YEAR, MONTH, DAY FROM CONSUMPTIONS_BY_YEAR WHERE " +
-                "YEAR = {0} AND MONTH = {1} AND METER_SERIAL_NUMBER = '{2}';", year, month, meterSerialNumber);
+            string query = @"SELECT CONSUMPTION_ID, CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, 
+                            INTERMEDIATE_KW, SURPLUS_KW, YEAR, MONTH, DAY FROM CONSUMPTIONS_BY_YEAR 
+                            WHERE YEAR = {0} AND MONTH = {1} AND METER_SERIAL_NUMBER = '{2}';";
+            query = string.Format(query, year, month, meterSerialNumber);
 
-            ConsumptionForReceiptDTO consumptions;
+            ConsumptionDTO consumptions;
             try
             {
-                consumptions = mapper.Single<ConsumptionForReceiptDTO>(query);
+                consumptions = mapper.Single<ConsumptionDTO>(query);
             }
             catch (Exception e)
             {

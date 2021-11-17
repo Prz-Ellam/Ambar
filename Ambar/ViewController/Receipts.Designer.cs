@@ -47,18 +47,12 @@ namespace Ambar.ViewController
             this.cbPeriod = new System.Windows.Forms.ComboBox();
             this.ofnReceipt = new System.Windows.Forms.SaveFileDialog();
             this.label2 = new System.Windows.Forms.Label();
-            this.lblError = new System.Windows.Forms.Label();
-            this.pbWarningIcon = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnPDF = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
             this.chartHC = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.gpSearchOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartHC)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,7 +82,7 @@ namespace Ambar.ViewController
             this.cbService.Margin = new System.Windows.Forms.Padding(2);
             this.cbService.Name = "cbService";
             this.cbService.Size = new System.Drawing.Size(289, 25);
-            this.cbService.TabIndex = 22;
+            this.cbService.TabIndex = 1;
             this.cbService.SelectedIndexChanged += new System.EventHandler(this.cbService_SelectedIndexChanged);
             // 
             // dtpYear
@@ -103,22 +97,23 @@ namespace Ambar.ViewController
             this.dtpYear.Name = "dtpYear";
             this.dtpYear.ShowUpDown = true;
             this.dtpYear.Size = new System.Drawing.Size(63, 23);
-            this.dtpYear.TabIndex = 23;
+            this.dtpYear.TabIndex = 3;
             this.dtpYear.ValueChanged += new System.EventHandler(this.dtpYear_ValueChanged);
             // 
             // btnGenerateReceipt
             // 
             this.btnGenerateReceipt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnGenerateReceipt.FlatAppearance.BorderSize = 0;
+            this.btnGenerateReceipt.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnGenerateReceipt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGenerateReceipt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateReceipt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerateReceipt.ForeColor = System.Drawing.Color.White;
             this.btnGenerateReceipt.Location = new System.Drawing.Point(196, 204);
             this.btnGenerateReceipt.Margin = new System.Windows.Forms.Padding(2);
             this.btnGenerateReceipt.Name = "btnGenerateReceipt";
-            this.btnGenerateReceipt.Size = new System.Drawing.Size(134, 46);
+            this.btnGenerateReceipt.Size = new System.Drawing.Size(134, 56);
             this.btnGenerateReceipt.TabIndex = 24;
-            this.btnGenerateReceipt.Text = "Generar Recibos";
+            this.btnGenerateReceipt.Text = "GENERAR RECIBOS";
             this.btnGenerateReceipt.UseVisualStyleBackColor = false;
             this.btnGenerateReceipt.Click += new System.EventHandler(this.btnGenerateReceipt_Click);
             // 
@@ -152,7 +147,7 @@ namespace Ambar.ViewController
             this.gpSearchOptions.Controls.Add(this.rbMeterSerialNumber);
             this.gpSearchOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gpSearchOptions.ForeColor = System.Drawing.Color.White;
-            this.gpSearchOptions.Location = new System.Drawing.Point(21, 387);
+            this.gpSearchOptions.Location = new System.Drawing.Point(21, 356);
             this.gpSearchOptions.Margin = new System.Windows.Forms.Padding(2);
             this.gpSearchOptions.Name = "gpSearchOptions";
             this.gpSearchOptions.Padding = new System.Windows.Forms.Padding(2);
@@ -190,7 +185,7 @@ namespace Ambar.ViewController
             // txtFilterID
             // 
             this.txtFilterID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.txtFilterID.Location = new System.Drawing.Point(65, 483);
+            this.txtFilterID.Location = new System.Drawing.Point(65, 452);
             this.txtFilterID.Margin = new System.Windows.Forms.Padding(2);
             this.txtFilterID.MaxLength = 30;
             this.txtFilterID.Name = "txtFilterID";
@@ -202,7 +197,7 @@ namespace Ambar.ViewController
             this.dtpPeriodSearch.CustomFormat = "MMMM yyyy";
             this.dtpPeriodSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpPeriodSearch.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpPeriodSearch.Location = new System.Drawing.Point(177, 515);
+            this.dtpPeriodSearch.Location = new System.Drawing.Point(177, 484);
             this.dtpPeriodSearch.Margin = new System.Windows.Forms.Padding(2);
             this.dtpPeriodSearch.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.dtpPeriodSearch.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
@@ -220,7 +215,7 @@ namespace Ambar.ViewController
             this.cbPeriod.Margin = new System.Windows.Forms.Padding(2);
             this.cbPeriod.Name = "cbPeriod";
             this.cbPeriod.Size = new System.Drawing.Size(289, 25);
-            this.cbPeriod.TabIndex = 31;
+            this.cbPeriod.TabIndex = 2;
             // 
             // ofnReceipt
             // 
@@ -231,37 +226,12 @@ namespace Ambar.ViewController
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label2.Location = new System.Drawing.Point(18, 520);
+            this.label2.Location = new System.Drawing.Point(18, 489);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(155, 17);
             this.label2.TabIndex = 32;
             this.label2.Text = "Periodo de facturacion:";
-            // 
-            // lblError
-            // 
-            this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lblError.Location = new System.Drawing.Point(223, 55);
-            this.lblError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(84, 15);
-            this.lblError.TabIndex = 34;
-            this.lblError.Text = "ERROR TEXT";
-            this.lblError.Visible = false;
-            // 
-            // pbWarningIcon
-            // 
-            this.pbWarningIcon.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pbWarningIcon.Location = new System.Drawing.Point(194, 50);
-            this.pbWarningIcon.Margin = new System.Windows.Forms.Padding(2);
-            this.pbWarningIcon.Name = "pbWarningIcon";
-            this.pbWarningIcon.Size = new System.Drawing.Size(22, 24);
-            this.pbWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbWarningIcon.TabIndex = 33;
-            this.pbWarningIcon.TabStop = false;
-            this.pbWarningIcon.Visible = false;
             // 
             // label3
             // 
@@ -280,48 +250,24 @@ namespace Ambar.ViewController
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label4.Location = new System.Drawing.Point(18, 485);
+            this.label4.Location = new System.Drawing.Point(18, 454);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(43, 17);
             this.label4.TabIndex = 36;
             this.label4.Text = "Filtro:";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label6.Location = new System.Drawing.Point(50, 357);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(84, 15);
-            this.label6.TabIndex = 38;
-            this.label6.Text = "ERROR TEXT";
-            this.label6.Visible = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Ambar.Properties.Resources.Warning_Icon1;
-            this.pictureBox1.Location = new System.Drawing.Point(21, 352);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(22, 24);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 37;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
-            // 
             // btnPDF
             // 
             this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
             this.btnPDF.FlatAppearance.BorderSize = 0;
+            this.btnPDF.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPDF.ForeColor = System.Drawing.Color.White;
             this.btnPDF.Image = global::Ambar.Properties.Resources.PDF_Logo;
             this.btnPDF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPDF.Location = new System.Drawing.Point(128, 573);
+            this.btnPDF.Location = new System.Drawing.Point(128, 535);
             this.btnPDF.Margin = new System.Windows.Forms.Padding(2);
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(225, 81);
@@ -330,16 +276,16 @@ namespace Ambar.ViewController
             this.btnPDF.UseVisualStyleBackColor = false;
             this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
             // 
-            // label7
+            // lblDate
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label7.Location = new System.Drawing.Point(641, 34);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(51, 20);
-            this.label7.TabIndex = 40;
-            this.label7.Text = "label7";
+            this.lblDate.AutoSize = true;
+            this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblDate.Location = new System.Drawing.Point(641, 34);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(21, 20);
+            this.lblDate.TabIndex = 40;
+            this.lblDate.Text = "...";
             // 
             // chartHC
             // 
@@ -367,14 +313,10 @@ namespace Ambar.ViewController
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(986, 714);
             this.Controls.Add(this.chartHC);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lblDate);
             this.Controls.Add(this.btnPDF);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.lblError);
-            this.Controls.Add(this.pbWarningIcon);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbPeriod);
             this.Controls.Add(this.dtpPeriodSearch);
@@ -394,8 +336,6 @@ namespace Ambar.ViewController
             this.Load += new System.EventHandler(this.Receipts_Load);
             this.gpSearchOptions.ResumeLayout(false);
             this.gpSearchOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWarningIcon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartHC)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -418,14 +358,10 @@ namespace Ambar.ViewController
         private System.Windows.Forms.ComboBox cbPeriod;
         private System.Windows.Forms.SaveFileDialog ofnReceipt;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblError;
-        private System.Windows.Forms.PictureBox pbWarningIcon;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnPDF;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartHC;
     }
 }

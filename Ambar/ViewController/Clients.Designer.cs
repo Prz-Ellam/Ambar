@@ -57,17 +57,17 @@
             this.btnEnabling = new System.Windows.Forms.Button();
             this.dtgEmails = new System.Windows.Forms.DataGridView();
             this.Emails2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Emails = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Gender = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CURP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MotherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FatherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Password = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Username = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtgClients = new System.Windows.Forms.DataGridView();
+            this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Username = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Password = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FatherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MotherLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CURP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Gender = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Emails = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblBlockedClients = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEmails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgClients)).BeginInit();
@@ -143,9 +143,11 @@
             // cbGender
             // 
             this.cbGender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGender.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.cbGender.FormattingEnabled = true;
             this.cbGender.Items.AddRange(new object[] {
+            "Seleccionar",
             "Femenino",
             "Masculino",
             "Otro",
@@ -161,7 +163,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label1.Location = new System.Drawing.Point(86, 84);
+            this.label1.Location = new System.Drawing.Point(89, 84);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 17);
@@ -173,7 +175,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label2.Location = new System.Drawing.Point(46, 115);
+            this.label2.Location = new System.Drawing.Point(52, 115);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(116, 17);
@@ -185,7 +187,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label3.Location = new System.Drawing.Point(42, 145);
+            this.label3.Location = new System.Drawing.Point(50, 145);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(118, 17);
@@ -197,7 +199,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label4.Location = new System.Drawing.Point(112, 176);
+            this.label4.Location = new System.Drawing.Point(114, 176);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 17);
@@ -221,7 +223,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label6.Location = new System.Drawing.Point(16, 240);
+            this.label6.Location = new System.Drawing.Point(21, 240);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(145, 17);
@@ -278,7 +280,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label9.Location = new System.Drawing.Point(80, 331);
+            this.label9.Location = new System.Drawing.Point(83, 331);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(85, 17);
@@ -290,7 +292,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.label10.Location = new System.Drawing.Point(10, 362);
+            this.label10.Location = new System.Drawing.Point(17, 362);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(150, 17);
@@ -379,7 +381,7 @@
             this.lbDisableClients.Name = "lbDisableClients";
             this.lbDisableClients.Size = new System.Drawing.Size(188, 408);
             this.lbDisableClients.TabIndex = 31;
-            this.lbDisableClients.SelectedIndexChanged += new System.EventHandler(this.lbDisableClients_SelectedIndexChanged);
+            this.lbDisableClients.Click += new System.EventHandler(this.lbDisableClients_Click);
             // 
             // txtDisable
             // 
@@ -433,96 +435,6 @@
             this.Emails2.ReadOnly = true;
             this.Emails2.Width = 125;
             // 
-            // Emails
-            // 
-            this.Emails.DataPropertyName = "EMAILS";
-            this.Emails.HeaderText = "Emails";
-            this.Emails.MinimumWidth = 6;
-            this.Emails.Name = "Emails";
-            this.Emails.ReadOnly = true;
-            this.Emails.Width = 125;
-            // 
-            // Gender
-            // 
-            this.Gender.DataPropertyName = "GENDER";
-            this.Gender.HeaderText = "Gender";
-            this.Gender.MinimumWidth = 6;
-            this.Gender.Name = "Gender";
-            this.Gender.ReadOnly = true;
-            this.Gender.Width = 125;
-            // 
-            // CURP
-            // 
-            this.CURP.DataPropertyName = "CURP";
-            this.CURP.HeaderText = "CURP";
-            this.CURP.MinimumWidth = 6;
-            this.CURP.Name = "CURP";
-            this.CURP.ReadOnly = true;
-            this.CURP.Width = 125;
-            // 
-            // DateOfBirth
-            // 
-            this.DateOfBirth.DataPropertyName = "DATE_OF_BIRTH";
-            this.DateOfBirth.HeaderText = "Date of Birth";
-            this.DateOfBirth.MinimumWidth = 6;
-            this.DateOfBirth.Name = "DateOfBirth";
-            this.DateOfBirth.ReadOnly = true;
-            this.DateOfBirth.Width = 125;
-            // 
-            // MotherLastName
-            // 
-            this.MotherLastName.DataPropertyName = "MOTHER_LAST_NAME";
-            this.MotherLastName.HeaderText = "Mother Last Name";
-            this.MotherLastName.MinimumWidth = 6;
-            this.MotherLastName.Name = "MotherLastName";
-            this.MotherLastName.ReadOnly = true;
-            this.MotherLastName.Width = 125;
-            // 
-            // FatherLastName
-            // 
-            this.FatherLastName.DataPropertyName = "FATHER_LAST_NAME";
-            this.FatherLastName.HeaderText = "Father Last Name";
-            this.FatherLastName.MinimumWidth = 6;
-            this.FatherLastName.Name = "FatherLastName";
-            this.FatherLastName.ReadOnly = true;
-            this.FatherLastName.Width = 125;
-            // 
-            // FirstName
-            // 
-            this.FirstName.DataPropertyName = "FIRST_NAME";
-            this.FirstName.HeaderText = "First Name";
-            this.FirstName.MinimumWidth = 6;
-            this.FirstName.Name = "FirstName";
-            this.FirstName.ReadOnly = true;
-            this.FirstName.Width = 125;
-            // 
-            // Password
-            // 
-            this.Password.DataPropertyName = "PASSWORD";
-            this.Password.HeaderText = "Password";
-            this.Password.MinimumWidth = 6;
-            this.Password.Name = "Password";
-            this.Password.ReadOnly = true;
-            this.Password.Width = 125;
-            // 
-            // Username
-            // 
-            this.Username.DataPropertyName = "USER_NAME";
-            this.Username.HeaderText = "Username";
-            this.Username.MinimumWidth = 6;
-            this.Username.Name = "Username";
-            this.Username.ReadOnly = true;
-            this.Username.Width = 125;
-            // 
-            // UserID
-            // 
-            this.UserID.DataPropertyName = "USER_ID";
-            this.UserID.HeaderText = "ID";
-            this.UserID.MinimumWidth = 6;
-            this.UserID.Name = "UserID";
-            this.UserID.ReadOnly = true;
-            this.UserID.Width = 125;
-            // 
             // dtgClients
             // 
             this.dtgClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -546,6 +458,96 @@
             this.dtgClients.Size = new System.Drawing.Size(436, 130);
             this.dtgClients.TabIndex = 22;
             this.dtgClients.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgClients_CellDoubleClick);
+            // 
+            // UserID
+            // 
+            this.UserID.DataPropertyName = "USER_ID";
+            this.UserID.HeaderText = "ID";
+            this.UserID.MinimumWidth = 6;
+            this.UserID.Name = "UserID";
+            this.UserID.ReadOnly = true;
+            this.UserID.Width = 125;
+            // 
+            // Username
+            // 
+            this.Username.DataPropertyName = "USER_NAME";
+            this.Username.HeaderText = "Usuario";
+            this.Username.MinimumWidth = 6;
+            this.Username.Name = "Username";
+            this.Username.ReadOnly = true;
+            this.Username.Width = 125;
+            // 
+            // Password
+            // 
+            this.Password.DataPropertyName = "PASSWORD";
+            this.Password.HeaderText = "Contraseña";
+            this.Password.MinimumWidth = 6;
+            this.Password.Name = "Password";
+            this.Password.ReadOnly = true;
+            this.Password.Width = 125;
+            // 
+            // FirstName
+            // 
+            this.FirstName.DataPropertyName = "FIRST_NAME";
+            this.FirstName.HeaderText = "Nombre(s)";
+            this.FirstName.MinimumWidth = 6;
+            this.FirstName.Name = "FirstName";
+            this.FirstName.ReadOnly = true;
+            this.FirstName.Width = 125;
+            // 
+            // FatherLastName
+            // 
+            this.FatherLastName.DataPropertyName = "FATHER_LAST_NAME";
+            this.FatherLastName.HeaderText = "Apellido Paterno";
+            this.FatherLastName.MinimumWidth = 6;
+            this.FatherLastName.Name = "FatherLastName";
+            this.FatherLastName.ReadOnly = true;
+            this.FatherLastName.Width = 125;
+            // 
+            // MotherLastName
+            // 
+            this.MotherLastName.DataPropertyName = "MOTHER_LAST_NAME";
+            this.MotherLastName.HeaderText = "Apellido Materno";
+            this.MotherLastName.MinimumWidth = 6;
+            this.MotherLastName.Name = "MotherLastName";
+            this.MotherLastName.ReadOnly = true;
+            this.MotherLastName.Width = 125;
+            // 
+            // DateOfBirth
+            // 
+            this.DateOfBirth.DataPropertyName = "DATE_OF_BIRTH";
+            this.DateOfBirth.HeaderText = "Fecha de Nacimiento";
+            this.DateOfBirth.MinimumWidth = 6;
+            this.DateOfBirth.Name = "DateOfBirth";
+            this.DateOfBirth.ReadOnly = true;
+            this.DateOfBirth.Width = 125;
+            // 
+            // CURP
+            // 
+            this.CURP.DataPropertyName = "CURP";
+            this.CURP.HeaderText = "CURP";
+            this.CURP.MinimumWidth = 6;
+            this.CURP.Name = "CURP";
+            this.CURP.ReadOnly = true;
+            this.CURP.Width = 125;
+            // 
+            // Gender
+            // 
+            this.Gender.DataPropertyName = "GENDER";
+            this.Gender.HeaderText = "Genero";
+            this.Gender.MinimumWidth = 6;
+            this.Gender.Name = "Gender";
+            this.Gender.ReadOnly = true;
+            this.Gender.Width = 125;
+            // 
+            // Emails
+            // 
+            this.Emails.DataPropertyName = "EMAILS";
+            this.Emails.HeaderText = "Emails";
+            this.Emails.MinimumWidth = 6;
+            this.Emails.Name = "Emails";
+            this.Emails.ReadOnly = true;
+            this.Emails.Width = 125;
             // 
             // lblBlockedClients
             // 
@@ -638,17 +640,17 @@
         private System.Windows.Forms.Button btnEnabling;
         private System.Windows.Forms.DataGridView dtgEmails;
         private System.Windows.Forms.DataGridViewTextBoxColumn Emails2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Emails;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gender;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CURP;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateOfBirth;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MotherLastName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FatherLastName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Password;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Username;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UserID;
         private System.Windows.Forms.DataGridView dtgClients;
         private System.Windows.Forms.Label lblBlockedClients;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UserID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Username;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Password;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FirstName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FatherLastName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MotherLastName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DateOfBirth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CURP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gender;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Emails;
     }
 }

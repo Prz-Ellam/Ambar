@@ -26,6 +26,16 @@ namespace Ambar.ViewController
             InitializeComponent();
         }
 
+        private void RatesReport_Load(object sender, EventArgs e)
+        {
+            FindRates();
+        }
+
+        private void dtpYear_ValueChanged(object sender, EventArgs e)
+        {
+            FindRates();
+        }
+
         private void btnCSV_Click(object sender, EventArgs e)
         {
             ofnReportCSV.FileName = string.Format("Reporte-Tarifas-{0} {1}", dtpYear.Value.Year, DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
@@ -93,7 +103,7 @@ namespace Ambar.ViewController
         private void FillContentPDF(ref PdfDocument document, ref PdfPage page, ref XGraphics gfx)
         {
             int i = 0;
-            bool isFinish = false;
+            bool isFinish;
             PdfPage actualPage = page;
             XGraphics actualGfx = gfx;
 
@@ -129,17 +139,6 @@ namespace Ambar.ViewController
             }
 
             return true;
-        }
-
-
-        private void dtpYear_ValueChanged(object sender, EventArgs e)
-        {
-            FindRates();
-        }
-
-        private void RatesReport_Load(object sender, EventArgs e)
-        {
-            FindRates();
         }
 
         private void FindRates()

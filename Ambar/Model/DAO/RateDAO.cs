@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ambar.Model.DTO;
+using Ambar.ViewController.Objects;
 using Cassandra;
 using Cassandra.Mapping;
 
@@ -14,29 +15,25 @@ namespace Ambar.Model.DAO
     {
         public void Create(RateDTO rate)
         {
-            Guid uuid = Guid.NewGuid();
-
-            string queryRate = "INSERT INTO RATES(RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, " +
-                "SERVICE, YEAR, MONTH) VALUES(?, ?, ?, ?, ?, ?, ?);";
-            string queryYear = "INSERT INTO RATES_BY_YEAR(RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, " +
-                "SERVICE, YEAR, MONTH) VALUES(?, ?, ?, ?, ?, ?, ?);";
+            string queryRate = @"INSERT INTO RATES(RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, 
+                                SERVICE, YEAR, MONTH) VALUES(?, ?, ?, ?, ?, ?, ?);";
+            string queryYear = @"INSERT INTO RATES_BY_YEAR(RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, 
+                                SERVICE, YEAR, MONTH) VALUES(?, ?, ?, ?, ?, ?, ?);";
 
             var rat = session.Prepare(queryRate);
             var year = session.Prepare(queryYear);
 
             var batch = new BatchStatement()
-                           .Add(rat.Bind(uuid, rate.Basic_Level, rate.Intermediate_Level, rate.Surplus_Level, rate.Service,
-                           rate.Year, rate.Month))
-                           .Add(year.Bind(uuid, rate.Basic_Level, rate.Intermediate_Level, rate.Surplus_Level, rate.Service,
-                           rate.Year, rate.Month));
+                        .Add(rat.Bind(rate.Rate_ID, rate.Basic_Level, rate.Intermediate_Level, rate.Surplus_Level, 
+                        rate.Service, rate.Year, rate.Month))
+                        .Add(year.Bind(rate.Rate_ID, rate.Basic_Level, rate.Intermediate_Level, rate.Surplus_Level, 
+                        rate.Service, rate.Year, rate.Month));
 
             session.Execute(batch);
 
             string queryExists = "SELECT COUNT(YEAR) FROM RATES_ACTIVE WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = '{2}';";
             queryExists = string.Format(queryExists, rate.Year, rate.Month, rate.Service);
-
             bool exists;
-
             try
             {
                 exists = (mapper.Single<int>(queryExists) != 0) ? true : false;
@@ -49,29 +46,27 @@ namespace Ambar.Model.DAO
             string queryAct;
             if (exists)
             {
-                queryAct = string.Format(CultureInfo.InvariantCulture,
-                    "UPDATE RATES_ACTIVE SET BASIC_LEVEL = {0}, INTERMEDIATE_LEVEL = {1}, " +
-                    "SURPLUS_LEVEL = {2} WHERE SERVICE = '{3}' AND YEAR = {4} AND MONTH = {5};",
-               rate.Basic_Level, rate.Intermediate_Level, rate.Surplus_Level, rate.Service, rate.Year, rate.Month);
+                queryAct = @"UPDATE RATES_ACTIVE SET BASIC_LEVEL = {0}, INTERMEDIATE_LEVEL = {1}, SURPLUS_LEVEL = {2} 
+                            WHERE SERVICE = '{3}' AND YEAR = {4} AND MONTH = {5};";
+                queryAct = string.Format(CultureInfo.InvariantCulture, queryAct, rate.Basic_Level, 
+                    rate.Intermediate_Level, rate.Surplus_Level, rate.Service, rate.Year, rate.Month);
             }
             else
             {
-                queryAct = string.Format(CultureInfo.InvariantCulture, 
-                    "INSERT INTO RATES_ACTIVE(BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL," +
-               " SERVICE, YEAR, MONTH) VALUES({0}, {1}, {2}, '{3}', {4}, {5});",
-               rate.Basic_Level, rate.Intermediate_Level, rate.Surplus_Level, rate.Service, rate.Year, rate.Month);
+                queryAct = @"INSERT INTO RATES_ACTIVE(BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, SERVICE, YEAR, 
+                            MONTH) VALUES({0}, {1}, {2}, '{3}', {4}, {5});";
+                queryAct = string.Format(CultureInfo.InvariantCulture, queryAct, rate.Basic_Level, 
+                    rate.Intermediate_Level, rate.Surplus_Level, rate.Service, rate.Year, rate.Month);
             }
+
             session.Execute(queryAct);
 
         }
 
-        public RateForReceiptDTO FindActiveRates(string service, int year, short month)
+        public RateForReceiptDTO FindActiveRates(string service, int year, int month)
         {
-            if (service == "Doméstico")
-                service = "Domestico";
-
-            string query = "SELECT BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL FROM RATES_ACTIVE WHERE YEAR = {0} " +
-                "AND MONTH = {1} AND SERVICE = '{2}';";
+            string query = @"SELECT BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL FROM RATES_ACTIVE WHERE YEAR = {0} 
+                            AND MONTH = {1} AND SERVICE = '{2}';";
             query = string.Format(query, year, month, service);
 
             RateForReceiptDTO rateActive;
@@ -87,6 +82,24 @@ namespace Ambar.Model.DAO
             return rateActive;
         }
 
+        public RateDTO FindActiveRates(ReceiptForm receipt)
+        {
+            string query = @"SELECT BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, SERVICE, YEAR, MONTH 
+                            FROM RATES_ACTIVE WHERE YEAR = {0} AND MONTH = {1} AND SERVICE = '{2}';";
+            query = string.Format(query, receipt.Year, receipt.Period, receipt.ServiceType);
+
+            RateDTO rateActive;
+            try
+            {
+                rateActive = mapper.Single<RateDTO>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            return rateActive;
+        }
 
         public List<RateDTO> ReadRates()
         {
@@ -107,8 +120,8 @@ namespace Ambar.Model.DAO
 
         public List<RateDTO> ReadRatesByYear(int year)
         {
-            string query = "SELECT RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, SERVICE, YEAR, MONTH FROM " +
-                "RATES_BY_YEAR WHERE YEAR = {0};";
+            string query = @"SELECT RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, SERVICE, YEAR, MONTH FROM 
+                            RATES_BY_YEAR WHERE YEAR = {0};";
             query = string.Format(query, year);
 
             IEnumerable<RateDTO> rates;

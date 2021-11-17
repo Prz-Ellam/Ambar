@@ -137,9 +137,9 @@ namespace Ambar.Model.DAO
 
         public void Action(Guid id, string action)
         {
-            string query = "INSERT INTO ACTIVITY(USER_ID, ACTION, OFFSET) VALUES({0}, '{1}', toUnixTimestamp(now()));";
-            query = string.Format(query, id, action);
-
+            string query = @"INSERT INTO ACTIVITY(ACTIVITY_ID, USER_ID, ACTION, OFFSET) VALUES({0}, {1}, '{2}', 
+                            toUnixTimestamp(now()));";
+            query = string.Format(query, Guid.NewGuid(), id, action);
             session.Execute(query);
         }
 
