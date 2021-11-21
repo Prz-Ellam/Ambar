@@ -34,14 +34,20 @@ namespace Ambar.ViewController
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (txtFilter.Text == string.Empty)
+            string filter = StringUtils.GetText(txtFilter.Text);
+            if (filter.IndexOf('\'') != -1)
             {
-                MessageBox.Show("No se ha ingresado un filtro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!RegexUtils.ValidateMeterSerialNumber(filter))
+            {
+                MessageBox.Show("Número de medidor no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             int year = dtpYear.Value.Year;
-            string filter = txtFilter.Text;
 
             List<HistoricConsumptionDTO> historicConsumption;
             if (rbMeterSerialNumber.Checked)

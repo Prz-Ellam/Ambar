@@ -17,10 +17,17 @@ namespace Ambar.Utils
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            LinearGradientBrush lgb = new LinearGradientBrush(this.ClientRectangle, this.first, this.second, this.angle);
-            Graphics g = e.Graphics;
-            g.FillRectangle(lgb, this.ClientRectangle);
-            base.OnPaint(e);
+            try
+            {
+                LinearGradientBrush lgb = new LinearGradientBrush(this.ClientRectangle, this.first, this.second, this.angle);
+                Graphics g = e.Graphics;
+                g.FillRectangle(lgb, this.ClientRectangle);
+                base.OnPaint(e);
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 }

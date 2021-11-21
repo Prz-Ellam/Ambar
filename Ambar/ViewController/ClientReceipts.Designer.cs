@@ -29,6 +29,10 @@ namespace Ambar.ViewController
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.lblReceipts = new System.Windows.Forms.Label();
             this.dtgContracts = new System.Windows.Forms.DataGridView();
             this.consumptionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,7 +50,7 @@ namespace Ambar.ViewController
             this.btnPDF = new System.Windows.Forms.Button();
             this.dtpPeriod = new System.Windows.Forms.DateTimePicker();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gpPaymentType = new System.Windows.Forms.GroupBox();
             this.rbTransfer = new System.Windows.Forms.RadioButton();
             this.rbCredit = new System.Windows.Forms.RadioButton();
             this.rbDebit = new System.Windows.Forms.RadioButton();
@@ -66,11 +70,16 @@ namespace Ambar.ViewController
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dtgHistory = new System.Windows.Forms.DataGridView();
+            this.paymentType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnReceipt = new System.Windows.Forms.Button();
+            this.chartHC = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.gpPaymentType.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgHistory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartHC)).BeginInit();
             this.SuspendLayout();
             // 
             // lblReceipts
@@ -198,12 +207,13 @@ namespace Ambar.ViewController
             // btnPDF
             // 
             this.btnPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnPDF.Enabled = false;
             this.btnPDF.FlatAppearance.BorderSize = 0;
             this.btnPDF.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPDF.ForeColor = System.Drawing.Color.White;
-            this.btnPDF.Location = new System.Drawing.Point(26, 470);
+            this.btnPDF.Location = new System.Drawing.Point(26, 454);
             this.btnPDF.Margin = new System.Windows.Forms.Padding(2);
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(137, 74);
@@ -226,6 +236,7 @@ namespace Ambar.ViewController
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnSearch.Enabled = false;
             this.btnSearch.FlatAppearance.BorderSize = 0;
             this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -240,20 +251,20 @@ namespace Ambar.ViewController
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // groupBox1
+            // gpPaymentType
             // 
-            this.groupBox1.Controls.Add(this.rbTransfer);
-            this.groupBox1.Controls.Add(this.rbCredit);
-            this.groupBox1.Controls.Add(this.rbDebit);
-            this.groupBox1.Controls.Add(this.rbCash);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.groupBox1.Location = new System.Drawing.Point(679, 299);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 142);
-            this.groupBox1.TabIndex = 32;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Tipo de pago:";
+            this.gpPaymentType.Controls.Add(this.rbTransfer);
+            this.gpPaymentType.Controls.Add(this.rbCredit);
+            this.gpPaymentType.Controls.Add(this.rbDebit);
+            this.gpPaymentType.Controls.Add(this.rbCash);
+            this.gpPaymentType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gpPaymentType.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.gpPaymentType.Location = new System.Drawing.Point(679, 299);
+            this.gpPaymentType.Name = "gpPaymentType";
+            this.gpPaymentType.Size = new System.Drawing.Size(200, 142);
+            this.gpPaymentType.TabIndex = 32;
+            this.gpPaymentType.TabStop = false;
+            this.gpPaymentType.Text = "Tipo de pago:";
             // 
             // rbTransfer
             // 
@@ -288,7 +299,7 @@ namespace Ambar.ViewController
             this.rbDebit.Name = "rbDebit";
             this.rbDebit.Size = new System.Drawing.Size(129, 20);
             this.rbDebit.TabIndex = 1;
-            this.rbDebit.Text = "Tarjeta de débito";
+            this.rbDebit.Text = "Tarjeta de debito";
             this.rbDebit.UseVisualStyleBackColor = true;
             // 
             // rbCash
@@ -341,6 +352,7 @@ namespace Ambar.ViewController
             // btnPaid
             // 
             this.btnPaid.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnPaid.Enabled = false;
             this.btnPaid.FlatAppearance.BorderSize = 0;
             this.btnPaid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
             this.btnPaid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -468,21 +480,79 @@ namespace Ambar.ViewController
             this.lblStatus.TabIndex = 46;
             this.lblStatus.Text = "...";
             // 
-            // dataGridView1
+            // dtgHistory
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(400, 389);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(249, 200);
-            this.dataGridView1.TabIndex = 47;
+            this.dtgHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.paymentType,
+            this.mount});
+            this.dtgHistory.Location = new System.Drawing.Point(421, 307);
+            this.dtgHistory.Name = "dtgHistory";
+            this.dtgHistory.ReadOnly = true;
+            this.dtgHistory.Size = new System.Drawing.Size(244, 170);
+            this.dtgHistory.TabIndex = 47;
+            // 
+            // paymentType
+            // 
+            this.paymentType.DataPropertyName = "paymentType";
+            this.paymentType.HeaderText = "Tipo de pago";
+            this.paymentType.Name = "paymentType";
+            this.paymentType.ReadOnly = true;
+            // 
+            // mount
+            // 
+            this.mount.DataPropertyName = "mount";
+            this.mount.HeaderText = "Monto";
+            this.mount.Name = "mount";
+            this.mount.ReadOnly = true;
+            // 
+            // btnReceipt
+            // 
+            this.btnReceipt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            this.btnReceipt.Enabled = false;
+            this.btnReceipt.FlatAppearance.BorderSize = 0;
+            this.btnReceipt.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            this.btnReceipt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReceipt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReceipt.ForeColor = System.Drawing.Color.White;
+            this.btnReceipt.Location = new System.Drawing.Point(26, 544);
+            this.btnReceipt.Margin = new System.Windows.Forms.Padding(2);
+            this.btnReceipt.Name = "btnReceipt";
+            this.btnReceipt.Size = new System.Drawing.Size(137, 52);
+            this.btnReceipt.TabIndex = 48;
+            this.btnReceipt.Text = "VER RECIBO";
+            this.btnReceipt.UseVisualStyleBackColor = false;
+            this.btnReceipt.Click += new System.EventHandler(this.btnReceipt_Click);
+            // 
+            // chartHC
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chartHC.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartHC.Legends.Add(legend1);
+            this.chartHC.Location = new System.Drawing.Point(421, 490);
+            this.chartHC.Name = "chartHC";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "HC";
+            this.chartHC.Series.Add(series1);
+            this.chartHC.Size = new System.Drawing.Size(244, 205);
+            this.chartHC.TabIndex = 49;
+            this.chartHC.Text = "chart1";
+            title1.Name = "Historic Consumption";
+            title1.Text = "Historic Consumption";
+            this.chartHC.Titles.Add(title1);
+            this.chartHC.Visible = false;
             // 
             // ClientReceipts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(907, 613);
-            this.Controls.Add(this.dataGridView1);
+            this.ClientSize = new System.Drawing.Size(907, 752);
+            this.Controls.Add(this.chartHC);
+            this.Controls.Add(this.btnReceipt);
+            this.Controls.Add(this.dtgHistory);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nudMount);
@@ -496,7 +566,7 @@ namespace Ambar.ViewController
             this.Controls.Add(this.lblTotalPendiente);
             this.Controls.Add(this.lblTotalPagado);
             this.Controls.Add(this.lblImporte);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gpPaymentType);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.dtpPeriod);
             this.Controls.Add(this.btnPDF);
@@ -508,10 +578,11 @@ namespace Ambar.ViewController
             this.Text = "ClientReceipts";
             this.Load += new System.EventHandler(this.ClientReceipts_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gpPaymentType.ResumeLayout(false);
+            this.gpPaymentType.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgHistory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartHC)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -525,7 +596,7 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.DateTimePicker dtpPeriod;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gpPaymentType;
         private System.Windows.Forms.RadioButton rbDebit;
         private System.Windows.Forms.RadioButton rbCash;
         private System.Windows.Forms.RadioButton rbTransfer;
@@ -556,6 +627,10 @@ namespace Ambar.ViewController
         private System.Windows.Forms.OpenFileDialog ofnMassive;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblStatus;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dtgHistory;
+        private System.Windows.Forms.DataGridViewTextBoxColumn paymentType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mount;
+        private System.Windows.Forms.Button btnReceipt;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartHC;
     }
 }

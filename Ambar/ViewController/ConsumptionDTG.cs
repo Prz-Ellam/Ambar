@@ -11,7 +11,7 @@ namespace Ambar.ViewController
     {
         Guid consumption_id;
         string meter_serial_number;
-        Int64 service_number;
+        long service_number;
         decimal basic_kw;
         decimal intermediate_kw;
         decimal surplus_kw;

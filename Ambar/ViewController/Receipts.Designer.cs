@@ -71,6 +71,7 @@ namespace Ambar.ViewController
             // cbService
             // 
             this.cbService.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbService.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbService.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbService.FormattingEnabled = true;
             this.cbService.Items.AddRange(new object[] {
@@ -209,6 +210,7 @@ namespace Ambar.ViewController
             // cbPeriod
             // 
             this.cbPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPeriod.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPeriod.FormattingEnabled = true;
             this.cbPeriod.Location = new System.Drawing.Point(196, 125);

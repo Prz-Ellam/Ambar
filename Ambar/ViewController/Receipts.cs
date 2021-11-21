@@ -44,30 +44,70 @@ namespace Ambar.ViewController
                 return;
             }
 
-            bool result = true;
+            bool result = false;
+            bool domestico = false, industrial = false;
             DateTime request = new DateTime(massiveReceipt.Year, massiveReceipt.Period, 1);
+
             if (massiveReceipt.ServiceType == "Ambos")
             {
-                //if (request.Month % 2 == 0)
-                //{
-                //    result = GenerateReceipts(request, "Domestico") && result;
-                //}
-                //result = GenerateReceipts(request, "Industrial") && result;
+                if (request.Month % 2 == 0)
+                {
+                    massiveReceipt.ServiceType = "Domestico";
+                    domestico = GenerateReceipts(massiveReceipt);
+                    if (domestico)
+                    {
+                        MessageBox.Show("Recibos domesticos emitidos exitosamente", "Ambar", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudieron emitir los recibos domesticos", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                massiveReceipt.ServiceType = "Industrial";
+                industrial = GenerateReceipts(massiveReceipt);
+                if (industrial)
+                {
+                    MessageBox.Show("Recibos industriales emitidos exitosamente", "Ambar", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    MessageBox.Show("No se pudieron emitir los recibos industriales", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
                 result = GenerateReceipts(massiveReceipt);
             }
             
-            if (result)
+            if (result || (domestico || industrial))
             {
-            //    string action = "[Recibos] Fueron emitidos recibos del Mes: " + request.Month +
-            //        ", Año: " + request.Year + "Mes: " + request.Month + ", Servicio: " +
-            //        serviceType + ", a las: " + DateTime.Now;
-            //    new UserRememberDAO().Action(UserCache.id, action);
-            //
-            //    ClearForm();
-            //    MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+                string serviceType;
+                if (result)
+                {
+                    serviceType = massiveReceipt.ServiceType;
+                }
+                else
+                {
+                    if (domestico && industrial)
+                    {
+                        serviceType = "Ambos";
+                    }
+                    else if (domestico)
+                    {
+                        serviceType = "Domestico";
+                    }
+                    else // Industrial
+                    {
+                        serviceType = "Industrial";
+                    }
+                }
+
+                string action = "[Recibos] Fueron emitidos recibos del Mes: " + request.Month +
+                    ", Año: " + request.Year + ", Mes: " + request.Month + ", Servicio: " + serviceType;
+                new ActivityDAO().Action(UserCache.id, action);
+
+                ClearForm();
+                MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
             }
         }   
 
@@ -175,46 +215,69 @@ namespace Ambar.ViewController
 
         private void btnPDF_Click(object sender, EventArgs e)
         {
-
             string filter = StringUtils.GetText(txtFilterID.Text);
+            if (filter.IndexOf('\'') != -1)
+            {
+                MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!RegexUtils.ValidateMeterSerialNumber(filter))
+            {
+                MessageBox.Show("Número de medidor no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DateTime request = dtpPeriodSearch.Value;
 
             if (filter == string.Empty)
             {
-                return; // ERROR
+                MessageBox.Show("Todos los campos son obligatorios", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             ofnReceipt.FileName = string.Format("{0} {1} {2}", filter, dtpYear.Value.Year, DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss"));
 
             if (ofnReceipt.ShowDialog() == DialogResult.OK)
             {
-                DateTime request = new DateTime(dtpPeriodSearch.Value.Year, dtpPeriodSearch.Value.Month, 1);
                 ContractDAO contractDAO = new ContractDAO();
+                ReceiptDTO receipt;
 
-                ReceiptDTO receipt = new ReceiptDTO();
                 if (rbMeterSerialNumber.Checked)
                 {
+                    if (!contractDAO.ContractExists(filter))
+                    {
+                        MessageBox.Show("El número de medidor no existe actualmente", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     string serviceType = contractDAO.FindServiceType(filter);
                     if (serviceType == null)
                     {
+                        MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
+
                     request = DateUtils.FindPeriod(serviceType, request);
                     receipt = receiptDAO.FindReceipt(request.Year, request.Month, filter);
                     if (receipt == null)
                     {
+                        MessageBox.Show("No se encontró recibo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
                 else if (rbServiceNumber.Checked)
                 {
                     long filterNum;
-                    try
+                    if (!long.TryParse(filter, out filterNum) || !RegexUtils.OnlyNumbers(filter))
                     {
-                        filterNum = Convert.ToInt64(filter);
+                        MessageBox.Show("Número de servicio no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
-                    catch (Exception ex)
+
+                    if (filterNum == 0)
                     {
-                        MessageBox.Show("Número de servicio no válido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("El número de servicio no puede ser 0", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
@@ -227,149 +290,30 @@ namespace Ambar.ViewController
                     receipt = receiptDAO.FindReceipt(request.Year, request.Month, filterNum);
                     if (receipt == null)
                     {
+                        MessageBox.Show("No se encontró recibo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
                 else
                 {
-                    // ERROR
+                    MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                PdfDocument document = new PdfDocument();
-                PdfPage page = document.AddPage();
-
-                XGraphics gfx = XGraphics.FromPdfPage(page);
-                XPen pen = new XPen(XColor.FromArgb(255, 0, 0, 0));
-                XImage logo = XImage.FromFile("../../Resources/Ambar_Logo.png");
-                XImage table1 = XImage.FromFile("../../Resources/Table1.PNG");
-                XImage table2 = XImage.FromFile("../../Resources/Table2.PNG");
-
-                gfx.DrawImage(logo, new XRect(20, 20, 60, 84));
-
-                gfx.DrawString("Ambar", new XFont("Arial", 14), XBrushes.Black, new XRect(100, 20, page.Width, page.Height),
-                    XStringFormats.TopLeft);
-                gfx.DrawString("Recibo", new XFont("Arial", 14), XBrushes.Black, new XRect(100, 40, page.Width, page.Height),
-                    XStringFormats.TopLeft);
-
-
-                string fullName = "{0} {1} {2}";
-                fullName = string.Format(fullName, receipt.Father_Last_Name, receipt.Mother_Last_Name, receipt.First_Name);
-                gfx.DrawString(fullName, new XFont("Arial", 14, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 120));
-
-                string address = "{0} {1} CP. {2}";
-                address = string.Format(address, receipt.Street, receipt.Number, receipt.Postal_Code);
-                gfx.DrawString(address, new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 140));
-                address = "{0} CP. {1}";
-                address = string.Format(address, receipt.Suburb, receipt.Postal_Code);
-                gfx.DrawString(address, new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 160));
-                address = "{0}, {1}";
-                address = string.Format(address, receipt.City, receipt.State);
-                gfx.DrawString(address, new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 180));
-
-
-                gfx.DrawString("NO. DE SERVICIO: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 200));
-                gfx.DrawString(receipt.Service_Number.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 200));
-
-                gfx.DrawString("PERIODO FACTURADO: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 220));
-
-                // Prueba de escritorio
-                DateTime start = new DateTime(receipt.Year, receipt.Month, receipt.Day);
-                DateTime end;
-                if (receipt.Service == "Domestico")
-                {
-                    start = start.AddMonths(-1);
-                    end = start.AddMonths(1);
-                }
-                else if (receipt.Service == "Industrial")
-                {
-                    end = start.AddMonths(1);
-                }
-                else
-                {
-                    return; // ERROR
-                }
-                end = end.AddDays(-1);
-
-                XFont font = new XFont("Arial", 12);
-                XFont fontBold = new XFont("Arial", 12, XFontStyle.Bold);
-
-                string period = start.ToString("dd MMM yy").ToUpper() + " - " + end.ToString("dd MMM yy").ToUpper();
-                gfx.DrawString(period, font, XBrushes.Black, new XPoint(160, 220));
-
-                gfx.DrawString("LÍMITE DE PAGO: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 240));
-                DateTime expirationDay = end.AddDays(19);
-                gfx.DrawString(expirationDay.ToString("dd MMM yy").ToUpper(), font, XBrushes.Black, new XPoint(150, 240));
-
-                gfx.DrawString("CORTE A PARTIR: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 260));
-                DateTime cutDay = expirationDay.AddDays(1);
-                gfx.DrawString(cutDay.ToString("dd MMM yy").ToUpper(), font, XBrushes.Black, new XPoint(150, 260));
-
-                gfx.DrawString("NO. MEDIDOR: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 280));
-                gfx.DrawString(receipt.Meter_Serial_Number, font, XBrushes.Black, new XPoint(100, 280));
-
-                gfx.DrawImage(table1, new XRect(30, 305, 552, 80));
-
-                gfx.DrawString("Energía (kWh)", fontBold, XBrushes.Black, new XPoint(10, 320));
-                gfx.DrawString("Total Periodo", fontBold, XBrushes.Black, new XPoint(120, 320));
-                gfx.DrawString("Precio (MXN)", fontBold, XBrushes.Black, new XPoint(200, 320));
-                gfx.DrawString("Subtotal (MXN)", fontBold, XBrushes.Black, new XPoint(280, 320));
-
-                gfx.DrawString("Básico: ", fontBold, XBrushes.Black, new XPoint(10, 340));
-                gfx.DrawString(receipt.Basic_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 340));
-                gfx.DrawString(receipt.Basic_Level.ToString("0.000"), new XFont("Arial", 12), XBrushes.Black, new XPoint(200, 340));
-                gfx.DrawString(receipt.Basic_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 340));
-
-                gfx.DrawString("Intermedio: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 360));
-                gfx.DrawString(receipt.Intermediate_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 360));
-                gfx.DrawString(receipt.Intermediate_Level.ToString("0.000"), new XFont("Arial", 12), XBrushes.Black, new XPoint(200, 360));
-                gfx.DrawString(receipt.Intermediate_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 360));
-
-                gfx.DrawString("Excedente: ", new XFont("Arial", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(10, 380));
-                gfx.DrawString(receipt.Surplus_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 380));
-                gfx.DrawString(receipt.Surplus_Level.ToString("0.000"), new XFont("Arial", 12), XBrushes.Black, new XPoint(200, 380));
-                gfx.DrawString(receipt.Surplus_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 380));
-
-                gfx.DrawString(receipt.Total_KW.ToString(), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 400));
-                gfx.DrawString(receipt.Subtotal_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(280, 400));
-
-
-                gfx.DrawString("Energía", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 440));
-                gfx.DrawString(receipt.Subtotal_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 440));
-                gfx.DrawString("IVA 16%", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 460));
-                gfx.DrawString(receipt.Tax.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 460));
-                gfx.DrawString("Fac. del Periodo", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 480));
-                gfx.DrawString((receipt.Subtotal_Price + receipt.Tax).ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 480));
-
-                gfx.DrawString("Adeudo Anterior", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 500));
-                gfx.DrawString(receipt.Prev_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 500));
-
-                gfx.DrawString("Su pago", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 520));
-                gfx.DrawString(receipt.Prev_Amount.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 520));
-
-                gfx.DrawString("Total", new XFont("Arial", 12), XBrushes.Black, new XPoint(10, 540));
-                gfx.DrawString("$" + receipt.Total_Price.ToString("0.00"), new XFont("Arial", 12), XBrushes.Black, new XPoint(120, 540));
-
-
-                gfx.DrawString("TOTAL A PAGAR", new XFont("Arial", 12), XBrushes.Black, new XPoint(360, 40));
-                gfx.DrawString("$" + Decimal.Truncate(receipt.Total_Price), new XFont("Arial", 24), XBrushes.Black, new XPoint(360, 70));
-                string number = NumericUtils.GetNumberString(Convert.ToInt32(Decimal.Truncate(receipt.Total_Price)));
-                gfx.DrawString("(" + number + " PESOS M.N.)", new XFont("Arial", 8), XBrushes.Black, new XPoint(360, 90));
-
-                document.Save(ofnReceipt.FileName);
-
+                PDFUtils.GeneratePDFReceipt(receipt, ofnReceipt.FileName);
 
                 List<HistoricConsumptionDTO> historicConsumptions;
                 if (rbMeterSerialNumber.Checked)
                 {
-                    historicConsumptions = receiptDAO.HistoricConsumption(txtFilterID.Text);
+                    historicConsumptions = receiptDAO.HistoricConsumption(filter);
                 }
                 else if (rbServiceNumber.Checked)
                 {
-                    historicConsumptions = receiptDAO.HistoricConsumption(Convert.ToInt64(txtFilterID.Text));
+                    historicConsumptions = receiptDAO.HistoricConsumption(Convert.ToInt64(filter));
                 }
                 else
                 {
+                    MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -377,6 +321,7 @@ namespace Ambar.ViewController
                 historicConsumptions.Reverse();
                 int index = historicConsumptions.FindIndex(o => o.Month == request.Month && o.Year == request.Year);
                 historicConsumptions.RemoveRange(0, index + 1);
+                historicConsumptions.Reverse();
 
                 int count = (historicConsumptions.Count > 11) ? 11 : historicConsumptions.Count;
 
@@ -395,7 +340,7 @@ namespace Ambar.ViewController
             // Validar que no se emitieron ya los recibos de este periodo
             if (receiptDAO.FindEmission(receiptsInfo.Year, receiptsInfo.Period, receiptsInfo.ServiceType))
             {
-                MessageBox.Show("Ya se emitieron los recibos de este periodo", "Ambar", MessageBoxButtons.OK);
+                MessageBox.Show("Ya se emitieron los recibos de este periodo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -410,7 +355,7 @@ namespace Ambar.ViewController
             RateDTO rateInfo = rateDao.FindActiveRates(receiptsInfo);
             if (rateInfo == null)
             {
-                MessageBox.Show("No hay tarifas registradas para este periodo", "Ambar", MessageBoxButtons.OK);
+                MessageBox.Show("No hay tarifas registradas para este periodo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -430,15 +375,14 @@ namespace Ambar.ViewController
 
                 if (DateUtils.IsLessPeriod(period, start))
                 {
-                    MessageBox.Show("No se puede cargar un contrato antes del inicio de periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
+                    continue;
                 }
 
                 ConsumptionDTO consumption = consumptionDAO.FindConsumption(receiptsInfo.Year, receiptsInfo.Period, 
                     contractInfo.Meter_Serial_Number);
                 if (consumption == null)
                 {
-                    MessageBox.Show("No se han cargado todos los consumos de los contratos", "Ambar", MessageBoxButtons.OK);
+                    MessageBox.Show("No se han cargado todos los consumos de los contratos", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
@@ -485,10 +429,10 @@ namespace Ambar.ViewController
                 receipts.Add(dto);
             }
 
-            if (receipts.Count == 0)
-            {
-                // NO HAY NADA QUE GENERAR
-            }
+            //if (receipts.Count == 0)
+            //{
+            //    // NO HAY NADA QUE GENERAR
+            //}
 
             receiptDAO.GenerateMassiveReceipts(receipts);
             receiptDAO.EmitReceipt(receiptsInfo);

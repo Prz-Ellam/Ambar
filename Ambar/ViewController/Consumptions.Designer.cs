@@ -61,6 +61,7 @@
             this.StartPeriodDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ofnMassive = new System.Windows.Forms.OpenFileDialog();
             this.nudKilowatts = new System.Windows.Forms.NumericUpDown();
+            this.lblDate = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgContracts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudKilowatts)).BeginInit();
@@ -428,12 +429,24 @@
             this.nudKilowatts.Size = new System.Drawing.Size(287, 23);
             this.nudKilowatts.TabIndex = 2;
             // 
+            // lblDate
+            // 
+            this.lblDate.AutoSize = true;
+            this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lblDate.Location = new System.Drawing.Point(521, 47);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(21, 20);
+            this.lblDate.TabIndex = 41;
+            this.lblDate.Text = "...";
+            // 
             // Consumptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(976, 638);
+            this.Controls.Add(this.lblDate);
             this.Controls.Add(this.nudKilowatts);
             this.Controls.Add(this.dtgContracts);
             this.Controls.Add(this.label5);
@@ -493,5 +506,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Number;
         private System.Windows.Forms.DataGridViewTextBoxColumn PostalCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn StartPeriodDate;
+        private System.Windows.Forms.Label lblDate;
     }
 }

@@ -59,7 +59,7 @@ namespace Ambar.ViewController
             clientDAO.Create(clientDTO);
 
             string action = "[Cliente] Fue creado: " + client.Username + ", con ID: " + client.ID;
-            userRemember.Action(UserCache.id, action);
+            new ActivityDAO().Action(UserCache.id, action);
 
             FillDataGridView();
             ClearForm();
@@ -87,7 +87,7 @@ namespace Ambar.ViewController
             }
 
             string action = "[Cliente] Fue modificado: " + originalUsername + ", por " + client.Username + ", con ID: " + client.ID;
-            userRemember.Action(UserCache.id, action);
+            new ActivityDAO().Action(UserCache.id, action);
 
             FillDataGridView();
             FillDisableUsers();
@@ -121,7 +121,7 @@ namespace Ambar.ViewController
                 }
 
                 string action = "[Cliente] Fue eliminado: " + originalUsername + ", con ID: " + originalID;
-                userRemember.Action(UserCache.id, action);
+                new ActivityDAO().Action(UserCache.id, action);
 
                 FillDataGridView();
                 FillDisableUsers();
@@ -132,6 +132,10 @@ namespace Ambar.ViewController
 
         private void btnEnabling_Click(object sender, EventArgs e)
         {
+            if (txtDisable.Text == string.Empty)
+            {
+                return;
+            }
             clientDAO.Enabled(txtDisable.Text, true);
             ClearDisableUsers();
             FillDisableUsers();
@@ -169,9 +173,39 @@ namespace Ambar.ViewController
                 return false;
             }
 
+            if (client.FirstName.IndexOf('\'') != -1 || client.FatherLastName.IndexOf('\'') != -1 ||
+                client.MotherLastName.IndexOf('\'') != -1 || client.CURP.IndexOf('\'') != -1 || client.Username.IndexOf('\'') != -1 || 
+                client.Password.IndexOf('\'') != -1 || client.ConfirmPassword.IndexOf('\'') != -1)
+            {
+                MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            foreach (var email in client.Emails)
+            {
+                if (email.IndexOf('\'') != -1)
+                {
+                    MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
             if (client.Password != client.ConfirmPassword)
             {
                 MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.ValidateName(client.FirstName) || !RegexUtils.ValidateName(client.FatherLastName)
+                || !RegexUtils.ValidateName(client.MotherLastName))
+            {
+                MessageBox.Show("Nombre y/o Apellidos no validos", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.ValidateUsername(client.Username))
+            {
+                MessageBox.Show("Nombre de usuario no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 

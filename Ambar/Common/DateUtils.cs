@@ -25,7 +25,7 @@ namespace Ambar.Common
         {
             if (serviceType == "Domestico" && date.Month % 2 == 1)
             {
-                date.AddMonths(1);
+                date = date.AddMonths(1);
             }
             return date;
         }

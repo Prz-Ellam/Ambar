@@ -402,7 +402,7 @@ namespace Ambar.Model.DAO
             {
                 Guid receiptID = row.GetValue<Guid>("receipt_id");
                 int year = row.GetValue<int>("year");
-                short month = row.GetValue<short>("month");
+                int month = row.GetValue<int>("month");
                 string service = row.GetValue<string>("service");
 
                 string query1 = @"UPDATE RECEIPT SET FIRST_NAME = '{0}', FATHER_LAST_NAME = '{1}', MOTHER_LAST_NAME = '{2}'

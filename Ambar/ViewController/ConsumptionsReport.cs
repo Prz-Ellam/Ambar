@@ -45,6 +45,8 @@ namespace Ambar.ViewController
                 csvWriter.WriteRecords(consumptions);
                 csvWriter.Dispose();
                 writer.Close();
+
+                MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
             }
         }
 

@@ -29,10 +29,10 @@ namespace Ambar.ViewController
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dtgHistoricConsumption = new System.Windows.Forms.DataGridView();
             this.year = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.month = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,14 +61,14 @@ namespace Ambar.ViewController
             this.dtgHistoricConsumption.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.dtgHistoricConsumption.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtgHistoricConsumption.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgHistoricConsumption.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(200)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgHistoricConsumption.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgHistoricConsumption.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgHistoricConsumption.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.year,
@@ -77,31 +77,32 @@ namespace Ambar.ViewController
             this.Import,
             this.Paid,
             this.PendingAmount});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgHistoricConsumption.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtgHistoricConsumption.DefaultCellStyle = dataGridViewCellStyle2;
             this.dtgHistoricConsumption.EnableHeadersVisualStyles = false;
             this.dtgHistoricConsumption.Location = new System.Drawing.Point(31, 148);
             this.dtgHistoricConsumption.Name = "dtgHistoricConsumption";
+            this.dtgHistoricConsumption.ReadOnly = true;
             this.dtgHistoricConsumption.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgHistoricConsumption.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
-            this.dtgHistoricConsumption.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgHistoricConsumption.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(115)))), ((int)(((byte)(53)))));
+            this.dtgHistoricConsumption.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dtgHistoricConsumption.Size = new System.Drawing.Size(834, 403);
             this.dtgHistoricConsumption.TabIndex = 1;
             // 
@@ -110,18 +111,21 @@ namespace Ambar.ViewController
             this.year.DataPropertyName = "YEAR";
             this.year.HeaderText = "Año";
             this.year.Name = "year";
+            this.year.ReadOnly = true;
             // 
             // month
             // 
             this.month.DataPropertyName = "MONTH";
             this.month.HeaderText = "Mes";
             this.month.Name = "month";
+            this.month.ReadOnly = true;
             // 
             // totalKW
             // 
             this.totalKW.DataPropertyName = "TOTAL_KW";
             this.totalKW.HeaderText = "Consumo de kW";
             this.totalKW.Name = "totalKW";
+            this.totalKW.ReadOnly = true;
             this.totalKW.Width = 150;
             // 
             // Import
@@ -129,13 +133,15 @@ namespace Ambar.ViewController
             this.Import.DataPropertyName = "TOTAL_PRICE";
             this.Import.HeaderText = "Importe";
             this.Import.Name = "Import";
+            this.Import.ReadOnly = true;
             this.Import.Width = 130;
             // 
             // Paid
             // 
-            this.Paid.DataPropertyName = "AMOUNT_PAD";
+            this.Paid.DataPropertyName = "AMOUNT_PAID";
             this.Paid.HeaderText = "Total Pagado";
             this.Paid.Name = "Paid";
+            this.Paid.ReadOnly = true;
             this.Paid.Width = 150;
             // 
             // PendingAmount
@@ -143,6 +149,7 @@ namespace Ambar.ViewController
             this.PendingAmount.DataPropertyName = "PENDING_AMOUNT";
             this.PendingAmount.HeaderText = "Total Pendiente de Pago";
             this.PendingAmount.Name = "PendingAmount";
+            this.PendingAmount.ReadOnly = true;
             this.PendingAmount.Width = 160;
             // 
             // dtpYear
@@ -335,13 +342,13 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.Button btnCSV;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.SaveFileDialog ofnReportCSV;
+        private System.Windows.Forms.SaveFileDialog ofnReportPDF;
         private System.Windows.Forms.DataGridViewTextBoxColumn year;
         private System.Windows.Forms.DataGridViewTextBoxColumn month;
         private System.Windows.Forms.DataGridViewTextBoxColumn totalKW;
         private System.Windows.Forms.DataGridViewTextBoxColumn Import;
         private System.Windows.Forms.DataGridViewTextBoxColumn Paid;
         private System.Windows.Forms.DataGridViewTextBoxColumn PendingAmount;
-        private System.Windows.Forms.SaveFileDialog ofnReportCSV;
-        private System.Windows.Forms.SaveFileDialog ofnReportPDF;
     }
 }

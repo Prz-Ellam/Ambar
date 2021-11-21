@@ -9,6 +9,84 @@ namespace Ambar.Common
 {
     class NumericUtils
     {
+        public static string GetNumberString(decimal number)
+        {
+            string numStr;
+            number = Math.Truncate(number);
+
+            if (number == 0) numStr = "CERO";
+            else if (number == 1) numStr = "UN";
+            else if (number == 2) numStr = "DOS";
+            else if (number == 3) numStr = "TRES";
+            else if (number == 4) numStr = "CUATRO";
+            else if (number == 5) numStr = "CINCO";
+            else if (number == 6) numStr = "SEIS";
+            else if (number == 7) numStr = "SIETE";
+            else if (number == 8) numStr = "OCHO";
+            else if (number == 9) numStr = "NUEVE";
+            else if (number == 10) numStr = "DIEZ";
+            else if (number == 11) numStr = "ONCE";
+            else if (number == 12) numStr = "DOCE";
+            else if (number == 13) numStr = "TRECE";
+            else if (number == 14) numStr = "CATORCE";
+            else if (number == 15) numStr = "QUINCE";
+            else if (number < 20) numStr = "DIECI" + GetNumberString(number - 10);
+            else if (number == 20) numStr = "VEINTE";
+            else if (number < 30) numStr = "VEINTI" + GetNumberString(number - 20);
+            else if (number == 30) numStr = "TREINTA";
+            else if (number == 40) numStr = "CUARENTA";
+            else if (number == 50) numStr = "CINCUENTA";
+            else if (number == 60) numStr = "SESENTA";
+            else if (number == 70) numStr = "SETENTA";
+            else if (number == 80) numStr = "OCHENTA";
+            else if (number == 90) numStr = "NOVENTA";
+            else if (number < 100) numStr = GetNumberString(Math.Truncate(number / 10) * 10) + " Y " + GetNumberString(number % 10);
+            else if (number == 100) numStr = "CIEN";
+            else if (number < 200) numStr = "CIENTO " + GetNumberString(number - 100);
+            else if ((number == 200) || (number == 300) || (number == 400) || (number == 600) || (number == 800)) numStr = GetNumberString(Math.Truncate(number / 100)) + "CIENTOS";
+            else if (number == 500) numStr = "QUINIENTOS";
+            else if (number == 700) numStr = "SETECIENTOS";
+            else if (number == 900) numStr = "NOVECIENTOS";
+            else if (number < 1000) numStr = GetNumberString(Math.Truncate(number / 100) * 100) + " " + GetNumberString(number % 100);
+            else if (number == 1000) numStr = "MIL";
+            else if (number < 2000) numStr = "MIL " + GetNumberString(number % 1000);
+            else if (number < 1000000)
+            {
+                numStr = GetNumberString(Math.Truncate(number / 1000)) + " MIL";
+                if ((number % 1000) > 0)
+                {
+                    numStr = numStr + " " + GetNumberString(number % 1000);
+                }
+            }
+            else if (number == 1000000)
+            {
+                numStr = "UN MILLON";
+            }
+            else if (number < 2000000)
+            {
+                numStr = "UN MILLON " + GetNumberString(number % 1000000);
+            }
+            else if (number < 1000000000000)
+            {
+                numStr = GetNumberString(Math.Truncate(number / 1000000)) + " MILLONES ";
+                if ((number - Math.Truncate(number / 1000000) * 1000000) > 0)
+                {
+                    numStr = numStr + " " + GetNumberString(number - Math.Truncate(number / 1000000) * 1000000);
+                }
+            }
+            else if (number == 1000000000000) numStr = "UN BILLON";
+            else if (number < 2000000000000) numStr = "UN BILLON " + GetNumberString(number - Math.Truncate(number / 1000000000000) * 1000000000000);
+            else
+            {
+                numStr = GetNumberString(Math.Truncate((number / 1000000000000))) + " BILLONES";
+                if ((number - Math.Truncate(number / 1000000000000) * 1000000000000) > 0)
+                {
+                    numStr = numStr + " " + GetNumberString(number - Math.Truncate(number / 1000000000000) * 1000000000000);
+                }
+            }
+            return numStr;
+        }
+/*
         public static string GetNumberString(int number)
         {
             string numberStr = "";
@@ -44,6 +122,97 @@ namespace Ambar.Common
 
             return numberStr;
 
+        }
+
+        public static void DecTeens(ref int number, ref string numberStr)
+        {
+            if (number >= 90000)
+            {
+                numberStr += "NOVENTA";
+                number -= 90000;
+            }
+            else if (number >= 80000)
+            {
+                numberStr += "OCHENTA MIL";
+                number -= 80000;
+            }
+            else if (number >= 70000)
+            {
+                numberStr += "SETENTA";
+                number -= 70;
+            }
+            else if (number >= 60000)
+            {
+                numberStr += "SESENTA";
+                number -= 60;
+            }
+            else if (number >= 50000)
+            {
+                numberStr += "CINCUENTA";
+                number -= 50;
+            }
+            else if (number >= 40000)
+            {
+                numberStr += "CUARENTA";
+                number -= 40;
+            }
+            else if (number >= 30000)
+            {
+                numberStr += "TREINTA";
+                number -= 30;
+            }
+            else if (number > 20000)
+            {
+                numberStr += "VEINTI";
+                number -= 20;
+                return;
+            }
+            else if (number == 20000)
+            {
+                numberStr += "VEINTE";
+                number -= 20;
+            }
+            else if (number > 15000)
+            {
+                numberStr += "DIECI";
+                number -= 10;
+                return;
+            }
+            else if (number == 15000)
+            {
+                numberStr += "QUINCE";
+                number -= 15;
+            }
+            else if (number == 14000)
+            {
+                numberStr += "CATORCE";
+                number -= 14;
+            }
+            else if (number == 13000)
+            {
+                numberStr += "TRECE";
+                number -= 13;
+            }
+            else if (number == 12000)
+            {
+                numberStr += "DOCE";
+                number -= 12;
+            }
+            else if (number == 11000)
+            {
+                numberStr += "ONCE";
+                number -= 11;
+            }
+            else if (number == 10000)
+            {
+                numberStr += "DIEZ";
+                number -= 10;
+            }
+
+            if (number != 0)
+            {
+                numberStr += " Y ";
+            }
         }
 
         public static void Thousand(ref int number, ref string numberStr)
@@ -284,38 +453,38 @@ namespace Ambar.Common
                     break;
                 case 1:
                     numberStr += "UN";
-                    number -= 20;
+                    number -= 1;
                     break;
             }
 
         }
-
-        public static void PaymentBreakdown(decimal value, ref decimal kwBasic, ref decimal kwInt, ref decimal kwExc)
+*/
+        public static void PaymentBreakdown(decimal number, ref decimal kwBasic, ref decimal kwInt, ref decimal kwExc)
         {
             decimal basic = Convert.ToDecimal(ConfigurationManager.AppSettings["Basic_kW"].ToString());
             decimal intermediate = Convert.ToDecimal(ConfigurationManager.AppSettings["Intermediate_kW"].ToString());
 
-            decimal offset = value - basic;
+            decimal offset = number - basic;
 
             if (offset <= 0)
             {
-                kwBasic = value;
+                kwBasic = number;
                 return;
             }
 
             kwBasic = basic;
             offset -= intermediate;
-            value -= basic;
+            number -= basic;
 
             if (offset <= 0)
             {
-                kwInt = value;
+                kwInt = number;
                 return;
             }
 
             kwInt = intermediate;
-            value -= intermediate;
-            kwExc = value;
+            number -= intermediate;
+            kwExc = number;
         }
     }
 }

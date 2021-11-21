@@ -97,7 +97,7 @@ namespace Ambar.Model.DAO
         {
             string query = string.Format("SELECT CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, STATE, CITY, SUBURB, " +
                 "STREET, NUMBER, POSTAL_CODE, SERVICE, CLIENT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, " +
-                "CREATED_AT, START_PERIOD_DATE, CREATED_AT FROM CLIENT_CONTRACTS;");
+                "CREATED_AT, START_PERIOD_DATE, CREATED_AT FROM CONTRACTS_BY_SERVICE;");
 
             IEnumerable<ContractDTO> contracts;
             try
@@ -162,7 +162,7 @@ namespace Ambar.Model.DAO
             query = string.Format(query, meterSerialNumber);
 
             var res = session.Execute(query);
-            Int64 count = 0;
+            long count = 0;
             foreach (var row in res)
             {
                 count = row.GetValue<Int64>("system.count(meter_serial_number)");
@@ -241,6 +241,42 @@ namespace Ambar.Model.DAO
             }
 
             return serviceNumber;
+        }
+
+        public Guid ReadContractIDByMeterSerialNumber(string meterSerialNumber)
+        {
+            string query = string.Format("SELECT CONTRACT_ID FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}'",
+                meterSerialNumber);
+
+            Guid contractID;
+            try
+            {
+                contractID = mapper.Single<Guid>(query);
+            }
+            catch (System.InvalidOperationException e)
+            {
+                return Guid.Empty;
+            }
+
+            return contractID;
+        }
+
+        public LocalDate ReadStartPeriodByMeterSerialNumber(string meterSerialNumber)
+        {
+            string query = string.Format("SELECT START_PERIOD_DATE FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}'",
+                meterSerialNumber);
+
+            LocalDate startPeriod;
+            try
+            {
+                startPeriod = mapper.Single<LocalDate>(query);
+            }
+            catch (System.InvalidOperationException e)
+            {
+                return null;
+            }
+
+            return startPeriod;
         }
 
         public List<ContractDTO> ReadContractsByService(string serviceType)

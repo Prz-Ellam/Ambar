@@ -714,30 +714,15 @@ namespace Ambar.ViewController
             contractDAO.Create(contractDTO);
 
             string action = "[Contratos] Fue creado: " + contract.MeterSerialNumber + ", con ID: " + contract.ContractID;
-            new UserRememberDAO().Action(UserCache.id, action);
+            new ActivityDAO().Action(UserCache.id, action);
 
             FillContractDataGridView();
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
 
-            DateTime date;
-            if (contract.Service == "Domestico")
-            {
-                date = contract.StartPeriodDate;
-                date = (date.Month % 2 == 0) ? date.AddMonths(2) : date.AddMonths(3);
-            }
-            else if (contract.Service == "Industrial")
-            {
-                date = contract.StartPeriodDate.AddMonths(1);
-            }
-            else
-            {
-                MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            string message = string.Format("La carga de consumos inicia el {0}", date.ToString("dd 'de' MMMM 'del' yyyy"));
+            DateTime start = DateUtils.FindStartPeriod(contract.Service, contract.StartPeriodDate);
+            string message = string.Format("La carga de consumos inicia el {0}", start.ToString("dd 'de' MMMM 'del' yyyy"));
             MessageBox.Show(message, "Ambar", MessageBoxButtons.OK);
         }
 
@@ -776,6 +761,42 @@ namespace Ambar.ViewController
                 return false;
             }
 
+            if (contract.FirstName.IndexOf('\'') != -1 || contract.FatherLastName.IndexOf('\'') != -1 ||
+                contract.MotherLastName.IndexOf('\'') != -1 || contract.MeterSerialNumber.IndexOf('\'') != -1 ||
+                contract.Service.IndexOf('\'') != -1 || contract.State.IndexOf('\'') != -1 ||
+                contract.City.IndexOf('\'') != -1 || contract.Suburb.IndexOf('\'') != -1 || 
+                contract.Street.IndexOf('\'') != -1 || contract.Number.IndexOf('\'') != -1 ||
+                contract.PostalCode.IndexOf('\'') != -1 || contract.FirstName.IndexOf('\'') != -1 ||
+                contract.FatherLastName.IndexOf('\'') != -1 || contract.MotherLastName.IndexOf('\'') != -1)
+            {
+                MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.ValidateAddress(contract.Suburb) || !RegexUtils.ValidateAddress(contract.Street))
+            {
+                MessageBox.Show("Colonia o calle no valida", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.ValidateMeterSerialNumber(contract.MeterSerialNumber))
+            {
+                MessageBox.Show("Número de medidor no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.ValidatePostalCode(contract.PostalCode))
+            {
+                MessageBox.Show("Código postal no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.OnlyNumbers(contract.Number))
+            {
+                MessageBox.Show("Número de casa no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             long serviceNumber;
             if (!long.TryParse(contract.ServiceNumber, out serviceNumber) || !RegexUtils.OnlyNumbers(contract.ServiceNumber))
             {
@@ -792,6 +813,15 @@ namespace Ambar.ViewController
             if (contractDAO.ContractExists(contract.MeterSerialNumber, serviceNumber))
             {
                 MessageBox.Show("El número de medidor o número de servicio ya existe", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            ReceiptDAO receiptDAO = new ReceiptDAO();
+            DateTime start = DateUtils.FindStartPeriod(contract.Service, contract.StartPeriodDate);
+
+            if (receiptDAO.FindEmission(start.Year, start.Month, contract.Service))
+            {
+                MessageBox.Show("Ya se realizó la emisión de recibos en este periodo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 

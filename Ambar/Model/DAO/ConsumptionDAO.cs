@@ -44,8 +44,8 @@ namespace Ambar.Model.DAO
 
         public List<ConsumptionDTO> ReadConsumptions()
         {
-            string query = "SELECT CONSUMPTION_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, " +
-                "SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY FROM CONSUMPTIONS;";
+            string query = @"SELECT CONSUMPTION_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, INTERMEDIATE_KW, 
+                            SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY FROM CONSUMPTIONS;";
 
             IEnumerable<ConsumptionDTO> rates;
             try
@@ -97,7 +97,7 @@ namespace Ambar.Model.DAO
         public ConsumptionDTO FindConsumption(int year, int month, string meterSerialNumber)
         {
             string query = @"SELECT CONSUMPTION_ID, CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, BASIC_KW, 
-                            INTERMEDIATE_KW, SURPLUS_KW, YEAR, MONTH, DAY FROM CONSUMPTIONS_BY_YEAR 
+                            INTERMEDIATE_KW, SURPLUS_KW, TOTAL_KW, YEAR, MONTH, DAY FROM CONSUMPTIONS_BY_YEAR 
                             WHERE YEAR = {0} AND MONTH = {1} AND METER_SERIAL_NUMBER = '{2}';";
             query = string.Format(query, year, month, meterSerialNumber);
 

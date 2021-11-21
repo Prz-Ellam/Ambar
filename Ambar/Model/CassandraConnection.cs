@@ -25,11 +25,6 @@ namespace Ambar.Model
             }
         }
 
-        //~CassandraConnection()
-        //{
-        //    Disconnect();
-        //}
-
         protected static void Connect()
         {
             dbServer = ConfigurationManager.AppSettings["cassandra_home"].ToString();
@@ -39,25 +34,10 @@ namespace Ambar.Model
             mapper = new Mapper(session);
         }
 
-        protected static void Disconnect()
+        public static void Disconnect()
         {
             cluster.Dispose();
         }
-
-        // Metodos CRUD
-        /*
-            Insert
-            string.Format();
-            session.Execute(query);
-
-            rs = session.Execute(query);
-            Find
-            foreach(var row in rs) {
-                row.GetValue<int>(campo);
-            }    
-         
-        */
-
 
     }
 }

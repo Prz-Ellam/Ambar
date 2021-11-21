@@ -57,5 +57,40 @@ namespace Ambar.Common
             Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
             return rx.IsMatch(emails);
         }
+
+        public static bool ValidateName(string text)
+        {
+            string res = @"^[a-zA-Z \u00C0-\u00FF]*$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return rx.IsMatch(text);
+        }
+
+        public static bool ValidateUsername(string text)
+        {
+            string res = @"^[a-zA-Z0-9 \u00C0-\u00FF]*$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return rx.IsMatch(text);
+        }
+
+        public static bool ValidateAddress(string text)
+        {
+            string res = @"^[a-zA-Z0-9 \u00C0-\u00FF]*$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return rx.IsMatch(text);
+        }
+
+        public static bool ValidatePostalCode(string postalCode)
+        {
+            string res = @"^\d{4,5}$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return rx.IsMatch(postalCode);
+        }
+
+        public static bool ValidateMeterSerialNumber(string meterSerialNumber)
+        {
+            string res = @"^[A-Z0-9]+$";
+            Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return rx.IsMatch(meterSerialNumber);
+        }
     }
 }

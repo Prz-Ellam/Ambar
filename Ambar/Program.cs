@@ -8,6 +8,7 @@ using Ambar.Model.DAO;
 using Ambar.Model.DTO;
 using Ambar.Properties;
 using System.IO;
+using Ambar.Model;
 
 namespace Ambar
 {
@@ -32,6 +33,7 @@ namespace Ambar
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Login());
+            CassandraConnection.Disconnect();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Ambar.ViewController
 
         private void Rates_Load(object sender, EventArgs e)
         {
-            dtgRates.DataSource = rateDAO.ReadRates();
+            FillRatesDataGridView();
             cbService.SelectedIndex = 0;
             dtpYear.MinDate = dateDAO.GetDate();
         }
@@ -44,9 +44,9 @@ namespace Ambar.ViewController
             rateDAO.Create(rateDTO);
 
             string action = "[Tarifas] Fue creada tarifa Mes: " + rate.Month + ", Año: " + rate.Year + ", Servicio" + rate.ServiceType;
-            new UserRememberDAO().Action(UserCache.id, action);
+            new ActivityDAO().Action(UserCache.id, action);
 
-            dtgRates.DataSource = rateDAO.ReadRates();
+            FillRatesDataGridView();
 
             ClearForm();
             MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
@@ -83,135 +83,6 @@ namespace Ambar.ViewController
             nudBasic.Value = 0;
             nudIntermediate.Value = 0;
             nudSurplus.Value = 0;
-        }
-
-        private void btnMasiveCharge_Click(object sender, EventArgs e)
-        {
-            if (ofnMassive.ShowDialog() == DialogResult.OK)
-            {
-                switch (ofnMassive.FilterIndex)
-                {
-                    case 1: // CSV
-                    {
-                        StreamReader reader;
-                        CsvReader csvReader;
-                        List<RateCSV> ratesCSV;
-                        try
-                        {
-                            reader = File.OpenText(ofnMassive.FileName);
-                            csvReader = new CsvReader(reader, CultureInfo.CurrentCulture);
-                            ratesCSV = csvReader.GetRecords<RateCSV>().ToList();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("No se pudo abrir el archivo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        List<RateDTO> finalRates = new List<RateDTO>();
-                        bool isCorrect = true;
-                        foreach (var rateCSV in ratesCSV)
-                        {
-                            if (!Validate(rateCSV))
-                            {
-                                finalRates.Clear();
-                                isCorrect = false;
-                                break;
-                            }
-
-                            RateDTO rate = FillRate(rateCSV);
-
-                            finalRates.Add(rate);
-                        }
-
-                        foreach (var rate in finalRates)
-                        {
-                            rateDAO.Create(rate);
-                        }
-                        string action = "[Tarifas] Carga masiva de tarifas";
-                        new UserRememberDAO().Action(UserCache.id, action);
-
-                        dtgRates.DataSource = rateDAO.ReadRates();
-
-                        if (isCorrect)
-                        {
-                            ClearForm();
-                            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
-                        }
-                        reader.Close();
-                        break;
-                    }
-                    case 2: // Excel
-                    {
-                        FileStream reader;
-                        IExcelDataReader xlsxReader;
-                        DataSet dataSetXLSX;
-                        List<RateCSV> ratesCSV;
-                        try
-                        {
-                            reader = new FileStream(ofnMassive.FileName, FileMode.Open, FileAccess.Read);
-                            xlsxReader = ExcelReaderFactory.CreateReader(reader);
-
-                            dataSetXLSX = xlsxReader.AsDataSet(new ExcelDataSetConfiguration()
-                            {
-                                ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
-                                {
-                                    UseHeaderRow = true
-                                }
-                            });
-
-                            var dataTable = dataSetXLSX.Tables[0];
-                            ratesCSV = (from row in dataTable.AsEnumerable() select new RateCSV()
-                                       {
-                                           Basica = row["Tarifa Basica"].ToString(),
-                                           Intermedia = row["Tarifa Intermedia"].ToString(),
-                                           Excedente = row["Tarifa Excedente"].ToString(),
-                                           Mes = row["Mes"].ToString(),
-                                           Anio = row["Anio"].ToString(),
-                                           Servicio = row["Servicio"].ToString()
-                                       }).ToList();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("No se pudo abrir el archivo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        List<RateDTO> finalRates = new List<RateDTO>();
-                        bool isCorrect = true;
-                        foreach (var rateCSV in ratesCSV)
-                        {
-                            if (!Validate(rateCSV))
-                            {
-                                finalRates.Clear();
-                                isCorrect = false;
-                                break;
-                            }
-                            RateDTO rate = FillRate(rateCSV);
-
-                            finalRates.Add(rate);
-                        }
-
-                        foreach (var rate in finalRates)
-                        {
-                            rateDAO.Create(rate);
-                        }
-                        string action = "[Tarifas] Carga masiva de tarifas";
-                        new UserRememberDAO().Action(UserCache.id, action);
-
-                        dtgRates.DataSource = rateDAO.ReadRates();
-
-                        if (isCorrect)
-                        {
-                            ClearForm();
-                            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
-                        }
-
-                        reader.Close();
-                        break;
-                    }
-                }
-            }
         }
 
         private void cbService_SelectedIndexChanged(object sender, EventArgs e)
@@ -279,6 +150,137 @@ namespace Ambar.ViewController
             cbPeriod.SelectedIndex = 0;
         }
 
+        private void btnMasiveCharge_Click(object sender, EventArgs e)
+        {
+            if (ofnMassive.ShowDialog() == DialogResult.OK)
+            {
+                switch (ofnMassive.FilterIndex)
+                {
+                    case 1: // CSV
+                    {
+                        StreamReader reader;
+                        CsvReader csvReader;
+                        List<RateCSV> ratesCSV;
+                        try
+                        {
+                            reader = File.OpenText(ofnMassive.FileName);
+                            csvReader = new CsvReader(reader, CultureInfo.CurrentCulture);
+                            ratesCSV = csvReader.GetRecords<RateCSV>().ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("No se pudo abrir el archivo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        List<RateDTO> finalRates = new List<RateDTO>();
+                        bool isCorrect = true;
+                        foreach (var rateCSV in ratesCSV)
+                        {
+                            if (!Validate(rateCSV))
+                            {
+                                finalRates.Clear();
+                                isCorrect = false;
+                                break;
+                            }
+
+                            RateDTO rate = FillRate(rateCSV);
+
+                            finalRates.Add(rate);
+                        }
+
+                        foreach (var rate in finalRates)
+                        {
+                            rateDAO.Create(rate);
+                        }
+                        string action = "[Tarifas] Carga masiva de tarifas";
+                        new ActivityDAO().Action(UserCache.id, action);
+
+                        FillRatesDataGridView();
+
+                        if (isCorrect)
+                        {
+                            ClearForm();
+                            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+                        }
+                        reader.Close();
+                        break;
+                    }
+                    case 2: // Excel
+                    {
+                        FileStream reader;
+                        IExcelDataReader xlsxReader;
+                        DataSet dataSetXLSX;
+                        List<RateCSV> ratesCSV;
+                        try
+                        {
+                            reader = new FileStream(ofnMassive.FileName, FileMode.Open, FileAccess.Read);
+                            xlsxReader = ExcelReaderFactory.CreateReader(reader);
+
+                            dataSetXLSX = xlsxReader.AsDataSet(new ExcelDataSetConfiguration()
+                            {
+                                ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                                {
+                                    UseHeaderRow = true
+                                }
+                            });
+
+                            var dataTable = dataSetXLSX.Tables[0];
+                            ratesCSV = (from row in dataTable.AsEnumerable()
+                                        select new RateCSV()
+                                        {
+                                            Basica = row["Tarifa Basica"].ToString(),
+                                            Intermedia = row["Tarifa Intermedia"].ToString(),
+                                            Excedente = row["Tarifa Excedente"].ToString(),
+                                            Mes = row["Mes"].ToString(),
+                                            Anio = row["Anio"].ToString(),
+                                            Servicio = row["Servicio"].ToString()
+                                        }).ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("No se pudo abrir el archivo", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        List<RateDTO> finalRates = new List<RateDTO>();
+                        bool isCorrect = true;
+                        foreach (var rateCSV in ratesCSV)
+                        {
+                            if (!Validate(rateCSV))
+                            {
+                                finalRates.Clear();
+                                isCorrect = false;
+                                break;
+                            }
+                            RateDTO rate = FillRate(rateCSV);
+
+                            finalRates.Add(rate);
+                        }
+
+                        foreach (var rate in finalRates)
+                        {
+                            rateDAO.Create(rate);
+                        }
+
+                        string action = "[Tarifas] Carga masiva de tarifas";
+                        new ActivityDAO().Action(UserCache.id, action);
+
+                        FillRatesDataGridView();
+
+                        if (isCorrect)
+                        {
+                            ClearForm();
+                            MessageBox.Show("La operación se realizó exitosamente", "Ambar", MessageBoxButtons.OK);
+                        }
+
+                        reader.Close();
+                        break;
+                    }
+                }
+            }
+        }
+
         private bool Validate(RateCSV rate)
         {
             if (rate.Basica == string.Empty || rate.Intermedia == string.Empty || rate.Excedente == string.Empty || 
@@ -288,10 +290,26 @@ namespace Ambar.ViewController
                 return false;
             }
 
+            if (rate.Basica.IndexOf('\'') != -1 || rate.Intermedia.IndexOf('\'') != -1 || rate.Excedente.IndexOf('\'') != -1 ||
+               rate.Servicio.IndexOf('\'') != -1 || rate.Anio.IndexOf('\'') != -1 || rate.Mes.IndexOf('\'') != -1)
+            {
+                MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             if (!RegexUtils.IsDecimalNumber(rate.Basica) || !RegexUtils.IsDecimalNumber(rate.Intermedia) ||
                 !RegexUtils.IsDecimalNumber(rate.Excedente))
             {
                 MessageBox.Show("Tarifas solo aceptan números decimales", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            decimal basic = Convert.ToDecimal(rate.Basica);
+            decimal intermediate = Convert.ToDecimal(rate.Intermedia);
+            decimal surplus = Convert.ToDecimal(rate.Excedente);
+            if (basic > 1000 || intermediate > 1000 || surplus > 1000)
+            {
+                MessageBox.Show("Tarifas fuera de rango", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -315,18 +333,27 @@ namespace Ambar.ViewController
         {
             RateDTO dto = new RateDTO();
             dto.Rate_ID = Guid.NewGuid();
-            dto.Basic_Level = Decimal.Round(Convert.ToDecimal(rate.Basica, CultureInfo.InvariantCulture), 3);
-            dto.Intermediate_Level = Decimal.Round(Convert.ToDecimal(rate.Intermedia, CultureInfo.InvariantCulture), 3);
-            dto.Surplus_Level = Decimal.Round(Convert.ToDecimal(rate.Excedente, CultureInfo.InvariantCulture), 3);
+            dto.Basic_Level = decimal.Round(Convert.ToDecimal(rate.Basica, CultureInfo.InvariantCulture), 3);
+            dto.Intermediate_Level = decimal.Round(Convert.ToDecimal(rate.Intermedia, CultureInfo.InvariantCulture), 3);
+            dto.Surplus_Level = decimal.Round(Convert.ToDecimal(rate.Excedente, CultureInfo.InvariantCulture), 3);
             dto.Year = Convert.ToInt32(rate.Anio, CultureInfo.InvariantCulture);
             dto.Service = rate.Servicio;
-            short month = Convert.ToInt16(rate.Mes, CultureInfo.InvariantCulture);
+            int month = Convert.ToInt32(rate.Mes, CultureInfo.InvariantCulture);
             if (rate.Servicio == "Domestico" && month % 2 == 1)
             {
                 month++;
             }
             dto.Month = month;
             return dto;
+        }
+
+        private void FillRatesDataGridView()
+        {
+            List<RateDTO> rates = rateDAO.ReadRates();
+            rates = rates.OrderBy(order => order.Service).
+                ThenBy(order => order.Year).
+                ThenBy(order => order.Month).ToList();
+            dtgRates.DataSource = rates;
         }
 
     }

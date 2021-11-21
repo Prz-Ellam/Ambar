@@ -237,7 +237,7 @@ namespace Ambar.ViewController
 
         private void btnMinimized_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            WindowState = FormWindowState.Minimized;
         }
 
         private void btnClose_Click(object sender, EventArgs e)

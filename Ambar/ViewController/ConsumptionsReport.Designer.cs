@@ -37,16 +37,16 @@ namespace Ambar.ViewController
             this.label4 = new System.Windows.Forms.Label();
             this.dtpYear = new System.Windows.Forms.DateTimePicker();
             this.dtgConsumptionsReport = new System.Windows.Forms.DataGridView();
-            this.btnPDF = new System.Windows.Forms.Button();
-            this.btnCSV = new System.Windows.Forms.Button();
-            this.ofnReportCSV = new System.Windows.Forms.SaveFileDialog();
-            this.ofnReportPDF = new System.Windows.Forms.SaveFileDialog();
             this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Month = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LevelSerialMeter = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BasicLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IntermediateLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SurplusLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnPDF = new System.Windows.Forms.Button();
+            this.btnCSV = new System.Windows.Forms.Button();
+            this.ofnReportCSV = new System.Windows.Forms.SaveFileDialog();
+            this.ofnReportPDF = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsumptionsReport)).BeginInit();
             this.SuspendLayout();
             // 
@@ -122,6 +122,7 @@ namespace Ambar.ViewController
             this.dtgConsumptionsReport.Location = new System.Drawing.Point(16, 108);
             this.dtgConsumptionsReport.Margin = new System.Windows.Forms.Padding(2);
             this.dtgConsumptionsReport.Name = "dtgConsumptionsReport";
+            this.dtgConsumptionsReport.ReadOnly = true;
             this.dtgConsumptionsReport.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
@@ -140,6 +141,60 @@ namespace Ambar.ViewController
             this.dtgConsumptionsReport.RowTemplate.Height = 24;
             this.dtgConsumptionsReport.Size = new System.Drawing.Size(832, 444);
             this.dtgConsumptionsReport.TabIndex = 26;
+            // 
+            // Year
+            // 
+            this.Year.DataPropertyName = "YEAR";
+            this.Year.HeaderText = "Año";
+            this.Year.MinimumWidth = 6;
+            this.Year.Name = "Year";
+            this.Year.ReadOnly = true;
+            this.Year.Width = 125;
+            // 
+            // Month
+            // 
+            this.Month.DataPropertyName = "MONTH";
+            this.Month.HeaderText = "Mes";
+            this.Month.MinimumWidth = 6;
+            this.Month.Name = "Month";
+            this.Month.ReadOnly = true;
+            this.Month.Width = 125;
+            // 
+            // LevelSerialMeter
+            // 
+            this.LevelSerialMeter.DataPropertyName = "METER_SERIAL_NUMBER";
+            this.LevelSerialMeter.HeaderText = "Número de Medidor";
+            this.LevelSerialMeter.MinimumWidth = 6;
+            this.LevelSerialMeter.Name = "LevelSerialMeter";
+            this.LevelSerialMeter.ReadOnly = true;
+            this.LevelSerialMeter.Width = 150;
+            // 
+            // BasicLevel
+            // 
+            this.BasicLevel.DataPropertyName = "BASIC_KW";
+            this.BasicLevel.HeaderText = "kW Básica";
+            this.BasicLevel.MinimumWidth = 6;
+            this.BasicLevel.Name = "BasicLevel";
+            this.BasicLevel.ReadOnly = true;
+            this.BasicLevel.Width = 125;
+            // 
+            // IntermediateLevel
+            // 
+            this.IntermediateLevel.DataPropertyName = "INTERMEDIATE_KW";
+            this.IntermediateLevel.HeaderText = "kW Intermedia";
+            this.IntermediateLevel.MinimumWidth = 6;
+            this.IntermediateLevel.Name = "IntermediateLevel";
+            this.IntermediateLevel.ReadOnly = true;
+            this.IntermediateLevel.Width = 125;
+            // 
+            // SurplusLevel
+            // 
+            this.SurplusLevel.DataPropertyName = "SURPLUS_KW";
+            this.SurplusLevel.HeaderText = "kW Excedente";
+            this.SurplusLevel.MinimumWidth = 6;
+            this.SurplusLevel.Name = "SurplusLevel";
+            this.SurplusLevel.ReadOnly = true;
+            this.SurplusLevel.Width = 125;
             // 
             // btnPDF
             // 
@@ -184,54 +239,6 @@ namespace Ambar.ViewController
             // ofnReportPDF
             // 
             this.ofnReportPDF.Filter = "PDF (*.pdf)|*.pdf";
-            // 
-            // Year
-            // 
-            this.Year.DataPropertyName = "YEAR";
-            this.Year.HeaderText = "Año";
-            this.Year.MinimumWidth = 6;
-            this.Year.Name = "Year";
-            this.Year.Width = 125;
-            // 
-            // Month
-            // 
-            this.Month.DataPropertyName = "MONTH";
-            this.Month.HeaderText = "Mes";
-            this.Month.MinimumWidth = 6;
-            this.Month.Name = "Month";
-            this.Month.Width = 125;
-            // 
-            // LevelSerialMeter
-            // 
-            this.LevelSerialMeter.DataPropertyName = "METER_SERIAL_NUMBER";
-            this.LevelSerialMeter.HeaderText = "Número de Medidor";
-            this.LevelSerialMeter.MinimumWidth = 6;
-            this.LevelSerialMeter.Name = "LevelSerialMeter";
-            this.LevelSerialMeter.Width = 150;
-            // 
-            // BasicLevel
-            // 
-            this.BasicLevel.DataPropertyName = "BASIC_KW";
-            this.BasicLevel.HeaderText = "kW Básica";
-            this.BasicLevel.MinimumWidth = 6;
-            this.BasicLevel.Name = "BasicLevel";
-            this.BasicLevel.Width = 125;
-            // 
-            // IntermediateLevel
-            // 
-            this.IntermediateLevel.DataPropertyName = "INTERMEDIATE_KW";
-            this.IntermediateLevel.HeaderText = "kW Intermedia";
-            this.IntermediateLevel.MinimumWidth = 6;
-            this.IntermediateLevel.Name = "IntermediateLevel";
-            this.IntermediateLevel.Width = 125;
-            // 
-            // SurplusLevel
-            // 
-            this.SurplusLevel.DataPropertyName = "SURPLUS_KW";
-            this.SurplusLevel.HeaderText = "kW Excedente";
-            this.SurplusLevel.MinimumWidth = 6;
-            this.SurplusLevel.Name = "SurplusLevel";
-            this.SurplusLevel.Width = 125;
             // 
             // ConsumptionsReport
             // 

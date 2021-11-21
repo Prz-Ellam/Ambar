@@ -54,7 +54,7 @@ namespace Ambar.ViewController
 
             string action = "[Consumos] Fue creado consumo para: " + consumption.MeterSerialNumber + 
                 ", con ID: " + consumption.ID + "Mes: " + consumptionDTO.Month + ", Año: " + consumptionDTO.Year;
-            new UserRememberDAO().Action(UserCache.id, action);
+            new ActivityDAO().Action(UserCache.id, action);
 
             FillConsumptionDataGridView();
             ClearForm();
@@ -164,7 +164,7 @@ namespace Ambar.ViewController
                             consumptionDAO.Create(consumption);
                         }
                         string action = "[Consumos] Carga masiva de consumo";
-                        new UserRememberDAO().Action(UserCache.id, action);
+                        new ActivityDAO().Action(UserCache.id, action);
 
                         FillConsumptionDataGridView();
 
@@ -230,8 +230,9 @@ namespace Ambar.ViewController
                         {
                             consumptionDAO.Create(consumption);
                         }
+
                         string action = "[Consumos] Carga masiva de consumos";
-                        new UserRememberDAO().Action(UserCache.id, action);
+                        new ActivityDAO().Action(UserCache.id, action);
 
                         FillConsumptionDataGridView();
 
@@ -256,10 +257,24 @@ namespace Ambar.ViewController
                 return false;
             }
 
+            if (consumption.Medidor.IndexOf('\'') != -1 || consumption.Kilowatts.IndexOf('\'') != -1 ||
+                consumption.Anio.IndexOf('\'') != -1 || consumption.Mes.IndexOf('\'') != -1)
+            {
+                MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             // Validar que el kilowatt sea correcto
             if (!RegexUtils.IsDecimalNumber(consumption.Kilowatts))
             {
                 MessageBox.Show("Kilowatts consumidos solo acepta numeros decimales", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            decimal kilowatts = Convert.ToDecimal(consumption.Kilowatts);
+            if (kilowatts > 1000000)
+            {
+                MessageBox.Show("Consumo fuera de rango", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -277,44 +292,51 @@ namespace Ambar.ViewController
             }
 
             string serviceType = contractDAO.FindServiceType(consumption.Medidor);
-            int year = Convert.ToInt32(consumption.Anio);
-            int month = Convert.ToInt32(consumption.Mes);
-
-            LocalDate startContractDate = contractDAO.FindStartPeriodDate(consumption.Medidor);
-
-            DateTime start = new DateTime(startContractDate.Year, startContractDate.Month, 1);
-            DateTime request = new DateTime(year, month, 1);
-
-            if (!DateUtils.NormalizeDates(serviceType, ref start, ref request))
+            if (serviceType == null)
             {
                 MessageBox.Show("Error inesperado", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            if (request.Year < start.Year || (request.Year == start.Year && request.Month < start.Month))
+            if (serviceType != "Domestico" && serviceType != "Industrial")
             {
-                MessageBox.Show("No se puede cargar un consumo antes del inicio del periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Tipo de servicio no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            int year = Convert.ToInt32(consumption.Anio);
+            int month = Convert.ToInt32(consumption.Mes);
+
+            LocalDate startContractDate = contractDAO.FindStartPeriodDate(consumption.Medidor);
+            DateTime startPeriod = DateUtils.ToDateTime(startContractDate);
+            startPeriod = DateUtils.FindStartPeriod(serviceType, startPeriod);
+            DateTime period = new DateTime(year, month, 1);
+            period = DateUtils.FindPeriod(serviceType, period);
+
+            if (DateUtils.IsLessPeriod(period, startPeriod))
+            {
+                MessageBox.Show("No se puede cargar un consumo antes del inicio de periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             DateTime offset = dateDAO.GetDate();
-            if (request.Year != offset.Year || request.Month != offset.Month)
+            if (DateUtils.ComparePeriod(period, offset))
             {
                 MessageBox.Show("No se puede cargar un consumo fuera del periodo actual de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            if (consumptionDAO.ConsumptionExists(consumption.Medidor, request.Year, Convert.ToInt16(request.Month)))
+            if (consumptionDAO.ConsumptionExists(consumption.Medidor, period.Year, period.Month))
             {
                 MessageBox.Show("Ya fue cargado un consumo en este periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            var one = consumptions.Where(x => x.Meter_Serial_Number == consumption.Medidor).FirstOrDefault();
-            var two = consumptions.Where(x => x.Month == Convert.ToInt32(consumption.Mes)).FirstOrDefault();
-            var three = consumptions.Where(x => x.Year == Convert.ToInt32(consumption.Anio)).FirstOrDefault();
+            var isMeterSerialNumber = consumptions.Where(x => x.Meter_Serial_Number == consumption.Medidor).FirstOrDefault();
+            var isMonth = consumptions.Where(x => x.Month == Convert.ToInt32(consumption.Mes)).FirstOrDefault();
+            var isYear = consumptions.Where(x => x.Year == Convert.ToInt32(consumption.Anio)).FirstOrDefault();
 
-            if (one != null && two != null && three != null)
+            if (isMeterSerialNumber != null && isMonth != null && isYear != null)
             {
                 MessageBox.Show("Un consumo es cargado dos o más veces en el mismo periodo de cobro", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -327,6 +349,7 @@ namespace Ambar.ViewController
         {
             ConsumptionDTO dto = new ConsumptionDTO();
             dto.Consumption_ID = Guid.NewGuid();
+            dto.Contract_ID = contractDAO.ReadContractIDByMeterSerialNumber(consumption.Medidor);
             dto.Meter_Serial_Number = consumption.Medidor;
             dto.Service_Number = contractDAO.ReadServiceNumberByMeterSerialNumber(consumption.Medidor);
             dto.Total_KW = Convert.ToDecimal(consumption.Kilowatts);
@@ -341,6 +364,9 @@ namespace Ambar.ViewController
             dto.Surplus_KW = kWSur;
             dto.Month = Convert.ToInt32(consumption.Mes);
             dto.Year = Convert.ToInt32(consumption.Anio);
+            LocalDate date = contractDAO.ReadStartPeriodByMeterSerialNumber(consumption.Medidor);
+            dto.Day = DateUtils.ClampDay(dto.Year, dto.Month, date.Day);
+
             return dto;
         }
 
@@ -376,6 +402,9 @@ namespace Ambar.ViewController
             {
                 dtgConsumptionsList.Add(new ConsumptionDTG(consumption));
             }
+            dtgConsumptionsList = dtgConsumptionsList.OrderBy(order => order.Service_Number).
+                ThenBy(order => order.Year).
+                ThenBy(order => order.Month).ToList();
             dtgConsumptions.DataSource = dtgConsumptionsList;
         }
 

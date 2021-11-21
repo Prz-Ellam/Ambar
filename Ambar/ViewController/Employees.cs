@@ -63,7 +63,7 @@ namespace Ambar.ViewController
             employeeDAO.Create(employeeDTO);
 
             string action = "[Empleado] Fue creado: " + employee.Username + ", con ID: " + employee.ID;
-            userRemember.Action(UserCache.id, action);
+            new ActivityDAO().Action(UserCache.id, action);
 
             FillDataGridView();
             ClearForm();
@@ -90,7 +90,7 @@ namespace Ambar.ViewController
             }
 
             string action = "[Empleado] Fue modificado: " + originalUsername + ", por " + employee.Username + ", con ID: " + employee.ID;
-            userRemember.Action(UserCache.id, action);
+            new ActivityDAO().Action(UserCache.id, action);
 
             FillDataGridView();
             FillDisableUsers();
@@ -117,7 +117,7 @@ namespace Ambar.ViewController
                 }
 
                 string action = "[Empleado] Fue eliminado: " + originalUsername + ", con ID: " + originalID;
-                userRemember.Action(UserCache.id, action);
+                new ActivityDAO().Action(UserCache.id, action);
 
                 FillDataGridView();
                 FillDisableUsers();
@@ -128,6 +128,10 @@ namespace Ambar.ViewController
 
         private void btnEnabling_Click(object sender, EventArgs e)
         {
+            if (txtDisable.Text == string.Empty)
+            {
+                return;
+            }
             employeeDAO.Enabled(txtDisable.Text, true);
             ClearDisableUsers();
             FillDisableUsers();
@@ -161,9 +165,31 @@ namespace Ambar.ViewController
                 return false;
             }
 
+            if (employee.FirstName.IndexOf('\'') != -1 || employee.FatherLastName.IndexOf('\'') != -1 ||
+                employee.MotherLastName.IndexOf('\'') != -1 || employee.RFC.IndexOf('\'') != -1 ||
+                employee.CURP.IndexOf('\'') != -1 || employee.Username.IndexOf('\'') != -1 ||
+                employee.Password.IndexOf('\'') != -1 || employee.ConfirmPassword.IndexOf('\'') != -1)
+            {
+                MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             if (employee.Password != employee.ConfirmPassword)
             {
                 MessageBox.Show("Verificar contraseña", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.ValidateName(employee.FirstName) || !RegexUtils.ValidateName(employee.FatherLastName)
+                || !RegexUtils.ValidateName(employee.MotherLastName))
+            {
+                MessageBox.Show("Nombre y/o Apellidos no validos", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.ValidateUsername(employee.Username))
+            {
+                MessageBox.Show("Nombre de usuario no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 

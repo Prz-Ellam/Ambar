@@ -85,6 +85,7 @@ namespace Ambar.ViewController
             this.dtgGeneralReport.EnableHeadersVisualStyles = false;
             this.dtgGeneralReport.Location = new System.Drawing.Point(29, 122);
             this.dtgGeneralReport.Name = "dtgGeneralReport";
+            this.dtgGeneralReport.ReadOnly = true;
             this.dtgGeneralReport.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
@@ -107,6 +108,7 @@ namespace Ambar.ViewController
             this.Year.DataPropertyName = "YEAR";
             this.Year.HeaderText = "Año";
             this.Year.Name = "Year";
+            this.Year.ReadOnly = true;
             this.Year.Width = 150;
             // 
             // Month
@@ -114,6 +116,7 @@ namespace Ambar.ViewController
             this.Month.DataPropertyName = "MONTH";
             this.Month.HeaderText = "Mes";
             this.Month.Name = "Month";
+            this.Month.ReadOnly = true;
             this.Month.Width = 150;
             // 
             // Service
@@ -121,13 +124,15 @@ namespace Ambar.ViewController
             this.Service.DataPropertyName = "SERVICE";
             this.Service.HeaderText = "Tipo de Servicio";
             this.Service.Name = "Service";
+            this.Service.ReadOnly = true;
             this.Service.Width = 150;
             // 
             // Total_Pay
             // 
-            this.Total_Pay.DataPropertyName = "AMOUNT_PAD";
+            this.Total_Pay.DataPropertyName = "AMOUNT_PAID";
             this.Total_Pay.HeaderText = "Total Pagado";
             this.Total_Pay.Name = "Total_Pay";
+            this.Total_Pay.ReadOnly = true;
             this.Total_Pay.Width = 150;
             // 
             // PendingAmount
@@ -135,6 +140,7 @@ namespace Ambar.ViewController
             this.PendingAmount.DataPropertyName = "PENDING_AMOUNT";
             this.PendingAmount.HeaderText = "Pendiente de Pago";
             this.PendingAmount.Name = "PendingAmount";
+            this.PendingAmount.ReadOnly = true;
             this.PendingAmount.Width = 150;
             // 
             // cbPeriod
@@ -320,12 +326,12 @@ namespace Ambar.ViewController
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.Button btnCSV;
+        private System.Windows.Forms.SaveFileDialog ofnReportCSV;
+        private System.Windows.Forms.SaveFileDialog ofnReportPDF;
         private System.Windows.Forms.DataGridViewTextBoxColumn Year;
         private System.Windows.Forms.DataGridViewTextBoxColumn Month;
         private System.Windows.Forms.DataGridViewTextBoxColumn Service;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total_Pay;
         private System.Windows.Forms.DataGridViewTextBoxColumn PendingAmount;
-        private System.Windows.Forms.SaveFileDialog ofnReportCSV;
-        private System.Windows.Forms.SaveFileDialog ofnReportPDF;
     }
 }
