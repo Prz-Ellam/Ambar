@@ -228,6 +228,8 @@ namespace Ambar.ViewController
             this.dtpPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.dtpPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpPeriod.Location = new System.Drawing.Point(183, 340);
+            this.dtpPeriod.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dtpPeriod.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dtpPeriod.Name = "dtpPeriod";
             this.dtpPeriod.ShowUpDown = true;
             this.dtpPeriod.Size = new System.Drawing.Size(226, 23);

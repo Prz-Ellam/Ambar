@@ -134,12 +134,12 @@ namespace Ambar.Common
 
             gfx.DrawString("TOTAL A PAGAR", fontBold, XBrushes.Black, new XPoint(400, 40));
             gfx.DrawString("$" + decimal.Truncate(receipt.Total_Price), new XFont("Arial", 24), XBrushes.Black, new XPoint(400, 70));
-            string number = NumericUtils.GetNumberString(Convert.ToInt32(receipt.Total_Price));
+            string number = NumericUtils.GetNumberString(Convert.ToInt32(decimal.Truncate(receipt.Total_Price)));
             gfx.DrawString("(" + number + " PESOS M.N.)", new XFont("Arial", 8), XBrushes.Black, new XPoint(400, 90));
 
             gfx.DrawString("TOTAL A PAGAR", fontBold, XBrushes.Black, new XPoint(40, 700));
             gfx.DrawString("$" + decimal.Truncate(receipt.Total_Price), new XFont("Arial", 24), XBrushes.Black, new XPoint(40, 730));
-            number = NumericUtils.GetNumberString(Convert.ToInt32(receipt.Total_Price));
+            number = NumericUtils.GetNumberString(Convert.ToInt32(decimal.Truncate(receipt.Total_Price)));
             gfx.DrawString("(" + number + " PESOS M.N.)", new XFont("Arial", 8), XBrushes.Black, new XPoint(40, 750));
 
             document.Save(path);

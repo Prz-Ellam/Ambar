@@ -36,6 +36,7 @@ namespace Ambar.ViewController
             cbState.SelectedIndex = 0;
             dtpStartPeriodDate.Value = dtpStartPeriodDate.MinDate;
             dtpStartPeriodDate.MinDate = dateDAO.GetDate();
+            lblDate.Text = dateDAO.GetDate().ToString("MMMM yyyy").ToUpper();
         }
 
         private void cbState_SelectedIndexChanged(object sender, EventArgs e)

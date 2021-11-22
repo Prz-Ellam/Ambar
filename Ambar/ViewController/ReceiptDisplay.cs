@@ -91,7 +91,7 @@ namespace Ambar.ViewController
             lblTotal.Text = "$" + receipt.Total_Price.ToString("0.00");
 
             lblPagoGrande.Text = "$" + decimal.Truncate(receipt.Total_Price);
-            string number = NumericUtils.GetNumberString(Convert.ToInt32(receipt.Total_Price));
+            string number = NumericUtils.GetNumberString(Convert.ToInt32(decimal.Truncate(receipt.Total_Price)));
             lblPagoLetra.Text = "(" + number + " PESOS M.N.)";
 
         }

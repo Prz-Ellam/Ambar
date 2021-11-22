@@ -160,12 +160,12 @@ namespace Ambar.ViewController
                     {
                         StreamReader reader;
                         CsvReader csvReader;
-                        List<RateCSV> ratesCSV;
+                        List<RateDoc> ratesCSV;
                         try
                         {
                             reader = File.OpenText(ofnMassive.FileName);
                             csvReader = new CsvReader(reader, CultureInfo.CurrentCulture);
-                            ratesCSV = csvReader.GetRecords<RateCSV>().ToList();
+                            ratesCSV = csvReader.GetRecords<RateDoc>().ToList();
                         }
                         catch (Exception ex)
                         {
@@ -211,7 +211,7 @@ namespace Ambar.ViewController
                         FileStream reader;
                         IExcelDataReader xlsxReader;
                         DataSet dataSetXLSX;
-                        List<RateCSV> ratesCSV;
+                        List<RateDoc> ratesCSV;
                         try
                         {
                             reader = new FileStream(ofnMassive.FileName, FileMode.Open, FileAccess.Read);
@@ -227,7 +227,7 @@ namespace Ambar.ViewController
 
                             var dataTable = dataSetXLSX.Tables[0];
                             ratesCSV = (from row in dataTable.AsEnumerable()
-                                        select new RateCSV()
+                                        select new RateDoc()
                                         {
                                             Basica = row["Tarifa Basica"].ToString(),
                                             Intermedia = row["Tarifa Intermedia"].ToString(),
@@ -281,7 +281,7 @@ namespace Ambar.ViewController
             }
         }
 
-        private bool Validate(RateCSV rate)
+        private bool Validate(RateDoc rate)
         {
             if (rate.Basica == string.Empty || rate.Intermedia == string.Empty || rate.Excedente == string.Empty || 
                 rate.Servicio == string.Empty || rate.Anio == string.Empty || rate.Mes == string.Empty)
@@ -329,7 +329,7 @@ namespace Ambar.ViewController
             return true;
         }
 
-        private RateDTO FillRate(RateCSV rate)
+        private RateDTO FillRate(RateDoc rate)
         {
             RateDTO dto = new RateDTO();
             dto.Rate_ID = Guid.NewGuid();

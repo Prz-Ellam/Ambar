@@ -39,6 +39,7 @@ namespace Ambar.ViewController
             FillContractDateGridView();
             FillConsumptionDataGridView();
             dtpPeriod.MinDate = dateDAO.GetDate();
+            lblDate.Text = dateDAO.GetDate().ToString("MMMM yyyy").ToUpper();
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -282,6 +283,12 @@ namespace Ambar.ViewController
             if (!RegexUtils.IsMonthNumber(consumption.Mes) || !RegexUtils.IsYearNumber(consumption.Anio))
             {
                 MessageBox.Show("Fecha con formato incorrecto", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!RegexUtils.ValidateMeterSerialNumber(consumption.Medidor))
+            {
+                MessageBox.Show("Número de medidor no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 

@@ -170,7 +170,7 @@ namespace Ambar.ViewController
             // 
             this.txtFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.txtFilter.Location = new System.Drawing.Point(327, 115);
-            this.txtFilter.MaxLength = 30;
+            this.txtFilter.MaxLength = 6;
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(239, 23);
             this.txtFilter.TabIndex = 6;

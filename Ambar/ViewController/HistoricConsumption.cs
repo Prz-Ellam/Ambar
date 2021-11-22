@@ -130,6 +130,13 @@ namespace Ambar.ViewController
             if (ofnReportPDF.ShowDialog() == DialogResult.OK)
             {
 
+                IEnumerable<HistoricConsumptionDTO> reports = dtgHistoricConsumption.DataSource as IEnumerable<HistoricConsumptionDTO>;
+                if (reports == null)
+                {
+                    MessageBox.Show("No es posible generar un reporte porque no hay información", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 PdfDocument document = new PdfDocument();
                 PdfPage page = document.AddPage();
                 XGraphics gfx = XGraphics.FromPdfPage(page);

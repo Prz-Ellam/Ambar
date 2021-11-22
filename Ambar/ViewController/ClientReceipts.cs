@@ -376,6 +376,12 @@ namespace Ambar.ViewController
                 return false;
             }
 
+            if (!RegexUtils.ValidateMeterSerialNumber(payment.Medidor))
+            {
+                MessageBox.Show("Número de medidor no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             if (!new ContractDAO().ContractExists(payment.Medidor))
             {
                 MessageBox.Show("El número de medidor no existe actualmente", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);

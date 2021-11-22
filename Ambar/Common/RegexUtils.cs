@@ -88,7 +88,7 @@ namespace Ambar.Common
 
         public static bool ValidateMeterSerialNumber(string meterSerialNumber)
         {
-            string res = @"^[A-Z0-9]+$";
+            string res = @"^[A-Z0-9]{6}$";
             Regex rx = new Regex(res, RegexOptions.Compiled | RegexOptions.IgnoreCase);
             return rx.IsMatch(meterSerialNumber);
         }

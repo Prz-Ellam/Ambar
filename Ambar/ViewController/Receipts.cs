@@ -216,18 +216,6 @@ namespace Ambar.ViewController
         private void btnPDF_Click(object sender, EventArgs e)
         {
             string filter = StringUtils.GetText(txtFilterID.Text);
-            if (filter.IndexOf('\'') != -1)
-            {
-                MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!RegexUtils.ValidateMeterSerialNumber(filter))
-            {
-                MessageBox.Show("Número de medidor no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             DateTime request = dtpPeriodSearch.Value;
 
             if (filter == string.Empty)
@@ -245,6 +233,18 @@ namespace Ambar.ViewController
 
                 if (rbMeterSerialNumber.Checked)
                 {
+                    if (filter.IndexOf('\'') != -1)
+                    {
+                        MessageBox.Show("Caracter \' no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (!RegexUtils.ValidateMeterSerialNumber(filter))
+                    {
+                        MessageBox.Show("Número de medidor no valido", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     if (!contractDAO.ContractExists(filter))
                     {
                         MessageBox.Show("El número de medidor no existe actualmente", "Ambar", MessageBoxButtons.OK, MessageBoxIcon.Error);

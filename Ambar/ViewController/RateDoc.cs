@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ambar.ViewController
 {
-    class RateCSV
+    class RateDoc
     {
         [CsvHelper.Configuration.Attributes.Name("Tarifa Basica")]
         public string Basica { get; set; }
