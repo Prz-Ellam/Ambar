@@ -103,7 +103,7 @@ namespace Ambar.Model.DAO
 
         public List<RateDTO> ReadRates()
         {
-            string query = "SELECT RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, SERVICE, YEAR, MONTH FROM RATES";
+            string query = "SELECT RATE_ID, BASIC_LEVEL, INTERMEDIATE_LEVEL, SURPLUS_LEVEL, SERVICE, YEAR, MONTH FROM RATES;";
 
             IEnumerable<RateDTO> rates;
             try

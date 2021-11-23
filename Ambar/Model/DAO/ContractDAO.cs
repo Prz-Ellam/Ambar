@@ -116,7 +116,7 @@ namespace Ambar.Model.DAO
         {
             string query = string.Format("SELECT CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, STATE, CITY, SUBURB, " +
                 "STREET, NUMBER, POSTAL_CODE, SERVICE, CLIENT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, " +
-                "CREATED_AT, START_PERIOD_DATE, CREATED_AT FROM CLIENT_CONTRACTS WHERE CLIENT_ID = {0}", clientID);
+                "CREATED_AT, START_PERIOD_DATE, CREATED_AT FROM CLIENT_CONTRACTS WHERE CLIENT_ID = {0};", clientID);
 
             IEnumerable<ContractDTO> contracts;
             try
@@ -227,7 +227,7 @@ namespace Ambar.Model.DAO
 
         public long ReadServiceNumberByMeterSerialNumber(string meterSerialNumber)
         {
-            string query = string.Format("SELECT SERVICE_NUMBER FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}'",
+            string query = string.Format("SELECT SERVICE_NUMBER FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}';",
                 meterSerialNumber);
 
             int serviceNumber;
@@ -245,7 +245,7 @@ namespace Ambar.Model.DAO
 
         public Guid ReadContractIDByMeterSerialNumber(string meterSerialNumber)
         {
-            string query = string.Format("SELECT CONTRACT_ID FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}'",
+            string query = string.Format("SELECT CONTRACT_ID FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}';",
                 meterSerialNumber);
 
             Guid contractID;
@@ -263,7 +263,7 @@ namespace Ambar.Model.DAO
 
         public LocalDate ReadStartPeriodByMeterSerialNumber(string meterSerialNumber)
         {
-            string query = string.Format("SELECT START_PERIOD_DATE FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}'",
+            string query = string.Format("SELECT START_PERIOD_DATE FROM CONTRACTS_BY_METER_SERIAL_NUMBER WHERE METER_SERIAL_NUMBER = '{0}';",
                 meterSerialNumber);
 
             LocalDate startPeriod;
@@ -283,7 +283,7 @@ namespace Ambar.Model.DAO
         {
             string query = @"SELECT CONTRACT_ID, METER_SERIAL_NUMBER, SERVICE_NUMBER, STATE, CITY, SUBURB, 
                 STREET, NUMBER, POSTAL_CODE, SERVICE, CLIENT_ID, FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, 
-                CREATED_AT, START_PERIOD_DATE, CREATED_AT FROM CONTRACTS_BY_SERVICE WHERE SERVICE = '{0}'";
+                CREATED_AT, START_PERIOD_DATE, CREATED_AT FROM CONTRACTS_BY_SERVICE WHERE SERVICE = '{0}';";
             query = string.Format(query, serviceType);
 
             IEnumerable<ContractDTO> contracts;
@@ -303,7 +303,7 @@ namespace Ambar.Model.DAO
         {
             string query = "SELECT FIRST_NAME, FATHER_LAST_NAME, MOTHER_LAST_NAME, STATE, CITY, SUBURB, STREET, NUMBER, " +
                 "POSTAL_CODE, SERVICE, METER_SERIAL_NUMBER, SERVICE_NUMBER, START_PERIOD_DATE FROM CONTRACTS_BY_SERVICE " +
-                "WHERE SERVICE = '{0}'";
+                "WHERE SERVICE = '{0}';";
             query = string.Format(query, service);
 
             IEnumerable<ContractForReceiptDTO> contracts;

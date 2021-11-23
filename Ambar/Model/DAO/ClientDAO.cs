@@ -119,7 +119,15 @@ namespace Ambar.Model.DAO
             string query = "SELECT USER_ID, USER_NAME, PASSWORD, CREATED_AT, MODIFICATE_AT, FIRST_NAME, FATHER_LAST_NAME," +
                 "MOTHER_LAST_NAME, DATE_OF_BIRTH, EMAILS, CURP, GENDER FROM CLIENTS;";
 
-            IEnumerable<ClientDTO> clients = mapper.Fetch<ClientDTO>(query);
+            IEnumerable<ClientDTO> clients;
+            try
+            {
+                clients = mapper.Fetch<ClientDTO>(query);
+            }
+            catch (Exception ex) 
+            {
+                return null;
+            }
 
             return clients.ToList();
         }
